@@ -21,7 +21,7 @@ interface AddOptions {
  * @param components - List of component names or HTTP(S) URLs specified by the user
  * @param options - CLI options including --overwrite and --all
  */
-export async function add(components: string[], options: AddOptions) {
+export async function add(components: string[] = [], options: AddOptions = {}) {
   const cwd = process.cwd();
   const config = await readConfig(cwd);
 
@@ -32,9 +32,11 @@ export async function add(components: string[], options: AddOptions) {
 
   const registryIndex = await getRegistryIndex();
 
-  // Determine target components to install
-  let requestedComponents = components;
-  if (options.all) {
+  // Determine target components to install (supports both `nikala add --all` and `nikala add all`)
+  const isAllRequested = options.all || components.includes("all");
+  let requestedComponents = components.filter((c) => c !== "all");
+
+  if (isAllRequested) {
     if (!registryIndex) {
       console.log(pc.red("❌ Failed to load registry index for --all flag."));
       process.exit(1);
@@ -43,7 +45,7 @@ export async function add(components: string[], options: AddOptions) {
   }
 
   if (requestedComponents.length === 0) {
-    console.log(pc.yellow("⚠️  No components specified. Usage: `nikala add button` or `nikala add <URL>`"));
+    console.log(pc.yellow("⚠️  No components specified. Usage: `nikala add button` or `nikala add --all`"));
     return;
   }
 

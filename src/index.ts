@@ -30,7 +30,7 @@ program
   .action(init);
 
 program
-  .command("add <components...>")
+  .command("add [components...]")
   .description("Add components to your project")
   .option("-o, --overwrite", "Overwrite existing files")
   .option("--all", "Add all available components")
