@@ -1,0 +1,212 @@
+import {
+  createContext,
+  useContext,
+  createSignal,
+  splitProps,
+  Show,
+  type Component,
+  type JSX,
+  type Accessor,
+} from "solid-js";
+import { cn } from "@/lib/cn";
+
+interface TabsContextValue {
+  value: Accessor<string | undefined>;
+  setValue: (value: string) => void;
+  orientation: Accessor<"horizontal" | "vertical">;
+}
+
+const TabsContext = createContext<TabsContextValue>();
+
+export interface TabsProps
+  extends Omit<JSX.HTMLAttributes<HTMLDivElement>, "onChange"> {
+  /** Controlled active tab value */
+  value?: string;
+  /** Uncontrolled default active tab value */
+  defaultValue?: string;
+  /** Callback fired when active tab changes */
+  onChange?: (value: string) => void;
+  /** Layout orientation of tab triggers and content */
+  orientation?: "horizontal" | "vertical";
+  class?: string;
+}
+
+/**
+ * Root Tabs container component managing active tab context state and orientation.
+ */
+export const Tabs: Component<TabsProps> = (props) => {
+  const [local, rest] = splitProps(props, [
+    "value",
+    "defaultValue",
+    "onChange",
+    "orientation",
+    "class",
+    "children",
+  ]);
+
+  const [internalValue, setInternalValue] = createSignal(local.defaultValue);
+
+  const currentValue = () =>
+    local.value !== undefined ? local.value : internalValue();
+
+  const orientation = () => local.orientation || "horizontal";
+
+  const handleSelect = (val: string) => {
+    if (local.value === undefined) {
+      setInternalValue(val);
+    }
+    if (typeof local.onChange === "function") {
+      local.onChange(val);
+    }
+  };
+
+  const contextValue: TabsContextValue = {
+    value: currentValue,
+    setValue: handleSelect,
+    orientation,
+  };
+
+  return (
+    <TabsContext.Provider value={contextValue}>
+      <div
+        data-orientation={orientation()}
+        class={cn(
+          "w-full",
+          orientation() === "vertical" ? "flex flex-row gap-4" : "flex flex-col gap-2",
+          local.class
+        )}
+        {...rest}
+      >
+        {local.children}
+      </div>
+    </TabsContext.Provider>
+  );
+};
+
+export interface TabsListProps extends JSX.HTMLAttributes<HTMLDivElement> {
+  class?: string;
+}
+
+/**
+ * Container wrapper for Tab triggers.
+ */
+export const TabsList: Component<TabsListProps> = (props) => {
+  const [local, rest] = splitProps(props, ["class", "children"]);
+  const context = useContext(TabsContext);
+
+  const isVertical = () => context?.orientation() === "vertical";
+
+  return (
+    <div
+      role="tablist"
+      aria-orientation={context?.orientation() || "horizontal"}
+      class={cn(
+        "inline-flex rounded-lg bg-zinc-100 p-1 text-zinc-500 dark:bg-zinc-800 dark:text-zinc-400",
+        isVertical()
+          ? "flex-col h-auto w-auto items-stretch justify-start"
+          : "h-9 items-center justify-center",
+        local.class
+      )}
+      {...rest}
+    >
+      {local.children}
+    </div>
+  );
+};
+
+export interface TabsTriggerProps
+  extends Omit<JSX.ButtonHTMLAttributes<HTMLButtonElement>, "onChange"> {
+  /** Unique value identifier for this tab */
+  value: string;
+  class?: string;
+}
+
+/**
+ * Tab button trigger to activate a specific tab panel.
+ */
+export const TabsTrigger: Component<TabsTriggerProps> = (props) => {
+  const [local, rest] = splitProps(props, [
+    "value",
+    "disabled",
+    "class",
+    "children",
+    "onClick",
+  ]);
+  const context = useContext(TabsContext);
+
+  if (!context) {
+    throw new Error("TabsTrigger must be used within a Tabs component");
+  }
+
+  const isSelected = () => context.value() === local.value;
+  const isVertical = () => context.orientation() === "vertical";
+
+  const handleClick = (
+    e: MouseEvent & { currentTarget: HTMLButtonElement; target: Element }
+  ) => {
+    if (local.disabled) return;
+    context.setValue(local.value);
+    if (typeof local.onClick === "function") {
+      local.onClick(e);
+    }
+  };
+
+  return (
+    <button
+      type="button"
+      role="tab"
+      aria-selected={isSelected()}
+      data-state={isSelected() ? "active" : "inactive"}
+      data-orientation={context.orientation()}
+      disabled={local.disabled}
+      onClick={handleClick}
+      class={cn(
+        "inline-flex items-center whitespace-nowrap rounded-md px-3 py-1 text-sm font-medium ring-offset-white transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-950 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:bg-white data-[state=active]:text-zinc-950 data-[state=active]:shadow-sm dark:ring-offset-zinc-950 dark:focus-visible:ring-zinc-300 dark:data-[state=active]:bg-zinc-950 dark:data-[state=active]:text-zinc-50 cursor-pointer",
+        isVertical() ? "justify-start py-1.5" : "justify-center",
+        local.class
+      )}
+      {...rest}
+    >
+      {local.children}
+    </button>
+  );
+};
+
+export interface TabsContentProps extends JSX.HTMLAttributes<HTMLDivElement> {
+  /** Value matching the corresponding tab trigger */
+  value: string;
+  class?: string;
+}
+
+/**
+ * Content panel revealed when the associated tab is active.
+ */
+export const TabsContent: Component<TabsContentProps> = (props) => {
+  const [local, rest] = splitProps(props, ["value", "class", "children"]);
+  const context = useContext(TabsContext);
+
+  if (!context) {
+    throw new Error("TabsContent must be used within a Tabs component");
+  }
+
+  const isSelected = () => context.value() === local.value;
+  const isVertical = () => context.orientation() === "vertical";
+
+  return (
+    <Show when={isSelected()}>
+      <div
+        role="tabpanel"
+        data-state={isSelected() ? "active" : "inactive"}
+        data-orientation={context.orientation()}
+        class={cn(
+          "ring-offset-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-950 focus-visible:ring-offset-2 dark:ring-offset-zinc-950 dark:focus-visible:ring-zinc-300",
+          isVertical() ? "flex-1 mt-0" : "mt-2",
+          local.class
+        )}
+        {...rest}
+      >
+        {local.children}
+      </div>
+    </Show>
+  );
+};

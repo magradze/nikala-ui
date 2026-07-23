@@ -75,4 +75,19 @@ export const COMPONENT_METADATA: Record<string, ComponentMeta> = {
     description: "Displays a list of options for the user to pick from—triggered by a button.",
     dependencies: ["clsx", "tailwind-merge"],
   },
+  tabs: {
+    title: "Tabs",
+    description: "A set of layered sections of content displayed one at a time.",
+    dependencies: ["clsx", "tailwind-merge"],
+  },
+  accordion: {
+    title: "Accordion",
+    description: "A vertically stacked set of interactive headings that reveal sections of content.",
+    dependencies: ["clsx", "tailwind-merge"],
+  },
+  breadcrumb: {
+    title: "Breadcrumb",
+    description: "Displays the path to the current resource using a hierarchy of links.",
+    dependencies: ["clsx", "tailwind-merge"],
+  },
 };
