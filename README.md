@@ -109,6 +109,10 @@ export function App() {
 - **`Textarea`** — Multi-line text area field with focus styling.
 - **`Label`** — Accessible caption label for form controls.
 - **`Skeleton`** — Animated pulse loading placeholder for content loading states.
+- **`Switch`** — Toggle switch control for boolean states.
+- **`Checkbox`** — Checkable input box with custom SVG checkmark indicator.
+- **`Radio Group`** — Accessible radio button group with vertical and horizontal layout support (`RadioGroup`, `RadioGroupItem`).
+- **`Select`** — Custom dropdown select menu component (`Select`, `SelectTrigger`, `SelectValue`, `SelectContent`, `SelectItem`).
 
 ---
 
