@@ -2,7 +2,7 @@
 
 A simple, copy-paste component system for **SolidJS** built natively for **Tailwind CSS v4**.
 
-Inspired by the iconic Georgian painter **Niko Pirosmani (Nikala)** — known for his bold contrasts, vivid colors, and dark canvas aesthetic.
+Honoring the iconic Georgian painter **Niko Pirosmani (Nikala)**.
 
 ---
 
@@ -16,6 +16,7 @@ Nikala UI gives you full ownership of your code. Instead of adding a heavy third
 - 🎨 **Tailwind CSS v4 First** — Designed around modern `@import "tailwindcss";` setups.
 - 📂 **Full Code Ownership** — The component files live in your project. Tweak them as you see fit.
 - 📦 **Smart CLI** — Automatically detects your package manager (`bun`, `pnpm`, `npm`, `yarn`) and installs required dependencies.
+- 🌐 **Custom Registries** — Supports adding components directly from remote HTTP(S) URLs.
 
 ---
 
@@ -26,6 +27,8 @@ Nikala UI gives you full ownership of your code. Instead of adding a heavy third
 Run the initialization command in your SolidJS workspace:
 
 ```bash
+nikala init
+# or
 bunx nikala init
 # or
 npx nikala init
@@ -40,10 +43,22 @@ This will:
 
 ### 2. Add components to your project
 
-Add only the components you actually need:
+Add specific components or install all at once:
 
 ```bash
-bunx nikala add button input card
+# Add specific components
+nikala add button input card
+
+# Or add all available components
+nikala add all
+# or
+nikala add --all
+```
+
+You can also install components from custom remote URLs:
+
+```bash
+nikala add https://example.com/registry/my-custom-card.json
 ```
 
 ### 3. Import and use
@@ -58,16 +73,20 @@ import {
   CardContent,
   CardFooter,
 } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 
 export function App() {
   return (
     <Card class="w-[350px]">
       <CardHeader>
-        <CardTitle>Nikala UI</CardTitle>
-        <CardDescription>Pirosmani inspired SolidJS UI kit.</CardDescription>
+        <div class="flex items-center justify-between">
+          <CardTitle>Nikala UI</CardTitle>
+          <Badge>v0.1.0</Badge>
+        </div>
+        <CardDescription>SolidJS + Tailwind v4 component system.</CardDescription>
       </CardHeader>
       <CardContent>
-        <p>Simple, copy-paste components built with Tailwind CSS v4.</p>
+        <p>Simple, copy-paste components built for SolidJS.</p>
       </CardContent>
       <CardFooter>
         <Button onClick={() => alert("Gamarjoba!")}>Get Started</Button>
@@ -79,11 +98,17 @@ export function App() {
 
 ---
 
-## Available Components (Phase 1)
+## Available Components
 
 - **`Button`** — Interactive button with variant and size options (`cva`).
 - **`Input`** — Reactive text input with modern focus states.
 - **`Card`** — Compound card layout (`Header`, `Title`, `Description`, `Content`, `Footer`).
+- **`Badge`** — Status indicator and tag badges with multiple variants.
+- **`Avatar`** — Profile image component with automatic fallback handling (`Image`, `Fallback`).
+- **`Separator`** — Visual or semantic horizontal/vertical line divider.
+- **`Textarea`** — Multi-line text area field with focus styling.
+- **`Label`** — Accessible caption label for form controls.
+- **`Skeleton`** — Animated pulse loading placeholder for content loading states.
 
 ---
 
