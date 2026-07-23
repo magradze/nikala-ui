@@ -42,6 +42,16 @@
     ]
   },
   {
+    "name": "checkbox",
+    "title": "Checkbox",
+    "description": "A control that allows the user to toggle between checked and unchecked options.",
+    "type": "registry:ui",
+    "dependencies": [
+      "clsx",
+      "tailwind-merge"
+    ]
+  },
+  {
     "name": "input",
     "title": "Input",
     "description": "A standard text input field with styling variants.",
@@ -62,6 +72,26 @@
     ]
   },
   {
+    "name": "radio-group",
+    "title": "Radio Group",
+    "description": "A set of checkable buttons where only one button can be checked at a time.",
+    "type": "registry:ui",
+    "dependencies": [
+      "clsx",
+      "tailwind-merge"
+    ]
+  },
+  {
+    "name": "select",
+    "title": "Select",
+    "description": "Displays a list of options for the user to pick from—triggered by a button.",
+    "type": "registry:ui",
+    "dependencies": [
+      "clsx",
+      "tailwind-merge"
+    ]
+  },
+  {
     "name": "separator",
     "title": "Separator",
     "description": "Visually or semantically separates content horizontally or vertically.",
@@ -75,6 +105,16 @@
     "name": "skeleton",
     "title": "Skeleton",
     "description": "Renders an animated pulse loading placeholder for content loading states.",
+    "type": "registry:ui",
+    "dependencies": [
+      "clsx",
+      "tailwind-merge"
+    ]
+  },
+  {
+    "name": "switch",
+    "title": "Switch",
+    "description": "A control that allows the user to toggle between checked and unchecked states.",
     "type": "registry:ui",
     "dependencies": [
       "clsx",
