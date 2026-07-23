@@ -1,5 +1,15 @@
 [
   {
+    "name": "avatar",
+    "title": "Avatar",
+    "description": "An image element with fallback representation for representing users.",
+    "type": "registry:ui",
+    "dependencies": [
+      "clsx",
+      "tailwind-merge"
+    ]
+  },
+  {
     "name": "badge",
     "title": "Badge",
     "description": "A small badge component for status indicators and tags.",
@@ -35,6 +45,46 @@
     "name": "input",
     "title": "Input",
     "description": "A standard text input field with styling variants.",
+    "type": "registry:ui",
+    "dependencies": [
+      "clsx",
+      "tailwind-merge"
+    ]
+  },
+  {
+    "name": "label",
+    "title": "Label",
+    "description": "Renders an accessible label associated with form controls.",
+    "type": "registry:ui",
+    "dependencies": [
+      "clsx",
+      "tailwind-merge"
+    ]
+  },
+  {
+    "name": "separator",
+    "title": "Separator",
+    "description": "Visually or semantically separates content horizontally or vertically.",
+    "type": "registry:ui",
+    "dependencies": [
+      "clsx",
+      "tailwind-merge"
+    ]
+  },
+  {
+    "name": "skeleton",
+    "title": "Skeleton",
+    "description": "Renders an animated pulse loading placeholder for content loading states.",
+    "type": "registry:ui",
+    "dependencies": [
+      "clsx",
+      "tailwind-merge"
+    ]
+  },
+  {
+    "name": "textarea",
+    "title": "Textarea",
+    "description": "A multi-line text input field with responsive focus styles.",
     "type": "registry:ui",
     "dependencies": [
       "clsx",

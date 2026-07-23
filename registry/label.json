@@ -1,0 +1,17 @@
+{
+  "name": "label",
+  "title": "Label",
+  "description": "Renders an accessible label associated with form controls.",
+  "type": "registry:ui",
+  "dependencies": [
+    "clsx",
+    "tailwind-merge"
+  ],
+  "files": [
+    {
+      "path": "ui/label.tsx",
+      "content": "import { splitProps, type Component, type JSX } from \"solid-js\";\nimport { cn } from \"@/lib/cn\";\n\nexport interface LabelProps extends JSX.LabelHTMLAttributes<HTMLLabelElement> {\n  class?: string;\n}\n\n/**\n * Nikala UI Label component for form control captions built for SolidJS with Tailwind CSS v4 styling.\n */\nexport const Label: Component<LabelProps> = (props) => {\n  // Use splitProps to preserve SolidJS reactivity\n  const [local, rest] = splitProps(props, [\"class\"]);\n\n  return (\n    <label\n      class={cn(\n        \"text-sm font-medium leading-none select-none text-zinc-950 peer-disabled:cursor-not-allowed peer-disabled:opacity-70 dark:text-zinc-50\",\n        local.class\n      )}\n      {...rest}\n    />\n  );\n};",
+      "type": "registry:ui"
+    }
+  ]
+}

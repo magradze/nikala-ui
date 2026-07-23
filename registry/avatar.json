@@ -1,0 +1,17 @@
+{
+  "name": "avatar",
+  "title": "Avatar",
+  "description": "An image element with fallback representation for representing users.",
+  "type": "registry:ui",
+  "dependencies": [
+    "clsx",
+    "tailwind-merge"
+  ],
+  "files": [
+    {
+      "path": "ui/avatar.tsx",
+      "content": "import { splitProps, createSignal, Show, type Component, type JSX } from \"solid-js\";\nimport { cn } from \"@/lib/cn\";\n\nexport interface AvatarProps extends JSX.HTMLAttributes<HTMLDivElement> {\n  class?: string;\n}\n\n/**\n * Root Avatar container component.\n */\nexport const Avatar: Component<AvatarProps> = (props) => {\n  const [local, rest] = splitProps(props, [\"class\"]);\n\n  return (\n    <div\n      class={cn(\n        \"relative flex h-10 w-10 shrink-0 overflow-hidden rounded-full\",\n        local.class\n      )}\n      {...rest}\n    />\n  );\n};\n\nexport interface AvatarImageProps extends JSX.ImgHTMLAttributes<HTMLImageElement> {\n  class?: string;\n}\n\n/**\n * Image element for the Avatar component with fallback error handling.\n */\nexport const AvatarImage: Component<AvatarImageProps> = (props) => {\n  const [local, rest] = splitProps(props, [\"class\", \"onError\"]);\n  const [hasError, setHasError] = createSignal(false);\n\n  const handleError: JSX.EventHandlerUnion<HTMLImageElement, Event> = (e) => {\n    setHasError(true);\n    if (typeof local.onError === \"function\") {\n      // Execute original onError handler if provided by parent\n      (local.onError as (e: Event) => void)(e);\n    }\n  };\n\n  return (\n    <Show when={!hasError()}>\n      <img\n        class={cn(\"aspect-square h-full w-full object-cover\", local.class)}\n        onError={handleError}\n        {...rest}\n      />\n    </Show>\n  );\n};\n\nexport interface AvatarFallbackProps extends JSX.HTMLAttributes<HTMLDivElement> {\n  class?: string;\n}\n\n/**\n * Fallback container for rendering initials or icons when avatar image is missing/broken.\n */\nexport const AvatarFallback: Component<AvatarFallbackProps> = (props) => {\n  const [local, rest] = splitProps(props, [\"class\"]);\n\n  return (\n    <div\n      class={cn(\n        \"flex h-full w-full items-center justify-center rounded-full bg-zinc-100 text-sm font-medium text-zinc-900 dark:bg-zinc-800 dark:text-zinc-50\",\n        local.class\n      )}\n      {...rest}\n    />\n  );\n};",
+      "type": "registry:ui"
+    }
+  ]
+}
