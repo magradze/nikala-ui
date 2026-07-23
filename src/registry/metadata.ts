@@ -30,4 +30,29 @@ export const COMPONENT_METADATA: Record<string, ComponentMeta> = {
     description: "A small badge component for status indicators and tags.",
     dependencies: ["clsx", "tailwind-merge", "class-variance-authority"],
   },
+  avatar: {
+    title: "Avatar",
+    description: "An image element with fallback representation for representing users.",
+    dependencies: ["clsx", "tailwind-merge"],
+  },
+  separator: {
+    title: "Separator",
+    description: "Visually or semantically separates content horizontally or vertically.",
+    dependencies: ["clsx", "tailwind-merge"],
+  },
+  textarea: {
+    title: "Textarea",
+    description: "A multi-line text input field with responsive focus styles.",
+    dependencies: ["clsx", "tailwind-merge"],
+  },
+  label: {
+    title: "Label",
+    description: "Renders an accessible label associated with form controls.",
+    dependencies: ["clsx", "tailwind-merge"],
+  },
+  skeleton: {
+    title: "Skeleton",
+    description: "Renders an animated pulse loading placeholder for content loading states.",
+    dependencies: ["clsx", "tailwind-merge"],
+  },
 };
