@@ -1,20 +1,12 @@
 #!/usr/bin/env node
-// src/index.ts
 import { Command } from "commander";
 import pc from "picocolors";
 import { init } from "./commands/init.js";
 import { add } from "./commands/add.js";
 
-console.log(pc.red(`
-    _   _ _ _             _ 
-   | \\ | (_) |           | |
-   |  \\| |_| | _____  ___| |
-   | . \\ | | |/ / _ \\/ _ \\ |
-   | |\\  | |   <  __/  __/ |
-   |_| \\_|_|_|\\_\\___|\\___|_|
-   
-   🎨 Inspired by Niko Pirosmani (Nikala)
-`));
+// Compact header banner honoring Niko Pirosmani
+console.log(`\n🎨 ${pc.bold(pc.red("Nikala UI"))} ${pc.dim("v0.1.0")} — SolidJS + Tailwind v4 components`);
+console.log(`   ${pc.italic(pc.dim("Honoring Niko Pirosmani (Nikala)"))}\n`);
 
 const program = new Command();
 
