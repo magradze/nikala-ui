@@ -1,0 +1,32 @@
+[
+  {
+    "name": "button",
+    "title": "Button",
+    "description": "An interactive button component with variant and size options.",
+    "type": "registry:ui",
+    "dependencies": [
+      "clsx",
+      "tailwind-merge"
+    ]
+  },
+  {
+    "name": "card",
+    "title": "Card",
+    "description": "A versatile container component with header, content, and footer sections.",
+    "type": "registry:ui",
+    "dependencies": [
+      "clsx",
+      "tailwind-merge"
+    ]
+  },
+  {
+    "name": "input",
+    "title": "Input",
+    "description": "A standard text input field with styling variants.",
+    "type": "registry:ui",
+    "dependencies": [
+      "clsx",
+      "tailwind-merge"
+    ]
+  }
+]
