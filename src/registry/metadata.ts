@@ -55,4 +55,24 @@ export const COMPONENT_METADATA: Record<string, ComponentMeta> = {
     description: "Renders an animated pulse loading placeholder for content loading states.",
     dependencies: ["clsx", "tailwind-merge"],
   },
+  switch: {
+    title: "Switch",
+    description: "A control that allows the user to toggle between checked and unchecked states.",
+    dependencies: ["clsx", "tailwind-merge"],
+  },
+  checkbox: {
+    title: "Checkbox",
+    description: "A control that allows the user to toggle between checked and unchecked options.",
+    dependencies: ["clsx", "tailwind-merge"],
+  },
+  "radio-group": {
+    title: "Radio Group",
+    description: "A set of checkable buttons where only one button can be checked at a time.",
+    dependencies: ["clsx", "tailwind-merge"],
+  },
+  select: {
+    title: "Select",
+    description: "Displays a list of options for the user to pick from—triggered by a button.",
+    dependencies: ["clsx", "tailwind-merge"],
+  },
 };
