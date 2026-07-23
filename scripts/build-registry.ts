@@ -2,36 +2,7 @@ import fs from "fs-extra";
 import path from "node:path";
 import pc from "picocolors";
 import type { RegistryIndex, RegistryItem } from "../src/registry/index.js";
-
-/**
- * Static metadata configuration for registered UI components.
- * Extend this map when creating new components to define titles, descriptions, and dependencies.
- */
-const COMPONENT_METADATA: Record<
-  string,
-  {
-    title: string;
-    description: string;
-    dependencies?: string[];
-    registryDependencies?: string[];
-  }
-> = {
-  button: {
-    title: "Button",
-    description: "An interactive button component with variant and size options.",
-    dependencies: ["clsx", "tailwind-merge"],
-  },
-  input: {
-    title: "Input",
-    description: "A standard text input field with styling variants.",
-    dependencies: ["clsx", "tailwind-merge"],
-  },
-  card: {
-    title: "Card",
-    description: "A versatile container component with header, content, and footer sections.",
-    dependencies: ["clsx", "tailwind-merge"],
-  },
-};
+import { COMPONENT_METADATA } from "../src/registry/metadata.js";
 
 /**
  * Main build process to transform TSX component files into JSON registry manifests.
@@ -46,7 +17,6 @@ async function buildRegistry() {
   // Ensure output registry directory exists
   await fs.ensureDir(outputDir);
 
-  // Read all TSX component files from source directory
   if (!(await fs.pathExists(sourceDir))) {
     console.log(pc.yellow(`⚠️  Source directory not found: ${sourceDir}`));
     return;
@@ -89,7 +59,7 @@ async function buildRegistry() {
     const outputPath = path.join(outputDir, `${componentName}.json`);
     await fs.writeFile(outputPath, JSON.stringify(registryItem, null, 2));
 
-    // Add metadata entry to the index list
+    // Add metadata entry to central index list
     indexList.push({
       name: componentName,
       title: meta.title,
