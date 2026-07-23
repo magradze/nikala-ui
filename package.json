@@ -1,0 +1,53 @@
+{
+  "name": "nikala",
+  "version": "0.1.0",
+  "description": "Nikala UI — SolidJS + Tailwind CSS v4 component library inspired by Niko Pirosmani",
+  "type": "module",
+  "main": "./dist/index.js",
+  "bin": {
+    "nikala": "./dist/index.js"
+  },
+  "files": [
+    "dist",
+    "registry",
+    "README.md"
+  ],
+  "scripts": {
+    "build:registry": "bun scripts/build-registry.ts",
+    "build": "bun run build:registry && tsc -p tsconfig.build.json",
+    "dev": "tsc -p tsconfig.build.json --watch",
+    "prepublishOnly": "bun run build"
+  },
+  "keywords": [
+    "solidjs",
+    "tailwindcss",
+    "tailwind-v4",
+    "solid-ui",
+    "components",
+    "cli",
+    "pirosmani",
+    "nikala"
+  ],
+  "author": "",
+  "license": "MIT",
+  "peerDependencies": {
+    "typescript": "^5"
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "@types/fs-extra": "^11.0.4",
+    "@types/node": "^26.1.1",
+    "@types/prompts": "^2.4.9",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "solid-js": "^1.9.14",
+    "tailwind-merge": "^3.6.0"
+  },
+  "dependencies": {
+    "commander": "^15.0.0",
+    "fs-extra": "^11.3.6",
+    "picocolors": "^1.1.1",
+    "prompts": "^2.4.2",
+    "strip-json-comments": "^5.0.3"
+  }
+}
