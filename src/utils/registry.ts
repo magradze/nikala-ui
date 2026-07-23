@@ -11,7 +11,6 @@ function getRegistryDirectory(): string {
   const __filename = fileURLToPath(import.meta.url);
   const __dirname = path.dirname(__filename);
 
-  // Navigates up from `dist/utils` or `src/utils` to the package root `registry` directory
   return path.resolve(__dirname, "../../registry");
 }
 
@@ -38,14 +37,48 @@ export async function getRegistryIndex(): Promise<RegistryIndex | null> {
 }
 
 /**
- * Fetches the manifest for a specific registry component by name.
+ * Fetches a component manifest from a remote HTTP(S) URL.
  *
- * @param name - The name of the component (e.g., "button")
- * @returns The registry item manifest or null if the component does not exist.
+ * @param url - Full HTTP(S) URL pointing to a JSON registry manifest
+ * @returns The registry item manifest or null if fetching fails
  */
-export async function getRegistryItem(name: string): Promise<RegistryItem | null> {
+export async function fetchRemoteRegistryItem(url: string): Promise<RegistryItem | null> {
+  try {
+    const response = await fetch(url);
+    if (!response.ok) {
+      console.error(`Failed to fetch remote component from ${url}: Status ${response.status}`);
+      return null;
+    }
+
+    const data = (await response.json()) as RegistryItem;
+
+    // Validate essential manifest properties
+    if (!data.name || !data.files || !Array.isArray(data.files)) {
+      console.error(`Invalid remote registry manifest structure at ${url}`);
+      return null;
+    }
+
+    return data;
+  } catch (error) {
+    console.error(`Error fetching remote registry item from ${url}:`, error);
+    return null;
+  }
+}
+
+/**
+ * Fetches the manifest for a specific component by local name or remote URL.
+ *
+ * @param nameOrUrl - The component name (e.g., "button") or full HTTP(S) URL
+ * @returns The registry item manifest or null if the component does not exist
+ */
+export async function getRegistryItem(nameOrUrl: string): Promise<RegistryItem | null> {
+  // If the parameter is an HTTP/HTTPS URL, fetch from remote server
+  if (nameOrUrl.startsWith("http://") || nameOrUrl.startsWith("https://")) {
+    return fetchRemoteRegistryItem(nameOrUrl);
+  }
+
   const registryDir = getRegistryDirectory();
-  const itemPath = path.join(registryDir, `${name}.json`);
+  const itemPath = path.join(registryDir, `${nameOrUrl}.json`);
 
   if (!(await fs.pathExists(itemPath))) {
     return null;
@@ -55,29 +88,29 @@ export async function getRegistryItem(name: string): Promise<RegistryItem | null
     const content = await fs.readFile(itemPath, "utf-8");
     return JSON.parse(content) as RegistryItem;
   } catch (error) {
-    console.error(`Failed to parse registry item "${name}":`, error);
+    console.error(`Failed to parse registry item "${nameOrUrl}":`, error);
     return null;
   }
 }
 
 /**
- * Recursively resolves all required internal registry dependencies for a set of component names.
+ * Recursively resolves all required internal registry dependencies for a set of component names or URLs.
  *
- * @param names - Initial array of component names requested by the user
- * @returns An ordered set of all required component names including nested dependencies
+ * @param namesOrUrls - Initial array of component names or remote URLs
+ * @returns An ordered set of all required component names or URLs including nested dependencies
  */
-export async function resolveRegistryDependencies(names: string[]): Promise<string[]> {
+export async function resolveRegistryDependencies(namesOrUrls: string[]): Promise<string[]> {
   const resolved = new Set<string>();
-  const queue = [...names];
+  const queue = [...namesOrUrls];
 
   while (queue.length > 0) {
-    const currentName = queue.shift();
-    if (!currentName || resolved.has(currentName)) continue;
+    const current = queue.shift();
+    if (!current || resolved.has(current)) continue;
 
-    const item = await getRegistryItem(currentName);
+    const item = await getRegistryItem(current);
     if (!item) continue;
 
-    resolved.add(currentName);
+    resolved.add(current);
 
     if (item.registryDependencies && item.registryDependencies.length > 0) {
       for (const dep of item.registryDependencies) {

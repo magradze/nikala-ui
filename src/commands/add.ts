@@ -15,10 +15,10 @@ interface AddOptions {
 }
 
 /**
- * Command handler to fetch and install Nikala UI components from the registry.
+ * Command handler to fetch and install Nikala UI components from the registry or remote URLs.
  * Automatically resolves dependencies and installs missing NPM packages.
  *
- * @param components - List of component names specified by the user
+ * @param components - List of component names or HTTP(S) URLs specified by the user
  * @param options - CLI options including --overwrite and --all
  */
 export async function add(components: string[], options: AddOptions) {
@@ -31,37 +31,40 @@ export async function add(components: string[], options: AddOptions) {
   }
 
   const registryIndex = await getRegistryIndex();
-  if (!registryIndex) {
-    console.log(pc.red("❌ Failed to load registry index. Run `bun run build` first."));
-    process.exit(1);
-  }
 
   // Determine target components to install
   let requestedComponents = components;
   if (options.all) {
+    if (!registryIndex) {
+      console.log(pc.red("❌ Failed to load registry index for --all flag."));
+      process.exit(1);
+    }
     requestedComponents = registryIndex.map((item) => item.name);
   }
 
   if (requestedComponents.length === 0) {
-    console.log(pc.yellow("⚠️  No components specified. Usage: `nikala add button`"));
+    console.log(pc.yellow("⚠️  No components specified. Usage: `nikala add button` or `nikala add <URL>`"));
     return;
   }
 
-  // Resolve all internal component dependencies recursively
-  const resolvedNames = await resolveRegistryDependencies(requestedComponents);
+  // Resolve all internal or remote component dependencies recursively
+  const resolvedTargets = await resolveRegistryDependencies(requestedComponents);
   const componentsDir = path.resolve(cwd, config.alias.components);
 
   console.log(pc.cyan(`\n🎨 Adding components to ${config.alias.components}...\n`));
 
   const requiredNpmDeps = new Set<string>();
 
-  for (const name of resolvedNames) {
-    const item = await getRegistryItem(name);
+  for (const target of resolvedTargets) {
+    const item = await getRegistryItem(target);
 
     if (!item) {
-      console.log(
-        pc.red(`❌ "${name}" not found in registry. Available: ${registryIndex.map((i) => i.name).join(", ")}`)
-      );
+      if (target.startsWith("http://") || target.startsWith("https://")) {
+        console.log(pc.red(`❌ Failed to fetch component from remote URL: ${target}`));
+      } else {
+        const availableStr = registryIndex ? registryIndex.map((i) => i.name).join(", ") : "none";
+        console.log(pc.red(`❌ "${target}" not found in registry. Available: ${availableStr}`));
+      }
       continue;
     }
 
@@ -85,7 +88,8 @@ export async function add(components: string[], options: AddOptions) {
       await fs.ensureDir(componentsDir);
       await fs.writeFile(targetFilePath, file.content, "utf-8");
 
-      console.log(pc.green(`  ✓ Added ${fileName}`));
+      const sourceInfo = target.startsWith("http") ? ` (from remote URL)` : "";
+      console.log(pc.green(`  ✓ Added ${fileName}${sourceInfo}`));
     }
   }
 
