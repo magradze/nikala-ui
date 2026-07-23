@@ -1,5 +1,15 @@
 [
   {
+    "name": "accordion",
+    "title": "Accordion",
+    "description": "A vertically stacked set of interactive headings that reveal sections of content.",
+    "type": "registry:ui",
+    "dependencies": [
+      "clsx",
+      "tailwind-merge"
+    ]
+  },
+  {
     "name": "avatar",
     "title": "Avatar",
     "description": "An image element with fallback representation for representing users.",
@@ -18,6 +28,16 @@
       "clsx",
       "tailwind-merge",
       "class-variance-authority"
+    ]
+  },
+  {
+    "name": "breadcrumb",
+    "title": "Breadcrumb",
+    "description": "Displays the path to the current resource using a hierarchy of links.",
+    "type": "registry:ui",
+    "dependencies": [
+      "clsx",
+      "tailwind-merge"
     ]
   },
   {
@@ -115,6 +135,16 @@
     "name": "switch",
     "title": "Switch",
     "description": "A control that allows the user to toggle between checked and unchecked states.",
+    "type": "registry:ui",
+    "dependencies": [
+      "clsx",
+      "tailwind-merge"
+    ]
+  },
+  {
+    "name": "tabs",
+    "title": "Tabs",
+    "description": "A set of layered sections of content displayed one at a time.",
     "type": "registry:ui",
     "dependencies": [
       "clsx",
