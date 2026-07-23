@@ -1,12 +1,24 @@
 [
   {
+    "name": "badge",
+    "title": "Badge",
+    "description": "A small badge component for status indicators and tags.",
+    "type": "registry:ui",
+    "dependencies": [
+      "clsx",
+      "tailwind-merge",
+      "class-variance-authority"
+    ]
+  },
+  {
     "name": "button",
     "title": "Button",
     "description": "An interactive button component with variant and size options.",
     "type": "registry:ui",
     "dependencies": [
       "clsx",
-      "tailwind-merge"
+      "tailwind-merge",
+      "class-variance-authority"
     ]
   },
   {

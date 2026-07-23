@@ -5,7 +5,8 @@
   "type": "registry:ui",
   "dependencies": [
     "clsx",
-    "tailwind-merge"
+    "tailwind-merge",
+    "class-variance-authority"
   ],
   "files": [
     {
