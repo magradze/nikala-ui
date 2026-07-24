@@ -100,4 +100,9 @@ export const COMPONENT_METADATA: Record<string, ComponentMeta> = {
     description: "A modal window overlaying the main content, built on Kobalte primitives with blur and outside-click options.",
     dependencies: ["clsx", "tailwind-merge", "@kobalte/core"],
   },
+  sheet: {
+    title: "Sheet / Drawer",
+    description: "Extends the dialog component to display content that slides in from screen edges.",
+    dependencies: ["clsx", "tailwind-merge", "class-variance-authority", "@kobalte/core"],
+  },
 };

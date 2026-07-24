@@ -147,6 +147,18 @@
     ]
   },
   {
+    "name": "sheet",
+    "title": "Sheet / Drawer",
+    "description": "Extends the dialog component to display content that slides in from screen edges.",
+    "type": "registry:ui",
+    "dependencies": [
+      "clsx",
+      "tailwind-merge",
+      "class-variance-authority",
+      "@kobalte/core"
+    ]
+  },
+  {
     "name": "skeleton",
     "title": "Skeleton",
     "description": "Renders an animated pulse loading placeholder for content loading states.",
