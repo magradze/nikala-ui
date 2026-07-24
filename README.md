@@ -1,4 +1,4 @@
-# Nikala UI 🎨
+# Nikala UI
 
 A simple, copy-paste component system for **SolidJS** built natively for **Tailwind CSS v4**.
 
@@ -12,11 +12,12 @@ Tailwind CSS v4 introduced a CSS-first configuration (`@theme`), which broke com
 
 Nikala UI gives you full ownership of your code. Instead of adding a heavy third-party UI package to your `node_modules`, Nikala's CLI writes lightweight, fully reactive SolidJS components directly into your `src/components/ui` directory.
 
-- ⚡ **Native SolidJS Reactivity** — Built with `splitProps` and fine-grained reactivity.
-- 🎨 **Tailwind CSS v4 First** — Designed around modern `@import "tailwindcss";` setups.
-- 📂 **Full Code Ownership** — The component files live in your project. Tweak them as you see fit.
-- 📦 **Smart CLI** — Automatically detects your package manager (`bun`, `pnpm`, `npm`, `yarn`) and installs required dependencies.
-- 🌐 **Custom Registries** — Supports adding components directly from remote HTTP(S) URLs.
+- **Native SolidJS Reactivity** — Built with `splitProps` and fine-grained reactivity.
+- **Tailwind CSS v4 First** — Designed around modern `@import "tailwindcss";` setups.
+- **SolidJS & SolidStart Ready** — Smart auto-detection for standard Vite SPA, Tauri, Electron, and SolidStart (SSR / Fullstack) projects.
+- **Full Code Ownership** — The component files live in your project. Tweak them as you see fit.
+- **Smart CLI** — Automatically detects your package manager (`bun`, `pnpm`, `npm`, `yarn`) and installs required dependencies.
+- **Custom Registries** — Supports adding components directly from remote HTTP(S) URLs.
 
 ---
 
@@ -37,9 +38,10 @@ npx nikala init
 This will:
 
 - Generate `nikala.config.json`
-- Configure `@` path aliases in `vite.config.ts` and `tsconfig.json`
+- Configure `@` path aliases in `vite.config.ts` or `app.config.ts`
 - Create the `src/lib/cn.ts` helper utility
-- Set up standard `src/index.css` for Tailwind v4
+- Set up standard Tailwind CSS v4 in `src/index.css` or `src/app.css`
+- Automatically inject CSS imports into your main entry file (`index.tsx`, `app.tsx`, etc.)
 
 ### 2. Add components to your project
 
@@ -98,7 +100,7 @@ export function App() {
 
 ---
 
-## Available Components
+## Available Components (16)
 
 - **`Button`** — Interactive button with variant and size options (`cva`).
 - **`Input`** — Reactive text input with modern focus states.
@@ -116,6 +118,12 @@ export function App() {
 - **`Tabs`** — Layered content switcher supporting horizontal and vertical layout orientations (`Tabs`, `TabsList`, `TabsTrigger`, `TabsContent`).
 - **`Accordion`** — Vertically stacked collapsible content sections supporting single and multiple modes (`Accordion`, `AccordionItem`, `AccordionTrigger`, `AccordionContent`).
 - **`Breadcrumb`** — Accessible navigation trail hierarchy (`Breadcrumb`, `BreadcrumbList`, `BreadcrumbItem`, `BreadcrumbLink`, `BreadcrumbPage`, `BreadcrumbSeparator`, `BreadcrumbEllipsis`).
+
+---
+
+## Contributing & Component Authoring
+
+Want to build or contribute a new component to Nikala UI? Please read our step-by-step authoring guide in [`docs/COMPONENT_GUIDE.md`](./docs/COMPONENT_GUIDE.md).
 
 ---
 
