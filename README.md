@@ -118,6 +118,10 @@ export function App() {
 - **`Tabs`** — Layered content switcher supporting horizontal and vertical layout orientations (`Tabs`, `TabsList`, `TabsTrigger`, `TabsContent`).
 - **`Accordion`** — Vertically stacked collapsible content sections supporting single and multiple modes (`Accordion`, `AccordionItem`, `AccordionTrigger`, `AccordionContent`).
 - **`Breadcrumb`** — Accessible navigation trail hierarchy (`Breadcrumb`, `BreadcrumbList`, `BreadcrumbItem`, `BreadcrumbLink`, `BreadcrumbPage`, `BreadcrumbSeparator`, `BreadcrumbEllipsis`).
+- **`Alert`** — Callout banner for user feedback with status variants, dismiss button, and timer (`Alert`, `AlertTitle`, `AlertDescription`).
+- **`Dialog`** — Accessible modal window with backdrop blur, closable button, and outside-click options (`Dialog`, `DialogTrigger`, `DialogContent`, `DialogHeader`, `DialogTitle`, `DialogDescription`, `DialogFooter`).
+- **`Sheet`** — Sliding panel component with 4-directional slide-in animations and backdrop blur (`Sheet`, `SheetTrigger`, `SheetContent`, `SheetHeader`, `SheetTitle`, `SheetDescription`, `SheetFooter`).
+- **`Dropdown Menu`** — Full-featured context menu with submenus, checkboxes, radio items, shortcuts, and avatar trigger (`DropdownMenu`, `DropdownMenuTrigger`, `DropdownMenuContent`, `DropdownMenuItem`, `DropdownMenuSub`).
 
 ---
 

@@ -1,6 +1,6 @@
 {
   "name": "nikala",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "description": "Nikala UI — SolidJS + Tailwind CSS v4 component library inspired by Niko Pirosmani",
   "type": "module",
   "main": "./dist/index.js",
