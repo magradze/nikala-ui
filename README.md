@@ -113,6 +113,9 @@ export function App() {
 - **`Checkbox`** — Checkable input box with custom SVG checkmark indicator.
 - **`Radio Group`** — Accessible radio button group with vertical and horizontal layout support (`RadioGroup`, `RadioGroupItem`).
 - **`Select`** — Custom dropdown select menu component (`Select`, `SelectTrigger`, `SelectValue`, `SelectContent`, `SelectItem`).
+- **`Tabs`** — Layered content switcher supporting horizontal and vertical layout orientations (`Tabs`, `TabsList`, `TabsTrigger`, `TabsContent`).
+- **`Accordion`** — Vertically stacked collapsible content sections supporting single and multiple modes (`Accordion`, `AccordionItem`, `AccordionTrigger`, `AccordionContent`).
+- **`Breadcrumb`** — Accessible navigation trail hierarchy (`Breadcrumb`, `BreadcrumbList`, `BreadcrumbItem`, `BreadcrumbLink`, `BreadcrumbPage`, `BreadcrumbSeparator`, `BreadcrumbEllipsis`).
 
 ---
 
