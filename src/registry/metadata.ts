@@ -95,4 +95,9 @@ export const COMPONENT_METADATA: Record<string, ComponentMeta> = {
     description: "Displays a callout banner for user feedback with variants, dismiss button, and timer.",
     dependencies: ["clsx", "tailwind-merge", "class-variance-authority"],
   },
+  dialog: {
+    title: "Dialog",
+    description: "A modal window overlaying the main content, built on Kobalte primitives with blur and outside-click options.",
+    dependencies: ["clsx", "tailwind-merge", "@kobalte/core"],
+  },
 };

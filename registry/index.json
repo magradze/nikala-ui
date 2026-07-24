@@ -84,6 +84,17 @@
     ]
   },
   {
+    "name": "dialog",
+    "title": "Dialog",
+    "description": "A modal window overlaying the main content, built on Kobalte primitives with blur and outside-click options.",
+    "type": "registry:ui",
+    "dependencies": [
+      "clsx",
+      "tailwind-merge",
+      "@kobalte/core"
+    ]
+  },
+  {
     "name": "input",
     "title": "Input",
     "description": "A standard text input field with styling variants.",
