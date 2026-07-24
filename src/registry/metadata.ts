@@ -72,8 +72,8 @@ export const COMPONENT_METADATA: Record<string, ComponentMeta> = {
   },
   select: {
     title: "Select",
-    description: "Displays a list of options for the user to pick from—triggered by a button.",
-    dependencies: ["clsx", "tailwind-merge"],
+    description: "Displays a list of options for the user to pick from, built on Kobalte primitives.",
+    dependencies: ["clsx", "tailwind-merge", "@kobalte/core"],
   },
   tabs: {
     title: "Tabs",

@@ -1,271 +1,138 @@
-import {
-  createContext,
-  useContext,
-  createSignal,
-  splitProps,
-  onMount,
-  onCleanup,
-  Show,
-  type Component,
-  type JSX,
-  type Accessor,
-} from "solid-js";
+import { splitProps, type JSX, type ValidComponent } from "solid-js";
+import * as SelectPrimitive from "@kobalte/core/select";
+import type { PolymorphicProps } from "@kobalte/core/polymorphic";
 import { cn } from "@/lib/cn";
 
-interface SelectContextValue {
-  value: Accessor<string | undefined>;
-  label: Accessor<string | undefined>;
-  isOpen: Accessor<boolean>;
-  toggle: () => void;
-  close: () => void;
-  selectOption: (value: string, label?: string) => void;
-  disabled: Accessor<boolean>;
-}
-
-const SelectContext = createContext<SelectContextValue>();
-
-export interface SelectProps {
-  value?: string;
-  defaultValue?: string;
-  onChange?: (value: string) => void;
-  disabled?: boolean;
-  class?: string;
-  children?: JSX.Element;
-}
+export type SelectRootProps<Option = any, OptGroup = any, T extends ValidComponent = "div"> =
+  SelectPrimitive.SelectRootProps<Option, OptGroup, T> & {
+    class?: string;
+  };
 
 /**
- * Root Select component managing dropdown state context.
+ * Root Select component built on top of Kobalte headless primitives.
  */
-export const Select: Component<SelectProps> = (props) => {
-  const [local] = splitProps(props, [
-    "value",
-    "defaultValue",
-    "onChange",
-    "disabled",
-    "class",
-    "children",
-  ]);
+export const Select = <Option = any, OptGroup = any, T extends ValidComponent = "div">(
+  props: PolymorphicProps<T, SelectRootProps<Option, OptGroup, T>>
+) => {
+  const [local, rest] = splitProps(props as SelectRootProps, ["class"]);
 
-  const [internalValue, setInternalValue] = createSignal(local.defaultValue);
-  const [selectedLabel, setSelectedLabel] = createSignal<string | undefined>();
-  const [isOpen, setIsOpen] = createSignal(false);
-
-  const currentValue = () =>
-    local.value !== undefined ? local.value : internalValue();
-
-  let containerRef: HTMLDivElement | undefined;
-
-  // Handle outside click to close dropdown menu
-  const handleOutsideClick = (e: MouseEvent) => {
-    if (containerRef && !containerRef.contains(e.target as Node)) {
-      setIsOpen(false);
-    }
-  };
-
-  // Handle Escape key press
-  const handleKeyDown = (e: KeyboardEvent) => {
-    if (e.key === "Escape") {
-      setIsOpen(false);
-    }
-  };
-
-  onMount(() => {
-    document.addEventListener("click", handleOutsideClick);
-    document.addEventListener("keydown", handleKeyDown);
-  });
-
-  onCleanup(() => {
-    document.removeEventListener("click", handleOutsideClick);
-    document.removeEventListener("keydown", handleKeyDown);
-  });
-
-  const selectOption = (val: string, lbl?: string) => {
-    if (local.disabled) return;
-    if (local.value === undefined) {
-      setInternalValue(val);
-    }
-    setSelectedLabel(lbl || val);
-    setIsOpen(false);
-    if (typeof local.onChange === "function") {
-      local.onChange(val);
-    }
-  };
-
-  const contextValue: SelectContextValue = {
-    value: currentValue,
-    label: selectedLabel,
-    isOpen,
-    toggle: () => !local.disabled && setIsOpen((prev) => !prev),
-    close: () => setIsOpen(false),
-    selectOption,
-    disabled: () => !!local.disabled,
-  };
-
-  return (
-    <SelectContext.Provider value={contextValue}>
-      <div ref={containerRef} class={cn("relative inline-block w-full", local.class)}>
-        {local.children}
-      </div>
-    </SelectContext.Provider>
-  );
+  return <SelectPrimitive.Root class={cn("relative w-full", local.class)} {...(rest as any)} />;
 };
 
-export interface SelectTriggerProps extends JSX.ButtonHTMLAttributes<HTMLButtonElement> {
-  class?: string;
-}
-
-/**
- * Trigger button to toggle the Select dropdown.
- */
-export const SelectTrigger: Component<SelectTriggerProps> = (props) => {
-  const [local, rest] = splitProps(props, ["class", "children", "onClick"]);
-  const context = useContext(SelectContext);
-
-  if (!context) {
-    throw new Error("SelectTrigger must be used within a Select component");
-  }
-
-  const handleClick = (
-    e: MouseEvent & { currentTarget: HTMLButtonElement; target: Element }
-  ) => {
-    context.toggle();
-    if (typeof local.onClick === "function") {
-      local.onClick(e);
-    }
+export type SelectTriggerProps<T extends ValidComponent = "button"> =
+  SelectPrimitive.SelectTriggerProps<T> & {
+    class?: string;
+    children?: JSX.Element;
   };
 
+/**
+ * Trigger button opening the Select options list.
+ */
+export const SelectTrigger = <T extends ValidComponent = "button">(
+  props: PolymorphicProps<T, SelectTriggerProps<T>>
+) => {
+  const [local, rest] = splitProps(props as SelectTriggerProps, ["class", "children"]);
+
   return (
-    <button
-      type="button"
-      role="combobox"
-      aria-expanded={context.isOpen()}
-      disabled={context.disabled()}
-      onClick={handleClick}
+    <SelectPrimitive.Trigger
       class={cn(
-        "flex h-9 w-full items-center justify-between rounded-md border border-zinc-200 bg-transparent px-3 py-2 text-sm shadow-sm ring-offset-white placeholder:text-zinc-500 focus:outline-none focus:ring-1 focus:ring-zinc-950 disabled:cursor-not-allowed disabled:opacity-50 dark:border-zinc-800 dark:ring-offset-zinc-950 dark:placeholder:text-zinc-400 dark:focus:ring-zinc-300",
+        "flex h-9 w-full items-center justify-between rounded-md border border-zinc-200 bg-transparent px-3 py-2 text-sm shadow-sm ring-offset-white placeholder:text-zinc-500 focus:outline-none focus:ring-1 focus:ring-zinc-950 disabled:cursor-not-allowed disabled:opacity-50 dark:border-zinc-800 dark:ring-offset-zinc-950 dark:placeholder:text-zinc-400 dark:focus:ring-zinc-300 cursor-pointer",
         local.class
       )}
       {...rest}
     >
       {local.children}
-      <svg
-        class={cn("h-4 w-4 opacity-50 transition-transform", context.isOpen() && "rotate-180")}
+      <SelectPrimitive.Icon
+        as="svg"
+        class="h-4 w-4 opacity-50 transition-transform"
         viewBox="0 0 24 24"
         fill="none"
         stroke="currentColor"
         stroke-width="2"
       >
         <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
-      </svg>
-    </button>
+      </SelectPrimitive.Icon>
+    </SelectPrimitive.Trigger>
   );
 };
 
-export interface SelectValueProps {
-  placeholder?: string;
-  class?: string;
-}
+export type SelectValueProps<Option, T extends ValidComponent = "span"> =
+  SelectPrimitive.SelectValueProps<Option, T> & {
+    class?: string;
+  };
 
 /**
- * Renders the selected option label or placeholder text.
+ * Renders the currently selected option text or placeholder.
  */
-export const SelectValue: Component<SelectValueProps> = (props) => {
-  const context = useContext(SelectContext);
-
-  if (!context) {
-    throw new Error("SelectValue must be used within a Select component");
-  }
-
-  const displayText = () => context.label() || context.value() || props.placeholder;
+export const SelectValue = <Option = any, T extends ValidComponent = "span">(
+  props: PolymorphicProps<T, SelectValueProps<Option, T>>
+) => {
+  const [local, rest] = splitProps(props as SelectValueProps<Option>, ["class"]);
 
   return (
-    <span class={cn("block truncate", !context.value() && "text-zinc-500 dark:text-zinc-400", props.class)}>
-      {displayText()}
-    </span>
+    <SelectPrimitive.Value
+      class={cn("block truncate", local.class)}
+      {...(rest as any)}
+    />
   );
 };
 
-export interface SelectContentProps extends JSX.HTMLAttributes<HTMLDivElement> {
-  class?: string;
-}
+export type SelectContentProps<T extends ValidComponent = "div"> =
+  SelectPrimitive.SelectContentProps<T> & {
+    class?: string;
+  };
 
 /**
- * Popup container holding Select options.
+ * Portaled overlay container rendering the listbox options.
  */
-export const SelectContent: Component<SelectContentProps> = (props) => {
-  const [local, rest] = splitProps(props, ["class", "children"]);
-  const context = useContext(SelectContext);
-
-  if (!context) {
-    throw new Error("SelectContent must be used within a Select component");
-  }
+export const SelectContent = <T extends ValidComponent = "div">(
+  props: PolymorphicProps<T, SelectContentProps<T>>
+) => {
+  const [local, rest] = splitProps(props as SelectContentProps, ["class"]);
 
   return (
-    <Show when={context.isOpen()}>
-      <div
+    <SelectPrimitive.Portal>
+      <SelectPrimitive.Content
         class={cn(
-          "absolute z-50 mt-1 max-h-60 w-full overflow-auto rounded-md border border-zinc-200 bg-white p-1 text-zinc-950 shadow-md animate-in fade-in-80 dark:border-zinc-800 dark:bg-zinc-950 dark:text-zinc-50",
+          "relative z-50 min-w-[8rem] overflow-hidden rounded-md border border-zinc-200 bg-white text-zinc-950 shadow-md animate-in fade-in-80 dark:border-zinc-800 dark:bg-zinc-950 dark:text-zinc-50",
           local.class
         )}
         {...rest}
       >
-        {local.children}
-      </div>
-    </Show>
+        <SelectPrimitive.Listbox class="p-1 outline-none" />
+      </SelectPrimitive.Content>
+    </SelectPrimitive.Portal>
   );
 };
 
-export interface SelectItemProps extends JSX.HTMLAttributes<HTMLDivElement> {
-  value: string;
-  class?: string;
-}
-
-/**
- * Individual option item inside SelectContent.
- */
-export const SelectItem: Component<SelectItemProps> = (props) => {
-  const [local, rest] = splitProps(props, ["value", "class", "children", "onClick"]);
-  const context = useContext(SelectContext);
-
-  if (!context) {
-    throw new Error("SelectItem must be used within a Select component");
-  }
-
-  const isSelected = () => context.value() === local.value;
-
-  const handleClick = (
-    e: MouseEvent & { currentTarget: HTMLDivElement; target: Element }
-  ) => {
-    let labelText: string | undefined;
-    if (typeof local.children === "string") {
-      labelText = local.children;
-    }
-    context.selectOption(local.value, labelText);
-    if (typeof local.onClick === "function") {
-      local.onClick(e);
-    }
+export type SelectItemProps<T extends ValidComponent = "li"> =
+  SelectPrimitive.SelectItemProps<T> & {
+    class?: string;
+    children?: JSX.Element;
   };
 
+/**
+ * Individual option item choice inside SelectContent.
+ */
+export const SelectItem = <T extends ValidComponent = "li">(
+  props: PolymorphicProps<T, SelectItemProps<T>>
+) => {
+  const [local, rest] = splitProps(props as SelectItemProps, ["class", "children"]);
+
   return (
-    <div
-      role="option"
-      aria-selected={isSelected()}
-      onClick={handleClick}
+    <SelectPrimitive.Item
       class={cn(
-        "relative flex w-full cursor-pointer select-none items-center rounded-sm py-1.5 pl-8 pr-2 text-sm outline-none hover:bg-zinc-100 hover:text-zinc-900 dark:hover:bg-zinc-800 dark:hover:text-zinc-50",
-        isSelected() && "bg-zinc-100 font-medium text-zinc-900 dark:bg-zinc-800 dark:text-zinc-50",
+        "relative flex w-full cursor-pointer select-none items-center rounded-sm py-1.5 pl-8 pr-2 text-sm outline-none data-[disabled]:pointer-events-none data-[highlighted]:bg-zinc-100 data-[highlighted]:text-zinc-900 dark:data-[highlighted]:bg-zinc-800 dark:data-[highlighted]:text-zinc-50",
         local.class
       )}
       {...rest}
     >
-      <Show when={isSelected()}>
-        <span class="absolute left-2 flex h-3.5 w-3.5 items-center justify-center">
-          <svg class="h-4 w-4 fill-none stroke-current stroke-2" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
-          </svg>
-        </span>
-      </Show>
-      {local.children}
-    </div>
+      <SelectPrimitive.ItemIndicator class="absolute left-2 flex h-3.5 w-3.5 items-center justify-center">
+        <svg class="h-4 w-4 fill-none stroke-current stroke-2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+        </svg>
+      </SelectPrimitive.ItemIndicator>
+      <SelectPrimitive.ItemLabel>{local.children}</SelectPrimitive.ItemLabel>
+    </SelectPrimitive.Item>
   );
 };
