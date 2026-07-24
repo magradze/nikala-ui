@@ -12,7 +12,7 @@ interface InitOptions {
 
 /**
  * Initializes Nikala UI in the target project workspace.
- * Automatically installs Tailwind v4, configures Vite/SolidStart plugins, and sets up path aliases.
+ * Automatically installs Tailwind v4, configures Vite/SolidStart plugins, and injects CSS imports into the main entry file.
  *
  * @param options - CLI flags (e.g., --defaults)
  */
@@ -176,7 +176,41 @@ export async function init(options: InitOptions) {
     console.log(pc.green(`✓ Created ${cssPathRelative} with standard Tailwind CSS v4 setup`));
   }
 
-  // 6. Generate nikala.config.json manifest with detected CSS file
+  // 6. Inject CSS import statement into project's main entry point
+  const entryCandidates = [
+    path.join(cwd, "src", "app.tsx"),
+    path.join(cwd, "src", "app.jsx"),
+    path.join(cwd, "src", "entry-client.tsx"),
+    path.join(cwd, "src", "index.tsx"),
+    path.join(cwd, "src", "index.jsx"),
+    path.join(cwd, "src", "index.ts"),
+    path.join(cwd, "src", "main.tsx"),
+    path.join(cwd, "src", "main.ts"),
+  ];
+
+  let targetEntryPath: string | null = null;
+  for (const candidate of entryCandidates) {
+    if (await fs.pathExists(candidate)) {
+      targetEntryPath = candidate;
+      break;
+    }
+  }
+
+  if (targetEntryPath) {
+    let entryContent = await fs.readFile(targetEntryPath, "utf-8");
+    const cssFileName = path.basename(cssPathRelative);
+    const cssImportStatement = `import "./${cssFileName}";`;
+
+    if (!entryContent.includes(cssFileName)) {
+      entryContent = `${cssImportStatement}\n${entryContent}`;
+      await fs.writeFile(targetEntryPath, entryContent, "utf-8");
+      console.log(
+        pc.green(`✓ Injected ${cssImportStatement} into ${path.relative(cwd, targetEntryPath)}`)
+      );
+    }
+  }
+
+  // 7. Generate nikala.config.json manifest with detected CSS file
   await writeConfig(cwd, {
     $schema: "https://nikala.dev/schema.json",
     style: "default",
