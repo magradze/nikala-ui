@@ -11,6 +11,17 @@
     ]
   },
   {
+    "name": "alert",
+    "title": "Alert",
+    "description": "Displays a callout banner for user feedback with variants, dismiss button, and timer.",
+    "type": "registry:ui",
+    "dependencies": [
+      "clsx",
+      "tailwind-merge",
+      "class-variance-authority"
+    ]
+  },
+  {
     "name": "avatar",
     "title": "Avatar",
     "description": "An image element with fallback representation for representing users.",

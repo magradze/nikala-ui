@@ -90,4 +90,9 @@ export const COMPONENT_METADATA: Record<string, ComponentMeta> = {
     description: "Displays the path to the current resource using a hierarchy of links.",
     dependencies: ["clsx", "tailwind-merge"],
   },
+  alert: {
+    title: "Alert",
+    description: "Displays a callout banner for user feedback with variants, dismiss button, and timer.",
+    dependencies: ["clsx", "tailwind-merge", "class-variance-authority"],
+  },
 };
