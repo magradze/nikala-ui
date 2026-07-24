@@ -104,6 +104,21 @@ export const Badge: Component<BadgeProps> = (props) => {
 > }
 > ```
 
+#### Rule D: `children()` Helper for Children Inspection
+
+Whenever a component needs to inspect, iterate, or dynamically track `children` nodes (e.g., counting options or checking child types), **NEVER** read `local.children` directly as an array. Always wrap `props.children` with SolidJS's native `children()` memoization helper:
+
+```tsx
+import { children, type ParentComponent } from "solid-js";
+
+export const ListContainer: ParentComponent = (props) => {
+  // Correctly memoizes dynamic JSX child nodes while preserving reactivity
+  const resolvedChildren = children(() => props.children);
+
+  return <div class="space-y-2">{resolvedChildren()}</div>;
+};
+```
+
 ---
 
 ### Step 3: Compound Components & Context Pattern
@@ -291,6 +306,8 @@ export const Atom: Component<AtomProps> = (props) => {
 
 - [ ] TSX file added to `src/registry/components/ui/`
 - [ ] Uses `splitProps` (NO object destructuring on props)
+- [ ] Uses `children()` helper if inspecting or mapping children nodes
+- [ ] Leverages Corvu or Kobalte for complex A11y overlays/menus/drawers
 - [ ] Uses `cn(...)` for class merging
 - [ ] Extends standard JSX element attributes
 - [ ] Metadata added to `src/registry/metadata.ts`
