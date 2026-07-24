@@ -25,7 +25,7 @@ export const BreadcrumbList: Component<BreadcrumbListProps> = (props) => {
   return (
     <ol
       class={cn(
-        "flex flex-wrap items-center gap-1.5 text-sm text-zinc-500 break-words dark:text-zinc-400 sm:gap-2.5",
+        "flex flex-wrap items-center gap-1.5 text-sm text-muted-foreground break-words sm:gap-2.5",
         local.class
       )}
       {...rest}
@@ -57,7 +57,7 @@ export const BreadcrumbLink: Component<BreadcrumbLinkProps> = (props) => {
   return (
     <a
       class={cn(
-        "transition-colors hover:text-zinc-950 dark:hover:text-zinc-50 underline-offset-4 hover:underline",
+        "transition-colors hover:text-foreground underline-offset-4 hover:underline",
         local.class
       )}
       {...rest}
@@ -79,7 +79,7 @@ export const BreadcrumbPage: Component<BreadcrumbPageProps> = (props) => {
       role="link"
       aria-disabled="true"
       aria-current="page"
-      class={cn("font-normal text-zinc-950 dark:text-zinc-50", local.class)}
+      class={cn("font-normal text-foreground", local.class)}
       {...rest}
     />
   );
@@ -98,7 +98,7 @@ export const BreadcrumbSeparator: Component<BreadcrumbSeparatorProps> = (props) 
     <li
       role="presentation"
       aria-hidden="true"
-      class={cn("[&>svg]:size-3.5 text-zinc-400 dark:text-zinc-600", local.class)}
+      class={cn("[&>svg]:size-3.5 text-muted-foreground", local.class)}
       {...rest}
     >
       {local.children || (
@@ -123,7 +123,7 @@ export const BreadcrumbEllipsis: Component<BreadcrumbEllipsisProps> = (props) =>
     <span
       role="presentation"
       aria-hidden="true"
-      class={cn("flex h-9 w-9 items-center justify-center text-zinc-400 dark:text-zinc-600", local.class)}
+      class={cn("flex h-9 w-9 items-center justify-center text-muted-foreground", local.class)}
       {...rest}
     >
       <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">

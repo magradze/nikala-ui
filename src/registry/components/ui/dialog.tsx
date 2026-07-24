@@ -95,14 +95,14 @@ export const DialogContent = <T extends ValidComponent = "div">(
         onPointerDownOutside={handlePointerDownOutside}
         onInteractOutside={handleInteractOutside}
         class={cn(
-          "fixed left-[50%] top-[50%] z-50 grid w-full max-w-lg translate-x-[-50%] translate-y-[-50%] gap-4 border border-zinc-200 bg-white p-6 shadow-lg duration-200 data-[expanded]:animate-in data-[closed]:animate-out data-[closed]:fade-out-0 data-[expanded]:fade-in-0 data-[closed]:zoom-out-95 data-[expanded]:zoom-in-95 data-[closed]:slide-out-to-left-1/2 data-[closed]:slide-out-to-top-[48%] data-[expanded]:slide-in-from-left-1/2 data-[expanded]:slide-in-from-top-[48%] sm:rounded-lg dark:border-zinc-800 dark:bg-zinc-950 text-zinc-950 dark:text-zinc-50",
+          "fixed left-[50%] top-[50%] z-50 grid w-full max-w-lg translate-x-[-50%] translate-y-[-50%] gap-4 border border-border bg-card p-6 shadow-lg duration-200 data-[expanded]:animate-in data-[closed]:animate-out data-[closed]:fade-out-0 data-[expanded]:fade-in-0 data-[closed]:zoom-out-95 data-[expanded]:zoom-in-95 data-[closed]:slide-out-to-left-1/2 data-[closed]:slide-out-to-top-[48%] data-[expanded]:slide-in-from-left-1/2 data-[expanded]:slide-in-from-top-[48%] sm:rounded-lg text-card-foreground",
           local.class
         )}
         {...(rest as any)}
       >
         {local.children}
         <Show when={local.showCloseButton !== false}>
-          <DialogPrimitive.CloseButton class="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-white transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-zinc-950 focus:ring-offset-2 disabled:pointer-events-none data-[expanded]:bg-zinc-100 data-[expanded]:text-zinc-500 dark:ring-offset-zinc-950 dark:focus:ring-zinc-300 dark:data-[expanded]:bg-zinc-800 dark:data-[expanded]:text-zinc-400 cursor-pointer">
+          <DialogPrimitive.CloseButton class="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[expanded]:bg-accent data-[expanded]:text-muted-foreground cursor-pointer">
             <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
             </svg>
@@ -165,7 +165,7 @@ export const DialogTitle = <T extends ValidComponent = "h2">(
 
   return (
     <DialogPrimitive.Title
-      class={cn("text-lg font-semibold leading-none tracking-tight", local.class)}
+      class={cn("text-lg font-semibold leading-none tracking-tight text-foreground", local.class)}
       {...(rest as any)}
     />
   );
@@ -186,7 +186,7 @@ export const DialogDescription = <T extends ValidComponent = "p">(
 
   return (
     <DialogPrimitive.Description
-      class={cn("text-sm text-zinc-500 dark:text-zinc-400", local.class)}
+      class={cn("text-sm text-muted-foreground", local.class)}
       {...(rest as any)}
     />
   );

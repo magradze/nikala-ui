@@ -57,11 +57,11 @@ export const RadioGroupItem = <T extends ValidComponent = "div">(
       <RadioGroupPrimitive.ItemInput />
       <RadioGroupPrimitive.ItemControl
         class={cn(
-          "aspect-square h-4 w-4 rounded-full border border-zinc-900 text-zinc-900 shadow focus:outline-none focus-visible:ring-1 focus-visible:ring-zinc-950 disabled:cursor-not-allowed disabled:opacity-50 dark:border-zinc-100 dark:text-zinc-50 dark:focus-visible:ring-zinc-300 flex items-center justify-center transition-colors data-[checked]:bg-zinc-900 dark:data-[checked]:bg-zinc-50"
+          "aspect-square h-4 w-4 rounded-full border border-primary text-primary shadow focus:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 flex items-center justify-center transition-colors data-[checked]:bg-primary data-[checked]:text-primary-foreground"
         )}
       >
         <RadioGroupPrimitive.ItemIndicator class="flex items-center justify-center">
-          <span class="h-2 w-2 rounded-full bg-zinc-50 dark:bg-zinc-900" />
+          <span class="h-2 w-2 rounded-full bg-primary-foreground" />
         </RadioGroupPrimitive.ItemIndicator>
       </RadioGroupPrimitive.ItemControl>
       {local.children}
@@ -86,7 +86,7 @@ export const RadioGroupItemLabel = <T extends ValidComponent = "label">(
   return (
     <RadioGroupPrimitive.ItemLabel
       class={cn(
-        "text-sm font-medium leading-none select-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-zinc-950 dark:text-zinc-50",
+        "text-sm font-medium leading-none select-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-foreground",
         local.class
       )}
       {...rest}

@@ -14,20 +14,20 @@ import { cn } from "@/lib/cn";
  * CVA variants for Alert status styles and color themes.
  */
 export const alertVariants = cva(
-  "relative w-full rounded-lg border p-4 transition-all duration-200 [&>svg~*]:pl-7 [&>svg+div]:translate-y-[-3px] [&>svg]:absolute [&>svg]:left-4 [&>svg]:top-4 [&>svg]:text-zinc-950 dark:[&>svg]:text-zinc-50",
+  "relative w-full rounded-lg border p-4 transition-all duration-200 [&>svg~*]:pl-7 [&>svg+div]:translate-y-[-3px] [&>svg]:absolute [&>svg]:left-4 [&>svg]:top-4 [&>svg]:text-foreground",
   {
     variants: {
       variant: {
         default:
-          "bg-white text-zinc-950 border-zinc-200 dark:bg-zinc-950 dark:text-zinc-50 dark:border-zinc-800",
+          "bg-background text-foreground border-border",
         info:
           "bg-blue-50 text-blue-900 border-blue-200 dark:bg-blue-950/50 dark:text-blue-200 dark:border-blue-900/50",
         success:
           "bg-emerald-50 text-emerald-900 border-emerald-200 dark:bg-emerald-950/50 dark:text-emerald-200 dark:border-emerald-900/50",
         warning:
-          "bg-amber-50 text-amber-900 border-amber-200 dark:bg-amber-950/50 dark:text-amber-200 dark:border-amber-900/50",
+          "bg-amber-50 text-amber-900 border-amber-200 dark:bg-amber-950/50 dark:text-amber-200 dark:border-amber-950/50",
         destructive:
-          "bg-red-50 text-red-900 border-red-200 dark:bg-red-950/50 dark:text-red-200 dark:border-red-900/50",
+          "bg-destructive/15 text-destructive border-destructive/30",
       },
     },
     defaultVariants: {
@@ -130,7 +130,7 @@ export const AlertTitle: Component<AlertTitleProps> = (props) => {
 
   return (
     <h5
-      class={cn("mb-1 font-medium leading-none tracking-tight", local.class)}
+      class={cn("mb-1 font-medium leading-none tracking-tight text-foreground", local.class)}
       {...rest}
     />
   );
@@ -148,7 +148,7 @@ export const AlertDescription: Component<AlertDescriptionProps> = (props) => {
 
   return (
     <div
-      class={cn("text-sm [&_p]:leading-relaxed opacity-90", local.class)}
+      class={cn("text-sm [&_p]:leading-relaxed text-muted-foreground", local.class)}
       {...rest}
     />
   );

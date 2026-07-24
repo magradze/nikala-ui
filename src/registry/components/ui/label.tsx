@@ -15,7 +15,7 @@ export const Label: Component<LabelProps> = (props) => {
   return (
     <label
       class={cn(
-        "text-sm font-medium leading-none select-none text-zinc-950 peer-disabled:cursor-not-allowed peer-disabled:opacity-70 dark:text-zinc-50",
+        "text-sm font-medium leading-none select-none text-foreground peer-disabled:cursor-not-allowed peer-disabled:opacity-70",
         local.class
       )}
       {...rest}

@@ -15,7 +15,7 @@ export const Skeleton: Component<SkeletonProps> = (props) => {
   return (
     <div
       class={cn(
-        "animate-pulse rounded-md bg-zinc-900/10 dark:bg-zinc-50/10",
+        "animate-pulse rounded-md bg-muted",
         local.class
       )}
       {...rest}

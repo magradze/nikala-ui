@@ -27,7 +27,7 @@ export const Separator: Component<SeparatorProps> = (props) => {
       role={isDecorative() ? "none" : "separator"}
       aria-orientation={isDecorative() ? undefined : orientation()}
       class={cn(
-        "shrink-0 bg-zinc-200 dark:bg-zinc-800",
+        "shrink-0 bg-border",
         orientation() === "horizontal" ? "h-[1px] w-full" : "h-full w-[1px]",
         local.class
       )}

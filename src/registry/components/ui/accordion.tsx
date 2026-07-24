@@ -34,7 +34,7 @@ export const Accordion = <T extends ValidComponent = "div">(
   return (
     <AccordionPrimitive.Root
       multiple={isMultiple()}
-      class={cn("w-full divide-y divide-zinc-200 dark:divide-zinc-800", local.class)}
+      class={cn("w-full divide-y divide-border", local.class)}
       {...(rest as any)}
     />
   );
@@ -56,7 +56,7 @@ export const AccordionItem = <T extends ValidComponent = "div">(
 
   return (
     <AccordionPrimitive.Item
-      class={cn("border-b border-zinc-200 dark:border-zinc-800", local.class)}
+      class={cn("border-b border-border", local.class)}
       {...rest}
     />
   );
@@ -80,14 +80,14 @@ export const AccordionTrigger = <T extends ValidComponent = "button">(
     <AccordionPrimitive.Header class="flex">
       <AccordionPrimitive.Trigger
         class={cn(
-          "flex flex-1 items-center justify-between py-4 text-sm font-medium transition-all hover:underline [&[data-expanded]>svg]:rotate-180 cursor-pointer text-zinc-950 dark:text-zinc-50",
+          "flex flex-1 items-center justify-between py-4 text-sm font-medium transition-all hover:underline [&[data-expanded]>svg]:rotate-180 cursor-pointer text-foreground",
           local.class
         )}
         {...rest}
       >
         {local.children}
         <svg
-          class="h-4 w-4 shrink-0 text-zinc-500 transition-transform duration-200 dark:text-zinc-400"
+          class="h-4 w-4 shrink-0 text-muted-foreground transition-transform duration-200"
           viewBox="0 0 24 24"
           fill="none"
           stroke="currentColor"
@@ -117,7 +117,7 @@ export const AccordionContent = <T extends ValidComponent = "div">(
   return (
     <AccordionPrimitive.Content
       class={cn(
-        "overflow-hidden text-sm text-zinc-600 transition-all dark:text-zinc-400",
+        "overflow-hidden text-sm text-muted-foreground transition-all",
         local.class
       )}
       {...rest}
