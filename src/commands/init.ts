@@ -1,10 +1,10 @@
 import fs from "fs-extra";
 import path from "node:path";
-import { execSync } from "node:child_process";
 import prompts from "prompts";
 import pc from "picocolors";
 import { cnTemplate } from "../utils/cn.js";
 import { writeConfig, readTsConfig } from "../utils/file.js";
+import { installDependencies } from "../utils/pkg.js";
 
 interface InitOptions {
   defaults?: boolean;
@@ -12,7 +12,7 @@ interface InitOptions {
 
 /**
  * Initializes Nikala UI in the target project workspace.
- * Automatically detects framework type (Vite SPA vs SolidStart) and configures CSS/aliases.
+ * Automatically installs Tailwind v4, configures Vite/SolidStart plugins, and sets up path aliases.
  *
  * @param options - CLI flags (e.g., --defaults)
  */
@@ -52,39 +52,73 @@ export async function init(options: InitOptions) {
   await fs.ensureDir(componentsPath);
   await fs.ensureDir(utilsPath);
 
-  // 1. Install required runtime dependencies
-  console.log(pc.yellow("\n📦 Installing required dependencies..."));
-  try {
-    execSync("bun add clsx tailwind-merge class-variance-authority", {
-      cwd,
-      stdio: "inherit",
-    });
-  } catch {
-    console.log(pc.red("❌ Failed to install dependencies automatically. Install manually:"));
-    console.log(pc.white("  bun add clsx tailwind-merge class-variance-authority"));
+  // 1. Detect missing dependencies including Tailwind CSS v4 core packages
+  const userPkgPath = path.join(cwd, "package.json");
+  const requiredDeps = ["clsx", "tailwind-merge", "class-variance-authority"];
+
+  if (await fs.pathExists(userPkgPath)) {
+    try {
+      const userPkg = await fs.readJson(userPkgPath);
+      const installed = { ...userPkg.dependencies, ...userPkg.devDependencies };
+
+      if (!installed["tailwindcss"]) {
+        requiredDeps.push("tailwindcss");
+      }
+      if (!installed["@tailwindcss/vite"]) {
+        requiredDeps.push("@tailwindcss/vite");
+      }
+    } catch {
+      requiredDeps.push("tailwindcss", "@tailwindcss/vite");
+    }
+  } else {
+    requiredDeps.push("tailwindcss", "@tailwindcss/vite");
   }
 
-  // 2. Configure Vite / SolidStart alias if vite.config.ts or app.config.ts exists
+  console.log(pc.yellow("\n📦 Installing required runtime & Tailwind CSS dependencies..."));
+  await installDependencies(requiredDeps, cwd);
+
+  // 2. Configure Vite / SolidStart config with @tailwindcss/vite plugin and @ alias
   const viteConfigPath = path.join(cwd, "vite.config.ts");
   const appConfigPath = path.join(cwd, "app.config.ts");
   const targetConfigPath = (await fs.pathExists(appConfigPath)) ? appConfigPath : viteConfigPath;
 
   if (await fs.pathExists(targetConfigPath)) {
-    let viteContent = await fs.readFile(targetConfigPath, "utf-8");
+    let configContent = await fs.readFile(targetConfigPath, "utf-8");
+    let modified = false;
 
-    if (!viteContent.includes('"@"') && !viteContent.includes("'@'")) {
-      if (!viteContent.includes('import path from "node:path"') && !viteContent.includes('import path from "path"')) {
-        viteContent = `import path from "node:path";\n${viteContent}`;
+    // Inject @tailwindcss/vite plugin if not present
+    if (!configContent.includes("@tailwindcss/vite")) {
+      configContent = `import tailwindcss from "@tailwindcss/vite";\n${configContent}`;
+
+      if (configContent.includes("plugins: [")) {
+        configContent = configContent.replace("plugins: [", "plugins: [\n    tailwindcss(), ");
+      } else if (configContent.includes("defineConfig({")) {
+        configContent = configContent.replace(
+          "defineConfig({",
+          "defineConfig({\n  plugins: [tailwindcss()],"
+        );
+      }
+      modified = true;
+    }
+
+    // Inject path alias (@) if not present
+    if (!configContent.includes('"@"') && !configContent.includes("'@'")) {
+      if (!configContent.includes('import path from "node:path"') && !configContent.includes('import path from "path"')) {
+        configContent = `import path from "node:path";\n${configContent}`;
       }
 
-      if (viteContent.includes("defineConfig({")) {
-        viteContent = viteContent.replace(
+      if (configContent.includes("defineConfig({")) {
+        configContent = configContent.replace(
           "defineConfig({",
           `defineConfig({\n  resolve: {\n    alias: {\n      "@": path.resolve(__dirname, "./src"),\n    },\n  },`
         );
-        await fs.writeFile(targetConfigPath, viteContent, "utf-8");
-        console.log(pc.green(`✓ Configured path alias (@) in ${path.basename(targetConfigPath)}`));
       }
+      modified = true;
+    }
+
+    if (modified) {
+      await fs.writeFile(targetConfigPath, configContent, "utf-8");
+      console.log(pc.green(`✓ Configured Tailwind CSS v4 plugin and path alias in ${path.basename(targetConfigPath)}`));
     }
   }
 
@@ -116,7 +150,6 @@ export async function init(options: InitOptions) {
   } else if (await fs.pathExists(path.join(cwd, "src", "index.css"))) {
     cssPathRelative = "src/index.css";
   } else {
-    // Check if running inside a SolidStart project structure
     const isSolidStart =
       (await fs.pathExists(path.join(cwd, "src", "app.tsx"))) ||
       (await fs.pathExists(path.join(cwd, "app.config.ts")));
