@@ -2,6 +2,7 @@ import fs from "fs-extra";
 import path from "node:path";
 import { execSync } from "node:child_process";
 import pc from "picocolors";
+import stripJsonComments from "strip-json-comments";
 
 export type PackageManager = "bun" | "pnpm" | "yarn" | "npm";
 
@@ -28,12 +29,11 @@ export async function detectPackageManager(cwd: string = process.cwd()): Promise
     return "npm";
   }
 
-  // Fallback default
   return "bun";
 }
 
 /**
- * Automatically installs missing NPM dependencies using the detected package manager.
+ * Safely installs missing NPM dependencies while protecting the user's existing package.json from being clobbered.
  *
  * @param dependencies - Array of NPM package names to install
  * @param cwd - Target directory path
@@ -42,6 +42,20 @@ export async function installDependencies(dependencies: string[], cwd: string = 
   if (!dependencies || dependencies.length === 0) return;
 
   const pkgManager = await detectPackageManager(cwd);
+  const pkgPath = path.join(cwd, "package.json");
+
+  // 1. Backup original package.json contents before running package manager installation
+  let originalPkgJson: Record<string, any> | null = null;
+
+  if (await fs.pathExists(pkgPath)) {
+    try {
+      const rawContent = await fs.readFile(pkgPath, "utf-8");
+      originalPkgJson = JSON.parse(stripJsonComments(rawContent));
+    } catch {
+      // Failed to parse original package.json
+    }
+  }
+
   const depsString = dependencies.join(" ");
 
   let command = "";
@@ -66,6 +80,33 @@ export async function installDependencies(dependencies: string[], cwd: string = 
 
   try {
     execSync(command, { cwd, stdio: "inherit" });
+
+    // 2. Validate package.json integrity after installation and restore stripped fields if necessary
+    if (originalPkgJson && (await fs.pathExists(pkgPath))) {
+      try {
+        const currentPkg = await fs.readJson(pkgPath);
+
+        // If package manager wiped out essential fields like name or scripts, merge original back
+        if (!currentPkg.name && originalPkgJson.name) {
+          const mergedPkg = {
+            ...originalPkgJson,
+            dependencies: {
+              ...originalPkgJson.dependencies,
+              ...currentPkg.dependencies,
+            },
+            devDependencies: {
+              ...originalPkgJson.devDependencies,
+              ...currentPkg.devDependencies,
+            },
+          };
+          await fs.writeFile(pkgPath, JSON.stringify(mergedPkg, null, 2), "utf-8");
+          console.log(pc.green("  ✓ Preserved and merged original package.json structure."));
+        }
+      } catch {
+        // Ignore merge errors
+      }
+    }
+
     console.log(pc.green("  ✓ Dependencies installed successfully."));
   } catch (error) {
     console.log(pc.red(`❌ Failed to install dependencies automatically.`));
