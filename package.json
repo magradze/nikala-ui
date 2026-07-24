@@ -34,12 +34,14 @@
     "typescript": "^5"
   },
   "devDependencies": {
+    "@kobalte/core": "^0.13.12",
     "@types/bun": "latest",
     "@types/fs-extra": "^11.0.4",
     "@types/node": "^26.1.1",
     "@types/prompts": "^2.4.9",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "corvu": "^0.7.2",
     "solid-js": "^1.9.14",
     "tailwind-merge": "^3.6.0"
   },

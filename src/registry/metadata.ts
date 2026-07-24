@@ -67,8 +67,8 @@ export const COMPONENT_METADATA: Record<string, ComponentMeta> = {
   },
   "radio-group": {
     title: "Radio Group",
-    description: "A set of checkable buttons where only one button can be checked at a time.",
-    dependencies: ["clsx", "tailwind-merge"],
+    description: "A set of checkable buttons built on Kobalte primitives where only one button can be checked at a time.",
+    dependencies: ["clsx", "tailwind-merge", "@kobalte/core"],
   },
   select: {
     title: "Select",
