@@ -82,8 +82,8 @@ export const COMPONENT_METADATA: Record<string, ComponentMeta> = {
   },
   accordion: {
     title: "Accordion",
-    description: "A vertically stacked set of interactive headings that reveal sections of content.",
-    dependencies: ["clsx", "tailwind-merge"],
+    description: "A vertically stacked set of interactive headings built on Kobalte primitives.",
+    dependencies: ["clsx", "tailwind-merge", "@kobalte/core"],
   },
   breadcrumb: {
     title: "Breadcrumb",

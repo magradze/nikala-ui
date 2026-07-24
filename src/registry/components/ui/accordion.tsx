@@ -1,187 +1,86 @@
-import {
-  createContext,
-  useContext,
-  createSignal,
-  splitProps,
-  Show,
-  type Component,
-  type JSX,
-  type Accessor,
-} from "solid-js";
+import { splitProps, type JSX, type ValidComponent } from "solid-js";
+import * as AccordionPrimitive from "@kobalte/core/accordion";
+import type { PolymorphicProps } from "@kobalte/core/polymorphic";
 import { cn } from "@/lib/cn";
 
-type AccordionType = "single" | "multiple";
-
-interface AccordionContextValue {
-  value: Accessor<string | string[] | undefined>;
-  toggleItem: (value: string) => void;
-  type: Accessor<AccordionType>;
-}
-
-const AccordionContext = createContext<AccordionContextValue>();
-
-export interface AccordionProps
-  extends Omit<JSX.HTMLAttributes<HTMLDivElement>, "onChange"> {
-  /** Mode type: "single" allows 1 open item, "multiple" allows many */
-  type?: AccordionType;
-  /** Controlled active value (string for single, string[] for multiple) */
+export type AccordionRootProps<T extends ValidComponent = "div"> = Omit<
+  AccordionPrimitive.AccordionRootProps<T>,
+  "value" | "defaultValue"
+> & {
+  /** Accordion mode: "single" allows one open item, "multiple" allows many */
+  type?: "single" | "multiple";
+  /** Controlled value (single string or array of strings) */
   value?: string | string[];
-  /** Initial default active value */
+  /** Default initial value (single string or array of strings) */
   defaultValue?: string | string[];
-  /** Callback fired when open state changes */
-  onChange?: (value: string | string[]) => void;
   class?: string;
-}
+};
 
 /**
- * Root Accordion component managing collapse/expand state context.
+ * Root Accordion component built on top of Kobalte headless primitives.
  */
-export const Accordion: Component<AccordionProps> = (props) => {
-  const [local, rest] = splitProps(props, [
-    "type",
-    "value",
-    "defaultValue",
-    "onChange",
+export const Accordion = <T extends ValidComponent = "div">(
+  props: PolymorphicProps<T, AccordionRootProps<T>>
+) => {
+  const [local, rest] = splitProps(props as AccordionRootProps, [
     "class",
-    "children",
+    "type",
+    "multiple",
   ]);
 
-  const accType = () => local.type || "single";
-
-  const [internalValue, setInternalValue] = createSignal<
-    string | string[] | undefined
-  >(local.defaultValue);
-
-  const currentValue = () =>
-    local.value !== undefined ? local.value : internalValue();
-
-  const toggleItem = (val: string) => {
-    const cur = currentValue();
-    let next: string | string[] | undefined;
-
-    if (accType() === "single") {
-      next = cur === val ? "" : val;
-    } else {
-      const arr = Array.isArray(cur) ? [...cur] : cur ? [cur as string] : [];
-      const index = arr.indexOf(val);
-      if (index > -1) {
-        arr.splice(index, 1);
-      } else {
-        arr.push(val);
-      }
-      next = arr;
-    }
-
-    if (local.value === undefined) {
-      setInternalValue(next);
-    }
-    if (typeof local.onChange === "function") {
-      local.onChange(next);
-    }
-  };
-
-  const contextValue: AccordionContextValue = {
-    value: currentValue,
-    toggleItem,
-    type: accType,
-  };
+  // Support both `type="multiple"` and `multiple={true}`
+  const isMultiple = () => local.multiple ?? local.type === "multiple";
 
   return (
-    <AccordionContext.Provider value={contextValue}>
-      <div
-        class={cn("w-full divide-y divide-zinc-200 dark:divide-zinc-800", local.class)}
-        {...rest}
-      >
-        {local.children}
-      </div>
-    </AccordionContext.Provider>
+    <AccordionPrimitive.Root
+      multiple={isMultiple()}
+      class={cn("w-full divide-y divide-zinc-200 dark:divide-zinc-800", local.class)}
+      {...(rest as any)}
+    />
   );
 };
 
-interface AccordionItemContextValue {
-  value: Accessor<string>;
-  isOpen: Accessor<boolean>;
-}
-
-const AccordionItemContext = createContext<AccordionItemContextValue>();
-
-export interface AccordionItemProps extends JSX.HTMLAttributes<HTMLDivElement> {
-  value: string;
-  class?: string;
-}
+export type AccordionItemProps<T extends ValidComponent = "div"> =
+  AccordionPrimitive.AccordionItemProps<T> & {
+    class?: string;
+    value: string;
+  };
 
 /**
- * Individual Accordion section wrapper component.
+ * Individual Accordion section item wrapper.
  */
-export const AccordionItem: Component<AccordionItemProps> = (props) => {
-  const [local, rest] = splitProps(props, ["value", "class", "children"]);
-  const rootContext = useContext(AccordionContext);
-
-  if (!rootContext) {
-    throw new Error("AccordionItem must be used within an Accordion component");
-  }
-
-  const isOpen = () => {
-    const cur = rootContext.value();
-    if (Array.isArray(cur)) {
-      return cur.includes(local.value);
-    }
-    return cur === local.value;
-  };
-
-  const itemContext: AccordionItemContextValue = {
-    value: () => local.value,
-    isOpen,
-  };
+export const AccordionItem = <T extends ValidComponent = "div">(
+  props: PolymorphicProps<T, AccordionItemProps<T>>
+) => {
+  const [local, rest] = splitProps(props as AccordionItemProps, ["class"]);
 
   return (
-    <AccordionItemContext.Provider value={itemContext}>
-      <div
-        data-state={isOpen() ? "open" : "closed"}
-        class={cn("border-b border-zinc-200 dark:border-zinc-800", local.class)}
-        {...rest}
-      >
-        {local.children}
-      </div>
-    </AccordionItemContext.Provider>
+    <AccordionPrimitive.Item
+      class={cn("border-b border-zinc-200 dark:border-zinc-800", local.class)}
+      {...rest}
+    />
   );
 };
 
-export interface AccordionTriggerProps
-  extends JSX.ButtonHTMLAttributes<HTMLButtonElement> {
-  class?: string;
-}
-
-/**
- * Header button trigger toggling the expansion of an AccordionItem.
- */
-export const AccordionTrigger: Component<AccordionTriggerProps> = (props) => {
-  const [local, rest] = splitProps(props, ["class", "children", "onClick"]);
-  const rootContext = useContext(AccordionContext);
-  const itemContext = useContext(AccordionItemContext);
-
-  if (!rootContext || !itemContext) {
-    throw new Error("AccordionTrigger must be used within an AccordionItem");
-  }
-
-  const handleClick = (
-    e: MouseEvent & { currentTarget: HTMLButtonElement; target: Element }
-  ) => {
-    rootContext.toggleItem(itemContext.value());
-    if (typeof local.onClick === "function") {
-      local.onClick(e);
-    }
+export type AccordionTriggerProps<T extends ValidComponent = "button"> =
+  AccordionPrimitive.AccordionTriggerProps<T> & {
+    class?: string;
+    children?: JSX.Element;
   };
 
+/**
+ * Header trigger button toggling the expansion of an AccordionItem.
+ */
+export const AccordionTrigger = <T extends ValidComponent = "button">(
+  props: PolymorphicProps<T, AccordionTriggerProps<T>>
+) => {
+  const [local, rest] = splitProps(props as AccordionTriggerProps, ["class", "children"]);
+
   return (
-    <h3 class="flex">
-      <button
-        type="button"
-        aria-expanded={itemContext.isOpen()}
-        data-state={itemContext.isOpen() ? "open" : "closed"}
-        onClick={handleClick}
+    <AccordionPrimitive.Header class="flex">
+      <AccordionPrimitive.Trigger
         class={cn(
-          "flex flex-1 items-center justify-between py-4 text-sm font-medium transition-all hover:underline [&[data-state=open]>svg]:rotate-180 cursor-pointer text-zinc-950 dark:text-zinc-50",
+          "flex flex-1 items-center justify-between py-4 text-sm font-medium transition-all hover:underline [&[data-expanded]>svg]:rotate-180 cursor-pointer text-zinc-950 dark:text-zinc-50",
           local.class
         )}
         {...rest}
@@ -196,35 +95,34 @@ export const AccordionTrigger: Component<AccordionTriggerProps> = (props) => {
         >
           <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
         </svg>
-      </button>
-    </h3>
+      </AccordionPrimitive.Trigger>
+    </AccordionPrimitive.Header>
   );
 };
 
-export interface AccordionContentProps extends JSX.HTMLAttributes<HTMLDivElement> {
-  class?: string;
-}
+export type AccordionContentProps<T extends ValidComponent = "div"> =
+  AccordionPrimitive.AccordionContentProps<T> & {
+    class?: string;
+    children?: JSX.Element;
+  };
 
 /**
  * Collapsible content panel revealed when the associated AccordionItem is open.
  */
-export const AccordionContent: Component<AccordionContentProps> = (props) => {
-  const [local, rest] = splitProps(props, ["class", "children"]);
-  const itemContext = useContext(AccordionItemContext);
-
-  if (!itemContext) {
-    throw new Error("AccordionContent must be used within an AccordionItem");
-  }
+export const AccordionContent = <T extends ValidComponent = "div">(
+  props: PolymorphicProps<T, AccordionContentProps<T>>
+) => {
+  const [local, rest] = splitProps(props as AccordionContentProps, ["class", "children"]);
 
   return (
-    <Show when={itemContext.isOpen()}>
-      <div
-        data-state={itemContext.isOpen() ? "open" : "closed"}
-        class={cn("pb-4 pt-0 text-sm text-zinc-600 dark:text-zinc-400", local.class)}
-        {...rest}
-      >
-        {local.children}
-      </div>
-    </Show>
+    <AccordionPrimitive.Content
+      class={cn(
+        "overflow-hidden text-sm text-zinc-600 transition-all dark:text-zinc-400",
+        local.class
+      )}
+      {...rest}
+    >
+      <div class="pb-4 pt-0">{local.children}</div>
+    </AccordionPrimitive.Content>
   );
 };
