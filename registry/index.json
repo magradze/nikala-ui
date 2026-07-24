@@ -94,11 +94,12 @@
   {
     "name": "radio-group",
     "title": "Radio Group",
-    "description": "A set of checkable buttons where only one button can be checked at a time.",
+    "description": "A set of checkable buttons built on Kobalte primitives where only one button can be checked at a time.",
     "type": "registry:ui",
     "dependencies": [
       "clsx",
-      "tailwind-merge"
+      "tailwind-merge",
+      "@kobalte/core"
     ]
   },
   {
