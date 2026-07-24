@@ -10,19 +10,25 @@ export type RadioGroupRootProps<T extends ValidComponent = "div"> =
 
 /**
  * Root RadioGroup component built on top of Kobalte headless primitives.
+ * Supports both "vertical" (default) and "horizontal" layout orientations.
  */
 export const RadioGroup = <T extends ValidComponent = "div">(
   props: PolymorphicProps<T, RadioGroupRootProps<T>>
 ) => {
-  const [local, rest] = splitProps(props as RadioGroupRootProps, ["class"]);
+  const [local, rest] = splitProps(props as RadioGroupRootProps, ["class", "orientation"]);
+
+  const isHorizontal = () => local.orientation === "horizontal";
 
   return (
     <RadioGroupPrimitive.Root
+      orientation={local.orientation || "vertical"}
       class={cn(
-        "grid gap-2 data-[orientation=horizontal]:flex data-[orientation=horizontal]:flex-row data-[orientation=horizontal]:items-center data-[orientation=horizontal]:gap-4",
+        isHorizontal()
+          ? "flex flex-row items-center gap-4"
+          : "grid gap-2",
         local.class
       )}
-      {...rest}
+      {...(rest as any)}
     />
   );
 };
