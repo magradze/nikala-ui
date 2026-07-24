@@ -105,4 +105,9 @@ export const COMPONENT_METADATA: Record<string, ComponentMeta> = {
     description: "Extends the dialog component to display content that slides in from screen edges.",
     dependencies: ["clsx", "tailwind-merge", "class-variance-authority", "@kobalte/core"],
   },
+  "dropdown-menu": {
+    title: "Dropdown Menu",
+    description: "Displays a menu to the user—such as a set of actions or functions—triggered by a button or avatar.",
+    dependencies: ["clsx", "tailwind-merge", "@kobalte/core"],
+  },
 };

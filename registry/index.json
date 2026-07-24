@@ -95,6 +95,17 @@
     ]
   },
   {
+    "name": "dropdown-menu",
+    "title": "Dropdown Menu",
+    "description": "Displays a menu to the user—such as a set of actions or functions—triggered by a button or avatar.",
+    "type": "registry:ui",
+    "dependencies": [
+      "clsx",
+      "tailwind-merge",
+      "@kobalte/core"
+    ]
+  },
+  {
     "name": "input",
     "title": "Input",
     "description": "A standard text input field with styling variants.",
