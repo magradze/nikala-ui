@@ -110,4 +110,10 @@ export const COMPONENT_METADATA: Record<string, ComponentMeta> = {
     description: "Displays a menu to the user—such as a set of actions or functions—triggered by a button or avatar.",
     dependencies: ["clsx", "tailwind-merge", "@kobalte/core"],
   },
+  "theme-manager": {
+    title: "Theme Manager",
+    description: "Zero-dependency ThemeProvider and ThemeToggle component for switching light, dark, and system themes.",
+    dependencies: ["clsx", "tailwind-merge", "@kobalte/core"],
+    registryDependencies: ["button", "dropdown-menu"],
+  },
 };

@@ -211,12 +211,17 @@
   },
   {
     "name": "theme-manager",
-    "title": "Theme-manager",
-    "description": "theme-manager component.",
+    "title": "Theme Manager",
+    "description": "Zero-dependency ThemeProvider and ThemeToggle component for switching light, dark, and system themes.",
     "type": "registry:ui",
     "dependencies": [
       "clsx",
-      "tailwind-merge"
+      "tailwind-merge",
+      "@kobalte/core"
+    ],
+    "registryDependencies": [
+      "button",
+      "dropdown-menu"
     ]
   }
 ]
