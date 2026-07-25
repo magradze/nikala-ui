@@ -16,7 +16,7 @@ interface AddOptions {
 
 /**
  * Command handler to fetch and install Nikala UI components from the registry or remote URLs.
- * Automatically resolves dependencies and installs missing NPM packages.
+ * Dynamically resolves target file directories (ui vs providers) and installs dependencies.
  *
  * @param components - List of component names or HTTP(S) URLs specified by the user
  * @param options - CLI options including --overwrite and --all
@@ -32,7 +32,7 @@ export async function add(components: string[] = [], options: AddOptions = {}) {
 
   const registryIndex = await getRegistryIndex();
 
-  // Determine target components to install (supports both `nikala add --all` and `nikala add all`)
+  // Determine target components to install
   const isAllRequested = options.all || components.includes("all");
   let requestedComponents = components.filter((c) => c !== "all");
 
@@ -53,7 +53,7 @@ export async function add(components: string[] = [], options: AddOptions = {}) {
   const resolvedTargets = await resolveRegistryDependencies(requestedComponents);
   const componentsDir = path.resolve(cwd, config.alias.components);
 
-  console.log(pc.cyan(`\n🎨 Adding components to ${config.alias.components}...\n`));
+  console.log(pc.cyan(`\n🎨 Adding components to project...\n`));
 
   const requiredNpmDeps = new Set<string>();
 
@@ -77,21 +77,32 @@ export async function add(components: string[] = [], options: AddOptions = {}) {
       }
     }
 
-    // Process and write component files
+    // Process and write component files to their respective target paths
     for (const file of item.files) {
-      const fileName = path.basename(file.path);
-      const targetFilePath = path.join(componentsDir, fileName);
+      let targetFilePath: string;
+
+      if (file.path.startsWith("ui/")) {
+        // Standard UI components write to config.alias.components (src/components/ui)
+        const relativePath = file.path.replace(/^ui\//, "");
+        targetFilePath = path.join(componentsDir, relativePath);
+      } else {
+        // Provider or custom files (e.g., providers/theme-provider.tsx) write relative to src/
+        targetFilePath = path.resolve(cwd, "src", file.path);
+      }
+
+      const displayPath = path.relative(cwd, targetFilePath);
 
       if ((await fs.pathExists(targetFilePath)) && !options.overwrite) {
-        console.log(pc.yellow(`⚠️  ${fileName} already exists. Use --overwrite to replace.`));
+        console.log(pc.yellow(`⚠️  ${displayPath} already exists. Use --overwrite to replace.`));
         continue;
       }
 
-      await fs.ensureDir(componentsDir);
+      // Ensure destination folder exists (creates src/providers if needed)
+      await fs.ensureDir(path.dirname(targetFilePath));
       await fs.writeFile(targetFilePath, file.content, "utf-8");
 
       const sourceInfo = target.startsWith("http") ? ` (from remote URL)` : "";
-      console.log(pc.green(`  ✓ Added ${fileName}${sourceInfo}`));
+      console.log(pc.green(`  ✓ Added ${displayPath}${sourceInfo}`));
     }
   }
 
@@ -125,5 +136,4 @@ export async function add(components: string[] = [], options: AddOptions = {}) {
   }
 
   console.log(pc.cyan("\n✅ Components successfully added!"));
-  console.log(pc.white(`Import example: import { Button } from "${config.alias.components}/button"`));
 }
