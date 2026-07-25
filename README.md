@@ -142,6 +142,7 @@ export function App() {
 
 ## Documentation & Guides
 
+- [**CLI Commands Guide**](./docs/CLI.md) — Comprehensive guide covering initialization, component installation, interactive multiselect menu, workspace health diagnostics (`validate`), code diffing (`diff`), and CLI theme commands (`theme`).
 - [**Theming & Color System Guide**](./docs/THEMING.md) — Comprehensive guide covering CLI theme customization, CSS design tokens, `ThemeProvider`, `ThemeToggle` modes, and Web View Transition animations.
 - [**Component Authoring & Contribution Guide**](./docs/COMPONENT_GUIDE.md) — Detailed rules and conventions for creating, registering, and contributing new components.
 
