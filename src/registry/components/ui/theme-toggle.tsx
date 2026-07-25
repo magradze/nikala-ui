@@ -3,7 +3,12 @@ import {
   useTheme,
   type AccentColor,
   type Radius,
+  type Theme,
 } from "../../providers/theme-provider";
+import {
+  runThemeTransition,
+  type ThemeEffect,
+} from "../../providers/theme-transitions";
 import { Button } from "./button";
 import {
   DropdownMenu,
@@ -16,8 +21,10 @@ import {
 import { cn } from "@/lib/cn";
 
 export interface ThemeToggleProps {
-  /** Display mode: "mini" for simple dropdown, "max" for full customizer panel (default: "mini") */
+  /** Display mode: "mini" for compact dropdown, "max" for full customizer panel (default: "mini") */
   mode?: "mini" | "max";
+  /** Transition animation effect when changing themes ("none", "circular", "fade") */
+  effect?: ThemeEffect;
   class?: string;
 }
 
@@ -40,13 +47,20 @@ const RADIUS_OPTIONS: { value: Radius; label: string }[] = [
 ];
 
 /**
- * Interactive UI theme switcher supporting mini (simple toggle) and max (full customizer) modes.
+ * Interactive UI theme switcher supporting mini/max modes and View Transition animations.
  */
 export const ThemeToggle: Component<ThemeToggleProps> = (props) => {
-  const [local] = splitProps(props, ["mode", "class"]);
+  const [local] = splitProps(props, ["mode", "effect", "class"]);
   const { theme, setTheme, accent, setAccent, radius, setRadius } = useTheme();
 
   const mode = () => local.mode || "mini";
+  const effect = () => local.effect || "none";
+
+  const changeThemeWithEffect = (newTheme: Theme, e: MouseEvent) => {
+    runThemeTransition(effect(), e, () => {
+      setTheme(newTheme);
+    });
+  };
 
   return (
     <DropdownMenu placement="bottom-end">
@@ -76,7 +90,7 @@ export const ThemeToggle: Component<ThemeToggleProps> = (props) => {
           stroke="currentColor"
           stroke-width="2"
         >
-          <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z" />
+          <path d="M12 3a6 6 0 0 0 9 9 9 0 1 1-9-9Z" />
         </svg>
 
         <span class="sr-only">Toggle theme</span>
@@ -85,9 +99,9 @@ export const ThemeToggle: Component<ThemeToggleProps> = (props) => {
       <Show
         when={mode() === "max"}
         fallback={
-      /* Mini Mode: Compact Dropdown */
+          /* Mini Mode: Compact Dropdown */
           <DropdownMenuContent>
-            <DropdownMenuItem onClick={() => setTheme("light")}>
+            <DropdownMenuItem onClick={(e: MouseEvent) => changeThemeWithEffect("light", e)}>
               <svg class="mr-2 h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <circle cx="12" cy="12" r="4" />
                 <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M18.36 5.64l1.41-1.41" />
@@ -95,14 +109,14 @@ export const ThemeToggle: Component<ThemeToggleProps> = (props) => {
               Light
             </DropdownMenuItem>
 
-            <DropdownMenuItem onClick={() => setTheme("dark")}>
+            <DropdownMenuItem onClick={(e: MouseEvent) => changeThemeWithEffect("dark", e)}>
               <svg class="mr-2 h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z" />
               </svg>
               Dark
             </DropdownMenuItem>
 
-            <DropdownMenuItem onClick={() => setTheme("system")}>
+            <DropdownMenuItem onClick={(e: MouseEvent) => changeThemeWithEffect("system", e)}>
               <svg class="mr-2 h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <rect width="20" height="14" x="2" y="3" rx="2" />
                 <line x1="8" x2="16" y1="21" y2="21" />
@@ -122,7 +136,7 @@ export const ThemeToggle: Component<ThemeToggleProps> = (props) => {
             <Button
               variant={theme() === "light" ? "default" : "outline"}
               size="sm"
-              onClick={() => setTheme("light")}
+              onClick={(e: MouseEvent) => changeThemeWithEffect("light", e)}
               class="h-8 text-xs cursor-pointer"
             >
               Light
@@ -130,7 +144,7 @@ export const ThemeToggle: Component<ThemeToggleProps> = (props) => {
             <Button
               variant={theme() === "dark" ? "default" : "outline"}
               size="sm"
-              onClick={() => setTheme("dark")}
+              onClick={(e: MouseEvent) => changeThemeWithEffect("dark", e)}
               class="h-8 text-xs cursor-pointer"
             >
               Dark
@@ -138,7 +152,7 @@ export const ThemeToggle: Component<ThemeToggleProps> = (props) => {
             <Button
               variant={theme() === "system" ? "default" : "outline"}
               size="sm"
-              onClick={() => setTheme("system")}
+              onClick={(e: MouseEvent) => changeThemeWithEffect("system", e)}
               class="h-8 text-xs cursor-pointer"
             >
               System
