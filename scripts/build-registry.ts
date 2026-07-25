@@ -32,7 +32,6 @@ async function buildRegistry() {
     const filePath = path.join(sourceDir, filename);
     const content = await fs.readFile(filePath, "utf-8");
 
-    // Handle special case for theme-toggle / theme-manager multi-file item
     if (componentName === "theme-toggle") {
       componentName = "theme-manager";
     }
@@ -51,9 +50,20 @@ async function buildRegistry() {
       },
     ];
 
-    // Include theme-provider.tsx if building theme-manager
+    // Include theme-provider.tsx and theme-transitions.ts if building theme-manager
     if (componentName === "theme-manager") {
+      const transitionsPath = path.join(providerDir, "theme-transitions.ts");
       const providerPath = path.join(providerDir, "theme-provider.tsx");
+
+      if (await fs.pathExists(transitionsPath)) {
+        const transitionContent = await fs.readFile(transitionsPath, "utf-8");
+        registryFiles.unshift({
+          path: "providers/theme-transitions.ts",
+          content: transitionContent,
+          type: "registry:ui" as const,
+        });
+      }
+
       if (await fs.pathExists(providerPath)) {
         const providerContent = await fs.readFile(providerPath, "utf-8");
         registryFiles.unshift({
