@@ -1,6 +1,32 @@
 export type ThemeEffect = "none" | "circular" | "fade";
 
 /**
+ * Injects required CSS view-transition pseudo-element styles to prevent browser mix-blend artifacts.
+ */
+function ensureTransitionStyles() {
+  if (typeof document === "undefined") return;
+  const styleId = "nikala-view-transition-styles";
+  if (!document.getElementById(styleId)) {
+    const style = document.createElement("style");
+    style.id = styleId;
+    style.textContent = `
+      ::view-transition-old(root),
+      ::view-transition-new(root) {
+        animation: none;
+        mix-blend-mode: normal;
+      }
+      ::view-transition-old(root) {
+        z-index: 1;
+      }
+      ::view-transition-new(root) {
+        z-index: 9999;
+      }
+    `;
+    document.head.appendChild(style);
+  }
+}
+
+/**
  * Executes a theme change with the specified transition effect using the Web View Transitions API.
  *
  * @param effect - Desired transition animation ("none", "circular", "fade")
@@ -17,18 +43,19 @@ export function runThemeTransition(
     effect === "none" ||
     typeof document === "undefined" ||
     !(document as any).startViewTransition ||
-    window.matchMedia("(prefers-color-scheme: reduce)").matches
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches
   ) {
     updateThemeCallback();
     return;
   }
+
+  ensureTransitionStyles();
 
   // Circular expanding ripple transition originating from click coordinates
   if (effect === "circular" && event) {
     const x = event.clientX;
     const y = event.clientY;
 
-    // Calculate maximum radius to reach the furthest corner of the screen
     const endRadius = Math.hypot(
       Math.max(x, window.innerWidth - x),
       Math.max(y, window.innerHeight - y)
@@ -39,14 +66,12 @@ export function runThemeTransition(
     });
 
     transition.ready.then(() => {
-      const clipPath = [
-        `circle(0px at ${x}px ${y}px)`,
-        `circle(${endRadius}px at ${x}px ${y}px)`,
-      ];
-
       document.documentElement.animate(
         {
-          clipPath: clipPath,
+          clipPath: [
+            `circle(0px at ${x}px ${y}px)`,
+            `circle(${endRadius}px at ${x}px ${y}px)`,
+          ],
         },
         {
           duration: 500,
@@ -58,14 +83,26 @@ export function runThemeTransition(
     return;
   }
 
-  // Standard smooth view transition fade
+  // Smooth opacity fade view transition
   if (effect === "fade") {
-    (document as any).startViewTransition(() => {
+    const transition = (document as any).startViewTransition(() => {
       updateThemeCallback();
+    });
+
+    transition.ready.then(() => {
+      document.documentElement.animate(
+        {
+          opacity: [0, 1],
+        },
+        {
+          duration: 350,
+          easing: "ease-in-out",
+          pseudoElement: "::view-transition-new(root)",
+        }
+      );
     });
     return;
   }
 
-  // Default fallback
   updateThemeCallback();
 }

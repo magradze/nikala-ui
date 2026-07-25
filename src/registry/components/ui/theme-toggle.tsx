@@ -111,7 +111,7 @@ export const ThemeToggle: Component<ThemeToggleProps> = (props) => {
 
             <DropdownMenuItem onClick={(e: MouseEvent) => changeThemeWithEffect("dark", e)}>
               <svg class="mr-2 h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z" />
+                <path d="M12 3a6 6 0 0 0 9 9 9 0 1 1-9-9Z" />
               </svg>
               Dark
             </DropdownMenuItem>
