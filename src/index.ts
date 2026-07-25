@@ -4,6 +4,7 @@ import pc from "picocolors";
 import { init } from "./commands/init.js";
 import { add } from "./commands/add.js";
 import { themeCommand } from "./commands/theme.js";
+import { validateCommand } from "./commands/validate.js";
 
 console.log(`\n🎨 ${pc.bold(pc.red("Nikala UI"))} ${pc.dim("v0.4.0")} — SolidJS + Tailwind v4 components`);
 console.log(`   ${pc.italic(pc.dim("Honoring Niko Pirosmani (Nikala)"))}\n`);
@@ -39,5 +40,12 @@ themeProg
   .command("set [primary] [base]")
   .description("Set project primary accent color and base palette")
   .action((primary, base) => themeCommand(primary, base));
+
+// Diagnostic command
+program
+  .command("validate")
+  .alias("doctor")
+  .description("Run health diagnostics on Nikala UI configuration, packages, and CSS tokens")
+  .action(validateCommand);
 
 program.parse();
