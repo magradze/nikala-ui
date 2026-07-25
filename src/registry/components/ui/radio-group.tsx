@@ -57,11 +57,11 @@ export const RadioGroupItem = <T extends ValidComponent = "div">(
       <RadioGroupPrimitive.ItemInput />
       <RadioGroupPrimitive.ItemControl
         class={cn(
-          "aspect-square h-4 w-4 rounded-full border border-primary text-primary shadow focus:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 flex items-center justify-center transition-colors data-[checked]:bg-primary data-[checked]:text-primary-foreground"
+          "aspect-square h-4 w-4 rounded-lg border border-primary text-primary shadow focus:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 flex items-center justify-center transition-colors data-[checked]:bg-primary data-[checked]:text-primary-foreground"
         )}
       >
         <RadioGroupPrimitive.ItemIndicator class="flex items-center justify-center">
-          <span class="h-2 w-2 rounded-full bg-primary-foreground" />
+          <span class="h-2 w-2 rounded-lg bg-primary-foreground" />
         </RadioGroupPrimitive.ItemIndicator>
       </RadioGroupPrimitive.ItemControl>
       {local.children}
