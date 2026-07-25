@@ -1,5 +1,6 @@
 import fs from "fs-extra";
 import path from "node:path";
+import prompts from "prompts";
 import pc from "picocolors";
 import { readConfig } from "../utils/file.js";
 import { installDependencies } from "../utils/pkg.js";
@@ -16,7 +17,8 @@ interface AddOptions {
 
 /**
  * Command handler to fetch and install Nikala UI components from the registry or remote URLs.
- * Dynamically resolves target file directories (ui vs providers) and installs dependencies.
+ * Dynamically resolves target file directories and installs required NPM packages.
+ * Opens an interactive autocomplete multiselect menu if no components are specified.
  *
  * @param components - List of component names or HTTP(S) URLs specified by the user
  * @param options - CLI options including --overwrite and --all
@@ -31,22 +33,37 @@ export async function add(components: string[] = [], options: AddOptions = {}) {
   }
 
   const registryIndex = await getRegistryIndex();
+  if (!registryIndex) {
+    console.log(pc.red("❌ Failed to load registry index. Run `bun run build` first."));
+    process.exit(1);
+  }
 
   // Determine target components to install
   const isAllRequested = options.all || components.includes("all");
   let requestedComponents = components.filter((c) => c !== "all");
 
   if (isAllRequested) {
-    if (!registryIndex) {
-      console.log(pc.red("❌ Failed to load registry index for --all flag."));
-      process.exit(1);
-    }
     requestedComponents = registryIndex.map((item) => item.name);
-  }
+  } else if (requestedComponents.length === 0) {
+    // Open interactive autocomplete multiselect prompt when no components are passed
+    const response = await prompts({
+      type: "autocompleteMultiselect",
+      name: "selectedComponents",
+      message: "Select components to install (Space to toggle, Enter to confirm)",
+      choices: registryIndex.map((item) => ({
+        title: item.title,
+        description: item.description,
+        value: item.name,
+      })),
+      hint: "- Space to select. Return to submit",
+    });
 
-  if (requestedComponents.length === 0) {
-    console.log(pc.yellow("⚠️  No components specified. Usage: `nikala add button` or `nikala add --all`"));
-    return;
+    if (!response.selectedComponents || response.selectedComponents.length === 0) {
+      console.log(pc.yellow("\n❌ Installation cancelled. No components selected."));
+      return;
+    }
+
+    requestedComponents = response.selectedComponents;
   }
 
   // Resolve all internal or remote component dependencies recursively
@@ -97,7 +114,7 @@ export async function add(components: string[] = [], options: AddOptions = {}) {
         continue;
       }
 
-      // Ensure destination folder exists (creates src/providers if needed)
+      // Ensure destination folder exists before writing
       await fs.ensureDir(path.dirname(targetFilePath));
       await fs.writeFile(targetFilePath, file.content, "utf-8");
 
