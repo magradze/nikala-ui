@@ -10,11 +10,11 @@ import { COMPONENT_METADATA } from "../src/registry/metadata.js";
 async function buildRegistry() {
   const cwd = process.cwd();
   const sourceDir = path.join(cwd, "src", "registry", "components", "ui");
+  const providerDir = path.join(cwd, "src", "registry", "providers");
   const outputDir = path.join(cwd, "registry");
 
   console.log(pc.cyan("📦 Building Nikala UI Component Registry...\n"));
 
-  // Ensure output registry directory exists
   await fs.ensureDir(outputDir);
 
   if (!(await fs.pathExists(sourceDir))) {
@@ -28,15 +28,41 @@ async function buildRegistry() {
   for (const filename of files) {
     if (!filename.endsWith(".tsx")) continue;
 
-    const componentName = path.basename(filename, ".tsx");
+    let componentName = path.basename(filename, ".tsx");
     const filePath = path.join(sourceDir, filename);
     const content = await fs.readFile(filePath, "utf-8");
+
+    // Handle special case for theme-toggle / theme-manager multi-file item
+    if (componentName === "theme-toggle") {
+      componentName = "theme-manager";
+    }
 
     const meta = COMPONENT_METADATA[componentName] || {
       title: componentName.charAt(0).toUpperCase() + componentName.slice(1),
       description: `${componentName} component.`,
       dependencies: ["clsx", "tailwind-merge"],
     };
+
+    const registryFiles = [
+      {
+        path: `ui/${filename}`,
+        content,
+        type: "registry:ui" as const,
+      },
+    ];
+
+    // Include theme-provider.tsx if building theme-manager
+    if (componentName === "theme-manager") {
+      const providerPath = path.join(providerDir, "theme-provider.tsx");
+      if (await fs.pathExists(providerPath)) {
+        const providerContent = await fs.readFile(providerPath, "utf-8");
+        registryFiles.unshift({
+          path: "providers/theme-provider.tsx",
+          content: providerContent,
+          type: "registry:ui" as const,
+        });
+      }
+    }
 
     // Construct individual component registry item
     const registryItem: RegistryItem = {
@@ -46,13 +72,7 @@ async function buildRegistry() {
       type: "registry:ui",
       dependencies: meta.dependencies,
       registryDependencies: meta.registryDependencies,
-      files: [
-        {
-          path: `ui/${filename}`,
-          content,
-          type: "registry:ui",
-        },
-      ],
+      files: registryFiles,
     };
 
     // Write component JSON manifest

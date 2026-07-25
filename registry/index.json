@@ -208,5 +208,15 @@
       "clsx",
       "tailwind-merge"
     ]
+  },
+  {
+    "name": "theme-manager",
+    "title": "Theme-manager",
+    "description": "theme-manager component.",
+    "type": "registry:ui",
+    "dependencies": [
+      "clsx",
+      "tailwind-merge"
+    ]
   }
 ]
