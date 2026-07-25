@@ -3,8 +3,8 @@ import { Command } from "commander";
 import pc from "picocolors";
 import { init } from "./commands/init.js";
 import { add } from "./commands/add.js";
+import { themeCommand } from "./commands/theme.js";
 
-// Compact header banner honoring Niko Pirosmani
 console.log(`\n🎨 ${pc.bold(pc.red("Nikala UI"))} ${pc.dim("v0.3.0")} — SolidJS + Tailwind v4 components`);
 console.log(`   ${pc.italic(pc.dim("Honoring Niko Pirosmani (Nikala)"))}\n`);
 
@@ -27,5 +27,17 @@ program
   .option("-o, --overwrite", "Overwrite existing files")
   .option("--all", "Add all available components")
   .action(add);
+
+// Parent theme command
+const themeProg = program
+  .command("theme")
+  .description("Customize project theme colors and design tokens")
+  .action(() => themeCommand());
+
+// Sub-command: nikala theme set [primary] [base]
+themeProg
+  .command("set [primary] [base]")
+  .description("Set project primary accent color and base palette")
+  .action((primary, base) => themeCommand(primary, base));
 
 program.parse();
