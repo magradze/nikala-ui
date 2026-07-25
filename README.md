@@ -13,10 +13,11 @@ Tailwind CSS v4 introduced a CSS-first configuration (`@theme`), which broke com
 Nikala UI gives you full ownership of your code. Instead of adding a heavy third-party UI package to your `node_modules`, Nikala's CLI writes lightweight, fully reactive SolidJS components directly into your `src/components/ui` directory.
 
 - **Native SolidJS Reactivity** — Built with `splitProps` and fine-grained reactivity.
-- **Tailwind CSS v4 First** — Designed around modern `@import "tailwindcss";` setups.
+- **Tailwind CSS v4 First** — Designed around modern `@import "tailwindcss";` setups with semantic design tokens.
 - **SolidJS & SolidStart Ready** — Smart auto-detection for standard Vite SPA, Tauri, Electron, and SolidStart (SSR / Fullstack) projects.
 - **Full Code Ownership** — The component files live in your project. Tweak them as you see fit.
 - **Smart CLI** — Automatically detects your package manager (`bun`, `pnpm`, `npm`, `yarn`) and installs required dependencies.
+- **Dynamic Theme Engine** — Customize base gray palettes, primary brand accent colors, and border radii at build-time or runtime.
 - **Custom Registries** — Supports adding components directly from remote HTTP(S) URLs.
 
 ---
@@ -37,19 +38,32 @@ npx nikala init
 
 This will:
 
+- Prompt for directory preferences, base gray palette, and primary brand accent color
 - Generate `nikala.config.json`
 - Configure `@` path aliases in `vite.config.ts` or `app.config.ts`
 - Create the `src/lib/cn.ts` helper utility
-- Set up standard Tailwind CSS v4 in `src/index.css` or `src/app.css`
+- Set up standard Tailwind CSS v4 variables in `src/index.css` or `src/app.css`
 - Automatically inject CSS imports into your main entry file (`index.tsx`, `app.tsx`, etc.)
 
-### 2. Add components to your project
+### 2. Customize Theme Colors via CLI
+
+Switch brand accent colors or base palettes anytime without re-running initialization:
+
+```bash
+# Interactive theme selection menu
+nikala theme
+
+# Direct command execution
+nikala theme set sky slate
+```
+
+### 3. Add components to your project
 
 Add specific components or install all at once:
 
 ```bash
 # Add specific components
-nikala add button input card
+nikala add button input card theme-manager
 
 # Or add all available components
 nikala add all
@@ -63,7 +77,7 @@ You can also install components from custom remote URLs:
 nikala add https://example.com/registry/my-custom-card.json
 ```
 
-### 3. Import and use
+### 4. Import and use
 
 ```tsx
 import { Button } from "@/components/ui/button";
@@ -83,7 +97,7 @@ export function App() {
       <CardHeader>
         <div class="flex items-center justify-between">
           <CardTitle>Nikala UI</CardTitle>
-          <Badge>v0.1.0</Badge>
+          <Badge>v0.4.0</Badge>
         </div>
         <CardDescription>SolidJS + Tailwind v4 component system.</CardDescription>
       </CardHeader>
@@ -100,7 +114,7 @@ export function App() {
 
 ---
 
-## Available Components (16)
+## Available Components (21)
 
 - **`Button`** — Interactive button with variant and size options (`cva`).
 - **`Input`** — Reactive text input with modern focus states.
@@ -122,12 +136,14 @@ export function App() {
 - **`Dialog`** — Accessible modal window with backdrop blur, closable button, and outside-click options (`Dialog`, `DialogTrigger`, `DialogContent`, `DialogHeader`, `DialogTitle`, `DialogDescription`, `DialogFooter`).
 - **`Sheet`** — Sliding panel component with 4-directional slide-in animations and backdrop blur (`Sheet`, `SheetTrigger`, `SheetContent`, `SheetHeader`, `SheetTitle`, `SheetDescription`, `SheetFooter`).
 - **`Dropdown Menu`** — Full-featured context menu with submenus, checkboxes, radio items, shortcuts, and avatar trigger (`DropdownMenu`, `DropdownMenuTrigger`, `DropdownMenuContent`, `DropdownMenuItem`, `DropdownMenuSub`).
+- **`Theme Manager`** — Zero-dependency theme provider, brand accent color customizer, border-radius controls, and transition animations (`ThemeProvider`, `ThemeToggle`, `useTheme`).
 
 ---
 
-## Contributing & Component Authoring
+## Documentation & Guides
 
-Want to build or contribute a new component to Nikala UI? Please read our step-by-step authoring guide in [`docs/COMPONENT_GUIDE.md`](./docs/COMPONENT_GUIDE.md).
+- [**Theming & Color System Guide**](./docs/THEMING.md) — Comprehensive guide covering CLI theme customization, CSS design tokens, `ThemeProvider`, `ThemeToggle` modes, and Web View Transition animations.
+- [**Component Authoring & Contribution Guide**](./docs/COMPONENT_GUIDE.md) — Detailed rules and conventions for creating, registering, and contributing new components.
 
 ---
 

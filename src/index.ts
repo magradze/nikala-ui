@@ -5,7 +5,7 @@ import { init } from "./commands/init.js";
 import { add } from "./commands/add.js";
 import { themeCommand } from "./commands/theme.js";
 
-console.log(`\n🎨 ${pc.bold(pc.red("Nikala UI"))} ${pc.dim("v0.3.0")} — SolidJS + Tailwind v4 components`);
+console.log(`\n🎨 ${pc.bold(pc.red("Nikala UI"))} ${pc.dim("v0.4.0")} — SolidJS + Tailwind v4 components`);
 console.log(`   ${pc.italic(pc.dim("Honoring Niko Pirosmani (Nikala)"))}\n`);
 
 const program = new Command();
@@ -13,7 +13,7 @@ const program = new Command();
 program
   .name("nikala")
   .description("Nikala UI — SolidJS + Tailwind v4 components")
-  .version("0.3.0");
+  .version("0.4.0");
 
 program
   .command("init")
