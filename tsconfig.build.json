@@ -18,6 +18,6 @@
     "dist",
     "registry",
     "scripts",
-    "src/registry/components/**/*"
+    "src/registry/**/*"
   ]
 }
