@@ -14,13 +14,13 @@ export type AccentColor = "wine" | "violet" | "sky" | "emerald" | "rose" | "ambe
 export type Radius = "0" | "0.3" | "0.5" | "0.75" | "1.0";
 
 export interface ThemeProviderProps {
-  /** Initial default theme mode if no saved preference is found */
+  /** Initial default theme mode if no saved preference is found in localStorage */
   defaultTheme?: Theme;
-  /** Initial default accent color */
+  /** Initial default accent color override if needed */
   defaultAccent?: AccentColor;
-  /** Initial default border radius */
+  /** Initial default border radius override if needed */
   defaultRadius?: Radius;
-  /** Key used to store preferences in localStorage */
+  /** Key used to store theme preferences in localStorage */
   storageKey?: string;
 }
 
@@ -40,24 +40,22 @@ const ACCENT_COLORS: Record<
 interface ThemeProviderContextValue {
   theme: Accessor<Theme>;
   setTheme: (theme: Theme) => void;
-  accent: Accessor<AccentColor>;
+  accent: Accessor<AccentColor | undefined>;
   setAccent: (accent: AccentColor) => void;
-  radius: Accessor<Radius>;
+  radius: Accessor<Radius | undefined>;
   setRadius: (radius: Radius) => void;
 }
 
 const ThemeProviderContext = createContext<ThemeProviderContextValue>();
 
 /**
- * Context provider managing application dark/light/system theme state, accent colors, and border radius.
+ * Context provider managing application theme state (light/dark/system), accent colors, and border radius.
  */
 export const ThemeProvider: ParentComponent<ThemeProviderProps> = (props) => {
   const storageKey = props.storageKey || "nikala-theme";
   const defaultTheme = props.defaultTheme || "system";
-  const defaultAccent = props.defaultAccent || "wine";
-  const defaultRadius = props.defaultRadius || "0.5";
 
-  // Read initial values safely from localStorage
+  // Safely read saved values from localStorage without forcing unnecessary fallbacks
   const getInitialTheme = (): Theme => {
     if (typeof window === "undefined") return defaultTheme;
     try {
@@ -67,30 +65,34 @@ export const ThemeProvider: ParentComponent<ThemeProviderProps> = (props) => {
     return defaultTheme;
   };
 
-  const getInitialAccent = (): AccentColor => {
-    if (typeof window === "undefined") return defaultAccent;
+  const getInitialAccent = (): AccentColor | undefined => {
+    if (typeof window === "undefined") return props.defaultAccent;
     try {
       const saved = localStorage.getItem(`${storageKey}-accent`);
       if (saved && ACCENT_COLORS[saved as AccentColor]) return saved as AccentColor;
     } catch { }
-    return defaultAccent;
+    return props.defaultAccent;
   };
 
-  const getInitialRadius = (): Radius => {
-    if (typeof window === "undefined") return defaultRadius;
+  const getInitialRadius = (): Radius | undefined => {
+    if (typeof window === "undefined") return props.defaultRadius;
     try {
       const saved = localStorage.getItem(`${storageKey}-radius`);
       if (saved) return saved as Radius;
     } catch { }
-    return defaultRadius;
+    return props.defaultRadius;
   };
 
   const [theme, setThemeSignal] = createSignal<Theme>(getInitialTheme());
-  const [accent, setAccentSignal] = createSignal<AccentColor>(getInitialAccent());
-  const [radius, setRadiusSignal] = createSignal<Radius>(getInitialRadius());
+  const [accent, setAccentSignal] = createSignal<AccentColor | undefined>(getInitialAccent());
+  const [radius, setRadiusSignal] = createSignal<Radius | undefined>(getInitialRadius());
 
-  // Applies classes and CSS variables for theme mode, accent color, and border radius
-  const applyTheme = (targetTheme: Theme, currentAccent: AccentColor, currentRadius: Radius) => {
+  // Applies classes and CSS custom properties when custom overrides are explicitly set
+  const applyTheme = (
+    targetTheme: Theme,
+    currentAccent: AccentColor | undefined,
+    currentRadius: Radius | undefined
+  ) => {
     if (typeof window === "undefined") return;
 
     const root = document.documentElement;
@@ -105,17 +107,23 @@ export const ThemeProvider: ParentComponent<ThemeProviderProps> = (props) => {
       root.classList.add(targetTheme);
     }
 
-    // Update CSS custom properties for theme dynamic accents & border radius
-    const accentData = ACCENT_COLORS[currentAccent] || ACCENT_COLORS.wine;
-    const primaryHex = resolvedDark ? accentData.dark : accentData.light;
-    const primaryFgHex = resolvedDark ? accentData.darkFg : accentData.lightFg;
+    // Override --primary CSS variables ONLY if explicitly chosen
+    if (currentAccent && ACCENT_COLORS[currentAccent]) {
+      const accentData = ACCENT_COLORS[currentAccent];
+      const primaryHex = resolvedDark ? accentData.dark : accentData.light;
+      const primaryFgHex = resolvedDark ? accentData.darkFg : accentData.lightFg;
 
-    root.style.setProperty("--primary", primaryHex);
-    root.style.setProperty("--primary-foreground", primaryFgHex);
-    root.style.setProperty("--radius", `${currentRadius}rem`);
+      root.style.setProperty("--primary", primaryHex);
+      root.style.setProperty("--primary-foreground", primaryFgHex);
+    }
+
+    // Override --radius CSS variable ONLY if explicitly chosen
+    if (currentRadius) {
+      root.style.setProperty("--radius", `${currentRadius}rem`);
+    }
   };
 
-  // Reactively apply theme updates and store in localStorage
+  // Reactively apply theme updates and store preferences in localStorage
   createEffect(() => {
     const t = theme();
     const a = accent();
@@ -126,8 +134,8 @@ export const ThemeProvider: ParentComponent<ThemeProviderProps> = (props) => {
     if (typeof window !== "undefined") {
       try {
         localStorage.setItem(`${storageKey}-mode`, t);
-        localStorage.setItem(`${storageKey}-accent`, a);
-        localStorage.setItem(`${storageKey}-radius`, r);
+        if (a) localStorage.setItem(`${storageKey}-accent`, a);
+        if (r) localStorage.setItem(`${storageKey}-radius`, r);
       } catch { }
     }
   });
@@ -143,12 +151,15 @@ export const ThemeProvider: ParentComponent<ThemeProviderProps> = (props) => {
         root.classList.remove("light", "dark");
         root.classList.add(e.matches ? "dark" : "light");
 
-        const accentData = ACCENT_COLORS[accent()] || ACCENT_COLORS.wine;
-        const primaryHex = e.matches ? accentData.dark : accentData.light;
-        const primaryFgHex = e.matches ? accentData.darkFg : accentData.lightFg;
+        const currentAccent = accent();
+        if (currentAccent && ACCENT_COLORS[currentAccent]) {
+          const accentData = ACCENT_COLORS[currentAccent];
+          const primaryHex = e.matches ? accentData.dark : accentData.light;
+          const primaryFgHex = e.matches ? accentData.darkFg : accentData.lightFg;
 
-        root.style.setProperty("--primary", primaryHex);
-        root.style.setProperty("--primary-foreground", primaryFgHex);
+          root.style.setProperty("--primary", primaryHex);
+          root.style.setProperty("--primary-foreground", primaryFgHex);
+        }
       }
     };
 
