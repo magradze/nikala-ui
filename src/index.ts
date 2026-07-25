@@ -5,6 +5,7 @@ import { init } from "./commands/init.js";
 import { add } from "./commands/add.js";
 import { themeCommand } from "./commands/theme.js";
 import { validateCommand } from "./commands/validate.js";
+import { diffCommand } from "./commands/diff.js";
 
 console.log(`\n🎨 ${pc.bold(pc.red("Nikala UI"))} ${pc.dim("v0.4.0")} — SolidJS + Tailwind v4 components`);
 console.log(`   ${pc.italic(pc.dim("Honoring Niko Pirosmani (Nikala)"))}\n`);
@@ -47,5 +48,11 @@ program
   .alias("doctor")
   .description("Run health diagnostics on Nikala UI configuration, packages, and CSS tokens")
   .action(validateCommand);
+
+// Diff command
+program
+  .command("diff [component]")
+  .description("Compare local component files against latest registry manifests and view differences")
+  .action((component) => diffCommand(component));
 
 program.parse();
