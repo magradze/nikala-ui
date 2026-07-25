@@ -9,6 +9,7 @@ import {
   getRegistryItem,
   resolveRegistryDependencies,
 } from "../utils/registry.js";
+import { writeComponentFiles } from "../utils/add/write-component-files.js";
 
 interface AddOptions {
   overwrite?: boolean;
@@ -16,12 +17,7 @@ interface AddOptions {
 }
 
 /**
- * Command handler to fetch and install Nikala UI components from the registry or remote URLs.
- * Dynamically resolves target file directories and installs required NPM packages.
- * Opens an interactive autocomplete multiselect menu if no components are specified.
- *
- * @param components - List of component names or HTTP(S) URLs specified by the user
- * @param options - CLI options including --overwrite and --all
+ * Command handler to fetch and install Nikala UI components from GitHub remote registry or custom URLs.
  */
 export async function add(components: string[] = [], options: AddOptions = {}) {
   const cwd = process.cwd();
@@ -34,18 +30,16 @@ export async function add(components: string[] = [], options: AddOptions = {}) {
 
   const registryIndex = await getRegistryIndex();
   if (!registryIndex) {
-    console.log(pc.red("❌ Failed to load registry index. Run `bun run build` first."));
+    console.log(pc.red("❌ Failed to load registry index. Ensure network connection or build registry."));
     process.exit(1);
   }
 
-  // Determine target components to install
   const isAllRequested = options.all || components.includes("all");
   let requestedComponents = components.filter((c) => c !== "all");
 
   if (isAllRequested) {
     requestedComponents = registryIndex.map((item) => item.name);
   } else if (requestedComponents.length === 0) {
-    // Open interactive autocomplete multiselect prompt when no components are passed
     const response = await prompts({
       type: "autocompleteMultiselect",
       name: "selectedComponents",
@@ -66,7 +60,6 @@ export async function add(components: string[] = [], options: AddOptions = {}) {
     requestedComponents = response.selectedComponents;
   }
 
-  // Resolve all internal or remote component dependencies recursively
   const resolvedTargets = await resolveRegistryDependencies(requestedComponents);
   const componentsDir = path.resolve(cwd, config.alias.components);
 
@@ -78,62 +71,28 @@ export async function add(components: string[] = [], options: AddOptions = {}) {
     const item = await getRegistryItem(target);
 
     if (!item) {
-      if (target.startsWith("http://") || target.startsWith("https://")) {
-        console.log(pc.red(`❌ Failed to fetch component from remote URL: ${target}`));
-      } else {
-        const availableStr = registryIndex ? registryIndex.map((i) => i.name).join(", ") : "none";
-        console.log(pc.red(`❌ "${target}" not found in registry. Available: ${availableStr}`));
-      }
+      const availableStr = registryIndex ? registryIndex.map((i) => i.name).join(", ") : "none";
+      console.log(pc.red(`❌ "${target}" not found in registry. Available: ${availableStr}`));
       continue;
     }
 
-    // Collect required NPM dependencies for this component
     if (item.dependencies && item.dependencies.length > 0) {
       for (const dep of item.dependencies) {
         requiredNpmDeps.add(dep);
       }
     }
 
-    // Process and write component files to their respective target paths
-    for (const file of item.files) {
-      let targetFilePath: string;
-
-      if (file.path.startsWith("ui/")) {
-        // Standard UI components write to config.alias.components (src/components/ui)
-        const relativePath = file.path.replace(/^ui\//, "");
-        targetFilePath = path.join(componentsDir, relativePath);
-      } else {
-        // Provider or custom files (e.g., providers/theme-provider.tsx) write relative to src/
-        targetFilePath = path.resolve(cwd, "src", file.path);
-      }
-
-      const displayPath = path.relative(cwd, targetFilePath);
-
-      if ((await fs.pathExists(targetFilePath)) && !options.overwrite) {
-        console.log(pc.yellow(`⚠️  ${displayPath} already exists. Use --overwrite to replace.`));
-        continue;
-      }
-
-      // Ensure destination folder exists before writing
-      await fs.ensureDir(path.dirname(targetFilePath));
-      await fs.writeFile(targetFilePath, file.content, "utf-8");
-
-      const sourceInfo = target.startsWith("http") ? ` (from remote URL)` : "";
-      console.log(pc.green(`  ✓ Added ${displayPath}${sourceInfo}`));
-    }
+    await writeComponentFiles(cwd, item, componentsDir, options.overwrite);
   }
 
-  // Inspect user's package.json to identify missing NPM dependencies
+  // Inspect user package.json and install missing NPM packages
   const userPkgPath = path.join(cwd, "package.json");
   const missingNpmDeps: string[] = [];
 
   if (await fs.pathExists(userPkgPath)) {
     try {
       const userPkg = await fs.readJson(userPkgPath);
-      const installedDeps = {
-        ...userPkg.dependencies,
-        ...userPkg.devDependencies,
-      };
+      const installedDeps = { ...userPkg.dependencies, ...userPkg.devDependencies };
 
       for (const dep of requiredNpmDeps) {
         if (!installedDeps[dep]) {
@@ -147,7 +106,6 @@ export async function add(components: string[] = [], options: AddOptions = {}) {
     missingNpmDeps.push(...Array.from(requiredNpmDeps));
   }
 
-  // Automatically install any missing NPM packages
   if (missingNpmDeps.length > 0) {
     await installDependencies(missingNpmDeps, cwd);
   }

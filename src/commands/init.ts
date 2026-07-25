@@ -3,25 +3,22 @@ import path from "node:path";
 import prompts from "prompts";
 import pc from "picocolors";
 import { cnTemplate } from "../utils/cn.js";
-import { writeConfig, readTsConfig } from "../utils/file.js";
+import { writeConfig } from "../utils/file.js";
 import { installDependencies } from "../utils/pkg.js";
-import { generateThemeCss } from "../utils/theme.js";
+import { configureAliases } from "../utils/init/configure-alias.js";
+import { setupCssTheme } from "../utils/init/setup-css.js";
 
 interface InitOptions {
   defaults?: boolean;
 }
 
 /**
- * Initializes Nikala UI in the target project workspace.
- * Sets up theme selection, Tailwind v4 variables, path aliases, and utilities.
- *
- * @param options - CLI flags (e.g., --defaults)
+ * Initializes Nikala UI workspace configuration and sets up design tokens.
  */
 export async function init(options: InitOptions) {
   const cwd = process.cwd();
   console.log(pc.cyan("🎨 Initializing Nikala UI...\n"));
 
-  // Prompt user for directory preferences and color themes
   const config = options.defaults
     ? {
         componentsDir: "src/components/ui",
@@ -83,7 +80,7 @@ export async function init(options: InitOptions) {
   await fs.ensureDir(componentsPath);
   await fs.ensureDir(utilsPath);
 
-  // 1. Detect missing runtime & Tailwind v4 dependencies
+  // 1. Install required packages
   const userPkgPath = path.join(cwd, "package.json");
   const requiredDeps = ["clsx", "tailwind-merge", "class-variance-authority"];
 
@@ -91,13 +88,8 @@ export async function init(options: InitOptions) {
     try {
       const userPkg = await fs.readJson(userPkgPath);
       const installed = { ...userPkg.dependencies, ...userPkg.devDependencies };
-
-      if (!installed["tailwindcss"]) {
-        requiredDeps.push("tailwindcss");
-      }
-      if (!installed["@tailwindcss/vite"]) {
-        requiredDeps.push("@tailwindcss/vite");
-      }
+      if (!installed["tailwindcss"]) requiredDeps.push("tailwindcss");
+      if (!installed["@tailwindcss/vite"]) requiredDeps.push("@tailwindcss/vite");
     } catch {
       requiredDeps.push("tailwindcss", "@tailwindcss/vite");
     }
@@ -108,128 +100,18 @@ export async function init(options: InitOptions) {
   console.log(pc.yellow("\n📦 Installing required runtime & Tailwind CSS dependencies..."));
   await installDependencies(requiredDeps, cwd);
 
-  // 2. Configure Vite / SolidStart config with @tailwindcss/vite plugin and @ alias
-  const viteConfigPath = path.join(cwd, "vite.config.ts");
-  const appConfigPath = path.join(cwd, "app.config.ts");
-  const targetConfigPath = (await fs.pathExists(appConfigPath)) ? appConfigPath : viteConfigPath;
+  // 2. Configure path aliases
+  await configureAliases(cwd);
 
-  if (await fs.pathExists(targetConfigPath)) {
-    let configContent = await fs.readFile(targetConfigPath, "utf-8");
-    let modified = false;
-
-    if (!configContent.includes("@tailwindcss/vite")) {
-      configContent = `import tailwindcss from "@tailwindcss/vite";\n${configContent}`;
-
-      if (configContent.includes("plugins: [")) {
-        configContent = configContent.replace("plugins: [", "plugins: [\n    tailwindcss(), ");
-      } else if (configContent.includes("defineConfig({")) {
-        configContent = configContent.replace(
-          "defineConfig({",
-          "defineConfig({\n  plugins: [tailwindcss()],"
-        );
-      }
-      modified = true;
-    }
-
-    if (!configContent.includes('"@"') && !configContent.includes("'@'")) {
-      if (!configContent.includes('import path from "node:path"') && !configContent.includes('import path from "path"')) {
-        configContent = `import path from "node:path";\n${configContent}`;
-      }
-
-      if (configContent.includes("defineConfig({")) {
-        configContent = configContent.replace(
-          "defineConfig({",
-          `defineConfig({\n  resolve: {\n    alias: {\n      "@": path.resolve(__dirname, "./src"),\n    },\n  },`
-        );
-      }
-      modified = true;
-    }
-
-    if (modified) {
-      await fs.writeFile(targetConfigPath, configContent, "utf-8");
-      console.log(pc.green(`✓ Configured Tailwind CSS v4 plugin and path alias in ${path.basename(targetConfigPath)}`));
-    }
-  }
-
-  // 3. Configure TypeScript paths in tsconfig.json
-  const tsconfigPath = path.join(cwd, "tsconfig.json");
-  if (await fs.pathExists(tsconfigPath)) {
-    const tsconfig = await readTsConfig(cwd);
-    if (tsconfig) {
-      tsconfig.compilerOptions = tsconfig.compilerOptions || {};
-      tsconfig.compilerOptions.baseUrl = ".";
-      tsconfig.compilerOptions.paths = tsconfig.compilerOptions.paths || {};
-      tsconfig.compilerOptions.paths["@/*"] = ["src/*"];
-
-      await fs.writeFile(tsconfigPath, JSON.stringify(tsconfig, null, 2), "utf-8");
-      console.log(pc.green("✓ Configured path alias (@/*) in tsconfig.json"));
-    }
-  }
-
-  // 4. Generate cn.ts helper utility
+  // 3. Generate cn.ts helper
   const cnFilePath = path.join(utilsPath, "cn.ts");
   await fs.writeFile(cnFilePath, cnTemplate, "utf-8");
   console.log(pc.green(`✓ Created ${config.utilsDir}/cn.ts`));
 
-  // 5. Smart CSS file resolution and dynamic theme generation
-  let cssPathRelative = "src/index.css";
+  // 4. Setup CSS theme and entry imports
+  const cssPathRelative = await setupCssTheme(cwd, config.baseColor, config.primaryColor);
 
-  if (await fs.pathExists(path.join(cwd, "src", "app.css"))) {
-    cssPathRelative = "src/app.css";
-  } else if (await fs.pathExists(path.join(cwd, "src", "index.css"))) {
-    cssPathRelative = "src/index.css";
-  } else {
-    const isSolidStart =
-      (await fs.pathExists(path.join(cwd, "src", "app.tsx"))) ||
-      (await fs.pathExists(path.join(cwd, "app.config.ts")));
-
-    if (isSolidStart) {
-      cssPathRelative = "src/app.css";
-    }
-  }
-
-  const cssPath = path.join(cwd, cssPathRelative);
-  const generatedCss = generateThemeCss(config.baseColor, config.primaryColor);
-
-  await fs.ensureDir(path.dirname(cssPath));
-  await fs.writeFile(cssPath, generatedCss, "utf-8");
-  console.log(pc.green(`✓ Generated Tailwind CSS v4 theme setup in ${cssPathRelative}`));
-
-  // 6. Inject CSS import statement into project's main entry point
-  const entryCandidates = [
-    path.join(cwd, "src", "app.tsx"),
-    path.join(cwd, "src", "app.jsx"),
-    path.join(cwd, "src", "entry-client.tsx"),
-    path.join(cwd, "src", "index.tsx"),
-    path.join(cwd, "src", "index.jsx"),
-    path.join(cwd, "src", "index.ts"),
-    path.join(cwd, "src", "main.tsx"),
-    path.join(cwd, "src", "main.ts"),
-  ];
-
-  let targetEntryPath: string | null = null;
-  for (const candidate of entryCandidates) {
-    if (await fs.pathExists(candidate)) {
-      targetEntryPath = candidate;
-      break;
-    }
-  }
-
-  if (targetEntryPath) {
-    let entryContent = await fs.readFile(targetEntryPath, "utf-8");
-    const cssFileName = path.basename(cssPathRelative);
-    const cssImportStatement = `import "./${cssFileName}";`;
-
-    if (!entryContent.includes(cssFileName)) {
-      entryContent = `${cssImportStatement}\n${entryContent}`;
-      await fs.writeFile(targetEntryPath, entryContent, "utf-8");
-      console.log(
-        pc.green(`✓ Injected ${cssImportStatement} into ${path.relative(cwd, targetEntryPath)}`)
-      );
-    }
-  }
-
-  // 7. Generate nikala.config.json manifest with theme choices
+  // 5. Generate nikala.config.json
   await writeConfig(cwd, {
     $schema: "https://nikala.dev/schema.json",
     style: "default",
@@ -244,5 +126,4 @@ export async function init(options: InitOptions) {
   console.log(pc.green("✓ Created nikala.config.json"));
 
   console.log(pc.green("\n✅ Nikala UI initialized successfully with custom theme!"));
-  console.log(pc.cyan("Next step: Run `nikala add button` to install your first component."));
 }
