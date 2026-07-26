@@ -1,4 +1,3 @@
-// src/components/code-block.tsx
 import { createResource, createSignal, Show, type Component } from "solid-js";
 import { highlightCode } from "@/lib/code-highlighter";
 import { Button } from "@/components/ui/button";
@@ -26,7 +25,7 @@ export const CodeBlock: Component<CodeBlockProps> = (props) => {
 
   return (
     <div
-      class={`relative group rounded-lg border border-border bg-zinc-100/90 dark:bg-zinc-950/90 text-zinc-900 dark:text-zinc-100 p-4 font-mono text-sm overflow-x-auto shadow-sm ${props.class || ""
+      class={`relative group rounded-lg border border-border bg-muted/60 text-foreground p-4 font-mono text-sm overflow-x-auto shadow-xs transition-colors ${props.class || ""
         }`}
     >
       {/* Copy Button */}
@@ -34,7 +33,7 @@ export const CodeBlock: Component<CodeBlockProps> = (props) => {
         <Button
           variant="outline"
           size="sm"
-          class="h-7 px-2 text-xs bg-zinc-200/90 dark:bg-zinc-800 border-zinc-300 dark:border-zinc-700 text-zinc-800 dark:text-zinc-200 hover:bg-zinc-300 dark:hover:bg-zinc-700 hover:text-foreground"
+          class="h-7 px-2 text-xs bg-background/80 border-border text-foreground hover:bg-accent shadow-xs"
           onClick={handleCopy}
         >
           <Show
@@ -78,11 +77,11 @@ export const CodeBlock: Component<CodeBlockProps> = (props) => {
         </Button>
       </div>
 
-      {/* Render Prism Highlighting inside pre for strict whitespace preservation */}
+      {/* Render Syntax Highlighting */}
       <Show
         when={!highlightedCode.loading}
         fallback={
-          <pre class="text-zinc-500 font-mono text-xs animate-pulse">
+          <pre class="text-muted-foreground font-mono text-xs animate-pulse">
             Loading code preview...
           </pre>
         }

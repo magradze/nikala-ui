@@ -1,5 +1,8 @@
 @import "tailwindcss";
 
+/* Enable class-based dark mode selector in Tailwind CSS v4 */
+@custom-variant dark (.dark &);
+
 @theme inline {
 	--color-background: var(--background);
 	--color-foreground: var(--foreground);
@@ -82,22 +85,33 @@
 		color: var(--foreground);
 	}
 
-	/* Prism Syntax Highlighting Styles */
+	/* --- Modern Syntax Highlighting Styles (GitHub Light & Dark Theme) --- */
+
+	/* Comments */
 	.token.comment,
 	.token.prolog,
 	.token.doctype,
 	.token.cdata {
-		color: #6e7681;
+		color: #5c6370;
+		font-style: italic;
+	}
+	.dark .token.comment,
+	.dark .token.prolog,
+	.dark .token.doctype,
+	.dark .token.cdata {
+		color: #8b949e;
+		font-style: italic;
 	}
 
+	/* Punctuation */
 	.token.punctuation {
 		color: #24292f;
 	}
-
 	.dark .token.punctuation {
 		color: #c9d1d9;
 	}
 
+	/* Constants, Numbers, Booleans */
 	.token.property,
 	.token.tag,
 	.token.boolean,
@@ -107,7 +121,6 @@
 	.token.deleted {
 		color: #0550ae;
 	}
-
 	.dark .token.property,
 	.dark .token.tag,
 	.dark .token.boolean,
@@ -118,47 +131,47 @@
 		color: #79c0ff;
 	}
 
+	/* Strings and Attributes */
 	.token.selector,
 	.token.attr-name,
 	.token.string,
 	.token.char,
 	.token.builtin,
 	.token.inserted {
-		color: #0a3069;
+		color: #116329;
 	}
-
 	.dark .token.selector,
 	.dark .token.attr-name,
 	.dark .token.string,
 	.dark .token.char,
 	.dark .token.builtin,
 	.dark .token.inserted {
-		color: #a5d6ff;
+		color: #7ee787;
 	}
 
+	/* Operators, CLI Flags (--all, --overwrite) */
 	.token.operator,
 	.token.entity,
 	.token.url,
 	.language-css .token.string,
 	.style .token.string {
-		color: #cf222e;
+		color: #953800;
 	}
-
 	.dark .token.operator,
 	.dark .token.entity,
 	.dark .token.url,
 	.dark .language-css .token.string,
 	.dark .style .token.string {
-		color: #ff7b72;
+		color: #ffa657;
 	}
 
+	/* Keywords (import, return, add, init) */
 	.token.atrule,
 	.token.attr-value,
 	.token.keyword {
 		color: #cf222e;
 		font-weight: 600;
 	}
-
 	.dark .token.atrule,
 	.dark .token.attr-value,
 	.dark .token.keyword {
@@ -166,25 +179,25 @@
 		font-weight: 600;
 	}
 
+	/* Functions & Component Names */
 	.token.function,
 	.token.class-name {
 		color: #8250df;
 	}
-
 	.dark .token.function,
 	.dark .token.class-name {
 		color: #d2a8ff;
 	}
 
+	/* Regex & Variables */
 	.token.regex,
 	.token.important,
 	.token.variable {
-		color: #953800;
+		color: #0550ae;
 	}
-
 	.dark .token.regex,
 	.dark .token.important,
 	.dark .token.variable {
-		color: #ffa657;
+		color: #79c0ff;
 	}
 }
