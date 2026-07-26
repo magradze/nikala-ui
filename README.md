@@ -114,7 +114,7 @@ export function App() {
 
 ---
 
-## Available Components (21)
+## Available Components (26)
 
 - **`Button`** — Interactive button with variant and size options (`cva`).
 - **`Input`** — Reactive text input with modern focus states.
@@ -133,9 +133,14 @@ export function App() {
 - **`Accordion`** — Vertically stacked collapsible content sections supporting single and multiple modes (`Accordion`, `AccordionItem`, `AccordionTrigger`, `AccordionContent`).
 - **`Breadcrumb`** — Accessible navigation trail hierarchy (`Breadcrumb`, `BreadcrumbList`, `BreadcrumbItem`, `BreadcrumbLink`, `BreadcrumbPage`, `BreadcrumbSeparator`, `BreadcrumbEllipsis`).
 - **`Alert`** — Callout banner for user feedback with status variants, dismiss button, and timer (`Alert`, `AlertTitle`, `AlertDescription`).
+- **`Banner`** — Announcement banner with sticky positioning, dismissal persistence, auto-hide timer, Lucide icons, and variant styles (`Banner`).
 - **`Dialog`** — Accessible modal window with backdrop blur, closable button, and outside-click options (`Dialog`, `DialogTrigger`, `DialogContent`, `DialogHeader`, `DialogTitle`, `DialogDescription`, `DialogFooter`).
 - **`Sheet`** — Sliding panel component with 4-directional slide-in animations and backdrop blur (`Sheet`, `SheetTrigger`, `SheetContent`, `SheetHeader`, `SheetTitle`, `SheetDescription`, `SheetFooter`).
 - **`Dropdown Menu`** — Full-featured context menu with submenus, checkboxes, radio items, shortcuts, and avatar trigger (`DropdownMenu`, `DropdownMenuTrigger`, `DropdownMenuContent`, `DropdownMenuItem`, `DropdownMenuSub`).
+- **`List`** — Compound list components supporting titles, subtitles, icons, avatars, hotkey badges, chevron indicators, and interactive links (`List`, `ListGroup`, `ListHeader`, `ListItem`).
+- **`Kbd`** — Keyboard key and shortcut group indicators for displaying hotkeys (`Kbd`, `KbdGroup`).
+- **`Input Group`** — Compound input wrapper for combining text inputs with prefix and suffix addons (`InputGroup`, `InputGroupInput`, `InputGroupAddon`).
+- **`Command`** — Accessible command palette and search modal built on Kobalte Dialog primitives with auto-filtering (`Command`, `CommandDialog`, `CommandInput`, `CommandList`, `CommandEmpty`, `CommandGroup`, `CommandItem`, `CommandFooter`).
 - **`Theme Manager`** — Zero-dependency theme provider, brand accent color customizer, border-radius controls, and transition animations (`ThemeProvider`, `ThemeToggle`, `useTheme`).
 
 ---
