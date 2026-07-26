@@ -96,6 +96,24 @@
     ]
   },
   {
+    "name": "command",
+    "title": "Command / Command Palette",
+    "description": "Fast, accessible command palette and search modal built on Kobalte Dialog primitives with auto-filtering.",
+    "type": "registry:ui",
+    "dependencies": [
+      "clsx",
+      "tailwind-merge",
+      "class-variance-authority",
+      "lucide-solid",
+      "@kobalte/core"
+    ],
+    "registryDependencies": [
+      "kbd",
+      "input-group",
+      "list"
+    ]
+  },
+  {
     "name": "dialog",
     "title": "Dialog",
     "description": "A modal window overlaying the main content, built on Kobalte primitives with blur and outside-click options.",

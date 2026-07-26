@@ -137,4 +137,16 @@ export const COMPONENT_METADATA: Record<string, ComponentMeta> = {
     dependencies: ["clsx", "tailwind-merge", "class-variance-authority"],
     registryDependencies: ["kbd"],
   },
+  command: {
+    title: "Command / Command Palette",
+    description: "Fast, accessible command palette and search modal built on Kobalte Dialog primitives with auto-filtering.",
+    dependencies: [
+      "clsx",
+      "tailwind-merge",
+      "class-variance-authority",
+      "lucide-solid",
+      "@kobalte/core",
+    ],
+    registryDependencies: ["kbd", "input-group", "list"],
+  },
 };
