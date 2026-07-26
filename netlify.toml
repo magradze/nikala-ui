@@ -1,0 +1,6 @@
+[build]
+  command = "bun run build"
+  publish = ".output/public"
+
+[build.environment]
+  NITRO_PRESET = "netlify-static"
