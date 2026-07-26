@@ -1,7 +1,7 @@
 {
   "$schema": "https://nikala.dev/schema.json",
   "style": "default",
-  "baseColor": "zinc",
+  "baseColor": "neutral",
   "primaryColor": "wine",
   "css": "src/app.css",
   "alias": {
