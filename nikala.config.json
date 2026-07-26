@@ -1,0 +1,11 @@
+{
+  "$schema": "https://nikala.dev/schema.json",
+  "style": "default",
+  "baseColor": "zinc",
+  "primaryColor": "wine",
+  "css": "src/app.css",
+  "alias": {
+    "components": "src/components/ui",
+    "utils": "src/lib"
+  }
+}

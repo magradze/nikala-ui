@@ -1,0 +1,23 @@
+# Nikala UI
+
+> A simple, copy-paste component system for SolidJS built natively for Tailwind CSS v4. Honoring Georgian painter Niko Pirosmani (Nikala).
+
+## Key Features
+- Native SolidJS Reactivity (built with splitProps)
+- Tailwind CSS v4 First (@import "tailwindcss"; with semantic tokens)
+- SolidJS & SolidStart Ready (Vite, Tauri, Electron, SolidStart SSR)
+- Full Code Ownership (components live in src/components/ui)
+- Smart CLI tool (nikala init, nikala add, nikala theme)
+
+## Quick Start
+npx nikala init
+nikala add button input card theme-manager
+
+## Core Concepts
+- Always use splitProps to preserve SolidJS signal reactivity.
+- Dynamic Theme Engine supporting base grays (zinc, slate, stone) and brand accents (wine, sky, violet, emerald).
+
+## Documentation
+- Component Specs: https://nikala.magradze.dev/docs/components/button
+- CLI Reference: https://nikala.magradze.dev/docs/cli
+- Theming Guide: https://nikala.magradze.dev/docs/theming
