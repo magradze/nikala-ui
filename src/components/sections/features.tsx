@@ -1,5 +1,6 @@
 import { JSX } from "solid-js"
 import { Palette, Wrench, Zap } from "lucide-solid/icons/index";
+import { Card } from "../ui/card";
 
 export const Features: () => JSX.Element = () => {
   return (
@@ -9,7 +10,7 @@ export const Features: () => JSX.Element = () => {
         <div class="container max-w-7xl px-4 mx-auto">
           <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
             {/* Feature 1 */}
-            <div class="p-6 rounded-xl border border-border/60 bg-card space-y-3">
+            <Card class="p-6 rounded-lg border border-border/60 bg-card space-y-3">
               <div class="w-10 h-10 rounded-lg bg-primary/10 text-primary flex items-center justify-center font-bold">
                 <Zap />
               </div>
@@ -17,10 +18,10 @@ export const Features: () => JSX.Element = () => {
               <p class="text-sm text-muted-foreground leading-relaxed">
                 Built with `splitProps` and fine-grained signal tracking. Never breaks reactive primitives or component updates.
               </p>
-            </div>
+            </Card>
 
             {/* Feature 2 */}
-            <div class="p-6 rounded-xl border border-border/60 bg-card space-y-3">
+            <Card class="p-6 rounded-lg border border-border/60 bg-card space-y-3">
               <div class="w-10 h-10 rounded-lg bg-primary/10 text-primary flex items-center justify-center font-bold">
                 <Palette />
               </div>
@@ -28,10 +29,10 @@ export const Features: () => JSX.Element = () => {
               <p class="text-sm text-muted-foreground leading-relaxed">
                 Designed around CSS-first `@import "tailwindcss";` setups with semantic variables, `--primary` accents, and dark mode.
               </p>
-            </div>
+            </Card>
 
             {/* Feature 3 */}
-            <div class="p-6 rounded-xl border border-border/60 bg-card space-y-3">
+            <Card class="p-6 rounded-lg border border-border/60 bg-card space-y-3">
               <div class="w-10 h-10 rounded-lg bg-primary/10 text-primary flex items-center justify-center font-bold">
                 <Wrench />
               </div>
@@ -39,7 +40,7 @@ export const Features: () => JSX.Element = () => {
               <p class="text-sm text-muted-foreground leading-relaxed">
                 The `nikala` CLI writes clean TypeScript directly to your workspace. You own 100% of the UI source code.
               </p>
-            </div>
+            </Card>
           </div>
         </div>
       </section></>

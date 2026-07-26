@@ -5,7 +5,7 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/cn";
 
 export const calloutVariants = cva(
-  "p-5 rounded-xl border space-y-1.5 text-sm leading-relaxed",
+  "p-5 rounded-lg border space-y-1.5 text-sm leading-relaxed",
   {
     variants: {
       variant: {

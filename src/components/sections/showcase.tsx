@@ -27,7 +27,7 @@ export const Showcase: () => JSX.Element = () => {
 
           {/* Showcase Card Grid */}
           <div class="max-w-md mx-auto">
-            <Card class="shadow-xl border-border/80 backdrop-blur-sm bg-card/90">
+            <Card class="shadow-xl border-border/80 backdrop-blur-sm bg-card/90 rounded-lg">
               <CardHeader>
                 <div class="flex items-center justify-between">
                   <CardTitle class="text-xl">Nikala UI Demo</CardTitle>
