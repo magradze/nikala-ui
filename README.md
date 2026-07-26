@@ -1,32 +1,90 @@
-# SolidStart
+# Nikala UI Web
 
-Everything you need to build a Solid project, powered by [`solid-start`](https://start.solidjs.com);
+Official website, documentation portal, and interactive playground for **Nikala UI** — a copy-paste component system for SolidJS built natively for Tailwind CSS v4.
 
-## Creating a project
+## Features
+
+- **Documentation**: Comprehensive guides for installation, CLI usage, and theming.
+- **Interactive Component Viewer**: Live component preview with code toggle and copy functionality.
+- **Theme Playground**: Real-time accent color, base gray palette, and border radius switcher.
+- **Performance First**: Built on SolidStart with SSR, fine-grained reactivity, and zero-FOUC theme initialization.
+
+## Tech Stack
+
+- **Framework**: SolidStart / SolidJS
+- **Styling**: Tailwind CSS v4
+- **Component System**: Nikala UI
+- **Syntax Highlighting**: Shiki
+- **Icons**: Lucide Icons
+
+## Getting Started
+
+### Prerequisites
+
+Ensure you have Node.js (v18+) or Bun installed.
+
+### Installation
+
+Clone the repository and install dependencies:
 
 ```bash
-# create a new project in the current directory
-npm init solid@latest
+git clone https://github.com/magradze/nikala-web.git
+cd nikala-web
 
-# create a new project in my-app
-npm init solid@latest my-app
+# Install dependencies using Bun, pnpm, or npm
+bun install
 ```
 
-## Developing
+### Development Server
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+Start the local development server:
 
 ```bash
+bun dev
+# or
 npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
 ```
 
-## Building
+Open `http://localhost:3000` in your browser.
 
-Solid apps are built with _presets_, which optimise your project for deployment to different environments.
+### Production Build
 
-By default, `npm run build` will generate a Node app that you can run with `npm start`. To use a different preset, add it to the `devDependencies` in `package.json` and specify in your `app.config.js`.
+Build the application for production deployment:
 
-## This project was created with the [Solid CLI](https://github.com/solidjs-community/solid-cli)
+```bash
+bun run build
+# or
+npm run build
+```
+
+Preview the production build locally:
+
+```bash
+bun run start
+```
+
+## Project Structure
+
+```text
+nikala-web/
+├── public/                 # Static assets and llms.txt definition
+├── src/
+│   ├── components/
+│   │   ├── partials/       # Header, Footer, and layout partials
+│   │   ├── ui/             # Installed Nikala UI components
+│   │   ├── code-block.tsx  # Shiki-powered code block component
+│   │   └── component-preview.tsx # Interactive component viewer
+│   ├── lib/                # Utility helpers and syntax highlighter
+│   ├── providers/          # ThemeProvider and state context
+│   └── routes/             # SolidStart file-based pages and layouts
+├── app.config.ts           # SolidStart & Vite configuration
+└── app.css                 # Global Tailwind CSS v4 theme entry
+```
+
+## Contributing
+
+Contributions to documentation, bug fixes, and component examples are welcome. Please open an issue or submit a pull request.
+
+## License
+
+[MIT](LICENSE)
