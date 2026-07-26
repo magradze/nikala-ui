@@ -71,8 +71,7 @@ export const listItemVariants = cva(
           "hover:bg-accent/80 hover:text-accent-foreground data-highlighted:bg-accent/80",
         primary:
           "hover:bg-primary/10 hover:text-primary data-highlighted:bg-primary/10 data-highlighted:text-primary",
-        muted:
-          "hover:bg-muted hover:text-foreground data-highlighted:bg-muted",
+        muted: "hover:bg-muted/20 dark:hover:bg-muted/20 hover:text-muted-foreground",
       },
       size: {
         sm: "px-2.5 py-1.5 text-xs",
@@ -137,7 +136,7 @@ export const ListItem: Component<ListItemProps> = (props) => {
           <img
             src={local.avatar}
             alt={local.title || "Avatar"}
-            class="w-6 h-6 rounded-full object-cover shrink-0 border border-border"
+            class="w-6 h-6 rounded-lg object-cover shrink-0 border border-border"
           />
         </Show>
 

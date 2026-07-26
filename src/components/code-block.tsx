@@ -1,4 +1,11 @@
-import { createResource, createSignal, Show, type Component } from "solid-js";
+// src/components/code-block.tsx
+import {
+  createEffect,
+  createSignal,
+  onMount,
+  Show,
+  type Component,
+} from "solid-js";
 import { highlightCode } from "@/lib/code-highlighter";
 import { Button } from "@/components/ui/button";
 
@@ -10,15 +17,23 @@ interface CodeBlockProps {
 
 export const CodeBlock: Component<CodeBlockProps> = (props) => {
   const [copied, setCopied] = createSignal(false);
+  const [highlighted, setHighlighted] = createSignal("");
 
-  /* Asynchronously highlight code */
-  const [highlightedCode] = createResource(
-    () => ({ code: props.code.trim(), lang: props.lang || "tsx" }),
-    async ({ code, lang }) => await highlightCode(code, lang)
-  );
+  const cleanCode = () => props.code.trim();
+
+  /* Highlight code post-hydration to guarantee 100% SSR hydration match */
+  onMount(async () => {
+    const html = await highlightCode(cleanCode(), props.lang || "tsx");
+    setHighlighted(html);
+  });
+
+  createEffect(async () => {
+    const html = await highlightCode(cleanCode(), props.lang || "tsx");
+    setHighlighted(html);
+  });
 
   const handleCopy = async () => {
-    await navigator.clipboard.writeText(props.code.trim());
+    await navigator.clipboard.writeText(cleanCode());
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
@@ -77,19 +92,10 @@ export const CodeBlock: Component<CodeBlockProps> = (props) => {
         </Button>
       </div>
 
-      {/* Render Syntax Highlighting */}
-      <Show
-        when={!highlightedCode.loading}
-        fallback={
-          <pre class="text-muted-foreground font-mono text-xs animate-pulse">
-            Loading code preview...
-          </pre>
-        }
-      >
-        <pre class="font-mono text-sm leading-relaxed whitespace-pre overflow-x-auto">
-          <code innerHTML={highlightedCode() || ""} />
-        </pre>
-      </Show>
+      {/* Code Container with perfect hydration match */}
+      <pre class="font-mono text-sm leading-relaxed whitespace-pre overflow-x-auto">
+        <code innerHTML={highlighted() || cleanCode()} />
+      </pre>
     </div>
   );
 };
