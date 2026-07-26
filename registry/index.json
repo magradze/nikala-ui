@@ -118,6 +118,20 @@
     ]
   },
   {
+    "name": "input-group",
+    "title": "Input Group",
+    "description": "Compound input wrapper for combining text inputs with prefix and suffix addons.",
+    "type": "registry:ui",
+    "dependencies": [
+      "clsx",
+      "tailwind-merge",
+      "class-variance-authority"
+    ],
+    "registryDependencies": [
+      "kbd"
+    ]
+  },
+  {
     "name": "input",
     "title": "Input",
     "description": "A standard text input field with styling variants.",
@@ -125,6 +139,17 @@
     "dependencies": [
       "clsx",
       "tailwind-merge"
+    ]
+  },
+  {
+    "name": "kbd",
+    "title": "Kbd (Keyboard Key)",
+    "description": "Keyboard key and shortcut group indicators for displaying hotkeys.",
+    "type": "registry:ui",
+    "dependencies": [
+      "clsx",
+      "tailwind-merge",
+      "class-variance-authority"
     ]
   },
   {
