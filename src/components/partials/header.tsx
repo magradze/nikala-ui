@@ -1,5 +1,6 @@
-import { createSignal } from "solid-js";
+import { createSignal, For } from "solid-js";
 import { A } from "@solidjs/router";
+import { COMPONENTS_LIST, DOCUMENTATION_LIST } from "@/config/docs";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
@@ -80,53 +81,35 @@ export function Header() {
 
                 {/* Documentation Section */}
                 <CommandGroup heading="Documentation">
-                  <CommandItem
-                    title="Introduction"
-                    subtitle="Architecture philosophy and Niko Pirosmani tribute"
-                    icon={BookOpen}
-                    href="/docs"
-                    shortcut="⌘1"
-                    showChevron={true}
-                    onSelect={() => setOpen(false)}
-                  />
-                  <CommandItem
-                    title="CLI Reference"
-                    subtitle="nikala init, add, validate, diff, theme"
-                    icon={Terminal}
-                    href="/docs/cli"
-                    shortcut="⌘2"
-                    showChevron={true}
-                    onSelect={() => setOpen(false)}
-                  />
-                  <CommandItem
-                    title="Theming Guide"
-                    subtitle="Dynamic theme provider and color palettes"
-                    icon={Palette}
-                    href="/docs/theming"
-                    shortcut="⌘3"
-                    showChevron={true}
-                    onSelect={() => setOpen(false)}
-                  />
+                  <For each={DOCUMENTATION_LIST}>
+                    {(doc) => (
+                      <CommandItem
+                        title={doc.title}
+                        subtitle={doc.subtitle}
+                        icon={doc.icon}
+                        href={doc.href}
+                        shortcut={doc.shortcut}
+                        showChevron={true}
+                        onSelect={() => setOpen(false)}
+                      />
+                    )}
+                  </For>
                 </CommandGroup>
 
                 {/* Components Section */}
                 <CommandGroup heading="Components">
-                  <CommandItem
-                    title="Button"
-                    subtitle="Interactive button with variant and size options"
-                    icon={ComponentIcon}
-                    href="/docs/components/button"
-                    showChevron={true}
-                    onSelect={() => setOpen(false)}
-                  />
-                  <CommandItem
-                    title="Banner"
-                    subtitle="Announcement banner with dismissal persistence"
-                    icon={ComponentIcon}
-                    href="/docs/components/banner"
-                    showChevron={true}
-                    onSelect={() => setOpen(false)}
-                  />
+                  <For each={COMPONENTS_LIST}>
+                    {(comp) => (
+                      <CommandItem
+                        title={comp.title}
+                        subtitle={comp.description}
+                        icon={ComponentIcon}
+                        href={comp.href}
+                        showChevron={true}
+                        onSelect={() => setOpen(false)}
+                      />
+                    )}
+                  </For>
                 </CommandGroup>
               </CommandList>
 
