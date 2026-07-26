@@ -43,6 +43,17 @@
     ]
   },
   {
+    "name": "banner",
+    "title": "Banner",
+    "description": "An announcement banner with sticky positioning, dismissal persistence, auto-hide timer, and variant styles.",
+    "type": "registry:ui",
+    "dependencies": [
+      "clsx",
+      "tailwind-merge",
+      "class-variance-authority"
+    ]
+  },
+  {
     "name": "breadcrumb",
     "title": "Breadcrumb",
     "description": "Displays the path to the current resource using a hierarchy of links.",

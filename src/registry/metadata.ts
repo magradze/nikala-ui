@@ -116,4 +116,9 @@ export const COMPONENT_METADATA: Record<string, ComponentMeta> = {
     dependencies: ["clsx", "tailwind-merge", "@kobalte/core"],
     registryDependencies: ["button", "dropdown-menu"],
   },
+  banner: {
+    title: "Banner",
+    description: "An announcement banner with sticky positioning, dismissal persistence, auto-hide timer, and variant styles.",
+    dependencies: ["clsx", "tailwind-merge", "class-variance-authority"],
+  },
 };
