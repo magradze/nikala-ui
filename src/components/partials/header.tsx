@@ -1,12 +1,23 @@
-// src/components/site-header.tsx
+import { createSignal } from "solid-js";
 import { A } from "@solidjs/router";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { Banner } from "@/components/ui/banner";
 import { Info } from "lucide-solid";
+import {
+  CommandDialog,
+  CommandInput,
+  CommandList,
+  CommandEmpty,
+  CommandGroup,
+  CommandItem,
+  CommandFooter,
+} from "@/components/ui/command";
+import { Terminal, Component as ComponentIcon, BookOpen, Search, Palette } from "lucide-solid";
 
 export function Header() {
+  const [open, setOpen] = createSignal(false);
   return (
     <>
       {/* Global Announcement Banner */}
@@ -48,6 +59,79 @@ export function Header() {
 
           {/* Right: Actions */}
           <div class="flex items-center gap-3">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => setOpen(true)}
+              class="flex items-center gap-2"
+            >
+              <span>Search...</span>
+              <kbd class="pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded border border-border bg-background px-1.5 font-mono text-[10px] font-semibold text-muted-foreground shadow-2xs">
+                <span class="text-xs">⌘</span>K
+              </kbd>
+            </Button>
+
+            {/* Global Command Palette Modal */}
+            <CommandDialog open={open()} onOpenChange={setOpen} enableHotkey={true}>
+              <CommandInput placeholder="Search documentation, CLI, components..." />
+
+              <CommandList>
+                <CommandEmpty />
+
+                {/* Documentation Section */}
+                <CommandGroup heading="Documentation">
+                  <CommandItem
+                    title="Introduction"
+                    subtitle="Architecture philosophy and Niko Pirosmani tribute"
+                    icon={BookOpen}
+                    href="/docs"
+                    shortcut="⌘1"
+                    showChevron={true}
+                    onSelect={() => setOpen(false)}
+                  />
+                  <CommandItem
+                    title="CLI Reference"
+                    subtitle="nikala init, add, validate, diff, theme"
+                    icon={Terminal}
+                    href="/docs/cli"
+                    shortcut="⌘2"
+                    showChevron={true}
+                    onSelect={() => setOpen(false)}
+                  />
+                  <CommandItem
+                    title="Theming Guide"
+                    subtitle="Dynamic theme provider and color palettes"
+                    icon={Palette}
+                    href="/docs/theming"
+                    shortcut="⌘3"
+                    showChevron={true}
+                    onSelect={() => setOpen(false)}
+                  />
+                </CommandGroup>
+
+                {/* Components Section */}
+                <CommandGroup heading="Components">
+                  <CommandItem
+                    title="Button"
+                    subtitle="Interactive button with variant and size options"
+                    icon={ComponentIcon}
+                    href="/docs/components/button"
+                    showChevron={true}
+                    onSelect={() => setOpen(false)}
+                  />
+                  <CommandItem
+                    title="Banner"
+                    subtitle="Announcement banner with dismissal persistence"
+                    icon={ComponentIcon}
+                    href="/docs/components/banner"
+                    showChevron={true}
+                    onSelect={() => setOpen(false)}
+                  />
+                </CommandGroup>
+              </CommandList>
+
+              <CommandFooter />
+            </CommandDialog>
             {/* GitHub Link */}
             <a
               href="https://github.com/magradze/nikala-ui"
@@ -56,7 +140,7 @@ export function Header() {
               class="hidden sm:inline-flex"
             >
               <Button variant="outline" size="sm" class="gap-2 h-8 text-xs">
-                <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24">
+                <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24">
                   <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z" />
                 </svg>
                 GitHub
