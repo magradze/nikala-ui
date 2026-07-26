@@ -2,6 +2,16 @@
 import type { Component } from "solid-js";
 import { BookOpen, Terminal, Palette } from "lucide-solid";
 
+export interface NavItem {
+  title: string;
+  href: string;
+}
+
+export interface NavSection {
+  title: string;
+  items: NavItem[];
+}
+
 export interface DocGuideItem {
   title: string;
   subtitle: string;
@@ -23,21 +33,21 @@ export const DOCUMENTATION_LIST: DocGuideItem[] = [
     title: "Introduction",
     subtitle: "Architecture philosophy and Niko Pirosmani tribute",
     href: "/docs",
-    // shortcut: "⌘1",
+    shortcut: "⌘1",
     icon: BookOpen,
   },
   {
     title: "CLI Reference",
     subtitle: "nikala init, add, validate, diff, theme",
     href: "/docs/cli",
-    // shortcut: "⌘2",
+    shortcut: "⌘2",
     icon: Terminal,
   },
   {
     title: "Theming Guide",
     subtitle: "Dynamic theme provider and color palettes",
     href: "/docs/theming",
-    // shortcut: "⌘3",
+    shortcut: "⌘3",
     icon: Palette,
   },
 ];
@@ -70,4 +80,23 @@ export const COMPONENTS_LIST: DocComponentItem[] = [
   { name: "tabs", title: "Tabs", description: "Layered content switcher supporting horizontal/vertical tabs", href: "/docs/components/tabs" },
   { name: "textarea", title: "Textarea", description: "Multi-line text area field with focus styling", href: "/docs/components/textarea" },
   { name: "theme-manager", title: "Theme Manager", description: "Zero-dependency ThemeProvider and ThemeToggle", href: "/docs/components/theme-manager" },
+];
+
+/* --- Global Sidebar Navigation Config --- */
+export const DOCS_SIDEBAR_NAVIGATION: NavSection[] = [
+  {
+    title: "Getting Started",
+    items: [
+      { title: "Introduction", href: "/docs" },
+      { title: "CLI Reference", href: "/docs/cli" },
+      { title: "Theming", href: "/docs/theming" },
+    ],
+  },
+  {
+    title: "Components",
+    items: COMPONENTS_LIST.map((comp) => ({
+      title: comp.title,
+      href: comp.href,
+    })),
+  },
 ];

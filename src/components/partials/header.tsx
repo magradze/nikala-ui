@@ -16,6 +16,7 @@ import {
   CommandFooter,
 } from "@/components/ui/command";
 import { Terminal, Component as ComponentIcon, BookOpen, Search, Palette } from "lucide-solid";
+import { MobileNav } from "@/components/partials/mobile-nav";
 
 export function Header() {
   const [open, setOpen] = createSignal(false);
@@ -39,13 +40,14 @@ export function Header() {
       <header class="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60">
         <div class="container-full flex h-14 max-w-full items-center justify-between px-4">
           {/* Left: Brand Logo & Title */}
-          <div class="flex items-center gap-6">
+          <div class="flex items-center gap-2">
+            <MobileNav />
             <A href="/" class="flex items-center gap-2 font-bold text-lg tracking-tight hover:opacity-90 transition-opacity">
               <span class="inline-flex items-center justify-center w-7 h-7 rounded-md bg-primary text-primary-foreground font-extrabold text-sm shadow-sm">
                 N
               </span>
-              <span>Nikala UI</span>
-              <Badge variant="outline" class="ml-1 text-[10px] px-1.5 py-0 border-primary/30 text-primary">
+              <span class="hidden md:block">Nikala UI</span>
+              <Badge variant="outline" class="ml-1 text-[10px] px-1.5 py-0 border-primary/30 text-primary hidden md:block">
                 v0.4.0
               </Badge>
             </A>
