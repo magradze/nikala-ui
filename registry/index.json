@@ -138,6 +138,19 @@
     ]
   },
   {
+    "name": "list",
+    "title": "List / List Item",
+    "description": "Compound list components supporting icons, avatars, titles, subtitles, hotkey badges, chevron indicators, and interactive links.",
+    "type": "registry:ui",
+    "dependencies": [
+      "clsx",
+      "tailwind-merge",
+      "class-variance-authority",
+      "lucide-solid",
+      "@kobalte/core"
+    ]
+  },
+  {
     "name": "radio-group",
     "title": "Radio Group",
     "description": "A set of checkable buttons built on Kobalte primitives where only one button can be checked at a time.",

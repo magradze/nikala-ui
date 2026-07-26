@@ -121,4 +121,9 @@ export const COMPONENT_METADATA: Record<string, ComponentMeta> = {
     description: "An announcement banner with sticky positioning, dismissal persistence, auto-hide timer, Lucide icons, and variant styles.",
     dependencies: ["clsx", "tailwind-merge", "class-variance-authority", "lucide-solid"],
   },
+  list: {
+    title: "List / List Item",
+    description: "Compound list components supporting icons, avatars, titles, subtitles, hotkey badges, chevron indicators, and interactive links.",
+    dependencies: ["clsx", "tailwind-merge", "class-variance-authority", "lucide-solid", "@kobalte/core"],
+  },
 };
