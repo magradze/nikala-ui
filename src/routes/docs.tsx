@@ -1,6 +1,6 @@
 import type { RouteSectionProps } from "@solidjs/router";
 import type { Component } from "solid-js";
-import { SiteHeader } from "@/components/site-header";
+import { SiteHeader } from "~/components/partials/header";
 import { DocsSidebar } from "@/components/docs-sidebar";
 
 const DocsLayout: Component<RouteSectionProps> = (props) => {
