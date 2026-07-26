@@ -12,29 +12,29 @@ interface CodeBlockProps {
 export const CodeBlock: Component<CodeBlockProps> = (props) => {
   const [copied, setCopied] = createSignal(false);
 
-  /* Asynchronously highlight code using fine-grained Shiki highlighter */
+  /* Asynchronously highlight code */
   const [highlightedCode] = createResource(
-    () => ({ code: props.code, lang: props.lang || "tsx" }),
+    () => ({ code: props.code.trim(), lang: props.lang || "tsx" }),
     async ({ code, lang }) => await highlightCode(code, lang)
   );
 
   const handleCopy = async () => {
-    await navigator.clipboard.writeText(props.code);
+    await navigator.clipboard.writeText(props.code.trim());
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
 
   return (
     <div
-      class={`relative group rounded-lg border border-border bg-zinc-100/80 dark:bg-zinc-900/90 text-zinc-900 dark:text-zinc-100 p-4 font-mono text-sm overflow-x-auto shadow-sm ${props.class || ""
+      class={`relative group rounded-lg border border-border bg-zinc-100/90 dark:bg-zinc-950/90 text-zinc-900 dark:text-zinc-100 p-4 font-mono text-sm overflow-x-auto shadow-sm ${props.class || ""
         }`}
     >
-      {/* Copy Button with Light and Dark adaptive styling */}
-      <div class="absolute right-3 top-3 opacity-0 group-hover:opacity-100 transition-opacity">
+      {/* Copy Button */}
+      <div class="absolute right-3 top-3 opacity-0 group-hover:opacity-100 transition-opacity z-10">
         <Button
           variant="outline"
           size="sm"
-          class="h-8 px-2 text-xs bg-zinc-200/90 dark:bg-zinc-800 border-zinc-300 dark:border-zinc-700 text-zinc-800 dark:text-zinc-200 hover:bg-zinc-300 dark:hover:bg-zinc-700 hover:text-foreground"
+          class="h-7 px-2 text-xs bg-zinc-200/90 dark:bg-zinc-800 border-zinc-300 dark:border-zinc-700 text-zinc-800 dark:text-zinc-200 hover:bg-zinc-300 dark:hover:bg-zinc-700 hover:text-foreground"
           onClick={handleCopy}
         >
           <Show
@@ -78,7 +78,7 @@ export const CodeBlock: Component<CodeBlockProps> = (props) => {
         </Button>
       </div>
 
-      {/* Render Highlighting HTML */}
+      {/* Render Prism Highlighting inside pre for strict whitespace preservation */}
       <Show
         when={!highlightedCode.loading}
         fallback={
@@ -87,7 +87,9 @@ export const CodeBlock: Component<CodeBlockProps> = (props) => {
           </pre>
         }
       >
-        <div class="overflow-x-auto" innerHTML={highlightedCode() || ""} />
+        <pre class="font-mono text-sm leading-relaxed whitespace-pre overflow-x-auto">
+          <code innerHTML={highlightedCode() || ""} />
+        </pre>
       </Show>
     </div>
   );
