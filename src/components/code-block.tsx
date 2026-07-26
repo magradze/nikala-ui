@@ -1,4 +1,3 @@
-// src/components/code-block.tsx
 import {
   createEffect,
   createSignal,
@@ -21,7 +20,7 @@ export const CodeBlock: Component<CodeBlockProps> = (props) => {
 
   const cleanCode = () => props.code.trim();
 
-  /* Highlight code post-hydration to guarantee 100% SSR hydration match */
+  /* Highlight code post-hydration */
   onMount(async () => {
     const html = await highlightCode(cleanCode(), props.lang || "tsx");
     setHighlighted(html);
@@ -92,9 +91,12 @@ export const CodeBlock: Component<CodeBlockProps> = (props) => {
         </Button>
       </div>
 
-      {/* Code Container with perfect hydration match */}
+      {/* Code Container */}
       <pre class="font-mono text-sm leading-relaxed whitespace-pre overflow-x-auto">
-        <code innerHTML={highlighted() || cleanCode()} />
+        <code
+          class={`language-${props.lang || "tsx"}`}
+          innerHTML={highlighted() || cleanCode()}
+        />
       </pre>
     </div>
   );
