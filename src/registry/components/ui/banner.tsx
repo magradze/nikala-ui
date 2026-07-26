@@ -1,3 +1,4 @@
+// src/components/ui/banner.tsx
 import {
   createSignal,
   onMount,
@@ -7,7 +8,9 @@ import {
   type Component,
   type JSX,
 } from "solid-js";
+import { Dynamic } from "solid-js/web";
 import { cva, type VariantProps } from "class-variance-authority";
+import { Info, AlertTriangle, CheckCircle, AlertCircle, X } from "lucide-solid";
 import { cn } from "@/lib/cn";
 
 export const bannerVariants = cva(
@@ -47,8 +50,10 @@ export interface BannerProps
   autoHideDelay?: number;
   storageKey?: string;
   showIcon?: boolean;
-  icon?: JSX.Element;
-  action?: JSX.Element;
+  icon?: Component<{ class?: string }>;
+  link?: string;
+  linkText?: string;
+  linkTarget?: string;
   onDismiss?: () => void;
   class?: string;
 }
@@ -65,7 +70,9 @@ export const Banner: Component<BannerProps> = (props) => {
     "storageKey",
     "showIcon",
     "icon",
-    "action",
+    "link",
+    "linkText",
+    "linkTarget",
     "onDismiss",
     "class",
     "children",
@@ -75,7 +82,6 @@ export const Banner: Component<BannerProps> = (props) => {
   let timerId: ReturnType<typeof setTimeout> | undefined;
 
   onMount(() => {
-    /* Check localStorage persistence if storageKey is provided */
     if (local.storageKey) {
       try {
         const isDismissed = localStorage.getItem(local.storageKey);
@@ -83,12 +89,9 @@ export const Banner: Component<BannerProps> = (props) => {
           setVisible(false);
           return;
         }
-      } catch (e) {
-        /* Ignore SSR / localStorage errors */
-      }
+      } catch (e) { }
     }
 
-    /* Auto-hide timer logic */
     if (local.autoHideDelay && local.autoHideDelay > 0) {
       timerId = setTimeout(() => {
         handleDismiss();
@@ -114,6 +117,24 @@ export const Banner: Component<BannerProps> = (props) => {
     }
   };
 
+  /* Default icon selector based on banner variant */
+  const getDefaultIcon = () => {
+    switch (local.variant) {
+      case "warning":
+        return AlertTriangle;
+      case "success":
+        return CheckCircle;
+      case "destructive":
+        return AlertCircle;
+      default:
+        return Info;
+    }
+  };
+
+  const activeIcon = () => local.icon || getDefaultIcon();
+  const shouldShowIcon = () => local.showIcon !== false;
+  const shouldBeDismissible = () => local.dismissible !== false;
+
   return (
     <Show when={visible()}>
       <div
@@ -124,62 +145,42 @@ export const Banner: Component<BannerProps> = (props) => {
         {...rest}
       >
         <div class="flex flex-1 items-center justify-center gap-2 text-center sm:text-left">
-          {/* Leading Icon */}
-          <Show when={local.showIcon ?? true}>
-            <Show
-              when={local.icon}
-              fallback={
-                <svg
-                  class="h-4 w-4 shrink-0 opacity-80"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  stroke-width="2"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                  />
-                </svg>
-              }
-            >
-              {local.icon}
-            </Show>
+          {/* Dynamic Lucide Icon */}
+          <Show when={shouldShowIcon()}>
+            <span class="inline-flex shrink-0 items-center justify-center">
+              <Dynamic component={activeIcon()} class="h-4 w-4 opacity-80" />
+            </span>
           </Show>
 
-          {/* Banner Text / Content */}
+          {/* Text Content */}
           <div class="flex-1 text-xs font-medium sm:text-sm">
             {local.children}
           </div>
 
-          {/* Action Element */}
-          <Show when={local.action}>
-            <div class="shrink-0">{local.action}</div>
+          {/* Action Link */}
+          <Show when={local.link}>
+            <div class="shrink-0">
+              <a
+                href={local.link}
+                target={local.linkTarget || "_blank"}
+                rel="noreferrer"
+                class="underline font-semibold hover:opacity-80 transition-opacity"
+              >
+                {local.linkText || "Learn more"}
+              </a>
+            </div>
           </Show>
         </div>
 
-        {/* Dismiss Button */}
-        <Show when={local.dismissible ?? true}>
+        {/* Close Button */}
+        <Show when={shouldBeDismissible()}>
           <button
             type="button"
             onClick={handleDismiss}
             class="shrink-0 rounded-md p-1 opacity-70 transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring"
             aria-label="Dismiss banner"
           >
-            <svg
-              class="h-4 w-4"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              stroke-width="2"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="M6 18L18 6M6 6l12 12"
-              />
-            </svg>
+            <X class="h-4 w-4" />
           </button>
         </Show>
       </div>

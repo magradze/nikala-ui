@@ -48,6 +48,7 @@
   "dependencies": {
     "commander": "^15.0.0",
     "fs-extra": "^11.3.6",
+    "lucide-solid": "^1.27.0",
     "picocolors": "^1.1.1",
     "prompts": "^2.4.2",
     "strip-json-comments": "^5.0.3"

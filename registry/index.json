@@ -45,12 +45,13 @@
   {
     "name": "banner",
     "title": "Banner",
-    "description": "An announcement banner with sticky positioning, dismissal persistence, auto-hide timer, and variant styles.",
+    "description": "An announcement banner with sticky positioning, dismissal persistence, auto-hide timer, Lucide icons, and variant styles.",
     "type": "registry:ui",
     "dependencies": [
       "clsx",
       "tailwind-merge",
-      "class-variance-authority"
+      "class-variance-authority",
+      "lucide-solid"
     ]
   },
   {

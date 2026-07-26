@@ -118,7 +118,7 @@ export const COMPONENT_METADATA: Record<string, ComponentMeta> = {
   },
   banner: {
     title: "Banner",
-    description: "An announcement banner with sticky positioning, dismissal persistence, auto-hide timer, and variant styles.",
-    dependencies: ["clsx", "tailwind-merge", "class-variance-authority"],
+    description: "An announcement banner with sticky positioning, dismissal persistence, auto-hide timer, Lucide icons, and variant styles.",
+    dependencies: ["clsx", "tailwind-merge", "class-variance-authority", "lucide-solid"],
   },
 };
