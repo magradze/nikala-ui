@@ -1,12 +1,6 @@
 import { splitProps, type Component, type JSX } from "solid-js";
 import { Badge } from "@/components/ui/badge";
-
-interface DocPageHeaderProps extends JSX.HTMLAttributes<HTMLDivElement> {
-  title: string;
-  description?: string;
-  badge?: string;
-  badgeVariant?: "default" | "secondary" | "outline" | "destructive";
-}
+import { DocPageHeaderProps } from "@/types";
 
 export const DocPageHeader: Component<DocPageHeaderProps> = (props) => {
   const [local, rest] = splitProps(props, [

@@ -1,10 +1,6 @@
+import { DocNextStepsProps } from "@/types";
 import { A } from "@solidjs/router";
 import { type Component } from "solid-js";
-
-interface DocNextStepsProps {
-  prev?: { title: string; href: string };
-  next?: { title: string; href: string };
-}
 
 export const DocNextSteps: Component<DocNextStepsProps> = (props) => {
   return (

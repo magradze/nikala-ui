@@ -1,31 +1,7 @@
 // src/config/docs.ts
 import type { Component } from "solid-js";
 import { BookOpen, Terminal, Palette } from "lucide-solid";
-
-export interface NavItem {
-  title: string;
-  href: string;
-}
-
-export interface NavSection {
-  title: string;
-  items: NavItem[];
-}
-
-export interface DocGuideItem {
-  title: string;
-  subtitle: string;
-  href: string;
-  shortcut?: string;
-  icon: Component<{ class?: string }>;
-}
-
-export interface DocComponentItem {
-  name: string;
-  title: string;
-  description: string;
-  href: string;
-}
+import { DocComponentItem, DocGuideItem, NavSection } from "@/types";
 
 /* --- Documentation Guides List --- */
 export const DOCUMENTATION_LIST: DocGuideItem[] = [

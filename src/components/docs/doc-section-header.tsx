@@ -1,6 +1,6 @@
 import { splitProps, type Component, type JSX } from "solid-js";
 
-interface DocSectionHeaderProps extends JSX.HTMLAttributes<HTMLDivElement> {
+export interface DocSectionHeaderProps extends JSX.HTMLAttributes<HTMLDivElement> {
   title: string;
   description?: string;
 }

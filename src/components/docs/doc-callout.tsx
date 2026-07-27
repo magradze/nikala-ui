@@ -1,4 +1,3 @@
-// src/components/docs/doc-callout.tsx
 import { splitProps, type Component, type JSX } from "solid-js";
 import { Dynamic } from "solid-js/web";
 import { cva, type VariantProps } from "class-variance-authority";
@@ -20,7 +19,7 @@ export const calloutVariants = cva(
   }
 );
 
-interface DocCalloutProps
+export interface DocCalloutProps
   extends JSX.HTMLAttributes<HTMLDivElement>,
     VariantProps<typeof calloutVariants> {
   title?: string;

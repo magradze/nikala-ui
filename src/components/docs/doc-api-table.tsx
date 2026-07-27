@@ -1,19 +1,5 @@
+import { DocApiTableProps } from "@/types";
 import { For, Show, splitProps, type Component, type JSX } from "solid-js";
-
-export interface PropItem {
-  prop: string;
-  type: string;
-  default?: string;
-  description: string;
-  required?: boolean;
-}
-
-export interface DocApiTableProps extends JSX.HTMLAttributes<HTMLDivElement> {
-  title?: string;
-  description?: string;
-  items: PropItem[];
-  class?: string;
-}
 
 export const DocApiTable: Component<DocApiTableProps> = (props) => {
   const [local, rest] = splitProps(props, [

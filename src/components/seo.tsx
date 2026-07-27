@@ -1,13 +1,7 @@
 // src/components/seo.tsx
+import { SeoProps } from "@/types";
 import { Title, Meta, Link } from "@solidjs/meta";
 import { type Component } from "solid-js";
-
-interface SeoProps {
-  title?: string;
-  description?: string;
-  image?: string;
-  path?: string;
-}
 
 const DEFAULT_SEO = {
   title: "Nikala UI — Copy-Paste SolidJS & Tailwind CSS v4 Component System",
