@@ -47,8 +47,8 @@ export const COMPONENT_METADATA: Record<string, ComponentMeta> = {
   },
   label: {
     title: "Label",
-    description: "Renders an accessible label associated with form controls.",
-    dependencies: ["clsx", "tailwind-merge"],
+    description: "Accessible caption label for form controls and inputs.",
+    dependencies: ["clsx", "tailwind-merge", "class-variance-authority"],
   },
   skeleton: {
     title: "Skeleton",
