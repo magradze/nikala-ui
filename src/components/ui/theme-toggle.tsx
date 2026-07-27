@@ -89,10 +89,8 @@ export const ThemeToggle: Component<ThemeToggleProps> = (props) => {
           fill="none"
           stroke="currentColor"
           stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
         >
-          <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z" />
+          <path d="M12 3a6 6 0 0 0 9 9 9 0 1 1-9-9Z" />
         </svg>
 
         <span class="sr-only">Toggle theme</span>
