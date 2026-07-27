@@ -72,29 +72,35 @@ To add the Theme Manager to your project:
 nikala add theme-manager
 ```
 
-This command generates two files in your workspace:
+This command generates three files in your workspace:
 
 - `src/providers/theme-provider.tsx` — Logic provider & `useTheme()` hook.
+- `src/providers/theme-script.tsx` — Anti-FOUC pre-hydration inline script.
 - `src/components/ui/theme-toggle.tsx` — UI switcher button component.
 
 ### Setting Up `ThemeProvider`
 
-Wrap your application root component (e.g., `src/App.tsx` or `src/app.tsx` in SolidStart) with `ThemeProvider`:
+Wrap your application root component (e.g., `src/App.tsx` or `src/app.tsx` in SolidStart) with `ThemeProvider` and include `<ThemeScript />` to prevent theme flickering (Flash of Unstyled Content) during Server-Side Rendering (SSR) before client hydration occurs:
 
 ```tsx
-import { ThemeProvider } from "@/providers/theme-provider";
+import { ThemeProvider, ThemeScript } from "@/providers/theme-provider";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 
 export default function App() {
   return (
-    <ThemeProvider defaultTheme="system" storageKey="nikala-theme">
-      <div class="min-h-screen bg-background text-foreground">
-        <header class="flex items-center justify-between p-4 border-b border-border">
-          <h1>Application Title</h1>
-          <ThemeToggle mode="max" effect="circular" />
-        </header>
-      </div>
-    </ThemeProvider>
+    <>
+      {/* Synchronously executes before DOM paint to prevent white theme flash in SSR */}
+      <ThemeScript storageKey="nikala-theme" />
+
+      <ThemeProvider defaultTheme="system" storageKey="nikala-theme">
+        <div class="min-h-screen bg-background text-foreground">
+          <header class="flex items-center justify-between p-4 border-b border-border">
+            <h1>Application Title</h1>
+            <ThemeToggle mode="max" effect="circular" />
+          </header>
+        </div>
+      </ThemeProvider>
+    </>
   );
 }
 ```
@@ -107,6 +113,23 @@ export default function App() {
 | `defaultAccent` | `AccentColor` | `undefined` | Optional default primary accent color override. |
 | `defaultRadius` | `Radius` | `undefined` | Optional default border radius override. |
 | `storageKey` | `string` | `"nikala-theme"` | Namespace key used for `localStorage` persistence. |
+
+#### Anti-FOUC Script (`ThemeScript`)
+
+Render `<ThemeScript />` synchronously at the root of your HTML layout before `<ThemeProvider>`:
+
+```tsx
+<ThemeScript storageKey="nikala-theme" defaultTheme="system" />
+```
+
+##### `ThemeScript` Props
+
+| Prop | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `storageKey` | `string` | `"nikala-theme"` | Namespace key used to read saved theme preferences from `localStorage`. |
+| `defaultTheme` | `"light" \| "dark" \| "system"` | `"system"` | Initial fallback theme mode before client hydration. |
+| `defaultAccent` | `string` | `""` | Optional initial primary accent color fallback. |
+| `defaultRadius` | `string` | `""` | Optional initial border radius fallback. |
 
 ---
 
