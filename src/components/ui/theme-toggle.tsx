@@ -1,4 +1,5 @@
 import { splitProps, type Component, For, Show } from "solid-js";
+import { Sun, Moon, Monitor } from "lucide-solid";
 import {
   useTheme,
   type AccentColor,
@@ -56,6 +57,17 @@ export const ThemeToggle: Component<ThemeToggleProps> = (props) => {
   const mode = () => local.mode || "mini";
   const effect = () => local.effect || "none";
 
+  /* Reactive accessor determining whether dark mode is active */
+  const isDarkMode = () => {
+    const currentTheme = theme();
+    if (currentTheme === "dark") return true;
+    if (currentTheme === "light") return false;
+    return (
+      typeof window !== "undefined" &&
+      window.matchMedia("(prefers-color-scheme: dark)").matches
+    );
+  };
+
   const changeThemeWithEffect = (newTheme: Theme, e: MouseEvent) => {
     runThemeTransition(effect(), e, () => {
       setTheme(newTheme);
@@ -70,28 +82,13 @@ export const ThemeToggle: Component<ThemeToggleProps> = (props) => {
         size="icon"
         class={cn("relative h-9 w-9 cursor-pointer", local.class)}
       >
-        {/* Sun Icon (Visible in Light Mode) */}
-        <svg
-          class="h-4 w-4 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
+        {/* Reactive Sun / Moon Icon Toggle */}
+        <Show
+          when={isDarkMode()}
+          fallback={<Sun class="h-4 w-4 text-foreground transition-transform" />}
         >
-          <circle cx="12" cy="12" r="4" />
-          <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M18.36 5.64l1.41-1.41" />
-        </svg>
-
-        {/* Moon Icon (Visible in Dark Mode) */}
-        <svg
-          class="absolute h-4 w-4 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-        >
-          <path d="M12 3a6 6 0 0 0 9 9 9 0 1 1-9-9Z" />
-        </svg>
+          <Moon class="h-4 w-4 text-foreground transition-transform" />
+        </Show>
 
         <span class="sr-only">Toggle theme</span>
       </DropdownMenuTrigger>
@@ -102,26 +99,17 @@ export const ThemeToggle: Component<ThemeToggleProps> = (props) => {
           /* Mini Mode: Compact Dropdown */
           <DropdownMenuContent>
             <DropdownMenuItem onClick={(e: MouseEvent) => changeThemeWithEffect("light", e)}>
-              <svg class="mr-2 h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <circle cx="12" cy="12" r="4" />
-                <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M18.36 5.64l1.41-1.41" />
-              </svg>
+              <Sun class="mr-2 h-4 w-4 text-muted-foreground" />
               Light
             </DropdownMenuItem>
 
             <DropdownMenuItem onClick={(e: MouseEvent) => changeThemeWithEffect("dark", e)}>
-              <svg class="mr-2 h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M12 3a6 6 0 0 0 9 9 9 0 1 1-9-9Z" />
-              </svg>
+              <Moon class="mr-2 h-4 w-4 text-muted-foreground" />
               Dark
             </DropdownMenuItem>
 
             <DropdownMenuItem onClick={(e: MouseEvent) => changeThemeWithEffect("system", e)}>
-              <svg class="mr-2 h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <rect width="20" height="14" x="2" y="3" rx="2" />
-                <line x1="8" x2="16" y1="21" y2="21" />
-                <line x1="12" x2="12" y1="17" y2="21" />
-              </svg>
+              <Monitor class="mr-2 h-4 w-4 text-muted-foreground" />
               System
             </DropdownMenuItem>
           </DropdownMenuContent>
