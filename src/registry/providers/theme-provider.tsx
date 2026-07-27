@@ -204,3 +204,5 @@ export function useTheme(): ThemeProviderContextValue {
   }
   return context;
 }
+
+export { ThemeScript, type ThemeScriptProps } from "./theme-script";
