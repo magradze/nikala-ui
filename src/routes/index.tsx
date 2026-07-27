@@ -1,11 +1,10 @@
-// src/routes/index.tsx
-import { Header } from "~/components/partials/header";
+import { Header } from "@/components/partials/header";
 
 import { Seo } from "@/components/seo";
 import { Hero } from "@/components/sections/hero";
-import { Showcase } from "@/components/sections/showcase";
-import { Features } from "@/components/sections/features";
-import { Footer } from "~/components/partials/footer";
+// import { Showcase } from "@/components/sections/showcase";
+// import { Features } from "@/components/sections/features";
+import { Footer } from "@/components/partials/footer";
 
 export default function Home() {
   return (
@@ -23,8 +22,8 @@ export default function Home() {
         {/* Main Content */}
         <main class="flex-1">
           <Hero />
-          <Showcase />
-          <Features />
+          {/* <Showcase /> */}
+          {/* <Features /> */}
         </main>
 
         <Footer />
