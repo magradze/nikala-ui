@@ -18,20 +18,23 @@ function getLocalRegistryDirectory(): string {
 
 /**
  * Reads and parses the central registry index manifest.
- * Attempts remote fetch from GitHub Raw CDN first, falling back to local package files if offline.
+ * Bypasses GitHub Raw CDN caching using timestamps and fetches fresh index files.
  *
  * @returns The list of available registry items or null if not found.
  */
 export async function getRegistryIndex(): Promise<RegistryIndex | null> {
-  // 1. Attempt fetching online manifest from GitHub Raw CDN
+  // 1. Attempt fetching online manifest from GitHub Raw CDN with cache-busting
   try {
-    const response = await fetch(`${OFFICIAL_REGISTRY_URL}/index.json`);
+    const cacheBuster = Date.now();
+    const response = await fetch(`${OFFICIAL_REGISTRY_URL}/index.json?t=${cacheBuster}`, {
+      headers: { "Cache-Control": "no-cache, no-store" },
+    });
     if (response.ok) {
       const data = (await response.json()) as RegistryIndex;
       if (Array.isArray(data)) return data;
     }
   } catch {
-  // Fallback to local files if offline or network error occurs
+    // Fallback to local files if offline or network error occurs
   }
 
   // 2. Local package fallback
@@ -51,11 +54,15 @@ export async function getRegistryIndex(): Promise<RegistryIndex | null> {
 }
 
 /**
- * Fetches a component manifest from a remote HTTP(S) URL.
+ * Fetches a component manifest from a remote HTTP(S) URL with cache-busting.
  */
 export async function fetchRemoteRegistryItem(url: string): Promise<RegistryItem | null> {
   try {
-    const response = await fetch(url);
+    const cacheBuster = Date.now();
+    const fetchUrl = url.includes("?") ? `${url}&t=${cacheBuster}` : `${url}?t=${cacheBuster}`;
+    const response = await fetch(fetchUrl, {
+      headers: { "Cache-Control": "no-cache, no-store" },
+    });
     if (!response.ok) return null;
 
     const data = (await response.json()) as RegistryItem;
