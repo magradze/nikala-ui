@@ -50,10 +50,20 @@ async function buildRegistry() {
       },
     ];
 
-    // Include theme-provider.tsx and theme-transitions.ts if building theme-manager
+    // Include theme-provider.tsx, theme-script.tsx, and theme-transitions.ts if building theme-manager
     if (componentName === "theme-manager") {
+      const scriptPath = path.join(providerDir, "theme-script.tsx");
       const transitionsPath = path.join(providerDir, "theme-transitions.ts");
       const providerPath = path.join(providerDir, "theme-provider.tsx");
+
+      if (await fs.pathExists(scriptPath)) {
+        const scriptContent = await fs.readFile(scriptPath, "utf-8");
+        registryFiles.unshift({
+          path: "providers/theme-script.tsx",
+          content: scriptContent,
+          type: "registry:ui" as const,
+        });
+      }
 
       if (await fs.pathExists(transitionsPath)) {
         const transitionContent = await fs.readFile(transitionsPath, "utf-8");
