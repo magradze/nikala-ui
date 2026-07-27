@@ -383,7 +383,7 @@ export const Hero: () => JSX.Element = () => {
                   </div>
                 </CardContent>
 
-                <CardFooter class="p-6 pt-0 flex items-center justify-between border-t border-border/40">
+                <CardFooter class="p-6 pt-4 flex items-center justify-between border-t border-border/40">
                   <span class="text-xs text-muted-foreground">
                     Smooth CSS keyframe pulse animations
                   </span>
