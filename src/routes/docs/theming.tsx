@@ -33,7 +33,7 @@ export default function ThemingDocsPage() {
 
         <DocNextSteps
           prev={{ title: "CLI Reference Guide", href: "/docs/cli" }}
-          next={{ title: "Button Component", href: "/docs/components/button" }}
+          next={{ title: "Accordion Component", href: "/docs/components/accordion" }}
         />
       </div>
     </>

@@ -55,7 +55,7 @@ export function Header() {
             {/* Main Navigation */}
             <nav class="hidden md:flex items-center gap-5 text-sm font-medium text-muted-foreground">
               <A href="/docs" class="hover:text-foreground transition-colors">Documentation</A>
-              <A href="/docs/components/button" class="hover:text-foreground transition-colors">Components</A>
+              <A href="/docs/components/accordion" class="hover:text-foreground transition-colors">Components</A>
               <A href="/playground" class="hover:text-foreground transition-colors">Playground</A>
             </nav>
           </div>
