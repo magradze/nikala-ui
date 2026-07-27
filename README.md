@@ -83,7 +83,12 @@ nikala-web/
 
 ## Contributing
 
-Contributions to documentation, bug fixes, and component examples are welcome. Please open an issue or submit a pull request.
+Contributions to documentation, bug fixes, and component examples are welcome. Please review our guides before submitting a pull request:
+
+- [Component Documentation Guide](docs/COMPONENT_DOCS_GUIDE.md) — How to add documentation pages for new components.
+- [Playground Stage Guide](docs/PLAYGROUND_STAGE_GUIDE.md) — How to add interactive stage modules to the playground.
+
+For general guidelines, see [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## License
 
