@@ -89,7 +89,7 @@ export const Banner: Component<BannerProps> = (props) => {
           setVisible(false);
           return;
         }
-      } catch (e) {}
+      } catch (e) { }
     }
 
     if (local.autoHideDelay && local.autoHideDelay > 0) {

@@ -1,9 +1,7 @@
-// src/components/ui/command.tsx
 import {
   createContext,
   useContext,
   createSignal,
-  createEffect,
   onMount,
   onCleanup,
   Show,
@@ -15,25 +13,14 @@ import {
 import { Dialog } from "@kobalte/core/dialog";
 import { Search, ArrowUp, ArrowDown, CornerDownLeft } from "lucide-solid";
 import { cn } from "@/lib/cn";
-import { Kbd, KbdGroup } from "@/components/ui/kbd";
-import { InputGroup, InputGroupInput, InputGroupAddon } from "@/components/ui/input-group";
-import { List, ListGroup, ListHeader, ListItem, type ListItemProps } from "@/components/ui/list";
-
-interface VisibleItem {
-  id: string;
-  onSelect?: () => void;
-  href?: string;
-}
+import { Kbd, KbdGroup } from "../ui/kbd";
+import { InputGroup, InputGroupInput, InputGroupAddon } from "../ui/input-group";
+import { List, ListGroup, ListHeader, ListItem, type ListItemProps } from "../ui/list";
 
 /* --- Command Context State --- */
 interface CommandContextValue {
   search: Accessor<string>;
   setSearch: (value: string) => void;
-  activeIndex: Accessor<number>;
-  setActiveIndex: (index: number | ((prev: number) => number)) => void;
-  visibleItems: Accessor<VisibleItem[]>;
-  registerVisibleItem: (item: VisibleItem) => void;
-  unregisterVisibleItem: (id: string) => void;
 }
 
 const CommandContext = createContext<CommandContextValue>();
@@ -54,65 +41,10 @@ export interface CommandProps extends JSX.HTMLAttributes<HTMLDivElement> {
 export const Command: Component<CommandProps> = (props) => {
   const [local, rest] = splitProps(props, ["class", "children"]);
   const [search, setSearch] = createSignal("");
-  const [activeIndex, setActiveIndex] = createSignal(0);
-  const [visibleItems, setVisibleItems] = createSignal<VisibleItem[]>([]);
-
-  /* Reset selected item index when search query updates */
-  createEffect(() => {
-    search();
-    setActiveIndex(0);
-  });
-
-  const registerVisibleItem = (item: VisibleItem) => {
-    setVisibleItems((prev) => {
-      if (prev.some((i) => i.id === item.id)) return prev;
-      return [...prev, item];
-    });
-  };
-
-  const unregisterVisibleItem = (id: string) => {
-    setVisibleItems((prev) => prev.filter((i) => i.id !== id));
-  };
-
-  /* Listen for global keyboard navigation (Up, Down, Enter) */
-  const handleKeyDown = (e: KeyboardEvent) => {
-    const items = visibleItems();
-    if (items.length === 0) return;
-
-    if (e.key === "ArrowDown") {
-      e.preventDefault();
-      setActiveIndex((prev) => (prev + 1) % items.length);
-    } else if (e.key === "ArrowUp") {
-      e.preventDefault();
-      setActiveIndex((prev) => (prev - 1 + items.length) % items.length);
-    } else if (e.key === "Enter") {
-      e.preventDefault();
-      const current = items[activeIndex()];
-      if (current) {
-        if (typeof current.onSelect === "function") {
-          current.onSelect();
-        }
-        if (current.href) {
-          window.location.href = current.href;
-        }
-      }
-    }
-  };
 
   return (
-    <CommandContext.Provider
-      value={{
-        search,
-        setSearch,
-        activeIndex,
-        setActiveIndex,
-        visibleItems,
-        registerVisibleItem,
-        unregisterVisibleItem,
-      }}
-    >
+    <CommandContext.Provider value={{ search, setSearch }}>
       <div
-        onKeyDown={handleKeyDown}
         class={cn(
           "flex flex-col w-full h-full rounded-xl bg-popover text-popover-foreground overflow-hidden border border-border shadow-md",
           local.class
@@ -143,6 +75,7 @@ export const CommandDialog: Component<CommandDialogProps> = (props) => {
     if (typeof props.onOpenChange === "function") props.onOpenChange(val);
   };
 
+  /* Listen for global Ctrl+K / Cmd+K hotkeys */
   onMount(() => {
     if (props.enableHotkey !== false) {
       const handleKeyDown = (e: KeyboardEvent) => {
@@ -159,9 +92,9 @@ export const CommandDialog: Component<CommandDialogProps> = (props) => {
   return (
     <Dialog open={isOpen()} onOpenChange={setOpen}>
       <Dialog.Portal>
-        <Dialog.Overlay class="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs data-expanded:animate-in dat-[closed:animate-out data-[closed]:fade-out-0 data-[expanded]:fade-in-0" />
+        <Dialog.Overlay class="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs data-[expanded]:animate-in data-[closed]:animate-out data-[closed]:fade-out-0 data-[expanded]:fade-in-0" />
         <div class="fixed inset-0 z-50 flex items-start justify-center pt-16 sm:pt-24 px-4">
-          <Dialog.Content class="w-full max-w-xl rounded-xl border border-border bg-popover text-popover-foreground shadow-2xl outline-none data-expanded:animate-in dat-[closed:animate-out data-[closed]:fade-out-0 data-[expanded]:fade-in-0 data-[closed]:zoom-out-95 data-[expanded]:zoom-in-95">
+          <Dialog.Content class="w-full max-w-xl rounded-xl border border-border bg-popover text-popover-foreground shadow-2xl outline-none data-[expanded]:animate-in data-[closed]:animate-out data-[closed]:fade-out-0 data-[expanded]:fade-in-0 data-[closed]:zoom-out-95 data-[expanded]:zoom-in-95">
             <Command class={props.class}>{props.children}</Command>
           </Dialog.Content>
         </div>
@@ -212,7 +145,7 @@ export const CommandList: Component<CommandListProps> = (props) => {
 
   return (
     <div
-      class={cn("max-h-82.5 overflow-y-auto p-1.5 scrollbar-thin", local.class)}
+      class={cn("max-h-[330px] overflow-y-auto p-1.5 scrollbar-thin", local.class)}
       {...rest}
     >
       <List>{local.children}</List>
@@ -227,13 +160,10 @@ export interface CommandEmptyProps extends JSX.HTMLAttributes<HTMLDivElement> {
 
 export const CommandEmpty: Component<CommandEmptyProps> = (props) => {
   const [local, rest] = splitProps(props, ["class", "children"]);
-  const { search, visibleItems } = useCommand();
-
-  /* Show empty block strictly when search text exists AND zero matches are found */
-  const shouldShow = () => search().trim().length > 0 && visibleItems().length === 0;
+  const { search } = useCommand();
 
   return (
-    <Show when={shouldShow()}>
+    <Show when={search().trim().length > 0}>
       <div
         class={cn(
           "py-8 text-center text-sm text-muted-foreground font-medium select-none",
@@ -264,8 +194,6 @@ export const CommandGroup: Component<CommandGroupProps> = (props) => {
 };
 
 /* --- Command Item --- */
-let itemIdCounter = 0;
-
 export interface CommandItemProps extends ListItemProps {
   keywords?: string[];
   onSelect?: () => void;
@@ -278,13 +206,11 @@ export const CommandItem: Component<CommandItemProps> = (props) => {
     "keywords",
     "onSelect",
     "onClick",
-    "href",
     "class",
   ]);
-  const { search, activeIndex, visibleItems, registerVisibleItem, unregisterVisibleItem } = useCommand();
+  const { search } = useCommand();
 
-  const itemId = `cmd-item-${++itemIdCounter}`;
-
+  /* Auto fuzzy-filter item based on search query */
   const matchesSearch = () => {
     const query = search().toLowerCase().trim();
     if (!query) return true;
@@ -296,30 +222,6 @@ export const CommandItem: Component<CommandItemProps> = (props) => {
     );
 
     return Boolean(titleMatch || subtitleMatch || keywordMatch);
-  };
-
-  /* Dynamic registration of visible items for active arrow selection */
-  createEffect(() => {
-    const isMatch = matchesSearch();
-    if (isMatch) {
-      registerVisibleItem({
-        id: itemId,
-        onSelect: local.onSelect,
-        href: local.href,
-      });
-    } else {
-      unregisterVisibleItem(itemId);
-    }
-  });
-
-  onCleanup(() => {
-    unregisterVisibleItem(itemId);
-  });
-
-  const isCurrentActive = () => {
-    const items = visibleItems();
-    const index = items.findIndex((i) => i.id === itemId);
-    return index !== -1 && index === activeIndex();
   };
 
   const handleClick = (e: MouseEvent) => {
@@ -336,8 +238,6 @@ export const CommandItem: Component<CommandItemProps> = (props) => {
       <ListItem
         title={local.title}
         subtitle={local.subtitle}
-        href={local.href}
-        active={isCurrentActive()}
         onClick={handleClick}
         class={local.class}
         {...rest}
