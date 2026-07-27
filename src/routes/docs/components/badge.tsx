@@ -88,7 +88,7 @@ export default function BadgeDocsPage() {
                 {/* Footer Navigation */}
                 <DocNextSteps
                     prev={{ title: "Avatar Component", href: "/docs/components/avatar" }}
-                    next={{ title: "Breadcrumb Component", href: "/docs/components/breadcrumb" }}
+                    next={{ title: "Banner Component", href: "/docs/components/banner" }}
                 />
             </div>
         </>

@@ -168,8 +168,8 @@ export default function InputGroupDocsPage() {
 
         {/* Footer Navigation */}
         <DocNextSteps
-          prev={{ title: "Kbd Component", href: "/docs/components/kbd" }}
-          next={{ title: "Command Palette", href: "/docs/components/command" }}
+          prev={{ title: "Input Component", href: "/docs/components/input" }}
+          next={{ title: "Kbd Component", href: "/docs/components/kbd" }}
         />
       </div>
     </>

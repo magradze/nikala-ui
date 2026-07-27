@@ -309,7 +309,7 @@ export default function CardDocsPage() {
 
                 {/* Footer Navigation */}
                 <DocNextSteps
-                    prev={{ title: "Breadcrumb Component", href: "/docs/components/breadcrumb" }}
+                    prev={{ title: "Button Component", href: "/docs/components/button" }}
                     next={{ title: "Checkbox Component", href: "/docs/components/checkbox" }}
                 />
             </div>

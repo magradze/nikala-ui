@@ -221,8 +221,8 @@ export default function BreadcrumbDocsPage() {
 
                 {/* Footer Navigation */}
                 <DocNextSteps
-                    prev={{ title: "Badge Component", href: "/docs/components/badge" }}
-                    next={{ title: "Card Component", href: "/docs/components/card" }}
+                    prev={{ title: "Banner Component", href: "/docs/components/banner" }}
+                    next={{ title: "Button Component", href: "/docs/components/button" }}
                 />
             </div>
         </>

@@ -153,7 +153,7 @@ export default function InputDocsPage() {
         {/* Footer Navigation */}
         <DocNextSteps
           prev={{ title: "Dropdown Menu", href: "/docs/components/dropdown-menu" }}
-          next={{ title: "Label Component", href: "/docs/components/label" }}
+          next={{ title: "Input Group", href: "/docs/components/input-group" }}
         />
       </div>
     </>

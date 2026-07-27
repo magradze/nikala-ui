@@ -234,7 +234,7 @@ export default function CheckboxDocsPage() {
                 {/* Footer Navigation */}
                 <DocNextSteps
                     prev={{ title: "Card Component", href: "/docs/components/card" }}
-                    next={{ title: "Dialog Component", href: "/docs/components/dialog" }}
+                    next={{ title: "Command Palette", href: "/docs/components/command" }}
                 />
             </div>
         </>

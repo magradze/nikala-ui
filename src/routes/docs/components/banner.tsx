@@ -234,8 +234,8 @@ export default function BannerDocsPage() {
 
         {/* Footer Navigation */}
         <DocNextSteps
-          prev={{ title: "Button Component", href: "/docs/components/button" }}
-          next={{ title: "List Component", href: "/docs/components/list" }}
+          prev={{ title: "Badge Component", href: "/docs/components/badge" }}
+          next={{ title: "Breadcrumb Component", href: "/docs/components/breadcrumb" }}
         />
       </div>
     </>

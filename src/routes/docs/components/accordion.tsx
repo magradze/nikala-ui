@@ -241,7 +241,7 @@ export default function AccordionDocsPage() {
 
         {/* Footer Navigation */}
         <DocNextSteps
-          prev={{ title: "Command Palette", href: "/docs/components/command" }}
+          prev={{ title: "Theming", href: "/docs/theming" }}
           next={{ title: "Alert Component", href: "/docs/components/alert" }}
         />
       </div>

@@ -292,8 +292,8 @@ export default function ListDocsPage() {
 
         {/* Footer Navigation */}
         <DocNextSteps
-          prev={{ title: "Banner Component", href: "/docs/components/banner" }}
-          next={{ title: "Kbd Component", href: "/docs/components/kbd" }}
+          prev={{ title: "Label Component", href: "/docs/components/label" }}
+          next={{ title: "Radio Group", href: "/docs/components/radio-group" }}
         />
       </div>
     </>

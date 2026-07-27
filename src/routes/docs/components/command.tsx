@@ -272,8 +272,8 @@ export default function CommandDocsPage() {
 
         {/* Footer Navigation */}
         <DocNextSteps
-          prev={{ title: "Input Group", href: "/docs/components/input-group" }}
-          next={{ title: "Theme Manager", href: "/docs/components/theme-manager" }}
+          prev={{ title: "Checkbox Component", href: "/docs/components/checkbox" }}
+          next={{ title: "Dialog Component", href: "/docs/components/dialog" }}
         />
       </div>
     </>

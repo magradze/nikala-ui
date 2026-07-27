@@ -296,7 +296,7 @@ export default function DialogDocsPage() {
 
                 {/* Footer Navigation */}
                 <DocNextSteps
-                    prev={{ title: "Checkbox Component", href: "/docs/components/checkbox" }}
+                    prev={{ title: "Command palette", href: "/docs/components/command" }}
                     next={{ title: "Dropdown Menu", href: "/docs/components/dropdown-menu" }}
                 />
             </div>
