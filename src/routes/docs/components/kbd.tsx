@@ -2,6 +2,7 @@
 import { Seo } from "@/components/seo";
 import { DocPageHeader } from "@/components/docs/doc-page-header";
 import { DocSectionHeader } from "@/components/docs/doc-section-header";
+import { DocApiTable } from "@/components/docs/doc-api-table";
 import { DocNextSteps } from "@/components/docs/doc-next-steps";
 import { ComponentPreview } from "@/components/component-preview";
 import { CodeBlock } from "@/components/code-block";
@@ -136,6 +137,28 @@ export default function KbdDocsPage() {
               </Button>
             </ComponentPreview>
           </div>
+        </div>
+
+        <div class="space-y-6 pt-6">
+          <DocSectionHeader title="API Reference" />
+
+          <DocApiTable
+            title="Kbd"
+            items={[
+              {
+                prop: "variant",
+                type: '"default" | "outline"',
+                default: '"default"',
+                description: "Visual style variant of the keyboard badge.",
+              },
+              {
+                prop: "size",
+                type: '"sm" | "md" | "lg"',
+                default: '"md"',
+                description: "Height and font size dimension of the key badge.",
+              },
+            ]}
+          />
         </div>
 
         {/* Footer Navigation */}

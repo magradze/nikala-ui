@@ -2,6 +2,7 @@
 import { Seo } from "@/components/seo";
 import { DocPageHeader } from "@/components/docs/doc-page-header";
 import { DocSectionHeader } from "@/components/docs/doc-section-header";
+import { DocApiTable } from "@/components/docs/doc-api-table";
 import { DocNextSteps } from "@/components/docs/doc-next-steps";
 import { ComponentPreview } from "@/components/component-preview";
 import { CodeBlock } from "@/components/code-block";
@@ -147,6 +148,22 @@ export default function InputGroupDocsPage() {
               </InputGroup>
             </ComponentPreview>
           </div>
+        </div>
+
+        <div class="space-y-6 pt-6">
+          <DocSectionHeader title="API Reference" />
+
+          <DocApiTable
+            title="InputGroupAddon"
+            items={[
+              {
+                prop: "align",
+                type: '"inline-start" | "inline-end"',
+                default: '"inline-start"',
+                description: "Positions addon at the start (prefix) or end (suffix) of the input field.",
+              },
+            ]}
+          />
         </div>
 
         {/* Footer Navigation */}

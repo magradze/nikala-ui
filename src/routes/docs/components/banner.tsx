@@ -2,11 +2,13 @@
 import { Seo } from "@/components/seo";
 import { DocPageHeader } from "@/components/docs/doc-page-header";
 import { DocSectionHeader } from "@/components/docs/doc-section-header";
+import { DocApiTable } from "@/components/docs/doc-api-table";
 import { DocNextSteps } from "@/components/docs/doc-next-steps";
 import { ComponentPreview } from "@/components/component-preview";
 import { CodeBlock } from "@/components/code-block";
 import { Banner } from "@/components/ui/banner";
 import { AlertCircle } from "lucide-solid";
+
 
 /* --- Code Snippets --- */
 const importCode = `import { Banner } from "@/components/ui/banner";`;
@@ -158,6 +160,76 @@ export default function BannerDocsPage() {
               </div>
             </ComponentPreview>
           </div>
+        </div>
+
+        <div class="space-y-6 pt-6">
+          <DocSectionHeader title="API Reference" />
+
+          <DocApiTable
+            title="Banner"
+            items={[
+              {
+                prop: "variant",
+                type: '"default" | "warning" | "info" | "success" | "destructive" | "pirosmani"',
+                default: '"default"',
+                description: "Color theme and visual alert state variant.",
+              },
+              {
+                prop: "sticky",
+                type: "boolean",
+                default: "false",
+                description: "Pins the banner sticky to the top of the viewport.",
+              },
+              {
+                prop: "dismissible",
+                type: "boolean",
+                default: "true",
+                description: "Shows or hides the trailing X close button.",
+              },
+              {
+                prop: "storageKey",
+                type: "string",
+                default: "-",
+                description: "LocalStorage key namespace to remember user dismissal across page refreshes.",
+              },
+              {
+                prop: "autoHideDelay",
+                type: "number",
+                default: "-",
+                description: "Time in milliseconds before auto-closing the banner.",
+              },
+              {
+                prop: "showIcon",
+                type: "boolean",
+                default: "true",
+                description: "Toggles rendering of the leading icon.",
+              },
+              {
+                prop: "icon",
+                type: "Component<{ class?: string }>",
+                default: "-",
+                description: "Custom Lucide icon component reference.",
+              },
+              {
+                prop: "link",
+                type: "string",
+                default: "-",
+                description: "Target URL for the optional inline action link.",
+              },
+              {
+                prop: "linkText",
+                type: "string",
+                default: '"Learn more"',
+                description: "Anchor link text label.",
+              },
+              {
+                prop: "onDismiss",
+                type: "() => void",
+                default: "-",
+                description: "Callback triggered when the banner is closed.",
+              },
+            ]}
+          />
         </div>
 
         {/* Footer Navigation */}

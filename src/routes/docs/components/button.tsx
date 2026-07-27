@@ -4,6 +4,9 @@ import { CodeBlock } from "@/components/code-block";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Seo } from "@/components/seo";
+import { DocSectionHeader } from "@/components/docs/doc-section-header";
+import { DocApiTable } from "@/components/docs/doc-api-table";
+import { DocNextSteps } from "@/components/docs/doc-next-steps";
 
 /* --- Code Snippets for Syntax Highlighting --- */
 const importCode = `import { Button } from "@/components/ui/button";`;
@@ -163,6 +166,39 @@ export default function ButtonDocsPage() {
           </ComponentPreview>
         </div>
       </div>
+
+        <div class="space-y-6 pt-6">
+          <DocSectionHeader title="API Reference" />
+
+          <DocApiTable
+            title="Button"
+            items={[
+              {
+                prop: "variant",
+                type: '"default" | "destructive" | "outline" | "secondary" | "ghost" | "link"',
+                default: '"default"',
+                description: "Visual style variant of the button.",
+              },
+              {
+                prop: "size",
+                type: '"default" | "sm" | "lg" | "icon"',
+                default: '"default"',
+                description: "Predefined sizing dimensions of the button.",
+              },
+              {
+                prop: "disabled",
+                type: "boolean",
+                default: "false",
+                description: "Disables interaction and reduces opacity.",
+              },
+            ]}
+          />
+        </div>
+
+        <DocNextSteps
+          prev={{ title: "Breadcrumb Component", href: "/docs/components/breadcrumb" }}
+          next={{ title: "Card Component", href: "/docs/components/card" }}
+        />
     </div>
     </>
   );

@@ -2,6 +2,7 @@
 import { Seo } from "@/components/seo";
 import { DocPageHeader } from "@/components/docs/doc-page-header";
 import { DocSectionHeader } from "@/components/docs/doc-section-header";
+import { DocApiTable } from "@/components/docs/doc-api-table";
 import { DocNextSteps } from "@/components/docs/doc-next-steps";
 import { ComponentPreview } from "@/components/component-preview";
 import { CodeBlock } from "@/components/code-block";
@@ -218,6 +219,75 @@ export default function ListDocsPage() {
               </List>
             </ComponentPreview>
           </div>
+        </div>
+
+        <div class="space-y-6 pt-6">
+          <DocSectionHeader title="API Reference" />
+
+          <DocApiTable
+            title="ListItem"
+            items={[
+              {
+                prop: "title",
+                type: "string",
+                description: "Main item title header text.",
+              },
+              {
+                prop: "subtitle",
+                type: "string",
+                description: "Secondary muted description text below the title.",
+              },
+              {
+                prop: "icon",
+                type: "Component<{ class?: string }>",
+                description: "Leading Lucide icon component.",
+              },
+              {
+                prop: "avatar",
+                type: "string",
+                description: "Image URL for profile avatars or icons.",
+              },
+              {
+                prop: "avatarFallback",
+                type: "string",
+                description: "Text initials to display when no avatar image exists.",
+              },
+              {
+                prop: "shortcut",
+                type: "string",
+                description: "Trailing hotkey badge text (e.g. ⌘K).",
+              },
+              {
+                prop: "showChevron",
+                type: "boolean",
+                default: "false",
+                description: "Renders trailing right arrow chevron icon.",
+              },
+              {
+                prop: "href",
+                type: "string",
+                description: "Converts list item to an interactive link anchor.",
+              },
+              {
+                prop: "hoverVariant",
+                type: '"default" | "accent" | "primary" | "muted"',
+                default: '"default"',
+                description: "Hover background color style.",
+              },
+              {
+                prop: "size",
+                type: '"sm" | "md" | "lg"',
+                default: '"md"',
+                description: "Padding and typography size scale.",
+              },
+              {
+                prop: "active",
+                type: "boolean",
+                default: "false",
+                description: "Highlights the item with active focus styles.",
+              },
+            ]}
+          />
         </div>
 
         {/* Footer Navigation */}

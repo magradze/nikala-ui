@@ -3,6 +3,7 @@ import { createSignal } from "solid-js";
 import { Seo } from "@/components/seo";
 import { DocPageHeader } from "@/components/docs/doc-page-header";
 import { DocSectionHeader } from "@/components/docs/doc-section-header";
+import { DocApiTable } from "@/components/docs/doc-api-table";
 import { DocNextSteps } from "@/components/docs/doc-next-steps";
 import { ComponentPreview } from "@/components/component-preview";
 import { CodeBlock } from "@/components/code-block";
@@ -198,6 +199,75 @@ export default function CommandDocsPage() {
               </div>
             </ComponentPreview>
           </div>
+        </div>
+
+        <div class="space-y-6 pt-6">
+          <DocSectionHeader title="API Reference" />
+
+          <DocApiTable
+            title="CommandDialog"
+            items={[
+              {
+                prop: "open",
+                type: "boolean",
+                description: "Controlled open/closed state of the modal dialog.",
+              },
+              {
+                prop: "onOpenChange",
+                type: "(open: boolean) => void",
+                description: "Callback invoked when modal open state changes.",
+              },
+              {
+                prop: "enableHotkey",
+                type: "boolean",
+                default: "true",
+                description: "Automatically listens for Ctrl+K / Cmd+K global hotkeys to toggle modal.",
+              },
+            ]}
+          />
+
+          <DocApiTable
+            title="CommandGroup"
+            items={[
+              {
+                prop: "heading",
+                type: "string",
+                required: true,
+                description: "Header text for the category group.",
+              },
+            ]}
+          />
+
+          <DocApiTable
+            title="CommandItem"
+            items={[
+              {
+                prop: "title",
+                type: "string",
+                description: "Command title header text.",
+              },
+              {
+                prop: "subtitle",
+                type: "string",
+                description: "Secondary muted description text.",
+              },
+              {
+                prop: "keywords",
+                type: "string[]",
+                description: "Additional search terms used during fuzzy auto-filtering.",
+              },
+              {
+                prop: "href",
+                type: "string",
+                description: "Target URL to navigate upon selection or Enter keypress.",
+              },
+              {
+                prop: "onSelect",
+                type: "() => void",
+                description: "Callback invoked when the item is clicked or selected with Enter.",
+              },
+            ]}
+          />
         </div>
 
         {/* Footer Navigation */}
