@@ -286,7 +286,8 @@
     "dependencies": [
       "clsx",
       "tailwind-merge",
-      "@kobalte/core"
+      "@kobalte/core",
+      "lucide-solid"
     ],
     "registryDependencies": [
       "button",

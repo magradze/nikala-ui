@@ -113,7 +113,7 @@ export const COMPONENT_METADATA: Record<string, ComponentMeta> = {
   "theme-manager": {
     title: "Theme Manager",
     description: "Zero-dependency ThemeProvider and ThemeToggle component for switching light, dark, and system themes.",
-    dependencies: ["clsx", "tailwind-merge", "@kobalte/core"],
+    dependencies: ["clsx", "tailwind-merge", "@kobalte/core", "lucide-solid"],
     registryDependencies: ["button", "dropdown-menu"],
   },
   banner: {
