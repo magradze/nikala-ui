@@ -1,5 +1,5 @@
 {
-  "name": "example-with-tailwindcss",
+  "name": "nikala-web",
   "type": "module",
   "scripts": {
     "dev": "vite dev",
