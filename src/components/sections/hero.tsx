@@ -164,7 +164,7 @@ export const Hero: () => JSX.Element = () => {
                 </CardContent>
 
                 <CardFooter
-                  class="px-6 pb-6 pt-0 flex items-center justify-between border-t border-border/40 mt-2"
+                  class="px-6 pb-6 pt-4 flex items-center justify-between border-t border-border/40 mt-2"
                   onClick={(e) => e.preventDefault()}
                 >
                   <div class="flex items-center space-x-2">
