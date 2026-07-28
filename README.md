@@ -19,6 +19,7 @@ Nikala UI gives you full ownership of your code. Instead of adding a heavy third
 - **Smart CLI** — Automatically detects your package manager (`bun`, `pnpm`, `npm`, `yarn`) and installs required dependencies.
 - **Dynamic Theme Engine** — Customize base gray palettes, primary brand accent colors, and border radii at build-time or runtime.
 - **Custom Registries** — Supports adding components directly from remote HTTP(S) URLs.
+- **Monorepo Architecture** — Decoupled CLI (@nikala-ui/cli) and core design system (@nikala-ui/core) for instant background registry updates.
 
 ---
 
@@ -29,11 +30,12 @@ Nikala UI gives you full ownership of your code. Instead of adding a heavy third
 Run the initialization command in your SolidJS workspace:
 
 ```bash
-nikala init
-# or
-bunx nikala init
-# or
-npx nikala init
+ # Execute via npm package scope or npx/bunx
+   bunx @nikala-ui/cli init
+   # or
+   npx @nikala-ui/cli init
+   # or direct global binary
+   nikala init
 ```
 
 This will:

@@ -21,23 +21,37 @@ This document provides a comprehensive, step-by-step instruction guide for autho
 
 ---
 
-## 2. Repository File Structure
+## 2. Monorepo Repository File Structure
 
 ```text
-nikala-ui/
-├── scripts/
-│   └── build-registry.ts         # Registry generator script
-├── registry/                     # Auto-generated JSON manifests for CLI
-│   ├── index.json
-│   └── <component>.json
-└── src/
-    ├── registry/
-    │   ├── metadata.ts           # Component metadata registry
-    │   └── components/
-    │       └── ui/
-    │           └── <component>.tsx  # Source component implementation
-    └── utils/
-        └── cn.ts                 # String template for user's cn utility
+nikala-ui/ (Monorepo Root)
+├── package.json                   # Root workspace config (packages/*)
+├── docs/                          # Global documentation & guidelines
+└── packages/
+    ├── cli/                       # @nikala-ui/cli package
+    │   ├── package.json
+    │   ├── src/
+    │   │   ├── index.ts           # CLI binary entry point
+    │   │   ├── commands/          # init, add, theme, validate, diff
+    │   │   └── utils/             # CLI helper modules
+    │   └── dist/                  # Built CLI executable output
+    │
+    └── core/                      # @nikala-ui/core package
+        ├── package.json           # Component dependencies (@kobalte/core, corvu)
+        ├── scripts/
+        │   └── build-registry.ts # Registry JSON manifest compiler
+        ├── registry/              # Generated JSON manifests for CLI
+        │   ├── index.json
+        │   └── <component>.json
+        └── src/
+            ├── registry/
+            │   ├── metadata.ts   # Component metadata definitions
+            │   ├── providers/    # ThemeProvider, ThemeScript, ThemeTransitions
+            │   └── components/   # Source TSX components
+            │       └── ui/
+            │           └── <component>.tsx
+            └── lib/
+                └── cn.ts
 ```
 
 ---
