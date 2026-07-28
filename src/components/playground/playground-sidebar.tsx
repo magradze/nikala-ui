@@ -24,7 +24,7 @@ export function PlaygroundSidebar(props: PlaygroundSidebarProps) {
                     onClick={() => props.onSelect(comp.id)}
                     class={`flex h-8 w-full items-center rounded-md px-2 text-sm font-medium transition-colors text-left cursor-pointer ${
                       isActive()
-                        ? "bg-accent text-accent-foreground font-semibold"
+                      ? "bg-primary text-accent-foreground font-semibold"
                         : "text-muted-foreground hover:bg-accent hover:text-accent-foreground"
                     }`}
                   >

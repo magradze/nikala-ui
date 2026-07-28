@@ -24,7 +24,7 @@ export const DocsSidebar: Component = () => {
                         href={item.href}
                         class={`flex h-8 w-full items-center rounded-md px-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground ${
                           isActive()
-                            ? "bg-accent text-accent-foreground font-semibold"
+                          ? "bg-primary text-accent-foreground font-semibold"
                             : "text-muted-foreground"
                         }`}
                       >
