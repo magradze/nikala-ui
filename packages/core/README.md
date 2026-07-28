@@ -33,10 +33,10 @@ npx @nikala-ui/cli add
 
 ## Documentation & Links
 
-- Repository: [github.com/magradze/nikala-ui](https://github.com/magradze/nikala-ui)
-- Component Authoring Guide: [docs/COMPONENT_GUIDE.md](https://github.com/magradze/nikala-ui/blob/main/docs/COMPONENT_GUIDE.md)
-- Theming System Guide: [docs/THEMING.md](https://github.com/magradze/nikala-ui/blob/main/docs/THEMING.md)
+- Repository: [github.com/nikala-ui/ui](https://github.com/nikala-ui/ui)
+- Component Authoring Guide: [docs/COMPONENT_GUIDE.md](https://github.com/nikala-ui/ui/blob/main/docs/COMPONENT_GUIDE.md)
+- Theming System Guide: [docs/THEMING.md](https://github.com/nikala-ui/ui/blob/main/docs/THEMING.md)
 
 ## License
 
-[MIT](https://github.com/magradze/nikala-ui/blob/main/LICENSE)
+[MIT](https://github.com/nikala-ui/ui/blob/main/LICENSE)

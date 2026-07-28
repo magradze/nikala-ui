@@ -32,8 +32,8 @@ npx @nikala-ui/cli init
 
 ## Documentation
 
-For full documentation, component lists, and theming guides, visit the official repository at [github.com/magradze/nikala-ui](https://github.com/magradze/nikala-ui).
+For full documentation, component lists, and theming guides, visit the official repository at [github.com/nikala-ui/ui](https://github.com/nikala-ui/ui).
 
 ## License
 
-[MIT](https://github.com/magradze/nikala-ui/blob/main/LICENSE)
+[MIT](https://github.com/nikala-ui/ui/blob/main/LICENSE)
