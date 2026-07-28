@@ -1,7 +1,12 @@
 import { DocSectionHeader } from "@/components/docs/doc-section-header";
 import { CodeBlock } from "@/components/code-block";
 
-const initCode = `npx nikala init`;
+const initCode = `bunx @nikala-ui/cli init
+# or
+npx @nikala-ui/cli init
+# or direct binary
+nikala init`;
+
 const addCode = `nikala add button card input theme-manager`;
 
 export function IntroQuickstartSection() {

@@ -34,7 +34,7 @@ import {
 export const Hero: () => JSX.Element = () => {
   const [copied, setCopied] = createSignal(false);
   const [notificationsEnabled, setNotificationsEnabled] = createSignal(true);
-  const cliInitCmd = "npx nikala init";
+  const cliInitCmd = "npx @nikala-ui/cli init";
 
   const copyInitCommand = async () => {
     await navigator.clipboard.writeText(cliInitCmd);

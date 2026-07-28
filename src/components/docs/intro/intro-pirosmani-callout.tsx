@@ -1,4 +1,3 @@
-// src/components/docs/intro/intro-pirosmani-callout.tsx
 import { Palette } from "lucide-solid";
 import { DocCallout } from "@/components/docs/doc-callout";
 
