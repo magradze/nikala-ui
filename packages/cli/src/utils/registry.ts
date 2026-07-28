@@ -5,7 +5,7 @@ import type { RegistryIndex, RegistryItem } from "../types/registry.js";
 
 /** Official remote registry CDN URL hosted on GitHub main branch */
 export const OFFICIAL_REGISTRY_URL =
-  "https://raw.githubusercontent.com/magradze/nikala-ui/main/packages/core/registry";
+  "https://raw.githubusercontent.com/nikala-ui/ui/main/packages/core/registry";
 
 /**
  * Resolves the absolute path to the local fallback registry directory inside the Nikala UI package.
