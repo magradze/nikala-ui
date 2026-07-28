@@ -22,11 +22,10 @@ export function PlaygroundSidebar(props: PlaygroundSidebarProps) {
                   <button
                     type="button"
                     onClick={() => props.onSelect(comp.id)}
-                    class={`flex h-8 w-full items-center rounded-md px-2 text-sm font-medium transition-colors text-left cursor-pointer ${
-                      isActive()
-                      ? "bg-primary text-accent-foreground font-semibold"
+                    class={`flex h-8 w-full items-center rounded-md px-2 text-sm font-medium transition-colors text-left cursor-pointer ${isActive()
+                      ? "bg-primary text-primary-foreground font-bold shadow-2xs"
                         : "text-muted-foreground hover:bg-accent hover:text-accent-foreground"
-                    }`}
+                      }`}
                   >
                     {comp.name}
                   </button>

@@ -22,11 +22,10 @@ export const DocsSidebar: Component = () => {
                     return (
                       <A
                         href={item.href}
-                        class={`flex h-8 w-full items-center rounded-md px-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground ${
-                          isActive()
-                          ? "bg-primary text-accent-foreground font-semibold"
-                            : "text-muted-foreground"
-                        }`}
+                        class={`flex h-8 w-full items-center rounded-md px-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground ${isActive()
+                          ? "bg-primary text-primary-foreground font-bold shadow-2xs"
+                          : "text-muted-foreground hover:bg-accent hover:text-accent-foreground"
+                          }`}
                       >
                         {item.title}
                       </A>
