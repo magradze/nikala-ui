@@ -17,6 +17,7 @@ import {
 } from "@/components/ui/command";
 import { Terminal, Component as ComponentIcon, BookOpen, Search, Palette } from "lucide-solid";
 import { MobileNav } from "@/components/partials/mobile-nav";
+import { Logo } from "../ui/logo";
 
 export function Header() {
   const [open, setOpen] = createSignal(false);
@@ -43,9 +44,7 @@ export function Header() {
           <div class="flex items-center gap-2">
             <MobileNav />
             <A href="/" class="flex items-center gap-2 font-bold text-lg tracking-tight hover:opacity-90 transition-opacity">
-              <span class="inline-flex items-center justify-center w-7 h-7 rounded-md bg-primary text-primary-foreground font-extrabold text-sm shadow-sm">
-                N
-              </span>
+              <Logo class="w-7 h-7 rounded-md" />
               <span class="hidden md:block">Nikala UI</span>
               <Badge variant="outline" class="ml-1 text-[10px] px-1.5 py-0 border-primary/30 text-primary hidden md:block">
                 v0.5.0
@@ -119,7 +118,7 @@ export function Header() {
             </CommandDialog>
             {/* GitHub Link */}
             <a
-              href="https://https://github.com/nikala-ui/ui"
+              href="https://github.com/nikala-ui/ui"
               target="_blank"
               rel="noreferrer"
               class="hidden sm:inline-flex"
