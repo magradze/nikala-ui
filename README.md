@@ -28,7 +28,7 @@ Ensure you have Node.js (v18+) or Bun installed.
 Clone the repository and install dependencies:
 
 ```bash
-git clone https://github.com/magradze/nikala-web.git
+git clone https://github.com/nikala-ui/web.git
 cd nikala-web
 
 # Install dependencies using Bun, pnpm, or npm

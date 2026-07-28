@@ -16,7 +16,7 @@ const importCode = `import { Banner } from "@/components/ui/banner";`;
 const defaultCode = `<Banner
   variant="warning"
   dismissible={true}
-  link="https://github.com/magradze/nikala-ui"
+  link="https://https://github.com/nikala-ui/ui"
   linkText="GitHub"
 >
   Website is under active construction. Some pages and components are in preview mode.
@@ -31,7 +31,7 @@ const variantsCode = `<Banner variant="default">Default announcement banner</Ban
 
 const linkCode = `<Banner
   variant="info"
-  link="https://github.com/magradze/nikala-ui"
+  link="https://https://github.com/nikala-ui/ui"
   linkText="View on GitHub"
 >
   Check out the official Nikala UI open-source repository.
@@ -71,7 +71,7 @@ export default function BannerDocsPage() {
             <Banner
               variant="warning"
               dismissible={true}
-              link="https://github.com/magradze/nikala-ui"
+              link="https://https://github.com/nikala-ui/ui"
               linkText="GitHub"
             >
               Website is under active construction. Some pages and components are in preview mode.
@@ -118,7 +118,7 @@ export default function BannerDocsPage() {
                 <Banner
                   variant="info"
                   dismissible={false}
-                  link="https://github.com/magradze/nikala-ui"
+                  link="https://github.com/nikala-ui/ui"
                   linkText="View on GitHub"
                 >
                   Check out the official Nikala UI open-source repository.

@@ -29,7 +29,7 @@ export function Header() {
         sticky={false}
         icon={Info}
         storageKey="nikala-under-construction-banner"
-        link="https://github.com/magradze/nikala-ui"
+        link="https://github.com/nikala-ui/ui"
         linkText="GitHub"
       >
         Website is under active construction. Some pages and components are in preview mode.
@@ -119,7 +119,7 @@ export function Header() {
             </CommandDialog>
             {/* GitHub Link */}
             <a
-              href="https://github.com/magradze/nikala-ui"
+              href="https://https://github.com/nikala-ui/ui"
               target="_blank"
               rel="noreferrer"
               class="hidden sm:inline-flex"
