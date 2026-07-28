@@ -56,7 +56,9 @@ export async function configureAliases(cwd: string): Promise<void> {
       tsconfig.compilerOptions = tsconfig.compilerOptions || {};
       tsconfig.compilerOptions.baseUrl = ".";
       tsconfig.compilerOptions.paths = tsconfig.compilerOptions.paths || {};
-      tsconfig.compilerOptions.paths["@/*"] = ["src/*"];
+
+      // Correct path mapping with leading relative dot ./src/*
+      tsconfig.compilerOptions.paths["@/*"] = ["./src/*"];
 
       await fs.writeFile(tsconfigPath, JSON.stringify(tsconfig, null, 2), "utf-8");
       console.log(pc.green("✓ Configured path alias (@/*) in tsconfig.json"));
