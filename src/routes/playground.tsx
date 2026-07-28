@@ -74,7 +74,7 @@ export default function PlaygroundPage() {
       <div class="relative min-h-screen flex flex-col bg-background text-foreground">
         <Header />
 
-        <div class="container max-w-screen-2xl flex-1 items-start md:grid md:grid-cols-[220px_minmax(0,1fr)] lg:grid-cols-[240px_minmax(0,1fr)] gap-6 px-4 md:px-8">
+        <div class="container max-w-screen-2xl flex-1 items-start md:grid md:grid-cols-[220px_minmax(0,1fr)] lg:grid-cols-[240px_minmax(0,1fr)] gap-6 px-4 md:px-4">
           <PlaygroundSidebar
             selectedId={selectedId()}
             onSelect={setSelectedId}
