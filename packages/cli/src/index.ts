@@ -9,6 +9,7 @@ import { diffCommand } from "./commands/diff.js";
 
 console.log(`\n🎨 ${pc.bold(pc.red("Nikala UI"))} ${pc.dim("v0.6.0")} — SolidJS + Tailwind v4 components`);
 console.log(`   ${pc.italic(pc.dim("Honoring Niko Pirosmani (Nikala)"))}\n`);
+console.log(`   ${pc.dim("Docs:")} ${pc.underline(pc.cyan("https://nikala.magradze.dev"))}\n`);
 
 const program = new Command();
 

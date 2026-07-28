@@ -4,6 +4,8 @@ A simple, copy-paste component system for **SolidJS** built natively for **Tailw
 
 Honoring the iconic Georgian painter **Niko Pirosmani (Nikala)**.
 
+**Official Documentation & Live Playground:** [nikala.magradze.dev](https://nikala.magradze.dev)
+
 ---
 
 ## Why Nikala UI?

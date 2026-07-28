@@ -8,6 +8,9 @@
     "registry",
     "src"
   ],
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "build:registry": "bun scripts/build-registry.ts"
   },
