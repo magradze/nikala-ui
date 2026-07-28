@@ -1,0 +1,22 @@
+{
+  "name": "@nikala-ui/core",
+  "version": "0.6.0",
+  "description": "Core component definitions, design tokens, and registry for Nikala UI",
+  "type": "module",
+  "private": false,
+  "files": [
+    "registry",
+    "src"
+  ],
+  "scripts": {
+    "build:registry": "bun scripts/build-registry.ts"
+  },
+  "devDependencies": {
+    "@kobalte/core": "^0.13.12",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "corvu": "^0.7.2",
+    "solid-js": "^1.9.14",
+    "tailwind-merge": "^3.6.0"
+  }
+}

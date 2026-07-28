@@ -1,0 +1,17 @@
+{
+  "name": "checkbox",
+  "title": "Checkbox",
+  "description": "A control that allows the user to toggle between checked and unchecked options.",
+  "type": "registry:ui",
+  "dependencies": [
+    "clsx",
+    "tailwind-merge"
+  ],
+  "files": [
+    {
+      "path": "ui/checkbox.tsx",
+      "content": "import { createSignal, splitProps, Show, type Component, type JSX } from \"solid-js\";\nimport { cn } from \"@/lib/cn\";\n\nexport interface CheckboxProps\n  extends Omit<JSX.ButtonHTMLAttributes<HTMLButtonElement>, \"onChange\"> {\n  /** Controlled checked state */\n  checked?: boolean;\n  /** Uncontrolled default checked state */\n  defaultChecked?: boolean;\n  /** Event handler triggered when checked state changes */\n  onChange?: (checked: boolean) => void;\n  class?: string;\n}\n\n/**\n * Nikala UI Checkbox component built for SolidJS with Tailwind CSS v4 styling.\n */\nexport const Checkbox: Component<CheckboxProps> = (props) => {\n  // Use splitProps to preserve SolidJS reactivity\n  const [local, rest] = splitProps(props, [\n    \"checked\",\n    \"defaultChecked\",\n    \"onChange\",\n    \"disabled\",\n    \"class\",\n    \"onClick\",\n  ]);\n\n  // Internal state for uncontrolled mode\n  const [internalChecked, setInternalChecked] = createSignal(\n    local.defaultChecked ?? false\n  );\n\n  // Computed checked state\n  const isChecked = () =>\n    local.checked !== undefined ? local.checked : internalChecked();\n\n  const toggle = (\n    e: MouseEvent & { currentTarget: HTMLButtonElement; target: Element }\n  ) => {\n    if (local.disabled) return;\n\n    const nextState = !isChecked();\n    if (local.checked === undefined) {\n      setInternalChecked(nextState);\n    }\n\n    if (typeof local.onChange === \"function\") {\n      local.onChange(nextState);\n    }\n\n    if (typeof local.onClick === \"function\") {\n      local.onClick(e);\n    }\n  };\n\n  return (\n    <button\n      type=\"button\"\n      role=\"checkbox\"\n      aria-checked={isChecked()}\n      data-state={isChecked() ? \"checked\" : \"unchecked\"}\n      disabled={local.disabled}\n      onClick={toggle}\n      class={cn(\n        \"peer h-4 w-4 shrink-0 rounded-sm border border-primary shadow focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground flex items-center justify-center transition-colors\",\n        local.class\n      )}\n      {...rest}\n    >\n      <Show when={isChecked()}>\n        <svg\n          class=\"h-3.5 w-3.5 fill-none stroke-current stroke-[3]\"\n          viewBox=\"0 0 24 24\"\n        >\n          <path\n            stroke-linecap=\"round\"\n            stroke-linejoin=\"round\"\n            d=\"M5 13l4 4L19 7\"\n          />\n        </svg>\n      </Show>\n    </button>\n  );\n};",
+      "type": "registry:ui"
+    }
+  ]
+}

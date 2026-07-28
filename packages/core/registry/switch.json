@@ -1,0 +1,17 @@
+{
+  "name": "switch",
+  "title": "Switch",
+  "description": "A control that allows the user to toggle between checked and unchecked states.",
+  "type": "registry:ui",
+  "dependencies": [
+    "clsx",
+    "tailwind-merge"
+  ],
+  "files": [
+    {
+      "path": "ui/switch.tsx",
+      "content": "import { createSignal, splitProps, type Component, type JSX } from \"solid-js\";\nimport { cn } from \"@/lib/cn\";\n\nexport interface SwitchProps\n  extends Omit<JSX.ButtonHTMLAttributes<HTMLButtonElement>, \"onChange\"> {\n  /** Controlled checked state */\n  checked?: boolean;\n  /** Uncontrolled default checked state */\n  defaultChecked?: boolean;\n  /** Event handler triggered when toggle state changes */\n  onChange?: (checked: boolean) => void;\n  class?: string;\n}\n\n/**\n * Nikala UI Switch component for boolean toggle inputs built for SolidJS with Tailwind CSS v4 styling.\n */\nexport const Switch: Component<SwitchProps> = (props) => {\n  // Use splitProps to preserve SolidJS reactivity\n  const [local, rest] = splitProps(props, [\n    \"checked\",\n    \"defaultChecked\",\n    \"onChange\",\n    \"disabled\",\n    \"class\",\n    \"onClick\",\n  ]);\n\n  // Internal state for uncontrolled mode\n  const [internalChecked, setInternalChecked] = createSignal(\n    local.defaultChecked ?? false\n  );\n\n  // Computed checked state supporting both controlled and uncontrolled modes\n  const isChecked = () =>\n    local.checked !== undefined ? local.checked : internalChecked();\n\n  const toggle = (\n    e: MouseEvent & { currentTarget: HTMLButtonElement; target: Element }\n  ) => {\n    if (local.disabled) return;\n\n    const nextState = !isChecked();\n    if (local.checked === undefined) {\n      setInternalChecked(nextState);\n    }\n\n    if (typeof local.onChange === \"function\") {\n      local.onChange(nextState);\n    }\n\n    if (typeof local.onClick === \"function\") {\n      local.onClick(e);\n    }\n  };\n\n  return (\n    <button\n      type=\"button\"\n      role=\"switch\"\n      aria-checked={isChecked()}\n      data-state={isChecked() ? \"checked\" : \"unchecked\"}\n      disabled={local.disabled}\n      onClick={toggle}\n      class={cn(\n        \"peer inline-flex h-5 w-9 shrink-0 cursor-pointer items-center rounded-lg border-2 border-transparent transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:bg-primary data-[state=unchecked]:bg-input\",\n        local.class\n      )}\n      {...rest}\n    >\n      <span\n        data-state={isChecked() ? \"checked\" : \"unchecked\"}\n        class={cn(\n          \"pointer-events-none block h-4 w-4 rounded-sm bg-primary-foreground shadow-lg ring-0 transition-transform data-[state=checked]:translate-x-4 data-[state=unchecked]:translate-x-0\"\n        )}\n      />\n    </button>\n  );\n};",
+      "type": "registry:ui"
+    }
+  ]
+}
