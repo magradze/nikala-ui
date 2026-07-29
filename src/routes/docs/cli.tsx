@@ -1,4 +1,3 @@
-// src/routes/docs/cli.tsx
 import { Seo } from "@/components/seo";
 import { DocPageHeader } from "@/components/docs/doc-page-header";
 import { DocNextSteps } from "@/components/docs/doc-next-steps";
@@ -8,6 +7,7 @@ import { CliAddSection } from "@/components/docs/cli/cli-add-section";
 import { CliValidateSection } from "@/components/docs/cli/cli-validate-section";
 import { CliDiffSection } from "@/components/docs/cli/cli-diff-section";
 import { CliThemeSection } from "@/components/docs/cli/cli-theme-section";
+import { CliPmSwitcher } from "@/components/docs/cli/cli-pm-switcher";
 
 export default function CliDocsPage() {
   return (
@@ -24,6 +24,8 @@ export default function CliDocsPage() {
           badge="CLI Tool"
           description="Command line interface guide for initializing projects, managing components, inspecting diffs, and setting up theme palettes."
         />
+
+        <CliPmSwitcher />
 
         <CliSummary />
         <CliInitSection />
