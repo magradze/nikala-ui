@@ -1,4 +1,3 @@
-// src/components/component-preview.tsx
 import {
   createSignal,
   JSX,
@@ -10,11 +9,7 @@ import {
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { CodeBlock } from "@/components/code-block";
 import { Button } from "@/components/ui/button";
-
-export type PackageManager = "bunx" | "npx" | "pnpm" | "yarn";
-
-/* Global reactive signal shared across all component preview blocks */
-export const [activePm, setActivePm] = createSignal<PackageManager>("bunx");
+import { usePackageManager, type PackageManager } from "@/hooks/use-package-manager";
 
 interface ComponentPreviewProps {
   name: string;
@@ -24,30 +19,13 @@ interface ComponentPreviewProps {
 }
 
 export const ComponentPreview: Component<ComponentPreviewProps> = (props) => {
-  /* Use splitProps to adhere strictly to Nikala UI reactivity rules */
   const [local] = splitProps(props, ["name", "code", "align", "children"]);
 
   const [copiedCli, setCopiedCli] = createSignal(false);
+  const { activePm, setPm, formatCommand } = usePackageManager();
 
-  /* Dynamic CLI command generator based on active package manager runner */
-  const cliCommand = () => {
-    const pm = activePm();
-    const pkg = "@nikala-ui/cli";
-    const comp = local.name;
+  const cliCommand = () => formatCommand(`add ${local.name}`);
 
-    switch (pm) {
-      case "npx":
-        return `npx ${pkg} add ${comp}`;
-      case "pnpm":
-        return `pnpm dlx ${pkg} add ${comp}`;
-      case "yarn":
-        return `yarn dlx ${pkg} add ${comp}`;
-      default:
-        return `bunx ${pkg} add ${comp}`;
-    }
-  };
-
-  /* Memoize dynamic JSX children for safe SolidJS tab hydration */
   const resolvedChildren = children(() => local.children);
 
   const copyCli = async () => {
@@ -97,12 +75,13 @@ export const ComponentPreview: Component<ComponentPreviewProps> = (props) => {
             >
               {copiedCli() ? "Copied command!" : cliCommand()}
             </Button>
+
             <div class="flex items-center rounded-md border border-border/50 bg-muted/40 p-0.5 text-[11px] font-mono select-none">
               <For each={pmList}>
                 {(pm) => (
                   <button
                     type="button"
-                    onClick={() => setActivePm(pm)}
+                    onClick={() => setPm(pm)}
                     class={`px-1.5 py-0.5 rounded-sm transition-colors cursor-pointer ${activePm() === pm
                       ? "bg-primary text-primary-foreground font-bold shadow-2xs"
                       : "text-muted-foreground hover:text-foreground"
