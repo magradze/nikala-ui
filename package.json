@@ -21,10 +21,12 @@
     "vite": "^8.0.0"
   },
   "devDependencies": {
+    "@playwright/test": "^1.62.0",
     "@tailwindcss/vite": "^4.0.7",
     "@types/node": "^26.1.1",
     "@types/prismjs": "^1.26.6",
-    "tailwindcss": "^4.0.7"
+    "tailwindcss": "^4.0.7",
+    "vite-plugin-lucide-preprocess": "^1.5.2"
   },
   "engines": {
     "node": ">=24"
