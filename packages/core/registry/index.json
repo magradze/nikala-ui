@@ -293,5 +293,18 @@
       "button",
       "dropdown-menu"
     ]
+  },
+  {
+    "name": "toast",
+    "title": "Toast / Sonner",
+    "description": "A succinct message displayed temporarily in a toast region, built on Kobalte primitives.",
+    "type": "registry:ui",
+    "dependencies": [
+      "clsx",
+      "tailwind-merge",
+      "class-variance-authority",
+      "lucide-solid",
+      "@kobalte/core"
+    ]
   }
 ]
