@@ -149,4 +149,9 @@ export const COMPONENT_METADATA: Record<string, ComponentMeta> = {
     ],
     registryDependencies: ["kbd", "input-group", "list"],
   },
+  toast: {
+    title: "Toast / Sonner",
+    description: "A succinct message displayed temporarily in a toast region, built on Kobalte primitives.",
+    dependencies: ["clsx", "tailwind-merge", "class-variance-authority", "lucide-solid", "@kobalte/core"],
+  },
 };
