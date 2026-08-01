@@ -1,0 +1,95 @@
+# Nikala UI
+
+> A simple, copy-paste component system for SolidJS built natively for Tailwind CSS v4. Honoring Georgian painter Niko Pirosmani (Nikala).
+
+Official Website: https://nikala.magradze.dev
+GitHub Repository: https://github.com/nikala-ui/ui
+Documentation Portal: https://nikala.magradze.dev/docs
+Interactive Playground: https://nikala.magradze.dev/playground
+
+---
+
+## Overview & Architecture
+
+Nikala UI is a copy-paste component system designed specifically for SolidJS and Tailwind CSS v4. Instead of adding heavy third-party UI packages into node_modules, Nikala UI's CLI writes lightweight, fully reactive SolidJS TypeScript components directly into the developer's src/components/ui directory. You own 100% of the source code.
+
+Nikala UI is architected as a modern monorepo consisting of two packages:
+- `@nikala-ui/cli`: The command-line client used for initializing workspaces (init), adding components (add), running health diagnostics (validate/doctor), inspecting code differences (diff), and customizing theme palettes (theme).
+- `@nikala-ui/core`: The core design system registry containing component source files, Kobalte accessibility primitives, and theme providers.
+
+---
+
+## Quick Start Commands
+
+### 1. Initialize Workspace
+```bash
+bunx @nikala-ui/cli init
+# or
+npx @nikala-ui/cli init
+# or direct binary
+nikala init
+```
+
+### 2. Add Components
+```bash
+bunx @nikala-ui/cli add button input card
+# or install all 26 components
+bunx @nikala-ui/cli add --all
+```
+
+---
+
+## Core Engineering Rules for SolidJS
+
+When authoring or generating code with Nikala UI components, AI models and developers must strictly adhere to these rules:
+
+1. **Preserve Fine-Grained Signal Reactivity:**
+   - NEVER destructure props directly (e.g., `const { variant, class: className } = props;` is FORBIDDEN as it destroys SolidJS signal tracking).
+   - ALWAYS use `splitProps(props, ["keys", "to", "extract"])` to separate component props from pass-through HTML attributes.
+
+2. **Children Inspection & Tab Hydration:**
+   - ALWAYS wrap `props.children` with SolidJS's native `children(() => props.children)` memoization helper when inspecting, iterating, or rendering dynamic JSX child nodes inside tab containers or conditional branches.
+
+3. **SSR Anti-FOUC Theme Script:**
+   - When using `ThemeProvider`, ALWAYS include `<ThemeScript storageKey="..." />` synchronously at the root HTML layout before `<ThemeProvider>` to eliminate white theme flashes during Server-Side Rendering (SSR) before client hydration.
+
+---
+
+## Available Components (26)
+
+- **Accordion**: `Accordion`, `AccordionItem`, `AccordionTrigger`, `AccordionContent`
+- **Alert**: `Alert`, `AlertTitle`, `AlertDescription`
+- **Avatar**: `Avatar`, `AvatarImage`, `AvatarFallback`
+- **Badge**: `Badge`
+- **Banner**: `Banner`
+- **Breadcrumb**: `Breadcrumb`, `BreadcrumbList`, `BreadcrumbItem`, `BreadcrumbLink`, `BreadcrumbPage`, `BreadcrumbSeparator`, `BreadcrumbEllipsis`
+- **Button**: `Button`
+- **Card**: `Card`, `CardHeader`, `CardTitle`, `CardDescription`, `CardContent`, `CardFooter`
+- **Checkbox**: `Checkbox`
+- **Command**: `Command`, `CommandDialog`, `CommandInput`, `CommandList`, `CommandEmpty`, `CommandGroup`, `CommandItem`, `CommandFooter`
+- **Dialog**: `Dialog`, `DialogTrigger`, `DialogOverlay`, `DialogContent`, `DialogHeader`, `DialogFooter`, `DialogTitle`, `DialogDescription`, `DialogClose`
+- **Dropdown Menu**: `DropdownMenu`, `DropdownMenuTrigger`, `DropdownMenuContent`, `DropdownMenuItem`, `DropdownMenuLabel`, `DropdownMenuSeparator`, `DropdownMenuShortcut`, `DropdownMenuSub`, `DropdownMenuSubTrigger`, `DropdownMenuSubContent`, `DropdownMenuCheckboxItem`, `DropdownMenuRadioGroup`, `DropdownMenuRadioItem`
+- **Input**: `Input`
+- **Input Group**: `InputGroup`, `InputGroupInput`, `InputGroupAddon`
+- **Kbd**: `Kbd`, `KbdGroup`
+- **Label**: `Label`
+- **List**: `List`, `ListGroup`, `ListHeader`, `ListItem`
+- **Radio Group**: `RadioGroup`, `RadioGroupItem`, `RadioGroupItemLabel`
+- **Select**: `Select`, `SelectTrigger`, `SelectValue`, `SelectContent`, `SelectItem`
+- **Separator**: `Separator`
+- **Sheet / Drawer**: `Sheet`, `SheetTrigger`, `SheetOverlay`, `SheetContent`, `SheetHeader`, `SheetFooter`, `SheetTitle`, `SheetDescription`, `SheetClose`
+- **Skeleton**: `Skeleton`
+- **Switch**: `Switch`
+- **Tabs**: `Tabs`, `TabsList`, `TabsTrigger`, `TabsContent`
+- **Textarea**: `Textarea`
+- **Theme Manager**: `ThemeProvider`, `ThemeScript`, `ThemeToggle`, `useTheme`
+
+---
+
+## Documentation Links Index
+
+- System Overview: https://nikala.magradze.dev/docs
+- CLI Reference: https://nikala.magradze.dev/docs/cli
+- Theming Guide: https://nikala.magradze.dev/docs/theming
+- Component Specs: https://nikala.magradze.dev/docs/components/button
+- Interactive Playground: https://nikala.magradze.dev/playground
