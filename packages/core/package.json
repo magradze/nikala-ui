@@ -16,9 +16,12 @@
   },
   "devDependencies": {
     "@kobalte/core": "^0.13.12",
+    "@types/fs-extra": "^11.0.4",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "corvu": "^0.7.2",
+    "fs-extra": "^11.4.0",
+    "picocolors": "^1.1.1",
     "solid-js": "^1.9.14",
     "tailwind-merge": "^3.6.0"
   }

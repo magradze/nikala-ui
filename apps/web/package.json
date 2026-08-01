@@ -8,9 +8,10 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@nikala-ui/core": "workspace:*",
-    "@nikala-ui/cli": "workspace:*",
     "@kobalte/core": "^0.13.12",
+    "@nikala-ui/cli": "workspace:*",
+    "@nikala-ui/core": "workspace:*",
+    "@solidjs/meta": "^0.29.4",
     "@solidjs/router": "^0.16.2",
     "@solidjs/start": "^2.0.0-beta.0",
     "class-variance-authority": "^0.7.1",
