@@ -154,4 +154,9 @@ export const COMPONENT_METADATA: Record<string, ComponentMeta> = {
     description: "A succinct message displayed temporarily in a toast region, built on Kobalte primitives.",
     dependencies: ["clsx", "tailwind-merge", "class-variance-authority", "lucide-solid", "@kobalte/core"],
   },
+  tooltip: {
+    title: "Tooltip",
+    description: "A popup that displays information related to an element when the element receives keyboard focus or the mouse hovers over it, built on Kobalte primitives.",
+    dependencies: ["clsx", "tailwind-merge", "@kobalte/core"],
+  },
 };
