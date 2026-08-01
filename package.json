@@ -7,9 +7,10 @@
     "apps/*"
   ],
   "scripts": {
+    "build": "bun run build:registry && bun run build:cli && bun run build:web",
     "build:registry": "cd packages/core && bun run build:registry",
     "build:cli": "cd packages/cli && bun run build",
-    "build": "bun run build:registry && bun run build:cli"
+    "build:web": "cd apps/web && bun run build"
   },
   "devDependencies": {
     "typescript": "^5.7.2"
