@@ -1,0 +1,34 @@
+name: Nikala UI Test Suite
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - "*"
+
+jobs:
+  run-tests:
+    name: Run Vitest Suites & Package Builds
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Source Code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Bun Environment
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Install Workspace Dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Build Registry Manifests & CLI
+        run: bun run build
+
+      - name: Execute Web Portal Vitest Suite
+        run: cd apps/web && bun test

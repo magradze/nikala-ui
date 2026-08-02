@@ -1,0 +1,76 @@
+name: Nikala UI Workspace Quality Gate
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  workspace-build:
+    name: Build Packages & Web Portal
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Source Code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Bun Environment
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Install Workspace Dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Build Core, CLI & Web Application
+        run: bun run build
+
+  test-suite:
+    name: Run Unit & Integration Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Source Code
+        uses: actions/checkout@v4
+
+      - name: Setup Bun Environment
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Install Workspace Dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Execute Vitest Test Suites
+        run: cd apps/web && bun test
+
+  type-check:
+    name: Validate TypeScript Types
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Source Code
+        uses: actions/checkout@v4
+
+      - name: Setup Bun Environment
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Install Workspace Dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Build Core Registry Manifests
+        run: cd packages/core && bun run build:registry
+
+      - name: Typecheck Workspace Packages
+        run: bunx tsc --noEmit

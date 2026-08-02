@@ -1,0 +1,66 @@
+name: Validate Registry Manifests
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "packages/core/registry/**"
+      - "packages/core/src/registry/**"
+  pull_request:
+    branches:
+      - main
+    paths:
+      - "packages/core/registry/**"
+      - "packages/core/src/registry/**"
+
+jobs:
+  validate-json:
+    name: Validate Registry JSON Structure
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout Source Code
+        uses: actions/checkout@v4
+
+      - name: Setup Bun Environment
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Validate JSON Manifests Integrity
+        run: |
+          bun inline-script.ts << 'EOF'
+          import fs from "node:fs";
+          import path from "node:path";
+
+          const registryDir = "packages/core/registry";
+          const files = fs.readdirSync(registryDir).filter(f => f.endsWith(".json"));
+
+          if (files.length === 0) {
+            console.error("No registry JSON files found in " + registryDir);
+            process.exit(1);
+          }
+
+          for (const file of files) {
+            const filePath = path.join(registryDir, file);
+            try {
+              const content = JSON.parse(fs.readFileSync(filePath, "utf8"));
+              if (!content || typeof content !== "object") {
+                throw new Error("Invalid JSON object format");
+              }
+            } catch (e) {
+              console.error(`Registry JSON validation failed for ${file}:`, e);
+              process.exit(1);
+            }
+          }
+          console.log(`Successfully validated ${files.length} registry manifests!`);
+          EOF
+
+      - name: Install Workspace Dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Verify Core Registry Compiler
+        run: cd packages/core && bun run build:registry
