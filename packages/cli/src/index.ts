@@ -7,7 +7,7 @@ import { themeCommand } from "./commands/theme.js";
 import { validateCommand } from "./commands/validate.js";
 import { diffCommand } from "./commands/diff.js";
 
-console.log(`\n🎨 ${pc.bold(pc.red("Nikala UI"))} ${pc.dim("v0.7.0")} — SolidJS + Tailwind v4 components`);
+console.log(`\n🎨 ${pc.bold(pc.red("Nikala UI"))} ${pc.dim("v0.7.1")} — SolidJS + Tailwind v4 components`);
 console.log(`   ${pc.italic(pc.dim("Honoring Niko Pirosmani (Nikala)"))}\n`);
 console.log(`   ${pc.dim("Docs:")} ${pc.underline(pc.cyan("https://nikala.magradze.dev"))}\n`);
 
@@ -16,7 +16,7 @@ const program = new Command();
 program
   .name("nikala")
   .description("Nikala UI — SolidJS + Tailwind v4 components")
-  .version("0.7.0");
+  .version("0.7.1");
 
 program
   .command("init")
