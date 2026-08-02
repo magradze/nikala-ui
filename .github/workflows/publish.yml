@@ -66,21 +66,17 @@ jobs:
       - name: Compile Registry Manifests & Build CLI Binary
         run: bun run build
 
+      - name: Setup Node for OIDC-authenticated Publish
+        uses: actions/setup-node@v6
+        with:
+          node-version: '24'
+          registry-url: 'https://registry.npmjs.org'
+
       - name: Publish @nikala-ui/core Package
-        run: |
-          cd packages/core
-          echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > .npmrc
-          npm publish --access public
-        env:
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: cd packages/core && npm publish --access public
 
       - name: Publish @nikala-ui/cli Package
-        run: |
-          cd packages/cli
-          echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > .npmrc
-          npm publish --access public
-        env:
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: cd packages/cli && npm publish --access public
 
       - name: Create GitHub Release
         if: ${{ startsWith(github.ref, 'refs/tags/v') }}
