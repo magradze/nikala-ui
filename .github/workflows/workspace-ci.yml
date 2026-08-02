@@ -50,8 +50,11 @@ jobs:
       - name: Install Workspace Dependencies
         run: bun install --frozen-lockfile
 
+      - name: Build Core Registry Manifests
+        run: bun run build:registry
+
       - name: Execute Vitest Test Suites
-        run: cd apps/web && bun test
+        run: cd apps/web && bunx vitest run
 
   type-check:
     name: Validate TypeScript Types
@@ -70,7 +73,7 @@ jobs:
         run: bun install --frozen-lockfile
 
       - name: Build Core Registry Manifests
-        run: cd packages/core && bun run build:registry
+        run: bun run build:registry
 
-      - name: Typecheck Workspace Packages
-        run: bunx tsc --noEmit
+      - name: Typecheck Web App
+        run: cd apps/web && bunx tsc --noEmit
