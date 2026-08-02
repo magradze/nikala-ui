@@ -1,14 +1,18 @@
 {
-	"name": "nikala-ui-monorepo",
-	"private": true,
-	"type": "module",
-	"workspaces": ["packages/*"],
-	"scripts": {
-		"build:registry": "bun --filter '@nikala-ui/core' run build:registry",
-		"build:cli": "bun --filter '@nikala-ui/cli' run build",
-		"build": "bun run build:registry && bun run build:cli"
+	"compilerOptions": {
+		"target": "ES2022",
+		"module": "ESNext",
+		"moduleResolution": "bundler",
+		"jsx": "preserve",
+		"jsxImportSource": "solid-js",
+		"paths": {
+			"@/*": ["./packages/core/src/*"]
+		},
+		"types": ["node"],
+		"strict": true,
+		"esModuleInterop": true,
+		"skipLibCheck": true,
+		"forceConsistentCasingInFileNames": true
 	},
-	"devDependencies": {
-		"typescript": "^5.7.2"
-	}
+	"include": ["packages/**/*", "apps/**/*", "scripts/**/*", ".github/**/*"]
 }

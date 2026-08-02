@@ -7,12 +7,13 @@
     "apps/*"
   ],
   "scripts": {
-    "build": "bun run build:registry && bun run build:cli && bun run build:web",
-    "build:registry": "cd packages/core && bun run build:registry",
-    "build:cli": "cd packages/cli && bun run build",
-    "build:web": "cd apps/web && bun run build"
+    "build:registry": "bun --filter '@nikala-ui/core' run build:registry",
+    "build:cli": "bun --filter '@nikala-ui/cli' run build",
+    "build:web": "bun --filter 'nikala-web' run build",
+    "build": "bun run build:registry && bun run build:cli && bun run build:web"
   },
   "devDependencies": {
+    "@types/node": "^26.1.1",
     "typescript": "^5.7.2"
   }
 }
