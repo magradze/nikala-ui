@@ -11,6 +11,11 @@
   "publishConfig": {
     "access": "public"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nikala-ui/ui.git",
+    "directory": "packages/core"
+  },
   "scripts": {
     "build:registry": "bun scripts/build-registry.ts"
   },
