@@ -1,5 +1,5 @@
 import { JSX } from "solid-js"
-import { Palette, Wrench, Zap } from "lucide-solid/icons/index";
+import { Palette, Wrench, Zap } from "lucide-solid";
 import { Card } from "../ui/card";
 
 export const Features: () => JSX.Element = () => {
