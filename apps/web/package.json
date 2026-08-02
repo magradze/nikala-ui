@@ -29,7 +29,9 @@
     "@types/node": "^26.1.1",
     "@types/prismjs": "^1.26.6",
     "tailwindcss": "^4.0.7",
-    "vite-plugin-lucide-preprocess": "^1.5.2"
+    "vite-plugin-lucide-preprocess": "^1.5.2",
+    "vite-plugin-solid": "^2.11.14",
+    "vitest": "^4.1.10"
   },
   "engines": {
     "node": ">=24"
