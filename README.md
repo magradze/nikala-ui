@@ -55,10 +55,10 @@ Switch brand accent colors or base palettes anytime without re-running initializ
 
 ```bash
 # Interactive theme selection menu
-nikala theme
+bunx @nikala-ui/cli theme
 
 # Direct command execution
-nikala theme set sky slate
+bunx @nikala-ui/cli theme set sky slate
 ```
 
 ### 3. Add components to your project
@@ -67,18 +67,22 @@ Add specific components or install all at once:
 
 ```bash
 # Add specific components
-nikala add button input card theme-manager
+bunx @nikala-ui/cli add button input card theme-manager
 
-# Or add all available components
-nikala add all
-# or
-nikala add --all
+## Or add all available components
+
+bunx @nikala-ui/cli add all
+
+## or
+
+bunx @nikala-ui/cli add --all
+
 ```
 
 You can also install components from custom remote URLs:
 
 ```bash
-nikala add https://example.com/registry/my-custom-card.json
+bunx @nikala-ui/cli add https://example.com/registry/my-custom-card.json
 ```
 
 ### 4. Import and use
