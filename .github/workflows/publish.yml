@@ -73,14 +73,20 @@ jobs:
         run: bun run build
 
       - name: Publish @nikala-ui/core Package
-        run: cd packages/core && npm publish --access public
+        run: |
+          cd packages/core
+          echo "//registry.npmjs.org/:_authToken=\${NPM_TOKEN}" > .npmrc
+          npm publish --access public
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Publish @nikala-ui/cli Package
-        run: cd packages/cli && npm publish --access public
+        run: |
+          cd packages/cli
+          echo "//registry.npmjs.org/:_authToken=\${NPM_TOKEN}" > .npmrc
+          npm publish --access public
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Create GitHub Release
         if: ${{ startsWith(github.ref, 'refs/tags/v') }}
