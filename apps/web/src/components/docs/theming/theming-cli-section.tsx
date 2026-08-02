@@ -1,14 +1,12 @@
 import { DocSectionHeader } from "@/components/docs/doc-section-header";
 import { CodeBlock } from "@/components/code-block";
-
-const themeInteractiveCmd = `nikala theme`;
-const themeSetCmd = `# Set primary accent color and base gray palette
-nikala theme set sky slate
-
-# Set Pirosmani wine accent
-nikala theme set wine zinc`;
+import { formatCliCmd } from "@/lib/cli-formatter";
 
 export function ThemingCliSection() {
+  const themeInteractiveCmd = () => formatCliCmd("theme");
+  const themeSetCmd = () =>
+    `# Set primary accent color and base gray palette\n${formatCliCmd("theme set sky slate")}\n\n# Set Pirosmani wine accent\n${formatCliCmd("theme set wine zinc")}`;
+
   return (
     <div class="space-y-4">
       <DocSectionHeader
@@ -18,10 +16,10 @@ export function ThemingCliSection() {
 
       <div class="space-y-3">
         <p class="text-sm text-muted-foreground">Interactive theme selection menu:</p>
-        <CodeBlock code={themeInteractiveCmd} lang="bash" />
+        <CodeBlock code={themeInteractiveCmd()} lang="bash" />
 
         <p class="text-sm text-muted-foreground pt-2">Direct command execution:</p>
-        <CodeBlock code={themeSetCmd} lang="bash" />
+        <CodeBlock code={themeSetCmd()} lang="bash" />
       </div>
     </div>
   );

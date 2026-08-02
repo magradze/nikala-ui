@@ -3,8 +3,7 @@ import { DocSectionHeader } from "@/components/docs/doc-section-header";
 import { DocCallout } from "@/components/docs/doc-callout";
 import { CodeBlock } from "@/components/code-block";
 import { ShieldAlert } from "lucide-solid";
-
-const addThemeManagerCmd = `nikala add theme-manager`;
+import { formatCliCmd } from "@/lib/cli-formatter";
 
 const themeProviderCode = `import { ThemeProvider, ThemeScript } from "@/providers/theme-provider";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
@@ -35,6 +34,8 @@ const themeScriptPropsCode = `<ThemeScript
 />`;
 
 export function ThemingManagerSection() {
+  const addThemeManagerCmd = () => formatCliCmd("add theme-manager");
+
   return (
     <div class="space-y-6">
       <DocSectionHeader
@@ -44,7 +45,7 @@ export function ThemingManagerSection() {
 
       <div class="space-y-3">
         <p class="text-sm text-muted-foreground">Add theme-manager to your workspace:</p>
-        <CodeBlock code={addThemeManagerCmd} lang="bash" />
+        <CodeBlock code={addThemeManagerCmd()} lang="bash" />
       </div>
 
       {/* Anti-FOUC Callout */}
