@@ -46,7 +46,7 @@ jobs:
   npm-publish:
     name: Publish Packages to NPM & GitHub Releases
     needs: workspace-check
-    if: ${{ github.event_name == 'push' && (github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/v')) && github.repository_owner == 'nikala-ui' }}
+    if: ${{ github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v') && github.repository_owner == 'nikala-ui' }}
     runs-on: ubuntu-latest
 
     steps:
