@@ -41,7 +41,7 @@ jobs:
         run: bun run build
 
       - name: Execute Web App Tests
-        run: cd apps/web && bun test
+        run: cd apps/web && bunx vitest run
 
   npm-publish:
     name: Publish Packages to NPM & GitHub Releases

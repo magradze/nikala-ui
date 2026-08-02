@@ -31,4 +31,4 @@ jobs:
         run: bun run build
 
       - name: Execute Web Portal Vitest Suite
-        run: cd apps/web && bun test
+        run: cd apps/web && bunx vitest run
