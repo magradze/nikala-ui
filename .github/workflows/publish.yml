@@ -60,10 +60,10 @@ jobs:
         with:
           bun-version: latest
 
-      - name: Setup Node.js for NPM Registry Auth
+      - name: Setup Node.js 22 for NPM Registry Auth
         uses: actions/setup-node@v4
         with:
-          node-version: '20.x'
+          node-version: '22.x'
           registry-url: 'https://registry.npmjs.org'
 
       - name: Install Workspace Dependencies
