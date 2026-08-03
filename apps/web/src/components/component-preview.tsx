@@ -1,5 +1,6 @@
 // src/components/component-preview.tsx
 import { createSignal, JSX, children, splitProps, type Component } from "solid-js";
+import { createClipboard } from "@nikala-ui/hooks";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { CodeBlock } from "@/components/code-block";
 import { Button } from "@/components/ui/button";
@@ -15,18 +16,14 @@ interface ComponentPreviewProps {
 
 export const ComponentPreview: Component<ComponentPreviewProps> = (props) => {
   const [local] = splitProps(props, ["name", "code", "align", "children"]);
-  const [copiedCli, setCopiedCli] = createSignal(false);
+  const { copied, copy } = createClipboard({ timeout: 2000 });
   const { formatCommand } = usePackageManager();
 
   const cliCommand = () => formatCommand(`add ${local.name}`);
   const resolvedChildren = children(() => local.children);
 
-  const copyCli = async () => {
-    try {
-      await navigator.clipboard.writeText(cliCommand());
-      setCopiedCli(true);
-      setTimeout(() => setCopiedCli(false), 2000);
-    } catch (e) { }
+  const copyCli = () => {
+    copy(cliCommand());
   };
 
   const alignmentClass = () => {
@@ -52,7 +49,7 @@ export const ComponentPreview: Component<ComponentPreviewProps> = (props) => {
               onClick={copyCli}
               class="h-7 px-2 text-xs text-muted-foreground hover:text-foreground font-mono border border-border/50 rounded-md cursor-pointer"
             >
-              {copiedCli() ? "Copied command!" : cliCommand()}
+              {copied() ? "Copied command!" : cliCommand()}
             </Button>
 
             <PmRunnerSelector size="sm" />
@@ -61,7 +58,7 @@ export const ComponentPreview: Component<ComponentPreviewProps> = (props) => {
 
         {/* Live Preview Tab */}
         <TabsContent value="preview" class="relative rounded-lg border border-border bg-background/50 p-10 backdrop-blur-xs">
-          <div class={`flex min-h-[250px] w-full ${alignmentClass()}`}>
+          <div class={`flex min-h-250px w-full ${alignmentClass()}`}>
             {resolvedChildren()}
           </div>
         </TabsContent>

@@ -1,5 +1,6 @@
 import { createSignal, JSX } from "solid-js";
 import { A } from "@solidjs/router";
+import { createClipboard } from "@nikala-ui/hooks";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -25,21 +26,19 @@ import { Alert, AlertTitle, AlertDescription } from "@/components/ui/alert";
 import { Skeleton } from "@/components/ui/skeleton";
 import {
   Sparkles,
-  CheckCircle,
+  CircleCheck,
   Bell,
   Command as CommandIcon,
   ArrowUpRight,
 } from "lucide-solid";
 
 export const Hero: () => JSX.Element = () => {
-  const [copied, setCopied] = createSignal(false);
+  const { copied, copy } = createClipboard({ timeout: 2000 });
   const [notificationsEnabled, setNotificationsEnabled] = createSignal(true);
   const cliInitCmd = "npx @nikala-ui/cli init";
 
-  const copyInitCommand = async () => {
-    await navigator.clipboard.writeText(cliInitCmd);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
+  const copyInitCommand = () => {
+    copy(cliInitCmd);
   };
 
   return (
@@ -334,7 +333,7 @@ export const Hero: () => JSX.Element = () => {
 
                 <CardContent class="p-6 pt-0">
                   <Alert variant="success" class="p-3 text-xs">
-                    <CheckCircle class="h-4 w-4" />
+                    <CircleCheck class="h-4 w-4" />
                     <AlertTitle class="text-xs font-bold">Success</AlertTitle>
                     <AlertDescription class="text-[11px]">
                       Tailwind v4 tokens loaded.

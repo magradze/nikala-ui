@@ -4,6 +4,7 @@ import {
   Show,
   type Component,
 } from "solid-js";
+import { createClipboard } from "@nikala-ui/hooks";
 import { highlightCode } from "@/lib/code-highlighter";
 import { Button } from "@/components/ui/button";
 import { usePackageManager } from "@/hooks/use-package-manager";
@@ -18,7 +19,7 @@ interface CodeBlockProps {
 }
 
 export const CodeBlock: Component<CodeBlockProps> = (props) => {
-  const [copied, setCopied] = createSignal(false);
+  const { copied, copy } = createClipboard({ timeout: 2000 });
   const [highlighted, setHighlighted] = createSignal("");
   const { formatCommand } = usePackageManager();
 
@@ -39,14 +40,8 @@ export const CodeBlock: Component<CodeBlockProps> = (props) => {
     });
   });
 
-  const handleCopy = async () => {
-    try {
-      await navigator.clipboard.writeText(cleanCode());
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
-    } catch (e) {
-      /* Fallback for environments with restricted clipboard permissions */
-    }
+  const handleCopy = () => {
+    copy(cleanCode());
   };
 
   const shouldShowSwitcher = () =>
