@@ -1,0 +1,72 @@
+name: Nikala UI Monorepo Code Quality & Standards
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  matrix-typecheck:
+    name: Typecheck Matrix (${{ matrix.package.name }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        package:
+          - name: "Core Package"
+            path: "packages/core"
+          - name: "CLI Package"
+            path: "packages/cli"
+          - name: "Web Application"
+            path: "apps/web"
+
+    steps:
+      - name: Checkout Source Code
+        uses: actions/checkout@v4
+
+      - name: Setup Bun Environment
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Install Workspace Dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Build Core Registry Manifests
+        run: bun run build:registry
+
+      - name: Run TypeScript Compiler Check
+        run: cd ${{ matrix.package.path }} && bunx tsc --noEmit
+
+  bundle-size-check:
+    name: Verify Package Output Bundle Size
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Source Code
+        uses: actions/checkout@v4
+
+      - name: Setup Bun Environment
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Install Workspace Dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Build All Packages
+        run: bun run build
+
+      - name: Verify CLI Executable Size (< 2MB limit)
+        run: |
+          SIZE=$(stat -c%s packages/cli/dist/index.js 2>/dev/null || stat -f%z packages/cli/dist/index.js)
+          MAX_SIZE=2097152 # 2MB bytes
+          echo "CLI Bundle Size: $SIZE bytes"
+          if [ $SIZE -gt $MAX_SIZE ]; then
+            echo "::error::CLI Bundle size exceeds 2MB limit!"
+            exit 1
+          fi
