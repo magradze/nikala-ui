@@ -30,6 +30,9 @@ jobs:
       - name: Install Workspace Dependencies
         run: bun install --frozen-lockfile
 
+      - name: Build Core Registry & Web App
+        run: bun run build
+
       - name: Cache Playwright Browsers
         id: playwright-cache
         uses: actions/cache@v4
@@ -39,12 +42,9 @@ jobs:
 
       - name: Install Playwright Dependencies
         if: steps.playwright-cache.outputs.cache-hit != 'true'
-        run: cd apps/web && bunx playwright install --with-deps
+        run: cd apps/web && bunx playwright install --with-deps chromium
 
-      - name: Build Core Registry & Web App
-        run: bun run build
-
-      - name: Run Playwright Test Suite
+      - name: Run Playwright E2E Test Suite
         run: cd apps/web && bunx playwright test
 
       - name: Upload Test Report & Artifacts on Failure
