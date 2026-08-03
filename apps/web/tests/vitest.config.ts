@@ -6,13 +6,15 @@ const config: UserConfig & { test?: Record<string, any> } = {
   plugins: [solidPlugin()],
   resolve: {
     alias: {
-      "@": path.resolve(__dirname, "../src"),
+      "@": path.resolve(import.meta.dirname, "../src"),
     },
   },
   test: {
     globals: true,
     environment: "node",
-    setupFiles: [path.resolve(__dirname, "./setup.ts")],
+    setupFiles: [path.resolve(import.meta.dirname, "./setup.ts")],
+    include: ["tests/**/*.test.{ts,tsx}", "tests/**/*.spec.{ts,tsx}"],
+    exclude: ["e2e/**", "node_modules/**", "dist/**"],
   },
 };
 
