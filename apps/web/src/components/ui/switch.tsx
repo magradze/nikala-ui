@@ -1,4 +1,5 @@
-import { createSignal, splitProps, type Component, type JSX } from "solid-js";
+import { splitProps, type Component, type JSX } from "solid-js";
+import { createControllableSignal } from "@nikala-ui/hooks";
 import { cn } from "@/lib/cn";
 
 export interface SwitchProps
@@ -16,7 +17,6 @@ export interface SwitchProps
  * Nikala UI Switch component for boolean toggle inputs built for SolidJS with Tailwind CSS v4 styling.
  */
 export const Switch: Component<SwitchProps> = (props) => {
-  // Use splitProps to preserve SolidJS reactivity
   const [local, rest] = splitProps(props, [
     "checked",
     "defaultChecked",
@@ -26,28 +26,17 @@ export const Switch: Component<SwitchProps> = (props) => {
     "onClick",
   ]);
 
-  // Internal state for uncontrolled mode
-  const [internalChecked, setInternalChecked] = createSignal(
-    local.defaultChecked ?? false
-  );
-
-  // Computed checked state supporting both controlled and uncontrolled modes
-  const isChecked = () =>
-    local.checked !== undefined ? local.checked : internalChecked();
+  const [isChecked, setIsChecked] = createControllableSignal({
+    value: () => local.checked,
+    defaultValue: local.defaultChecked ?? false,
+    onChange: (val) => local.onChange?.(val),
+  });
 
   const toggle = (
     e: MouseEvent & { currentTarget: HTMLButtonElement; target: Element }
   ) => {
     if (local.disabled) return;
-
-    const nextState = !isChecked();
-    if (local.checked === undefined) {
-      setInternalChecked(nextState);
-    }
-
-    if (typeof local.onChange === "function") {
-      local.onChange(nextState);
-    }
+    setIsChecked(!isChecked());
 
     if (typeof local.onClick === "function") {
       local.onClick(e);

@@ -1,13 +1,13 @@
 import {
   createContext,
   useContext,
-  createSignal,
   splitProps,
   Show,
   type Component,
   type JSX,
   type Accessor,
 } from "solid-js";
+import { createControllableSignal } from "@nikala-ui/hooks";
 import { cn } from "@/lib/cn";
 
 interface TabsContextValue {
@@ -44,25 +44,17 @@ export const Tabs: Component<TabsProps> = (props) => {
     "children",
   ]);
 
-  const [internalValue, setInternalValue] = createSignal(local.defaultValue);
-
-  const currentValue = () =>
-    local.value !== undefined ? local.value : internalValue();
+  const [currentValue, setCurrentValue] = createControllableSignal<string>({
+    value: () => local.value,
+    defaultValue: local.defaultValue,
+    onChange: (val) => local.onChange?.(val),
+  });
 
   const orientation = () => local.orientation || "horizontal";
 
-  const handleSelect = (val: string) => {
-    if (local.value === undefined) {
-      setInternalValue(val);
-    }
-    if (typeof local.onChange === "function") {
-      local.onChange(val);
-    }
-  };
-
   const contextValue: TabsContextValue = {
     value: currentValue,
-    setValue: handleSelect,
+    setValue: (val: string) => setCurrentValue(val),
     orientation,
   };
 
