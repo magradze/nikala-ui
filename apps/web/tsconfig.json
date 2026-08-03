@@ -18,5 +18,5 @@
 		},
 		"types": ["vite/client", "node", "vitest"]
 	},
-	"include": ["src/**/*", "tests/**/*"]
+	"include": ["src/**/*", "tests/**/*", "vitest.config.ts"]
 }
