@@ -40,6 +40,15 @@ jobs:
       - name: Build Core Registry & CLI Packages
         run: bun run build
 
+      - name: Verify Registry Manifests Sync
+        run: git diff --exit-code packages/core/registry
+
+      - name: Typecheck Monorepo Packages
+        run: |
+          cd packages/core && bunx tsc --noEmit
+          cd ../cli && bunx tsc --noEmit
+          cd "../../apps/web" && bunx tsc --noEmit
+
       - name: Execute Web App Tests
         run: cd apps/web && bunx vitest run
 
@@ -66,20 +75,23 @@ jobs:
       - name: Compile Registry Manifests & Build CLI Binary
         run: bun run build
 
-      - name: Setup Node for OIDC-authenticated Publish
-        uses: actions/setup-node@v6
+      - name: Setup Node for OIDC & NPM Auth
+        uses: actions/setup-node@v4
         with:
           node-version: '24'
           registry-url: 'https://registry.npmjs.org'
 
       - name: Publish @nikala-ui/core Package
-        run: cd packages/core && npm publish --access public
+        run: cd packages/core && npm publish --access public --provenance
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Publish @nikala-ui/cli Package
-        run: cd packages/cli && npm publish --access public
+        run: cd packages/cli && npm publish --access public --provenance
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Create GitHub Release
-        if: ${{ startsWith(github.ref, 'refs/tags/v') }}
         uses: softprops/action-gh-release@v2
         with:
           name: ${{ github.ref_name }}
