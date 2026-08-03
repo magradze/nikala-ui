@@ -36,6 +36,12 @@ export const HOOKS_LIST: DocHookItem[] = [
     description: "SolidJS reactive primitive supporting both controlled and uncontrolled state management",
     href: "/docs/hooks/create-controllable-signal",
   },
+  {
+    name: "create-click-outside",
+    title: "createClickOutside",
+    description: "SolidJS reactive primitive for detecting click and pointer interactions outside target elements",
+    href: "/docs/hooks/create-click-outside",
+  },
 ];
 
 /* --- Component Library Registry List --- */
