@@ -26,6 +26,8 @@ export const Accordion = <T extends ValidComponent = "div">(
     "class",
     "type",
     "multiple",
+    "value",
+    "defaultValue",
   ]);
 
   // Support both `type="multiple"` and `multiple={true}`
@@ -34,6 +36,8 @@ export const Accordion = <T extends ValidComponent = "div">(
   return (
     <AccordionPrimitive.Root
       multiple={isMultiple()}
+      value={local.value}
+      defaultValue={local.defaultValue}
       class={cn("w-full divide-y divide-border", local.class)}
       {...(rest as any)}
     />

@@ -1,4 +1,5 @@
-import { createSignal, splitProps, Show, type Component, type JSX } from "solid-js";
+import { splitProps, Show, type Component, type JSX } from "solid-js";
+import { createControllableSignal } from "@nikala-ui/hooks";
 import { cn } from "@/lib/cn";
 
 export interface CheckboxProps
@@ -16,7 +17,6 @@ export interface CheckboxProps
  * Nikala UI Checkbox component built for SolidJS with Tailwind CSS v4 styling.
  */
 export const Checkbox: Component<CheckboxProps> = (props) => {
-  // Use splitProps to preserve SolidJS reactivity
   const [local, rest] = splitProps(props, [
     "checked",
     "defaultChecked",
@@ -26,28 +26,17 @@ export const Checkbox: Component<CheckboxProps> = (props) => {
     "onClick",
   ]);
 
-  // Internal state for uncontrolled mode
-  const [internalChecked, setInternalChecked] = createSignal(
-    local.defaultChecked ?? false
-  );
-
-  // Computed checked state
-  const isChecked = () =>
-    local.checked !== undefined ? local.checked : internalChecked();
+  const [isChecked, setIsChecked] = createControllableSignal({
+    value: () => local.checked,
+    defaultValue: local.defaultChecked ?? false,
+    onChange: (val) => local.onChange?.(val),
+  });
 
   const toggle = (
     e: MouseEvent & { currentTarget: HTMLButtonElement; target: Element }
   ) => {
     if (local.disabled) return;
-
-    const nextState = !isChecked();
-    if (local.checked === undefined) {
-      setInternalChecked(nextState);
-    }
-
-    if (typeof local.onChange === "function") {
-      local.onChange(nextState);
-    }
+    setIsChecked(!isChecked());
 
     if (typeof local.onClick === "function") {
       local.onClick(e);
@@ -58,7 +47,7 @@ export const Checkbox: Component<CheckboxProps> = (props) => {
     <button
       type="button"
       role="checkbox"
-      aria-checked={isChecked()}
+      aria-checked={Boolean(isChecked())}
       data-state={isChecked() ? "checked" : "unchecked"}
       disabled={local.disabled}
       onClick={toggle}
