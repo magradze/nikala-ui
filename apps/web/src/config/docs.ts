@@ -156,6 +156,12 @@ export const HOOKS_LIST: DocHookItem[] = [
     description: "SolidJS reactive primitive for managing dark/light themes and system preferences",
     href: "/docs/hooks/create-color-mode",
   },
+  {
+    name: "create-form",
+    title: "createForm",
+    description: "SolidJS reactive primitive for form state management, field validation, errors, and submission",
+    href: "/docs/hooks/create-form",
+  },
 ];
 
 /* --- Component Library Registry List --- */

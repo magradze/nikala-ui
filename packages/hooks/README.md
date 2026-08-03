@@ -37,6 +37,7 @@ This package provides reusable, fine-grained reactive primitives designed native
 - **`createPrevious`** — SolidJS reactive primitive for tracking previous value of a signal accessor.
 - **`createNetworkStatus` / `createOnline`** — SolidJS reactive primitives for tracking browser network connectivity and connection quality metrics.
 - **`createColorMode`** — SolidJS reactive primitive for managing dark/light themes and system preferences.
+- **`createForm`** — SolidJS reactive primitive for form state management, field validation, errors, and submission.
 - **Native SolidJS Reactivity** — Zero-dependency, fine-grained reactivity built directly on SolidJS signals.
 - **TypeScript First** — Fully typed options, getters, and return tuple interfaces.
 
