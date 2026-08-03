@@ -48,6 +48,12 @@ export const HOOKS_LIST: DocHookItem[] = [
     description: "SolidJS reactive primitive for copying text to clipboard with automatic status reset",
     href: "/docs/hooks/create-clipboard",
   },
+  {
+    name: "create-keybindings",
+    title: "createKeybindings",
+    description: "SolidJS reactive primitives for listening to keyboard shortcuts, key combinations, and Escape key presses",
+    href: "/docs/hooks/create-keybindings",
+  },
 ];
 
 /* --- Component Library Registry List --- */
