@@ -21,6 +21,7 @@ This package provides reusable, fine-grained reactive primitives designed native
 - **`createClipboard`** — SolidJS reactive primitive for copying text to clipboard with automatic status reset.
 - **`createKeybindings` / `createEscapeKey`** — SolidJS reactive primitives for listening to keyboard shortcuts, key combinations, and Escape key presses.
 - **`createLockScroll`** — SolidJS reactive primitive for locking body or container scrolling when overlays are active.
+- **`createDisclosure`** — SolidJS reactive primitive for managing boolean open/close state with toggle, open, and close helpers.
 - **Native SolidJS Reactivity** — Zero-dependency, fine-grained reactivity built directly on SolidJS signals.
 - **TypeScript First** — Fully typed options, getters, and return tuple interfaces.
 
