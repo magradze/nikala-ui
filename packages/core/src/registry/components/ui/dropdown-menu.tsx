@@ -1,6 +1,7 @@
 import { splitProps, type Component, type JSX, type ValidComponent } from "solid-js";
 import * as DropdownMenuPrimitive from "@kobalte/core/dropdown-menu";
 import type { PolymorphicProps } from "@kobalte/core/polymorphic";
+import { createClickOutside } from "@nikala-ui/hooks";
 import { cn } from "@/lib/cn";
 
 export type DropdownMenuRootProps = Omit<
@@ -92,10 +93,24 @@ export const DropdownMenuContent = <T extends ValidComponent = "div">(
   props: PolymorphicProps<T, DropdownMenuContentProps<T>>
 ) => {
   const [local, rest] = splitProps(props as DropdownMenuContentProps, ["class"]);
+  let contentRef: HTMLElement | undefined;
+
+  createClickOutside({
+    target: () => contentRef,
+    onInteractOutside: (e) => {
+      if (typeof (props as any).onInteractOutside === "function") {
+        (props as any).onInteractOutside(e);
+      }
+    },
+  });
 
   return (
     <DropdownMenuPrimitive.Portal>
       <DropdownMenuPrimitive.Content
+        ref={(el) => {
+          contentRef = el;
+          if (typeof (props as any).ref === "function") (props as any).ref(el);
+        }}
         class={cn(
           "z-50 min-w-[8rem] overflow-hidden rounded-md border border-border bg-popover p-1 text-popover-foreground shadow-md data-[expanded]:animate-in data-[closed]:animate-out data-[closed]:fade-out-0 data-[expanded]:fade-in-0",
           local.class

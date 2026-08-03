@@ -1,5 +1,6 @@
 import { splitProps, type Component, type ComponentProps } from "solid-js";
 import { Popover as KobaltePopover } from "@kobalte/core/popover";
+import { createClickOutside } from "@nikala-ui/hooks";
 import { X } from "lucide-solid";
 import { cn } from "@/lib/cn";
 
@@ -19,11 +20,25 @@ export const PopoverArrow: Component<ComponentProps<typeof KobaltePopover.Arrow>
 };
 
 export const PopoverContent: Component<ComponentProps<typeof KobaltePopover.Content>> = (props) => {
-  const [local, rest] = splitProps(props, ["class", "children"]);
+  const [local, rest] = splitProps(props, ["class", "children", "onInteractOutside"]);
+  let contentRef: HTMLElement | undefined;
+
+  createClickOutside({
+    target: () => contentRef,
+    onInteractOutside: (e) => {
+      if (typeof local.onInteractOutside === "function") {
+        local.onInteractOutside(e as any);
+      }
+    },
+  });
 
   return (
     <KobaltePopover.Portal>
       <KobaltePopover.Content
+        ref={(el) => {
+          contentRef = el;
+          if (typeof (props as any).ref === "function") (props as any).ref(el);
+        }}
         class={cn(
           "z-50 w-72 rounded-lg border border-border bg-popover p-4 text-popover-foreground shadow-md outline-none data-[expanded]:animate-in data-[closed]:animate-out data-[closed]:fade-out-0 data-[expanded]:fade-in-0 data-[closed]:zoom-out-95 data-[expanded]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2",
           local.class
