@@ -26,6 +26,13 @@ export interface DocComponentItem {
   href: string;
 }
 
+export interface DocHookItem {
+  name: string;
+  title: string;
+  description: string;
+  href: string;
+}
+
 /* API Reference Table Types */
 export interface PropItem {
   prop: string;

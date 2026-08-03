@@ -1,11 +1,11 @@
 import { createSignal, For } from "solid-js";
 import { A } from "@solidjs/router";
-import { COMPONENTS_LIST, DOCUMENTATION_LIST } from "@/config/docs";
+import { COMPONENTS_LIST, DOCUMENTATION_LIST, HOOKS_LIST } from "@/config/docs";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { Banner } from "@/components/ui/banner";
-import { Info } from "lucide-solid";
+import { Info, Webhook } from "lucide-solid";
 import {
   CommandDialog,
   CommandInput,
@@ -56,6 +56,7 @@ export function Header() {
             <nav class="hidden md:flex items-center gap-5 text-sm font-medium text-muted-foreground">
               <A href="/docs" class="hover:text-foreground transition-colors">Documentation</A>
               <A href="/docs/components/accordion" class="hover:text-foreground transition-colors">Components</A>
+              <A href="/docs/hooks/create-controllable-signal" class="hover:text-foreground transition-colors">Hooks</A>
               <A href="/playground" class="hover:text-foreground transition-colors">Playground</A>
             </nav>
           </div>
@@ -76,7 +77,7 @@ export function Header() {
 
             {/* Global Command Palette Modal */}
             <CommandDialog open={open()} onOpenChange={setOpen} enableHotkey={true}>
-              <CommandInput placeholder="Search documentation, CLI, components..." />
+              <CommandInput placeholder="Search documentation, CLI, hooks, components..." />
 
               <CommandList>
                 <CommandEmpty />
@@ -91,6 +92,22 @@ export function Header() {
                         icon={doc.icon}
                         href={doc.href}
                         shortcut={doc.shortcut}
+                        showChevron={true}
+                        onSelect={() => setOpen(false)}
+                      />
+                    )}
+                  </For>
+                </CommandGroup>
+
+                {/* Hooks Section */}
+                <CommandGroup heading="Hooks & Primitives">
+                  <For each={HOOKS_LIST}>
+                    {(hook) => (
+                      <CommandItem
+                        title={hook.title}
+                        subtitle={hook.description}
+                        icon={Webhook}
+                        href={hook.href}
                         showChevron={true}
                         onSelect={() => setOpen(false)}
                       />

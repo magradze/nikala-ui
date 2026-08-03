@@ -1,7 +1,7 @@
 // src/config/docs.ts
 import type { Component } from "solid-js";
 import { BookOpen, Terminal, Palette } from "lucide-solid";
-import { DocComponentItem, DocGuideItem, NavSection } from "@/types";
+import { DocComponentItem, DocHookItem, DocGuideItem, NavSection } from "@/types";
 
 /* --- Documentation Guides List --- */
 export const DOCUMENTATION_LIST: DocGuideItem[] = [
@@ -25,6 +25,16 @@ export const DOCUMENTATION_LIST: DocGuideItem[] = [
     href: "/docs/theming",
     shortcut: "⌘3",
     icon: Palette,
+  },
+];
+
+/* --- Hooks Registry List --- */
+export const HOOKS_LIST: DocHookItem[] = [
+  {
+    name: "create-controllable-signal",
+    title: "createControllableSignal",
+    description: "SolidJS reactive primitive supporting both controlled and uncontrolled state management",
+    href: "/docs/hooks/create-controllable-signal",
   },
 ];
 
@@ -62,20 +72,42 @@ export const COMPONENTS_LIST: DocComponentItem[] = [
 ];
 
 /* --- Global Sidebar Navigation Config --- */
+export const GETTING_STARTED_SECTION: NavSection = {
+  title: "Getting Started",
+  items: [
+    { title: "Introduction", href: "/docs" },
+    { title: "CLI Reference", href: "/docs/cli" },
+    { title: "Theming", href: "/docs/theming" },
+  ],
+};
+
+export const HOOKS_SECTION: NavSection = {
+  title: "Hooks",
+  items: HOOKS_LIST.map((hook) => ({
+    title: hook.title,
+    href: hook.href,
+  })),
+};
+
+export const COMPONENTS_SECTION: NavSection = {
+  title: "Components",
+  items: COMPONENTS_LIST.map((comp) => ({
+    title: comp.title,
+    href: comp.href,
+  })),
+};
+
 export const DOCS_SIDEBAR_NAVIGATION: NavSection[] = [
-  {
-    title: "Getting Started",
-    items: [
-      { title: "Introduction", href: "/docs" },
-      { title: "CLI Reference", href: "/docs/cli" },
-      { title: "Theming", href: "/docs/theming" },
-    ],
-  },
-  {
-    title: "Components",
-    items: COMPONENTS_LIST.map((comp) => ({
-      title: comp.title,
-      href: comp.href,
-    })),
-  },
+  GETTING_STARTED_SECTION,
+  COMPONENTS_SECTION,
+];
+
+export const HOOKS_SIDEBAR_NAVIGATION: NavSection[] = [
+  GETTING_STARTED_SECTION,
+  HOOKS_SECTION,
+];
+
+export const COMPONENTS_SIDEBAR_NAVIGATION: NavSection[] = [
+  GETTING_STARTED_SECTION,
+  COMPONENTS_SECTION,
 ];

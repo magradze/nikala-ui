@@ -1,15 +1,28 @@
-// src/components/docs-sidebar.tsx
 import { A, useLocation } from "@solidjs/router";
 import { type Component, For } from "solid-js";
-import { DOCS_SIDEBAR_NAVIGATION } from "@/config/docs";
+import {
+  DOCS_SIDEBAR_NAVIGATION,
+  HOOKS_SIDEBAR_NAVIGATION,
+  COMPONENTS_SIDEBAR_NAVIGATION,
+} from "@/config/docs";
 
 export const DocsSidebar: Component = () => {
   const location = useLocation();
 
+  const navigation = () => {
+    if (location.pathname.startsWith("/docs/hooks")) {
+      return HOOKS_SIDEBAR_NAVIGATION;
+    }
+    if (location.pathname.startsWith("/docs/components")) {
+      return COMPONENTS_SIDEBAR_NAVIGATION;
+    }
+    return DOCS_SIDEBAR_NAVIGATION;
+  };
+
   return (
     <aside class="fixed top-14 z-30 hidden h-[calc(100vh-3.5rem)] w-full shrink-0 md:sticky md:block overflow-y-auto border-r border-border/40 py-6 pr-4">
       <div class="space-y-6">
-        <For each={DOCS_SIDEBAR_NAVIGATION}>
+        <For each={navigation()}>
           {(section) => (
             <div class="space-y-2">
               <h4 class="px-2 text-xs font-semibold text-foreground tracking-wider uppercase">
