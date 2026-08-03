@@ -10,7 +10,7 @@ on:
 
 jobs:
   run-tests:
-    name: Run Vitest Suites & Package Builds
+    name: Run Vitest Suites & CLI Build Check
     runs-on: ubuntu-latest
 
     steps:
@@ -27,8 +27,11 @@ jobs:
       - name: Install Workspace Dependencies
         run: bun install --frozen-lockfile
 
-      - name: Build Registry Manifests & CLI
+      - name: Build Registry Manifests & CLI Packages
         run: bun run build
+
+      - name: Verify CLI Executable Integrity
+        run: node packages/cli/dist/index.js --help
 
       - name: Execute Web Portal Vitest Suite
         run: cd apps/web && bunx vitest run
