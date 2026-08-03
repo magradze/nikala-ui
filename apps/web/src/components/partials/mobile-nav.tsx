@@ -1,6 +1,6 @@
-// src/components/partials/mobile-nav.tsx
 import { createSignal, For } from "solid-js";
 import { A, useLocation } from "@solidjs/router";
+import { createLockScroll } from "@nikala-ui/hooks";
 import { Menu } from "lucide-solid";
 import {
   Sheet,
@@ -16,6 +16,10 @@ import { DOCS_SIDEBAR_NAVIGATION } from "@/config/docs";
 export function MobileNav() {
   const [open, setOpen] = createSignal(false);
   const location = useLocation();
+
+  createLockScroll({
+    enabled: () => open(),
+  });
 
   return (
     <Sheet open={open()} onOpenChange={setOpen}>
