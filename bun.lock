@@ -39,41 +39,44 @@
       },
     },
     "packages/cli": {
-		"name": "@nikala-ui/cli",
-		"version": "0.7.1",
-		"bin": {
-			"nikala": "./dist/index.js",
-		},
-		"dependencies": {
-			"commander": "^15.0.0",
-			"fs-extra": "^11.3.6",
-			"picocolors": "^1.1.1",
-			"prompts": "^2.4.2",
-			"strip-json-comments": "^5.0.3",
-		},
-		"devDependencies": {
-			"@types/bun": "latest",
-			"@types/fs-extra": "^11.0.4",
-			"@types/node": "^26.1.1",
-			"@types/prompts": "^2.4.9",
-			"typescript": "^5.7.2",
-		},
-	},
+      "name": "@nikala-ui/cli",
+      "version": "0.7.1",
+      "bin": {
+        "nikala": "./dist/index.js",
+      },
+      "dependencies": {
+        "commander": "^15.0.0",
+        "fs-extra": "^11.3.6",
+        "picocolors": "^1.1.1",
+        "prompts": "^2.4.2",
+        "strip-json-comments": "^5.0.3",
+      },
+      "devDependencies": {
+        "@types/bun": "latest",
+        "@types/fs-extra": "^11.0.4",
+        "@types/node": "^26.1.1",
+        "@types/prompts": "^2.4.9",
+        "typescript": "^5.7.2",
+      },
+    },
     "packages/core": {
-		"name": "@nikala-ui/core",
-		"version": "0.7.1",
-		"devDependencies": {
-			"@kobalte/core": "^0.13.12",
-			"@types/fs-extra": "^11.0.4",
-			"class-variance-authority": "^0.7.1",
-			"clsx": "^2.1.1",
-			"corvu": "^0.7.2",
-			"fs-extra": "^11.4.0",
-			"picocolors": "^1.1.1",
-			"solid-js": "^1.9.14",
-			"tailwind-merge": "^3.6.0",
-		},
-	},
+      "name": "@nikala-ui/core",
+      "version": "0.7.1",
+      "dependencies": {
+        "lucide-solid": "^1.28.0",
+      },
+      "devDependencies": {
+        "@kobalte/core": "^0.13.12",
+        "@types/fs-extra": "^11.0.4",
+        "class-variance-authority": "^0.7.1",
+        "clsx": "^2.1.1",
+        "corvu": "^0.7.2",
+        "fs-extra": "^11.4.0",
+        "picocolors": "^1.1.1",
+        "solid-js": "^1.9.14",
+        "tailwind-merge": "^3.6.0",
+      },
+    },
   },
   "packages": {
     "@babel/code-frame": ["@babel/code-frame@7.29.7", "", { "dependencies": { "@babel/helper-validator-identifier": "^7.29.7", "js-tokens": "^4.0.0", "picocolors": "^1.1.1" } }, "sha512-Aup7aUOfpbAUg2ROOJN6Iw5f9DMBlzu0mIkm/malLQFN/YQgO48wCj0Kxa3sEHJvPVFg7siR+qRInwXd2qhQKw=="],
@@ -540,7 +543,7 @@
 
     "lru-cache": ["lru-cache@5.1.1", "", { "dependencies": { "yallist": "^3.0.2" } }, "sha512-KpNARQA3Iwv+jTA0utUVVbrh+Jlrr1Fv0e56GGzAFOXN7dk/FviaDW8LHmK52DlcH4WP2n6gI8vN1aesBFgo9w=="],
 
-    "lucide-solid": ["lucide-solid@1.27.0", "", { "peerDependencies": { "solid-js": "^1.4.7" } }, "sha512-zbz//eLp8l3coLBkVj3kw/jOS2lP7UMsM7EYRvWhu1NF1buy1hvEUQ5maOLgWXNOCmhqfPP7Zmf1+KcdDwHoYg=="],
+    "lucide-solid": ["lucide-solid@1.28.0", "", { "peerDependencies": { "solid-js": "^1.4.7" } }, "sha512-zF/0H7eiZya+tgmtpJNGzKPUfr+7p+zjLyrIsOSUAPi0IHbEqdLJ+U8w41g+889s63eUoU6BrSLu0HxUx3RTIQ=="],
 
     "magic-string": ["magic-string@0.30.21", "", { "dependencies": { "@jridgewell/sourcemap-codec": "^1.5.5" } }, "sha512-vd2F4YUyEXKGcLHoq+TEyCjxueSeHnFxyyjNp80yg0XV4vUhnDer/lvvlqM/arB5bXQN5K2/3oinyCRyx8T2CQ=="],
 
@@ -781,6 +784,8 @@
     "env-runner/srvx": ["srvx@0.11.22", "", { "bin": { "srvx": "bin/srvx.mjs" } }, "sha512-LqZxxBDMKuMAZzFzJnDCkFOrs9MZQZr0LvHiO/SuSZVdQaXD7xQ5UWTUxheJrQPve1qk9MG2B/yttUvJxw8egQ=="],
 
     "micromatch/picomatch": ["picomatch@2.3.2", "", {}, "sha512-V7+vQEJ06Z+c5tSye8S+nHUfI51xoXIXjHQ99cQtKUkQqqO1kO/KCJUfZXuB47h/YBlDhah2H3hdUGXn8ie0oA=="],
+
+    "nikala-web/lucide-solid": ["lucide-solid@1.27.0", "", { "peerDependencies": { "solid-js": "^1.4.7" } }, "sha512-zbz//eLp8l3coLBkVj3kw/jOS2lP7UMsM7EYRvWhu1NF1buy1hvEUQ5maOLgWXNOCmhqfPP7Zmf1+KcdDwHoYg=="],
 
     "nitro/h3": ["h3@2.0.1-rc.22", "", { "dependencies": { "rou3": "^0.8.1", "srvx": "^0.11.15" }, "peerDependencies": { "crossws": "^0.4.1" }, "optionalPeers": ["crossws"], "bin": { "h3": "bin/h3.mjs" } }, "sha512-Esv0DMIuPkCTSWCA0vO73vcTqwzH1wjSrAO1TXNu/K3up1sZHa9EKMapbmxCDYBeymC3fVTk4qxp7ogQWQ+KgA=="],
 

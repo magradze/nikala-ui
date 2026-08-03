@@ -29,5 +29,8 @@
     "picocolors": "^1.1.1",
     "solid-js": "^1.9.14",
     "tailwind-merge": "^3.6.0"
+  },
+  "dependencies": {
+    "lucide-solid": "^1.28.0"
   }
 }
