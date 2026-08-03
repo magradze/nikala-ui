@@ -108,6 +108,30 @@ export const HOOKS_LIST: DocHookItem[] = [
     description: "SolidJS reactive primitive for tracking scroll position, scroll direction, and container bounds",
     href: "/docs/hooks/create-scroll-position",
   },
+  {
+    name: "create-focus-trap",
+    title: "createFocusTrap",
+    description: "SolidJS reactive primitive for trapping keyboard focus inside target container element for accessibility",
+    href: "/docs/hooks/create-focus-trap",
+  },
+  {
+    name: "create-mouse-position",
+    title: "createMousePosition",
+    description: "SolidJS reactive primitive for tracking global and element-relative mouse pointer coordinates",
+    href: "/docs/hooks/create-mouse-position",
+  },
+  {
+    name: "create-long-press",
+    title: "createLongPress",
+    description: "SolidJS reactive primitive for detecting long press / hold touch and pointer interactions",
+    href: "/docs/hooks/create-long-press",
+  },
+  {
+    name: "create-hover",
+    title: "createHover",
+    description: "SolidJS reactive primitive for tracking element hover state with entrance and exit delays",
+    href: "/docs/hooks/create-hover",
+  },
 ];
 
 /* --- Component Library Registry List --- */

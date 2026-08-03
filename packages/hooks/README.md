@@ -29,6 +29,10 @@ This package provides reusable, fine-grained reactive primitives designed native
 - **`createResizeObserver` / `createElementSize`** — SolidJS reactive primitives for tracking element width and height dimensions dynamically.
 - **`createWindowSize`** — SolidJS reactive primitive for tracking window viewport inner width and height.
 - **`createScrollPosition`** — SolidJS reactive primitive for tracking scroll position, scroll direction, and top/bottom container status.
+- **`createFocusTrap`** — SolidJS reactive primitive for trapping keyboard focus inside target container element for accessibility (WCAG).
+- **`createMousePosition`** — SolidJS reactive primitive for tracking global and element-relative mouse pointer coordinates.
+- **`createLongPress`** — SolidJS reactive primitive for detecting long press / hold touch and pointer interactions.
+- **`createHover`** — SolidJS reactive primitive for tracking element hover state with entrance/exit delays.
 - **Native SolidJS Reactivity** — Zero-dependency, fine-grained reactivity built directly on SolidJS signals.
 - **TypeScript First** — Fully typed options, getters, and return tuple interfaces.
 

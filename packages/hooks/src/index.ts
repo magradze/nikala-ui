@@ -11,3 +11,7 @@ export * from "./create-timer";
 export * from "./create-resize-observer";
 export * from "./create-window-size";
 export * from "./create-scroll-position";
+export * from "./create-focus-trap";
+export * from "./create-mouse-position";
+export * from "./create-long-press";
+export * from "./create-hover";
