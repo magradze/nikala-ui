@@ -66,6 +66,12 @@ export const HOOKS_LIST: DocHookItem[] = [
     description: "SolidJS reactive primitive for managing boolean open/close disclosure state with helper controls",
     href: "/docs/hooks/create-disclosure",
   },
+  {
+    name: "create-media-query",
+    title: "createMediaQuery",
+    description: "SolidJS reactive primitives for tracking CSS media queries and responsive Tailwind breakpoints",
+    href: "/docs/hooks/create-media-query",
+  },
 ];
 
 /* --- Component Library Registry List --- */
