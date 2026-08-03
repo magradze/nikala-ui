@@ -6,8 +6,11 @@ const config: UserConfig & { test?: Record<string, any> } = {
   plugins: [solidPlugin()],
   resolve: {
     alias: {
+      "~": path.resolve(import.meta.dirname, "./src"),
       "@": path.resolve(import.meta.dirname, "./src"),
+      "@nikala-ui/hooks": path.resolve(import.meta.dirname, "../../packages/hooks/src/index.ts"),
     },
+    dedupe: ["solid-js"],
   },
   test: {
     globals: true,
