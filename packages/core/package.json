@@ -31,6 +31,7 @@
     "tailwind-merge": "^3.6.0"
   },
   "dependencies": {
+    "@nikala-ui/hooks": "workspace:*",
     "lucide-solid": "^1.28.0"
   }
 }

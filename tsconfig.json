@@ -6,7 +6,8 @@
 		"jsx": "preserve",
 		"jsxImportSource": "solid-js",
 		"paths": {
-			"@/*": ["./packages/core/src/*"]
+			"@/*": ["./packages/core/src/*"],
+			"@nikala-ui/hooks": ["./packages/hooks/src/index.ts"]
 		},
 		"types": ["node"],
 		"strict": true,

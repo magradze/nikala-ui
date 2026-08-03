@@ -63,6 +63,7 @@
       "name": "@nikala-ui/core",
       "version": "0.7.1",
       "dependencies": {
+        "@nikala-ui/hooks": "workspace:*",
         "lucide-solid": "^1.28.0",
       },
       "devDependencies": {
@@ -75,6 +76,17 @@
         "picocolors": "^1.1.1",
         "solid-js": "^1.9.14",
         "tailwind-merge": "^3.6.0",
+      },
+    },
+    "packages/hooks": {
+      "name": "@nikala-ui/hooks",
+      "version": "0.7.1",
+      "devDependencies": {
+        "@types/node": "^26.1.1",
+        "typescript": "^5.7.2",
+      },
+      "peerDependencies": {
+        "solid-js": "^1.9.0",
       },
     },
   },
@@ -168,6 +180,8 @@
     "@nikala-ui/cli": ["@nikala-ui/cli@workspace:packages/cli"],
 
     "@nikala-ui/core": ["@nikala-ui/core@workspace:packages/core"],
+
+    "@nikala-ui/hooks": ["@nikala-ui/hooks@workspace:packages/hooks"],
 
     "@nodelib/fs.scandir": ["@nodelib/fs.scandir@2.1.5", "", { "dependencies": { "@nodelib/fs.stat": "2.0.5", "run-parallel": "^1.1.9" } }, "sha512-vq24Bq3ym5HEQm2NKCr3yXDwjc7vTsEThRDnkp2DK9p1uqLR+DHurm/NOTo0KG7HYHU7eppKZj3MyqYuMBf62g=="],
 
