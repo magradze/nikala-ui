@@ -34,6 +34,9 @@ jobs:
       - name: Build Core, CLI & Web Application
         run: bun run build
 
+      - name: Verify No Build Drift in Registry
+        run: git diff --exit-code packages/core/registry
+
   test-suite:
     name: Run Unit & Integration Tests
     runs-on: ubuntu-latest
@@ -57,7 +60,7 @@ jobs:
         run: cd apps/web && bunx vitest run
 
   type-check:
-    name: Validate TypeScript Types
+    name: Validate Monorepo TypeScript Types
     runs-on: ubuntu-latest
 
     steps:
@@ -74,6 +77,12 @@ jobs:
 
       - name: Build Core Registry Manifests
         run: bun run build:registry
+
+      - name: Typecheck Core Package
+        run: cd packages/core && bunx tsc --noEmit
+
+      - name: Typecheck CLI Package
+        run: cd packages/cli && bunx tsc --noEmit
 
       - name: Typecheck Web App
         run: cd apps/web && bunx tsc --noEmit
