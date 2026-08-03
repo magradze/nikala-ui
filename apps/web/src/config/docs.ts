@@ -78,6 +78,12 @@ export const HOOKS_LIST: DocHookItem[] = [
     description: "SolidJS reactive primitives for debouncing and throttling rate-limited function execution",
     href: "/docs/hooks/create-debounce",
   },
+  {
+    name: "create-intersection-observer",
+    title: "createIntersectionObserver",
+    description: "SolidJS reactive primitives for observing element visibility and viewport intersection status",
+    href: "/docs/hooks/create-intersection-observer",
+  },
 ];
 
 /* --- Component Library Registry List --- */
