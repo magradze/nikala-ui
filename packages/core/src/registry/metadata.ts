@@ -159,4 +159,9 @@ export const COMPONENT_METADATA: Record<string, ComponentMeta> = {
     description: "A popup that displays information related to an element when the element receives keyboard focus or the mouse hovers over it, built on Kobalte primitives.",
     dependencies: ["clsx", "tailwind-merge", "@kobalte/core"],
   },
+  popover: {
+    title: "Popover",
+    description: "Displays rich content in a portal layer triggered by a button, built on Kobalte primitives.",
+    dependencies: ["clsx", "tailwind-merge", "@kobalte/core", "lucide-solid"],
+  },
 };
