@@ -33,6 +33,8 @@ This package provides reusable, fine-grained reactive primitives designed native
 - **`createMousePosition`** — SolidJS reactive primitive for tracking global and element-relative mouse pointer coordinates.
 - **`createLongPress`** — SolidJS reactive primitive for detecting long press / hold touch and pointer interactions.
 - **`createHover`** — SolidJS reactive primitive for tracking element hover state with entrance/exit delays.
+- **`createLocalStorage` / `createSessionStorage`** — SolidJS reactive primitives for Web Storage state synchronization across tabs.
+- **`createPrevious`** — SolidJS reactive primitive for tracking previous value of a signal accessor.
 - **Native SolidJS Reactivity** — Zero-dependency, fine-grained reactivity built directly on SolidJS signals.
 - **TypeScript First** — Fully typed options, getters, and return tuple interfaces.
 

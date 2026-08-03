@@ -15,3 +15,5 @@ export * from "./create-focus-trap";
 export * from "./create-mouse-position";
 export * from "./create-long-press";
 export * from "./create-hover";
+export * from "./create-storage";
+export * from "./create-previous";

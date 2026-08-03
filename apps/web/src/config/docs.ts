@@ -132,6 +132,18 @@ export const HOOKS_LIST: DocHookItem[] = [
     description: "SolidJS reactive primitive for tracking element hover state with entrance and exit delays",
     href: "/docs/hooks/create-hover",
   },
+  {
+    name: "create-storage",
+    title: "createLocalStorage",
+    description: "SolidJS reactive primitives for Web Storage state synchronization across components and browser tabs",
+    href: "/docs/hooks/create-storage",
+  },
+  {
+    name: "create-previous",
+    title: "createPrevious",
+    description: "SolidJS reactive primitive for tracking previous value of a signal accessor",
+    href: "/docs/hooks/create-previous",
+  },
 ];
 
 /* --- Component Library Registry List --- */
