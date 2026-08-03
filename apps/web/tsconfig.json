@@ -14,7 +14,8 @@
 		"isolatedModules": true,
 		"paths": {
 			"~/*": ["./src/*"],
-			"@/*": ["./src/*"]
+			"@/*": ["./src/*"],
+			"@nikala-ui/hooks": ["../../packages/hooks/src/index.ts"]
 		},
 		"types": ["vite/client", "node", "vitest"]
 	},

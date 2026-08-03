@@ -9,7 +9,9 @@ export default defineConfig({
   resolve: {
     alias: {
       "@": path.resolve(import.meta.dirname, "./src"),
+      "@nikala-ui/hooks": path.resolve(import.meta.dirname, "../../packages/hooks/src/index.ts"),
     },
+    dedupe: ["solid-js"],
   },
   plugins: [
     lucidePreprocess(),
