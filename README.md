@@ -36,8 +36,6 @@ Run the initialization command in your SolidJS workspace:
    bunx @nikala-ui/cli init
    # or
    npx @nikala-ui/cli init
-   # or direct global binary
-   nikala init
 ```
 
 This will:
@@ -105,7 +103,7 @@ export function App() {
       <CardHeader>
         <div class="flex items-center justify-between">
           <CardTitle>Nikala UI</CardTitle>
-          <Badge>v0.4.0</Badge>
+          <Badge>v0.8.0</Badge>
         </div>
         <CardDescription>SolidJS + Tailwind v4 component system.</CardDescription>
       </CardHeader>
@@ -122,7 +120,7 @@ export function App() {
 
 ---
 
-## Available Components (26)
+## Available Components (29)
 
 - **`Button`** — Interactive button with variant and size options (`cva`).
 - **`Input`** — Reactive text input with modern focus states.
@@ -150,6 +148,9 @@ export function App() {
 - **`Input Group`** — Compound input wrapper for combining text inputs with prefix and suffix addons (`InputGroup`, `InputGroupInput`, `InputGroupAddon`).
 - **`Command`** — Accessible command palette and search modal built on Kobalte Dialog primitives with auto-filtering (`Command`, `CommandDialog`, `CommandInput`, `CommandList`, `CommandEmpty`, `CommandGroup`, `CommandItem`, `CommandFooter`).
 - **`Theme Manager`** — Zero-dependency theme provider, brand accent color customizer, border-radius controls, and transition animations (`ThemeProvider`, `ThemeToggle`, `useTheme`).
+- **`Toast`** — Temporary feedback notification banners built on Kobalte primitives with status variants and programmatic trigger support (`Toast`, `ToastTitle`, `ToastDescription`, `ToastCloseButton`, `ToastRegion`, `ToastList`, `showToast`).
+- **`Tooltip`** — Contextual popup text hint on hover or focus built on Kobalte primitives with arrow pointer support (`Tooltip`, `TooltipTrigger`, `TooltipContent`, `TooltipArrow`).
+- **`Popover`** — Interactive floating panel for rich contextual content and form triggers with multi-directional placement (`Popover`, `PopoverTrigger`, `PopoverContent`, `PopoverTitle`, `PopoverDescription`, `PopoverCloseButton`, `PopoverArrow`).
 
 ---
 
