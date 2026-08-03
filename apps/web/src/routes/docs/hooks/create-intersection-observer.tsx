@@ -1,4 +1,4 @@
-// src/routes/docs/hooks/create-intersection-observer.tsx
+import { createSignal } from "solid-js";
 import { createInView } from "@nikala-ui/hooks";
 import { Seo } from "@/components/seo";
 import { DocPageHeader } from "@/components/docs/doc-page-header";
@@ -10,23 +10,23 @@ import { CodeBlock } from "@/components/code-block";
 
 const importCode = `import { createIntersectionObserver, createInView } from "@nikala-ui/hooks";`;
 
-const basicUsageCode = `let cardRef: HTMLDivElement | undefined;
-const isInView = createInView(() => cardRef, { threshold: 0.5 });
+const basicUsageCode = `const [cardRef, setCardRef] = createSignal<HTMLDivElement>();
+const isInView = createInView(cardRef, { threshold: 0.5 });
 
 return (
-  <div ref={cardRef} class="p-6 border rounded-lg">
+  <div ref={setCardRef} class="p-6 border rounded-lg">
     {isInView() ? "Element is Visible in Viewport!" : "Scroll to see element"}
   </div>
 );`;
 
 export function IntersectionObserverDemo() {
-  let cardRef: HTMLDivElement | undefined;
-  const isInView = createInView(() => cardRef, { threshold: 0.5 });
+  const [cardRef, setCardRef] = createSignal<HTMLDivElement>();
+  const isInView = createInView(cardRef, { threshold: 0.5 });
 
   return (
     <div class="space-y-4 max-w-sm w-full min-h-[160px] flex flex-col items-center justify-center text-center">
       <div
-        ref={cardRef}
+        ref={setCardRef}
         class={`w-full p-4 rounded-xl border transition-all duration-300 ${
           isInView()
             ? "border-emerald-500/50 bg-emerald-500/10 text-emerald-500 font-bold shadow-md"
