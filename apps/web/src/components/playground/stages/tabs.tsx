@@ -1,3 +1,4 @@
+import { createSignal, createEffect } from "solid-js";
 import {
   Tabs,
   TabsList,
@@ -29,11 +30,17 @@ export const config: ComponentSpec = {
 
 export default function TabsStage(props: StageProps) {
   const isVertical = () => props.values.orientation === "vertical";
+  const [activeTab, setActiveTab] = createSignal(props.values.value || "account");
+
+  createEffect(() => {
+    setActiveTab(props.values.value || "account");
+  });
 
   return (
     <Tabs
       orientation={props.values.orientation}
-      value={props.values.value || "account"}
+      value={activeTab()}
+      onChange={(v) => setActiveTab(v)}
       class={isVertical() ? "w-100" : "w-75"}
     >
       <TabsList class={isVertical() ? "flex flex-col w-30 h-auto p-1 gap-1" : "grid grid-cols-2 w-full"}>
