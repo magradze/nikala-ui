@@ -60,6 +60,12 @@ export const HOOKS_LIST: DocHookItem[] = [
     description: "SolidJS reactive primitive for locking body or container scrolling when overlays are active",
     href: "/docs/hooks/create-lock-scroll",
   },
+  {
+    name: "create-disclosure",
+    title: "createDisclosure",
+    description: "SolidJS reactive primitive for managing boolean open/close disclosure state with helper controls",
+    href: "/docs/hooks/create-disclosure",
+  },
 ];
 
 /* --- Component Library Registry List --- */
