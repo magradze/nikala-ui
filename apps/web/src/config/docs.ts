@@ -162,6 +162,12 @@ export const HOOKS_LIST: DocHookItem[] = [
     description: "SolidJS reactive primitive for form state management, field validation, errors, and submission",
     href: "/docs/hooks/create-form",
   },
+  {
+    name: "create-input-mask",
+    title: "createInputMask",
+    description: "SolidJS reactive primitive for input value masking (phone numbers, credit cards, dates)",
+    href: "/docs/hooks/create-input-mask",
+  },
 ];
 
 /* --- Component Library Registry List --- */

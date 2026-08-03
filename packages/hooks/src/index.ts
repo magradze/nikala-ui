@@ -20,3 +20,4 @@ export * from "./create-previous";
 export * from "./create-network-status";
 export * from "./create-color-mode";
 export * from "./create-form";
+export * from "./create-input-mask";
