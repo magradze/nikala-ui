@@ -2,7 +2,6 @@ import {
   createContext,
   useContext,
   createSignal,
-  onMount,
   onCleanup,
   Show,
   splitProps,
@@ -10,6 +9,7 @@ import {
   type JSX,
   type Accessor,
 } from "solid-js";
+import { createKeybindings } from "@nikala-ui/hooks";
 import { Dialog } from "@kobalte/core/dialog";
 import { Search, ArrowUp, ArrowDown, CornerDownLeft } from "lucide-solid";
 import { cn } from "@/lib/cn";
@@ -76,18 +76,18 @@ export const CommandDialog: Component<CommandDialogProps> = (props) => {
   };
 
   /* Listen for global Ctrl+K / Cmd+K hotkeys */
-  onMount(() => {
-    if (props.enableHotkey !== false) {
-      const handleKeyDown = (e: KeyboardEvent) => {
-        if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
-          e.preventDefault();
-          setOpen(!isOpen());
-        }
-      };
-      window.addEventListener("keydown", handleKeyDown);
-      onCleanup(() => window.removeEventListener("keydown", handleKeyDown));
+  createKeybindings(
+    [
+      {
+        key: ["meta+k", "ctrl+k"],
+        handler: () => setOpen(!isOpen()),
+        preventDefault: true,
+      },
+    ],
+    {
+      enabled: () => props.enableHotkey !== false,
     }
-  });
+  );
 
   return (
     <Dialog open={isOpen()} onOpenChange={setOpen}>
