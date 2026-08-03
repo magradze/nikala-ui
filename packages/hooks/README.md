@@ -25,6 +25,7 @@ This package provides reusable, fine-grained reactive primitives designed native
 - **`createMediaQuery` / `createBreakpoint`** — SolidJS reactive primitives for tracking CSS media queries and responsive Tailwind breakpoints.
 - **`createDebounce` / `createThrottle`** — SolidJS reactive primitives for debouncing and throttling rate-limited function execution.
 - **`createIntersectionObserver` / `createInView`** — SolidJS reactive primitives for detecting element viewport visibility and scroll animation triggers.
+- **`createTimer` / `createCountdown`** — SolidJS reactive primitives for recurring interval ticks and formatted countdown timers.
 - **Native SolidJS Reactivity** — Zero-dependency, fine-grained reactivity built directly on SolidJS signals.
 - **TypeScript First** — Fully typed options, getters, and return tuple interfaces.
 
