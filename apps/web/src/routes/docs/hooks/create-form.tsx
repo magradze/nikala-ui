@@ -115,107 +115,105 @@ export function FormDemo() {
 
 export default function CreateFormDocPage() {
   return (
-    <>
+    <div class="space-y-10 pb-16">
       <Seo
         title="createForm Primitive"
         description="SolidJS reactive primitive for form state management, field validation, errors, and submission."
         path="/docs/hooks/create-form"
       />
 
-      <div class="space-y-10 pb-16">
-        {/* Page Header */}
-        <DocPageHeader
-          title="createForm"
-          badge="primitive"
-          description="A reactive primitive for managing form inputs, validation rules, field touch states, error messages, and async submission handling."
-        />
+      {/* Page Header */}
+      <DocPageHeader
+        title="createForm"
+        badge="primitive"
+        description="A reactive primitive for managing form inputs, validation rules, field touch states, error messages, and async submission handling."
+      />
 
-        {/* Live Interactive Hero Preview */}
-        <ComponentPreview name="create-form" code={basicUsageCode}>
-          <FormDemo />
-        </ComponentPreview>
+      {/* Live Interactive Hero Preview */}
+      <ComponentPreview name="create-form" code={basicUsageCode}>
+        <FormDemo />
+      </ComponentPreview>
 
-        {/* Import */}
-        <div class="space-y-4">
-          <DocSectionHeader title="Import" />
-          <CodeBlock code={importCode} lang="tsx" />
+      {/* Import */}
+      <div class="space-y-4">
+        <DocSectionHeader title="Import" />
+        <CodeBlock code={importCode} lang="tsx" />
+      </div>
+
+      {/* Examples Section */}
+      <div class="space-y-8 pt-4">
+        <DocSectionHeader title="Examples" />
+
+        {/* Basic Usage */}
+        <div class="space-y-3">
+          <h3 class="text-lg font-semibold tracking-tight">Form State & Validation</h3>
+          <p class="text-sm text-muted-foreground">
+            Pass initial values and validation rules to <code class="bg-muted px-1.5 py-0.5 rounded text-xs font-mono">createForm(&#123; initialValues, validate, onSubmit &#125;)</code>.
+          </p>
+          <CodeBlock code={basicUsageCode} lang="tsx" />
         </div>
+      </div>
 
-        {/* Examples Section */}
-        <div class="space-y-8 pt-4">
-          <DocSectionHeader title="Examples" />
+      {/* API Reference */}
+      <div class="space-y-6 pt-6">
+        <DocSectionHeader title="API Reference" />
 
-          {/* Basic Usage */}
-          <div class="space-y-3">
-            <h3 class="text-lg font-semibold tracking-tight">Form State & Validation</h3>
-            <p class="text-sm text-muted-foreground">
-              Pass initial values and validation rules to <code class="bg-muted px-1.5 py-0.5 rounded text-xs font-mono">createForm(&#123; initialValues, validate, onSubmit &#125;)</code>.
-            </p>
-            <CodeBlock code={basicUsageCode} lang="tsx" />
-          </div>
-        </div>
-
-        {/* API Reference */}
-        <div class="space-y-6 pt-6">
-          <DocSectionHeader title="API Reference" />
-
-          <DocApiTable
-            title="CreateFormReturn & Options"
-            items={[
-              {
-                prop: "values",
-                type: "Accessor<T>",
-                default: "-",
-                description: "Signal accessor returning current form values object.",
-                required: true,
-              },
-              {
-                prop: "errors",
-                type: "Accessor<FormErrors<T>>",
-                default: "{}",
-                description: "Signal accessor returning active validation error messages.",
-                required: true,
-              },
-              {
-                prop: "touched",
-                type: "Accessor<FormTouched<T>>",
-                default: "{}",
-                description: "Signal accessor indicating which fields have been blurred or interacted with.",
-              },
-              {
-                prop: "isDirty",
-                type: "Accessor<boolean>",
-                default: "false",
-                description: "Signal accessor indicating whether current form values differ from initial values.",
-              },
-              {
-                prop: "isValid",
-                type: "Accessor<boolean>",
-                default: "true",
-                description: "Signal accessor indicating whether zero validation errors are present.",
-              },
-              {
-                prop: "handleSubmit",
-                type: "(e?: Event) => void",
-                default: "-",
-                description: "Form submit handler function to validate fields and call onSubmit.",
-              },
-              {
-                prop: "resetForm",
-                type: "() => void",
-                default: "-",
-                description: "Function to reset form values, errors, and touched states.",
-              },
-            ]}
-          />
-        </div>
-
-        {/* Footer Navigation */}
-        <DocNextSteps
-          prev={{ title: "createColorMode Primitive", href: "/docs/hooks/create-color-mode" }}
-          next={{ title: "Accordion Component", href: "/docs/components/accordion" }}
+        <DocApiTable
+          title="CreateFormReturn & Options"
+          items={[
+            {
+              prop: "values",
+              type: "Accessor<T>",
+              default: "-",
+              description: "Signal accessor returning current form values object.",
+              required: true,
+            },
+            {
+              prop: "errors",
+              type: "Accessor<FormErrors<T>>",
+              default: "{}",
+              description: "Signal accessor returning active validation error messages.",
+              required: true,
+            },
+            {
+              prop: "touched",
+              type: "Accessor<FormTouched<T>>",
+              default: "{}",
+              description: "Signal accessor indicating which fields have been blurred or interacted with.",
+            },
+            {
+              prop: "isDirty",
+              type: "Accessor<boolean>",
+              default: "false",
+              description: "Signal accessor indicating whether current form values differ from initial values.",
+            },
+            {
+              prop: "isValid",
+              type: "Accessor<boolean>",
+              default: "true",
+              description: "Signal accessor indicating whether zero validation errors are present.",
+            },
+            {
+              prop: "handleSubmit",
+              type: "(e?: Event) => void",
+              default: "-",
+              description: "Form submit handler function to validate fields and call onSubmit.",
+            },
+            {
+              prop: "resetForm",
+              type: "() => void",
+              default: "-",
+              description: "Function to reset form values, errors, and touched states.",
+            },
+          ]}
         />
       </div>
-    </>
+
+      {/* Footer Navigation */}
+      <DocNextSteps
+        prev={{ title: "createColorMode Primitive", href: "/docs/hooks/create-color-mode" }}
+        next={{ title: "Accordion Component", href: "/docs/components/accordion" }}
+      />
+    </div>
   );
 }

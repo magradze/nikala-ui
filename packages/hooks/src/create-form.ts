@@ -75,11 +75,9 @@ export function createForm<T extends Record<string, any>>(
   };
 
   const setFieldValue = <K extends keyof T>(field: K, value: T[K]) => {
-    setValues((prev) => {
-      const next = { ...prev, [field]: value };
-      runValidation(next);
-      return next;
-    });
+    const next = { ...values(), [field]: value };
+    setValues(() => next);
+    runValidation(next);
   };
 
   const setFieldError = <K extends keyof T>(field: K, error: string | undefined) => {
