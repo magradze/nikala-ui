@@ -16,7 +16,7 @@ on:
 
 jobs:
   validate-json:
-    name: Validate Registry JSON Structure
+    name: Validate Registry Integrity & Sync Status
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -30,7 +30,10 @@ jobs:
         with:
           bun-version: latest
 
-      - name: Validate JSON Manifests Integrity
+      - name: Install Workspace Dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Validate JSON Manifests Structural Integrity
         run: |
           bun - << 'EOF'
           import fs from "node:fs";
@@ -59,8 +62,13 @@ jobs:
           console.log(`Successfully validated ${files.length} registry manifests!`);
           EOF
 
-      - name: Install Workspace Dependencies
-        run: bun install --frozen-lockfile
-
-      - name: Verify Core Registry Compiler
+      - name: Rebuild Core Registry Manifests
         run: cd packages/core && bun run build:registry
+
+      - name: Check for Uncommitted Registry Drift
+        run: |
+          if ! git diff --exit-code packages/core/registry; then
+            echo "::error::Registry JSON manifests are out of sync with TSX source files!"
+            echo "::error::Please run 'bun run build:registry' locally and commit the updated JSON files."
+            exit 1
+          fi
