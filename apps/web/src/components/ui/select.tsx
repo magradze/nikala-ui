@@ -1,6 +1,7 @@
 import { splitProps, type JSX, type ValidComponent } from "solid-js";
 import * as SelectPrimitive from "@kobalte/core/select";
 import type { PolymorphicProps } from "@kobalte/core/polymorphic";
+import { createClickOutside } from "@nikala-ui/hooks";
 import { cn } from "@/lib/cn";
 
 export type SelectRootProps<Option = any, OptGroup = any, T extends ValidComponent = "div"> =
@@ -89,10 +90,24 @@ export const SelectContent = <T extends ValidComponent = "div">(
   props: PolymorphicProps<T, SelectContentProps<T>>
 ) => {
   const [local, rest] = splitProps(props as SelectContentProps, ["class"]);
+  let contentRef: HTMLElement | undefined;
+
+  createClickOutside({
+    target: () => contentRef,
+    onInteractOutside: (e) => {
+      if (typeof (props as any).onInteractOutside === "function") {
+        (props as any).onInteractOutside(e);
+      }
+    },
+  });
 
   return (
     <SelectPrimitive.Portal>
       <SelectPrimitive.Content
+        ref={(el) => {
+          contentRef = el;
+          if (typeof (props as any).ref === "function") (props as any).ref(el);
+        }}
         class={cn(
           "relative z-50 min-w-[8rem] overflow-hidden rounded-md border border-border bg-popover text-popover-foreground shadow-md animate-in fade-in-80",
           local.class
