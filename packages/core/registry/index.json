@@ -195,6 +195,18 @@
     ]
   },
   {
+    "name": "popover",
+    "title": "Popover",
+    "description": "Displays rich content in a portal layer triggered by a button, built on Kobalte primitives.",
+    "type": "registry:ui",
+    "dependencies": [
+      "clsx",
+      "tailwind-merge",
+      "@kobalte/core",
+      "lucide-solid"
+    ]
+  },
+  {
     "name": "radio-group",
     "title": "Radio Group",
     "description": "A set of checkable buttons built on Kobalte primitives where only one button can be checked at a time.",
