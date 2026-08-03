@@ -148,7 +148,7 @@ export default function CreateControllableSignalDocPage() {
             <p class="text-sm text-muted-foreground">
               Pass a getter function for <code class="bg-muted px-1.5 py-0.5 rounded text-xs font-mono">value</code> and an <code class="bg-muted px-1.5 py-0.5 rounded text-xs font-mono">onChange</code> callback when parent component controls state.
             </p>
-            <ComponentPreview name="create-controllable-signal-controlled" code={controlledCode}>
+            <ComponentPreview name="create-controllable-signal" code={controlledCode}>
               <div class="space-y-3 p-4 border border-border rounded-lg bg-card/40">
                 <div class="flex items-center space-x-3">
                   <span class="text-xs text-muted-foreground font-mono">Parent Signal State:</span>
@@ -157,9 +157,10 @@ export default function CreateControllableSignalDocPage() {
                 <div class="flex gap-2">
                   <Button
                     size="sm"
+                    variant={controlledDemo() === "State Alpha" ? "default" : "outline"}
                     onClick={() => setControlledDemo(controlledDemo() === "State Alpha" ? "State Beta" : "State Alpha")}
                   >
-                    Toggle State
+                    {controlledDemo() === "State Alpha" ? "Switch to Beta" : "Switch to Alpha"}
                   </Button>
                 </div>
               </div>
