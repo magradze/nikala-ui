@@ -18,6 +18,7 @@ This package provides reusable, fine-grained reactive primitives designed native
 
 - **`createControllableSignal`** — SolidJS reactive primitive for managing state supporting both controlled and uncontrolled modes with a unified setter API.
 - **`createClickOutside`** — SolidJS reactive primitive for detecting user interactions outside specified element(s) or refs.
+- **`createClipboard`** — SolidJS reactive primitive for copying text to clipboard with automatic status reset.
 - **Native SolidJS Reactivity** — Zero-dependency, fine-grained reactivity built directly on SolidJS signals.
 - **TypeScript First** — Fully typed options, getters, and return tuple interfaces.
 
