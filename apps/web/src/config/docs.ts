@@ -42,6 +42,12 @@ export const HOOKS_LIST: DocHookItem[] = [
     description: "SolidJS reactive primitive for detecting click and pointer interactions outside target elements",
     href: "/docs/hooks/create-click-outside",
   },
+  {
+    name: "create-clipboard",
+    title: "createClipboard",
+    description: "SolidJS reactive primitive for copying text to clipboard with automatic status reset",
+    href: "/docs/hooks/create-clipboard",
+  },
 ];
 
 /* --- Component Library Registry List --- */
