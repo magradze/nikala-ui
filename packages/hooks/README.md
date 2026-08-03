@@ -40,6 +40,7 @@ This package provides reusable, fine-grained reactive primitives designed native
 - **`createForm`** — SolidJS reactive primitive for form state management, field validation, errors, and submission.
 - **`createInputMask`** — SolidJS reactive primitive for input value masking (phone numbers, credit cards, dates).
 - **`createIdle`** — SolidJS reactive primitive for detecting user inactivity with customizable timeout and activity events.
+- **`createActiveElement`** — SolidJS reactive primitive for tracking the currently focused DOM element.
 - **Native SolidJS Reactivity** — Zero-dependency, fine-grained reactivity built directly on SolidJS signals.
 - **TypeScript First** — Fully typed options, getters, and return tuple interfaces.
 

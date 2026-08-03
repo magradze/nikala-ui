@@ -174,6 +174,12 @@ export const HOOKS_LIST: DocHookItem[] = [
     description: "SolidJS reactive primitive for detecting user inactivity with customizable timeout",
     href: "/docs/hooks/create-idle",
   },
+  {
+    name: "create-active-element",
+    title: "createActiveElement",
+    description: "SolidJS reactive primitive for tracking the currently focused DOM element",
+    href: "/docs/hooks/create-active-element",
+  },
 ];
 
 /* --- Component Library Registry List --- */

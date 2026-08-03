@@ -22,3 +22,4 @@ export * from "./create-color-mode";
 export * from "./create-form";
 export * from "./create-input-mask";
 export * from "./create-idle";
+export * from "./create-active-element";
