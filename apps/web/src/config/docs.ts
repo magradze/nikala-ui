@@ -54,6 +54,12 @@ export const HOOKS_LIST: DocHookItem[] = [
     description: "SolidJS reactive primitives for listening to keyboard shortcuts, key combinations, and Escape key presses",
     href: "/docs/hooks/create-keybindings",
   },
+  {
+    name: "create-lock-scroll",
+    title: "createLockScroll",
+    description: "SolidJS reactive primitive for locking body or container scrolling when overlays are active",
+    href: "/docs/hooks/create-lock-scroll",
+  },
 ];
 
 /* --- Component Library Registry List --- */
