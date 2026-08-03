@@ -72,6 +72,12 @@ export const HOOKS_LIST: DocHookItem[] = [
     description: "SolidJS reactive primitives for tracking CSS media queries and responsive Tailwind breakpoints",
     href: "/docs/hooks/create-media-query",
   },
+  {
+    name: "create-debounce",
+    title: "createDebounce",
+    description: "SolidJS reactive primitives for debouncing and throttling rate-limited function execution",
+    href: "/docs/hooks/create-debounce",
+  },
 ];
 
 /* --- Component Library Registry List --- */
