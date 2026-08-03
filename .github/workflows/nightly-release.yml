@@ -1,0 +1,89 @@
+name: Nikala UI Nightly Snapshot Release
+
+on:
+  schedule:
+    - cron: '0 2 * * *' # Every night at 02:00 UTC
+  workflow_dispatch: # Manual launch support
+
+permissions:
+  contents: write
+  id-token: write
+
+jobs:
+  publish-nightly:
+    name: Build & Publish Snapshot Packages
+    if: ${{ github.repository_owner == 'nikala-ui' }}
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Source Code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Check for Package Commits in Last 24 Hours
+        id: check-commits
+        run: |
+          COMMITS=$(git log --since="24 hours ago" --oneline -- packages/)
+          if [ -z "$COMMITS" ] && [ "${{ github.event_name }}" == "schedule" ]; then
+            echo "No package changes found in the last 24 hours. Skipping nightly release."
+            echo "should_publish=false" >> $GITHUB_OUTPUT
+          else
+            echo "Package changes detected or manually triggered. Proceeding with nightly release."
+            echo "should_publish=true" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Setup Bun Environment
+        if: steps.check-commits.outputs.should_publish == 'true'
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Install Workspace Dependencies
+        if: steps.check-commits.outputs.should_publish == 'true'
+        run: bun install --frozen-lockfile
+
+      - name: Execute Version Snapshot Stamping
+        if: steps.check-commits.outputs.should_publish == 'true'
+        run: bun version-snapshot.ts
+
+      - name: Build Core Registry & CLI Packages
+        if: steps.check-commits.outputs.should_publish == 'true'
+        run: bun run build
+
+      - name: Setup Node for NPM Publishing
+        if: steps.check-commits.outputs.should_publish == 'true'
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Publish @nikala-ui/core Nightly Package
+        if: steps.check-commits.outputs.should_publish == 'true'
+        run: cd packages/core && npm publish --tag nightly --access public --provenance
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Publish @nikala-ui/cli Nightly Package
+        if: steps.check-commits.outputs.should_publish == 'true'
+        run: cd packages/cli && npm publish --tag nightly --access public --provenance
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN || secrets.NPM_TOKEN }}
+
+      - name: Generate Nightly GitHub Release
+        if: steps.check-commits.outputs.should_publish == 'true'
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: nightly-latest
+          name: "Nikala UI Nightly Build (Latest)"
+          prerelease: true
+          draft: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Record Job Summary
+        if: steps.check-commits.outputs.should_publish == 'true'
+        run: |
+          echo "### 🌙 Nightly Build Successfully Released!" >> $GITHUB_STEP_SUMMARY
+          echo "- **NPM Tag:** \`@nightly\`" >> $GITHUB_STEP_SUMMARY
+          echo "- **CLI Install Command:** \`bunx @nikala-ui/cli@nightly init\`" >> $GITHUB_STEP_SUMMARY
