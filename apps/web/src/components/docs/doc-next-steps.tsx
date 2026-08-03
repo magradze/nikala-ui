@@ -1,30 +1,29 @@
 import { DocNextStepsProps } from "@/types";
-import { A } from "@solidjs/router";
 import { type Component } from "solid-js";
 
 export const DocNextSteps: Component<DocNextStepsProps> = (props) => {
   return (
     <div class="flex items-center justify-between border-t border-border/50 pt-6 mt-10">
       {props.prev ? (
-        <A
+        <a
           href={props.prev.href}
           class="flex flex-col gap-1 text-sm font-medium hover:text-primary transition-colors"
         >
           <span class="text-xs text-muted-foreground">← Previous</span>
           <span>{props.prev.title}</span>
-        </A>
+        </a>
       ) : (
         <div />
       )}
 
       {props.next && (
-        <A
+        <a
           href={props.next.href}
           class="flex flex-col gap-1 text-sm font-medium text-right hover:text-primary transition-colors"
         >
           <span class="text-xs text-muted-foreground">Next →</span>
           <span>{props.next.title}</span>
-        </A>
+        </a>
       )}
     </div>
   );
