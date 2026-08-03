@@ -1,4 +1,4 @@
-import { Tooltip, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip";
+import { Tooltip, TooltipTrigger, TooltipContent, TooltipArrow } from "@/components/ui/tooltip";
 import { Button } from "@/components/ui/button";
 import type { ComponentSpec, StageProps } from "@/types";
 
@@ -25,15 +25,18 @@ export const config: ComponentSpec = {
       type: "text",
       default: "Hover Me",
     },
+    { name: "showArrow", label: "Show Arrow", type: "boolean", default: true },
   ],
   generateCode: (v) => {
     const placementAttr = v.placement && v.placement !== "top" ? ` placement="${v.placement}"` : "";
+    const arrowCode = v.showArrow ? `<TooltipArrow />` : "";
 
     return `<Tooltip${placementAttr}>
   <TooltipTrigger as={Button} variant="outline">
     ${v.triggerText || "Hover Me"}
   </TooltipTrigger>
   <TooltipContent>
+    ${arrowCode}
     ${v.content || "Add to library"}
   </TooltipContent>
 </Tooltip>`;
@@ -48,6 +51,7 @@ export default function TooltipStage(props: StageProps) {
           {(props.values.triggerText as string) || "Hover Me"}
         </TooltipTrigger>
         <TooltipContent>
+          {props.values.showArrow && <TooltipArrow />}
           {(props.values.content as string) || "Add to library"}
         </TooltipContent>
       </Tooltip>
