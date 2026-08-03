@@ -144,6 +144,18 @@ export const HOOKS_LIST: DocHookItem[] = [
     description: "SolidJS reactive primitive for tracking previous value of a signal accessor",
     href: "/docs/hooks/create-previous",
   },
+  {
+    name: "create-network-status",
+    title: "createNetworkStatus",
+    description: "SolidJS reactive primitives for tracking browser network connectivity and connection quality metrics",
+    href: "/docs/hooks/create-network-status",
+  },
+  {
+    name: "create-color-mode",
+    title: "createColorMode",
+    description: "SolidJS reactive primitive for managing dark/light themes and system preferences",
+    href: "/docs/hooks/create-color-mode",
+  },
 ];
 
 /* --- Component Library Registry List --- */

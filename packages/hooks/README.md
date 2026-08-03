@@ -35,6 +35,8 @@ This package provides reusable, fine-grained reactive primitives designed native
 - **`createHover`** — SolidJS reactive primitive for tracking element hover state with entrance/exit delays.
 - **`createLocalStorage` / `createSessionStorage`** — SolidJS reactive primitives for Web Storage state synchronization across tabs.
 - **`createPrevious`** — SolidJS reactive primitive for tracking previous value of a signal accessor.
+- **`createNetworkStatus` / `createOnline`** — SolidJS reactive primitives for tracking browser network connectivity and connection quality metrics.
+- **`createColorMode`** — SolidJS reactive primitive for managing dark/light themes and system preferences.
 - **Native SolidJS Reactivity** — Zero-dependency, fine-grained reactivity built directly on SolidJS signals.
 - **TypeScript First** — Fully typed options, getters, and return tuple interfaces.
 
