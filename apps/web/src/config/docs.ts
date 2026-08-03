@@ -84,6 +84,12 @@ export const HOOKS_LIST: DocHookItem[] = [
     description: "SolidJS reactive primitives for observing element visibility and viewport intersection status",
     href: "/docs/hooks/create-intersection-observer",
   },
+  {
+    name: "create-timer",
+    title: "createTimer",
+    description: "SolidJS reactive primitives for recurring interval ticks and formatted countdown timers",
+    href: "/docs/hooks/create-timer",
+  },
 ];
 
 /* --- Component Library Registry List --- */
