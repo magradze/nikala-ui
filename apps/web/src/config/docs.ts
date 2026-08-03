@@ -168,6 +168,12 @@ export const HOOKS_LIST: DocHookItem[] = [
     description: "SolidJS reactive primitive for input value masking (phone numbers, credit cards, dates)",
     href: "/docs/hooks/create-input-mask",
   },
+  {
+    name: "create-idle",
+    title: "createIdle",
+    description: "SolidJS reactive primitive for detecting user inactivity with customizable timeout",
+    href: "/docs/hooks/create-idle",
+  },
 ];
 
 /* --- Component Library Registry List --- */
