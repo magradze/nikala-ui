@@ -26,6 +26,9 @@ This package provides reusable, fine-grained reactive primitives designed native
 - **`createDebounce` / `createThrottle`** — SolidJS reactive primitives for debouncing and throttling rate-limited function execution.
 - **`createIntersectionObserver` / `createInView`** — SolidJS reactive primitives for detecting element viewport visibility and scroll animation triggers.
 - **`createTimer` / `createCountdown`** — SolidJS reactive primitives for recurring interval ticks and formatted countdown timers.
+- **`createResizeObserver` / `createElementSize`** — SolidJS reactive primitives for tracking element width and height dimensions dynamically.
+- **`createWindowSize`** — SolidJS reactive primitive for tracking window viewport inner width and height.
+- **`createScrollPosition`** — SolidJS reactive primitive for tracking scroll position, scroll direction, and top/bottom container status.
 - **Native SolidJS Reactivity** — Zero-dependency, fine-grained reactivity built directly on SolidJS signals.
 - **TypeScript First** — Fully typed options, getters, and return tuple interfaces.
 

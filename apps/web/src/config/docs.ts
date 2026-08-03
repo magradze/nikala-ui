@@ -90,6 +90,24 @@ export const HOOKS_LIST: DocHookItem[] = [
     description: "SolidJS reactive primitives for recurring interval ticks and formatted countdown timers",
     href: "/docs/hooks/create-timer",
   },
+  {
+    name: "create-resize-observer",
+    title: "createResizeObserver",
+    description: "SolidJS reactive primitives for tracking element width and height dimensions dynamically",
+    href: "/docs/hooks/create-resize-observer",
+  },
+  {
+    name: "create-window-size",
+    title: "createWindowSize",
+    description: "SolidJS reactive primitive for tracking window viewport inner width and height",
+    href: "/docs/hooks/create-window-size",
+  },
+  {
+    name: "create-scroll-position",
+    title: "createScrollPosition",
+    description: "SolidJS reactive primitive for tracking scroll position, scroll direction, and container bounds",
+    href: "/docs/hooks/create-scroll-position",
+  },
 ];
 
 /* --- Component Library Registry List --- */
