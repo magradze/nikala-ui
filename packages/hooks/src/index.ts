@@ -6,3 +6,4 @@ export * from "./create-lock-scroll";
 export * from "./create-disclosure";
 export * from "./create-media-query";
 export * from "./create-debounce";
+export * from "./create-intersection-observer";
