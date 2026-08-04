@@ -26,6 +26,7 @@ export const buttonVariants = cva(
         info: "*:bg-blue-600 text-zinc-50 shadow-sm hover:bg-blue-600/90 dark:bg-blue-900 dark:text-zinc-50 dark:hover:bg-blue-900/90",
       },
       size: {
+        xs: "h-6 rounded-md px-2 text-xs",
         default: "h-9 px-4 py-2",
         sm: "h-8 rounded-md px-3 text-xs",
         lg: "h-10 rounded-md px-8",

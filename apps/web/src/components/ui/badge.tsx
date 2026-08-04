@@ -18,6 +18,12 @@ export const badgeVariants = cva(
           "border-transparent bg-destructive text-destructive-foreground shadow hover:bg-destructive/80",
         outline:
           "text-foreground border-border",
+        success:
+          "border-transparent bg-green-600 text-zinc-50 shadow-sm hover:bg-green-600/90 dark:bg-green-900 dark:text-zinc-50 dark:hover:bg-green-900/90",
+        warning:
+          "border-transparent bg-yellow-600 text-zinc-50 shadow-sm hover:bg-yellow-600/90 dark:bg-yellow-900 dark:text-zinc-50 dark:hover:bg-yellow-900/90",
+        info:
+          "border-transparent bg-blue-600 text-zinc-50 shadow-sm hover:bg-blue-600/90 dark:bg-blue-900 dark:text-zinc-50 dark:hover:bg-blue-900/90",
       },
     },
     defaultVariants: {
