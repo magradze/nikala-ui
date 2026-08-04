@@ -26,9 +26,10 @@ program
 
 program
   .command("add [components...]")
-  .description("Add components to your project")
+  .description("Add components or reactive hooks to your project")
   .option("-o, --overwrite", "Overwrite existing files")
-  .option("--all", "Add all available components")
+  .option("--all", "Add all available items")
+  .option("-h, --hook", "Add reactive hook primitive(s) instead of UI components")
   .action(add);
 
 // Parent theme command

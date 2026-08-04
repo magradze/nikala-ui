@@ -8,7 +8,7 @@ export interface RegistryItem {
   name: string;
   title: string;
   description: string;
-  type: "registry:ui";
+  type: "registry:ui" | "registry:util" | "registry:hook";
   dependencies?: string[];
   registryDependencies?: string[];
   files: RegistryFile[];
@@ -18,7 +18,7 @@ export interface RegistryIndexItem {
   name: string;
   title: string;
   description: string;
-  type: "registry:ui";
+  type: "registry:ui" | "registry:util" | "registry:hook";
   dependencies?: string[];
   registryDependencies?: string[];
 }

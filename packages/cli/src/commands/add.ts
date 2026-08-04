@@ -14,6 +14,7 @@ import { writeComponentFiles } from "../utils/add/write-component-files.js";
 interface AddOptions {
   overwrite?: boolean;
   all?: boolean;
+  hook?: boolean;
 }
 
 /**
@@ -34,17 +35,23 @@ export async function add(components: string[] = [], options: AddOptions = {}) {
     process.exit(1);
   }
 
+  const isHookMode = Boolean(options.hook);
+  const filteredRegistry = registryIndex.filter((item) =>
+    isHookMode ? item.type === "registry:hook" : item.type !== "registry:hook"
+  );
+
   const isAllRequested = options.all || components.includes("all");
   let requestedComponents = components.filter((c) => c !== "all");
 
   if (isAllRequested) {
-    requestedComponents = registryIndex.map((item) => item.name);
+    requestedComponents = filteredRegistry.map((item) => item.name);
   } else if (requestedComponents.length === 0) {
+    const itemLabel = isHookMode ? "hooks" : "components";
     const response = await prompts({
       type: "autocompleteMultiselect",
       name: "selectedComponents",
-      message: "Select components to install (Space to toggle, Enter to confirm)",
-      choices: registryIndex.map((item) => ({
+      message: `Select ${itemLabel} to install (Space to toggle, Enter to confirm)`,
+      choices: filteredRegistry.map((item) => ({
         title: item.title,
         description: item.description,
         value: item.name,
@@ -53,7 +60,7 @@ export async function add(components: string[] = [], options: AddOptions = {}) {
     });
 
     if (!response.selectedComponents || response.selectedComponents.length === 0) {
-      console.log(pc.yellow("\n❌ Installation cancelled. No components selected."));
+      console.log(pc.yellow(`\n❌ Installation cancelled. No ${itemLabel} selected.`));
       return;
     }
 
