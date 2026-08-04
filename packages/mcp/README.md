@@ -51,11 +51,11 @@ If your AI assistant supports SSE / Remote MCP endpoints:
 | `list_hooks` | List all 40 available Nikala UI reactive primitives / hooks | None |
 | `get_component_code` | Fetch full source code TSX manifest for a component | `{ "name": "button" }` |
 | `get_hook_code` | Fetch full source code TS primitive manifest for a hook | `{ "name": "create-clipboard" }` |
-| `install_component` | Directly writes component TSX source files to project (`src/components/ui/`) | `{ "name": "button" }` |
-| `install_hook` | Directly writes primitive TS file to project (`src/hooks/`) | `{ "name": "create-audio" }` |
-| `validate_project` | Inspects project setup health (`nikala.config.json`, `cn.ts`, directory structure) | None |
-| `inspect_workspace` | Scans project workspace to report which Nikala components/hooks are installed | None |
-| `search_docs` | Search Nikala UI components, hooks, and guidelines by keywords | `{ "query": "modal" }` |
+| `install_component` | Directly writes component TSX source files to project workspace (`src/components/ui/`) | `{ "name": "button", "workspace_dir"?: "/path/to/project" }` |
+| `install_hook` | Directly writes primitive TS file to project workspace (`src/hooks/`) | `{ "name": "create-audio", "workspace_dir"?: "/path/to/project" }` |
+| `validate_project` | Inspects workspace setup health (`nikala.config.json`, `cn.ts`, directory structure) | `{ "workspace_dir"?: "/path/to/project" }` |
+| `inspect_workspace` | Scans workspace to report which Nikala components and hooks are installed | `{ "workspace_dir"?: "/path/to/project" }` |
+| `search_docs` | Search Nikala UI components, hooks, and guidelines (supports multi-word fuzzy search) | `{ "query": "dialog modal" }` |
 
 ---
 

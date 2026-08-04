@@ -144,28 +144,28 @@ export default function McpDocsPage() {
               </tr>
               <tr>
                 <td class="px-4 py-3 font-semibold text-primary">install_component</td>
-                <td class="px-4 py-3 font-sans text-muted-foreground">Directly writes component source TSX files to project directory (src/components/ui/)</td>
-                <td class="px-4 py-3 text-muted-foreground">{`{ "name": "button" }`}</td>
+                <td class="px-4 py-3 font-sans text-muted-foreground">Directly writes component source TSX files to target workspace (src/components/ui/)</td>
+                <td class="px-4 py-3 text-muted-foreground">{`{ "name": "button", "workspace_dir": "..." }`}</td>
               </tr>
               <tr>
                 <td class="px-4 py-3 font-semibold text-primary">install_hook</td>
-                <td class="px-4 py-3 font-sans text-muted-foreground">Directly writes primitive TS file to project directory (src/hooks/)</td>
-                <td class="px-4 py-3 text-muted-foreground">{`{ "name": "create-audio" }`}</td>
+                <td class="px-4 py-3 font-sans text-muted-foreground">Directly writes primitive TS file to target workspace (src/hooks/)</td>
+                <td class="px-4 py-3 text-muted-foreground">{`{ "name": "create-audio", "workspace_dir": "..." }`}</td>
               </tr>
               <tr>
                 <td class="px-4 py-3 font-semibold text-primary">validate_project</td>
                 <td class="px-4 py-3 font-sans text-muted-foreground">Inspects project health (nikala.config.json, cn.ts, components/hooks dirs)</td>
-                <td class="px-4 py-3 text-muted-foreground">{}</td>
+                <td class="px-4 py-3 text-muted-foreground">{`{ "workspace_dir": "..." }`}</td>
               </tr>
               <tr>
                 <td class="px-4 py-3 font-semibold text-primary">inspect_workspace</td>
-                <td class="px-4 py-3 font-sans text-muted-foreground">Lists which Nikala components and hooks are ALREADY installed in local project</td>
-                <td class="px-4 py-3 text-muted-foreground">{}</td>
+                <td class="px-4 py-3 font-sans text-muted-foreground">Lists which Nikala components and hooks are ALREADY installed in project</td>
+                <td class="px-4 py-3 text-muted-foreground">{`{ "workspace_dir": "..." }`}</td>
               </tr>
               <tr>
                 <td class="px-4 py-3 font-semibold text-primary">search_docs</td>
-                <td class="px-4 py-3 font-sans text-muted-foreground">Searches components, hooks, and guidelines by keywords</td>
-                <td class="px-4 py-3 text-muted-foreground">{`{ "query": "audio" }`}</td>
+                <td class="px-4 py-3 font-sans text-muted-foreground">Searches components, hooks, and guidelines (supports multi-word fuzzy search)</td>
+                <td class="px-4 py-3 text-muted-foreground">{`{ "query": "dialog modal" }`}</td>
               </tr>
             </tbody>
           </table>
