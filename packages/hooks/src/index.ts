@@ -23,3 +23,4 @@ export * from "./create-form";
 export * from "./create-input-mask";
 export * from "./create-idle";
 export * from "./create-active-element";
+export * from "./create-infinite-scroll";

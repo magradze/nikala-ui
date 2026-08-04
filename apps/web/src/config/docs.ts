@@ -180,6 +180,12 @@ export const HOOKS_LIST: DocHookItem[] = [
     description: "SolidJS reactive primitive for tracking the currently focused DOM element",
     href: "/docs/hooks/create-active-element",
   },
+  {
+    name: "create-infinite-scroll",
+    title: "createInfiniteScroll",
+    description: "SolidJS reactive primitive for dynamic infinite scrolling, auto-fetching pages, and scroll pagination",
+    href: "/docs/hooks/create-infinite-scroll",
+  },
 ];
 
 /* --- Component Library Registry List --- */
