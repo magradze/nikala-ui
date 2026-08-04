@@ -1,0 +1,10 @@
+{
+  "name": "create-mouse-position",
+  "title": "createMousePosition",
+  "description": "SolidJS reactive primitive for tracking global and element-relative mouse pointer coordinates",
+  "type": "registry:hook",
+  "dependencies": [
+    "@nikala-ui/hooks"
+  ],
+  "files": []
+}

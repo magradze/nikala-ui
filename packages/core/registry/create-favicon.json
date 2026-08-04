@@ -1,0 +1,10 @@
+{
+  "name": "create-favicon",
+  "title": "createFavicon",
+  "description": "SolidJS reactive primitive for dynamically updating browser favicon element",
+  "type": "registry:hook",
+  "dependencies": [
+    "@nikala-ui/hooks"
+  ],
+  "files": []
+}

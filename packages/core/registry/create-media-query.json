@@ -1,0 +1,10 @@
+{
+  "name": "create-media-query",
+  "title": "createMediaQuery",
+  "description": "SolidJS reactive primitives for tracking CSS media queries and responsive Tailwind breakpoints",
+  "type": "registry:hook",
+  "dependencies": [
+    "@nikala-ui/hooks"
+  ],
+  "files": []
+}

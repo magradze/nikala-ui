@@ -1,0 +1,10 @@
+{
+  "name": "create-focus-trap",
+  "title": "createFocusTrap",
+  "description": "SolidJS reactive primitive for trapping keyboard focus inside target container element for accessibility",
+  "type": "registry:hook",
+  "dependencies": [
+    "@nikala-ui/hooks"
+  ],
+  "files": []
+}

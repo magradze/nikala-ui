@@ -1,0 +1,10 @@
+{
+  "name": "create-clipboard",
+  "title": "createClipboard",
+  "description": "SolidJS reactive primitive for copying text to clipboard with automatic status reset",
+  "type": "registry:hook",
+  "dependencies": [
+    "@nikala-ui/hooks"
+  ],
+  "files": []
+}

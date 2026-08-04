@@ -1,0 +1,10 @@
+{
+  "name": "create-intersection-observer",
+  "title": "createIntersectionObserver",
+  "description": "SolidJS reactive primitives for observing element visibility and viewport intersection status",
+  "type": "registry:hook",
+  "dependencies": [
+    "@nikala-ui/hooks"
+  ],
+  "files": []
+}

@@ -1,0 +1,10 @@
+{
+  "name": "create-event-source",
+  "title": "createEventSource",
+  "description": "SolidJS reactive primitive for subscribing to Server-Sent Events (SSE) streams",
+  "type": "registry:hook",
+  "dependencies": [
+    "@nikala-ui/hooks"
+  ],
+  "files": []
+}

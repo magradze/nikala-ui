@@ -1,0 +1,10 @@
+{
+  "name": "create-orientation",
+  "title": "createOrientation",
+  "description": "SolidJS reactive primitive for observing mobile and desktop screen orientation changes and rotation angles",
+  "type": "registry:hook",
+  "dependencies": [
+    "@nikala-ui/hooks"
+  ],
+  "files": []
+}

@@ -112,6 +112,32 @@ async function buildRegistry() {
     console.log(pc.green(`  ✓ Generated registry/${componentName}.json`));
   }
 
+  // Generate hook registry items
+  const { HOOK_METADATA } = await import("../src/registry/metadata.js");
+  for (const [hookName, meta] of Object.entries(HOOK_METADATA)) {
+    const registryItem: RegistryItem = {
+      name: hookName,
+      title: meta.title,
+      description: meta.description,
+      type: "registry:hook",
+      dependencies: meta.dependencies,
+      files: [],
+    };
+
+    const outputPath = path.join(outputDir, `${hookName}.json`);
+    await fs.writeFile(outputPath, JSON.stringify(registryItem, null, 2));
+
+    indexList.push({
+      name: hookName,
+      title: meta.title,
+      description: meta.description,
+      type: "registry:hook",
+      dependencies: meta.dependencies,
+    });
+
+    console.log(pc.green(`  ✓ Generated registry/${hookName}.json`));
+  }
+
   // Write central registry/index.json
   const indexPath = path.join(outputDir, "index.json");
   await fs.writeFile(indexPath, JSON.stringify(indexList, null, 2));

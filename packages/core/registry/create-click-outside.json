@@ -1,0 +1,10 @@
+{
+  "name": "create-click-outside",
+  "title": "createClickOutside",
+  "description": "SolidJS reactive primitive for detecting click and pointer interactions outside target elements",
+  "type": "registry:hook",
+  "dependencies": [
+    "@nikala-ui/hooks"
+  ],
+  "files": []
+}

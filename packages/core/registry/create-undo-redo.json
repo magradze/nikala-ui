@@ -1,0 +1,10 @@
+{
+  "name": "create-undo-redo",
+  "title": "createUndoRedo",
+  "description": "SolidJS reactive primitive for undo/redo state history management, history stack tracking, and reverting actions",
+  "type": "registry:hook",
+  "dependencies": [
+    "@nikala-ui/hooks"
+  ],
+  "files": []
+}

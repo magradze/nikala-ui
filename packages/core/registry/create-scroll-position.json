@@ -1,0 +1,10 @@
+{
+  "name": "create-scroll-position",
+  "title": "createScrollPosition",
+  "description": "SolidJS reactive primitive for tracking scroll position, scroll direction, and container bounds",
+  "type": "registry:hook",
+  "dependencies": [
+    "@nikala-ui/hooks"
+  ],
+  "files": []
+}

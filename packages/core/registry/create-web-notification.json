@@ -1,0 +1,10 @@
+{
+  "name": "create-web-notification",
+  "title": "createWebNotification",
+  "description": "SolidJS reactive primitive for sending browser desktop notifications and managing notification permissions",
+  "type": "registry:hook",
+  "dependencies": [
+    "@nikala-ui/hooks"
+  ],
+  "files": []
+}

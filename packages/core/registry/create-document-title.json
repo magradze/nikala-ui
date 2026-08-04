@@ -1,0 +1,10 @@
+{
+  "name": "create-document-title",
+  "title": "createDocumentTitle",
+  "description": "SolidJS reactive primitive for managing document title dynamically",
+  "type": "registry:hook",
+  "dependencies": [
+    "@nikala-ui/hooks"
+  ],
+  "files": []
+}

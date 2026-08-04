@@ -1,0 +1,10 @@
+{
+  "name": "create-idle",
+  "title": "createIdle",
+  "description": "SolidJS reactive primitive for detecting user inactivity with customizable timeout",
+  "type": "registry:hook",
+  "dependencies": [
+    "@nikala-ui/hooks"
+  ],
+  "files": []
+}

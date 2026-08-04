@@ -1,0 +1,10 @@
+{
+  "name": "create-input-mask",
+  "title": "createInputMask",
+  "description": "SolidJS reactive primitive for input value masking (phone numbers, credit cards, dates)",
+  "type": "registry:hook",
+  "dependencies": [
+    "@nikala-ui/hooks"
+  ],
+  "files": []
+}

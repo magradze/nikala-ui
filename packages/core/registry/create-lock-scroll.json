@@ -1,0 +1,10 @@
+{
+  "name": "create-lock-scroll",
+  "title": "createLockScroll",
+  "description": "SolidJS reactive primitive for locking body or container scrolling when overlays are active",
+  "type": "registry:hook",
+  "dependencies": [
+    "@nikala-ui/hooks"
+  ],
+  "files": []
+}

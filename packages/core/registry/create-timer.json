@@ -1,0 +1,10 @@
+{
+  "name": "create-timer",
+  "title": "createTimer",
+  "description": "SolidJS reactive primitives for recurring interval ticks and formatted countdown timers",
+  "type": "registry:hook",
+  "dependencies": [
+    "@nikala-ui/hooks"
+  ],
+  "files": []
+}

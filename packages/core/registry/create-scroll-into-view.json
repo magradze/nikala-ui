@@ -1,0 +1,10 @@
+{
+  "name": "create-scroll-into-view",
+  "title": "createScrollIntoView",
+  "description": "SolidJS reactive primitive for scrolling a target element into view smooth or auto behavior",
+  "type": "registry:hook",
+  "dependencies": [
+    "@nikala-ui/hooks"
+  ],
+  "files": []
+}

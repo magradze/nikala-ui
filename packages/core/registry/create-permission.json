@@ -1,0 +1,10 @@
+{
+  "name": "create-permission",
+  "title": "createPermission",
+  "description": "SolidJS reactive primitive for querying and observing browser permission status changes",
+  "type": "registry:hook",
+  "dependencies": [
+    "@nikala-ui/hooks"
+  ],
+  "files": []
+}

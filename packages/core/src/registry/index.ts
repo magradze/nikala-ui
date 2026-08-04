@@ -23,7 +23,7 @@ export interface RegistryItem {
   /** Short summary describing the component */
   description: string;
   /** Component category type */
-  type: "registry:ui";
+  type: "registry:ui" | "registry:util" | "registry:hook";
   /** Required NPM dependencies to be installed automatically (e.g., ["clsx", "tailwind-merge"]) */
   dependencies?: string[];
   /** Internal Nikala UI component dependencies required by this component (e.g., ["button"]) */
@@ -39,7 +39,7 @@ export interface RegistryIndexItem {
   name: string;
   title: string;
   description: string;
-  type: "registry:ui";
+  type: "registry:ui" | "registry:util" | "registry:hook";
   dependencies?: string[];
   registryDependencies?: string[];
 }

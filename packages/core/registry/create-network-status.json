@@ -1,0 +1,10 @@
+{
+  "name": "create-network-status",
+  "title": "createNetworkStatus",
+  "description": "SolidJS reactive primitives for tracking browser network connectivity and connection quality metrics",
+  "type": "registry:hook",
+  "dependencies": [
+    "@nikala-ui/hooks"
+  ],
+  "files": []
+}

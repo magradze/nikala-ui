@@ -1,0 +1,10 @@
+{
+  "name": "create-hover",
+  "title": "createHover",
+  "description": "SolidJS reactive primitive for tracking element hover state with entrance and exit delays",
+  "type": "registry:hook",
+  "dependencies": [
+    "@nikala-ui/hooks"
+  ],
+  "files": []
+}

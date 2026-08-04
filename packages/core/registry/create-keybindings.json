@@ -1,0 +1,10 @@
+{
+  "name": "create-keybindings",
+  "title": "createKeybindings",
+  "description": "SolidJS reactive primitives for listening to keyboard shortcuts, key combinations, and Escape key presses",
+  "type": "registry:hook",
+  "dependencies": [
+    "@nikala-ui/hooks"
+  ],
+  "files": []
+}

@@ -1,0 +1,10 @@
+{
+  "name": "create-debounce",
+  "title": "createDebounce",
+  "description": "SolidJS reactive primitives for debouncing and throttling rate-limited function execution",
+  "type": "registry:hook",
+  "dependencies": [
+    "@nikala-ui/hooks"
+  ],
+  "files": []
+}

@@ -1,0 +1,10 @@
+{
+  "name": "create-active-element",
+  "title": "createActiveElement",
+  "description": "SolidJS reactive primitive for tracking the currently focused DOM element",
+  "type": "registry:hook",
+  "dependencies": [
+    "@nikala-ui/hooks"
+  ],
+  "files": []
+}

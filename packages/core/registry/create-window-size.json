@@ -1,0 +1,10 @@
+{
+  "name": "create-window-size",
+  "title": "createWindowSize",
+  "description": "SolidJS reactive primitive for tracking window viewport inner width and height",
+  "type": "registry:hook",
+  "dependencies": [
+    "@nikala-ui/hooks"
+  ],
+  "files": []
+}

@@ -1,0 +1,10 @@
+{
+  "name": "create-disclosure",
+  "title": "createDisclosure",
+  "description": "SolidJS reactive primitive for managing boolean open/close disclosure state with helper controls",
+  "type": "registry:hook",
+  "dependencies": [
+    "@nikala-ui/hooks"
+  ],
+  "files": []
+}

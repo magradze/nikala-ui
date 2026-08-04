@@ -1,0 +1,10 @@
+{
+  "name": "create-long-press",
+  "title": "createLongPress",
+  "description": "SolidJS reactive primitive for detecting long press / hold touch and pointer interactions",
+  "type": "registry:hook",
+  "dependencies": [
+    "@nikala-ui/hooks"
+  ],
+  "files": []
+}

@@ -1,0 +1,10 @@
+{
+  "name": "create-resize-observer",
+  "title": "createResizeObserver",
+  "description": "SolidJS reactive primitives for tracking element width and height dimensions dynamically",
+  "type": "registry:hook",
+  "dependencies": [
+    "@nikala-ui/hooks"
+  ],
+  "files": []
+}

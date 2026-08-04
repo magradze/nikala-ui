@@ -1,0 +1,10 @@
+{
+  "name": "create-fetch",
+  "title": "createFetch",
+  "description": "SolidJS reactive primitive for HTTP REST API fetching, request loading states, error handling, and refetching",
+  "type": "registry:hook",
+  "dependencies": [
+    "@nikala-ui/hooks"
+  ],
+  "files": []
+}

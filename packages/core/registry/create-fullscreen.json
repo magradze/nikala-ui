@@ -1,0 +1,10 @@
+{
+  "name": "create-fullscreen",
+  "title": "createFullscreen",
+  "description": "SolidJS reactive primitive for requesting and monitoring element or document fullscreen status",
+  "type": "registry:hook",
+  "dependencies": [
+    "@nikala-ui/hooks"
+  ],
+  "files": []
+}

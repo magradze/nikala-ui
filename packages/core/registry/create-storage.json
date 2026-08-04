@@ -1,0 +1,10 @@
+{
+  "name": "create-storage",
+  "title": "createLocalStorage",
+  "description": "SolidJS reactive primitives for Web Storage state synchronization across components and browser tabs",
+  "type": "registry:hook",
+  "dependencies": [
+    "@nikala-ui/hooks"
+  ],
+  "files": []
+}

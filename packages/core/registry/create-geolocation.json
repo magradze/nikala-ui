@@ -1,0 +1,10 @@
+{
+  "name": "create-geolocation",
+  "title": "createGeolocation",
+  "description": "SolidJS reactive primitive for tracking browser Geolocation position, coordinates, speed, and GPS accuracy",
+  "type": "registry:hook",
+  "dependencies": [
+    "@nikala-ui/hooks"
+  ],
+  "files": []
+}
