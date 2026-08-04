@@ -29,7 +29,7 @@ export function ClipboardDemo() {
   const [text, setText] = createSignal("bun add @nikala-ui/hooks");
 
   return (
-    <div class="space-y-4 max-w-sm w-full min-h-[160px] flex flex-col items-center justify-center">
+    <div class="space-y-4 max-w-sm w-full min-h-40 flex flex-col items-center justify-center">
       <div class="w-full flex items-center justify-between gap-2 p-2.5 rounded-lg border border-border bg-muted/40 font-mono text-xs">
         <span class="truncate text-muted-foreground">{text()}</span>
         <Button
