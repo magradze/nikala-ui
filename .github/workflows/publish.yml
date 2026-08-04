@@ -37,7 +37,7 @@ jobs:
       - name: Install Dependencies
         run: bun install --frozen-lockfile
 
-      - name: Build Core Registry & CLI Packages
+      - name: Build All Monorepo Packages
         run: bun run build
 
       - name: Verify Registry Manifests Sync
@@ -46,6 +46,7 @@ jobs:
       - name: Typecheck Monorepo Packages
         run: |
           cd packages/core && bunx tsc --noEmit
+          cd ../hooks && bunx tsc --noEmit
           cd ../cli && bunx tsc --noEmit
           cd "../../apps/web" && bunx tsc --noEmit
 
@@ -72,7 +73,7 @@ jobs:
       - name: Install Workspace Dependencies
         run: bun install --frozen-lockfile
 
-      - name: Compile Registry Manifests & Build CLI Binary
+      - name: Compile Registry Manifests & Build Packages
         run: bun run build
 
       - name: Setup Node for OIDC & NPM Auth
@@ -80,6 +81,11 @@ jobs:
         with:
           node-version: '24'
           registry-url: 'https://registry.npmjs.org'
+
+      - name: Publish @nikala-ui/hooks Package
+        run: cd packages/hooks && npm publish --access public --provenance
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Publish @nikala-ui/core Package
         run: cd packages/core && npm publish --access public --provenance
