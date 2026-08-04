@@ -228,6 +228,12 @@ export const HOOKS_LIST: DocHookItem[] = [
     description: "SolidJS reactive primitive for querying and observing browser permission status changes",
     href: "/docs/hooks/create-permission",
   },
+  {
+    name: "create-battery",
+    title: "createBattery",
+    description: "SolidJS reactive primitive for observing device battery status, charge level, and charging metrics",
+    href: "/docs/hooks/create-battery",
+  },
 ];
 
 /* --- Component Library Registry List --- */

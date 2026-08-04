@@ -31,3 +31,4 @@ export * from "./create-undo-redo";
 export * from "./create-fetch";
 export * from "./create-geolocation";
 export * from "./create-permission";
+export * from "./create-battery";
