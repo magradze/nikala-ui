@@ -1,95 +1,179 @@
-# Nikala UI
+# Nikala UI — LLM & AI Developer Reference Manual
 
-> A simple, copy-paste component system for SolidJS built natively for Tailwind CSS v4. Honoring Georgian painter Niko Pirosmani (Nikala).
+> Nikala UI is a copy-paste component system and reactive primitives suite for SolidJS built natively for Tailwind CSS v4. Honoring Georgian painter Niko Pirosmani (Nikala).
 
-Official Website: https://nikala.magradze.dev
-GitHub Repository: https://github.com/nikala-ui/ui
-Documentation Portal: https://nikala.magradze.dev/docs
-Interactive Playground: https://nikala.magradze.dev/playground
-
----
-
-## Overview & Architecture
-
-Nikala UI is a copy-paste component system designed specifically for SolidJS and Tailwind CSS v4. Instead of adding heavy third-party UI packages into node_modules, Nikala UI's CLI writes lightweight, fully reactive SolidJS TypeScript components directly into the developer's src/components/ui directory. You own 100% of the source code.
-
-Nikala UI is architected as a modern monorepo consisting of two packages:
-- `@nikala-ui/cli`: The command-line client used for initializing workspaces (init), adding components (add), running health diagnostics (validate/doctor), inspecting code differences (diff), and customizing theme palettes (theme).
-- `@nikala-ui/core`: The core design system registry containing component source files, Kobalte accessibility primitives, and theme providers.
-
----
-
-## Quick Start Commands
-
-### 1. Initialize Workspace
-```bash
-bunx @nikala-ui/cli init
-# or
-npx @nikala-ui/cli init
-# or direct binary
-nikala init
-```
-
-### 2. Add Components
-```bash
-bunx @nikala-ui/cli add button input card
-# or install all 26 components
-bunx @nikala-ui/cli add --all
-```
-
----
-
-## Core Engineering Rules for SolidJS
-
-When authoring or generating code with Nikala UI components, AI models and developers must strictly adhere to these rules:
-
-1. **Preserve Fine-Grained Signal Reactivity:**
-   - NEVER destructure props directly (e.g., `const { variant, class: className } = props;` is FORBIDDEN as it destroys SolidJS signal tracking).
-   - ALWAYS use `splitProps(props, ["keys", "to", "extract"])` to separate component props from pass-through HTML attributes.
-
-2. **Children Inspection & Tab Hydration:**
-   - ALWAYS wrap `props.children` with SolidJS's native `children(() => props.children)` memoization helper when inspecting, iterating, or rendering dynamic JSX child nodes inside tab containers or conditional branches.
-
-3. **SSR Anti-FOUC Theme Script:**
-   - When using `ThemeProvider`, ALWAYS include `<ThemeScript storageKey="..." />` synchronously at the root HTML layout before `<ThemeProvider>` to eliminate white theme flashes during Server-Side Rendering (SSR) before client hydration.
-
----
-
-## Available Components (26)
-
-- **Accordion**: `Accordion`, `AccordionItem`, `AccordionTrigger`, `AccordionContent`
-- **Alert**: `Alert`, `AlertTitle`, `AlertDescription`
-- **Avatar**: `Avatar`, `AvatarImage`, `AvatarFallback`
-- **Badge**: `Badge`
-- **Banner**: `Banner`
-- **Breadcrumb**: `Breadcrumb`, `BreadcrumbList`, `BreadcrumbItem`, `BreadcrumbLink`, `BreadcrumbPage`, `BreadcrumbSeparator`, `BreadcrumbEllipsis`
-- **Button**: `Button`
-- **Card**: `Card`, `CardHeader`, `CardTitle`, `CardDescription`, `CardContent`, `CardFooter`
-- **Checkbox**: `Checkbox`
-- **Command**: `Command`, `CommandDialog`, `CommandInput`, `CommandList`, `CommandEmpty`, `CommandGroup`, `CommandItem`, `CommandFooter`
-- **Dialog**: `Dialog`, `DialogTrigger`, `DialogOverlay`, `DialogContent`, `DialogHeader`, `DialogFooter`, `DialogTitle`, `DialogDescription`, `DialogClose`
-- **Dropdown Menu**: `DropdownMenu`, `DropdownMenuTrigger`, `DropdownMenuContent`, `DropdownMenuItem`, `DropdownMenuLabel`, `DropdownMenuSeparator`, `DropdownMenuShortcut`, `DropdownMenuSub`, `DropdownMenuSubTrigger`, `DropdownMenuSubContent`, `DropdownMenuCheckboxItem`, `DropdownMenuRadioGroup`, `DropdownMenuRadioItem`
-- **Input**: `Input`
-- **Input Group**: `InputGroup`, `InputGroupInput`, `InputGroupAddon`
-- **Kbd**: `Kbd`, `KbdGroup`
-- **Label**: `Label`
-- **List**: `List`, `ListGroup`, `ListHeader`, `ListItem`
-- **Radio Group**: `RadioGroup`, `RadioGroupItem`, `RadioGroupItemLabel`
-- **Select**: `Select`, `SelectTrigger`, `SelectValue`, `SelectContent`, `SelectItem`
-- **Separator**: `Separator`
-- **Sheet / Drawer**: `Sheet`, `SheetTrigger`, `SheetOverlay`, `SheetContent`, `SheetHeader`, `SheetFooter`, `SheetTitle`, `SheetDescription`, `SheetClose`
-- **Skeleton**: `Skeleton`
-- **Switch**: `Switch`
-- **Tabs**: `Tabs`, `TabsList`, `TabsTrigger`, `TabsContent`
-- **Textarea**: `Textarea`
-- **Theme Manager**: `ThemeProvider`, `ThemeScript`, `ThemeToggle`, `useTheme`
-
----
-
-## Documentation Links Index
-
-- System Overview: https://nikala.magradze.dev/docs
-- CLI Reference: https://nikala.magradze.dev/docs/cli
-- Theming Guide: https://nikala.magradze.dev/docs/theming
-- Component Specs: https://nikala.magradze.dev/docs/components/button
+- Official Website: https://nikala.magradze.dev
+- GitHub Repository: https://github.com/nikala-ui/ui
+- Documentation Portal: https://nikala.magradze.dev/docs
 - Interactive Playground: https://nikala.magradze.dev/playground
+- Raw LLM Reference: https://nikala.magradze.dev/llms.txt
+
+---
+
+## 1. Core Architecture & Philosophy
+
+Nikala UI rejects heavy `node_modules` UI dependencies for component structures and reactive primitives. Instead, it follows a 100% **Pure Copy-Paste Ownership** model.
+
+### Key Architectural Pillars:
+- **Native SolidJS Reactivity**: Fine-grained reactive signals, props splitting (`splitProps`), and explicit memoization (`children(() => props.children)`).
+- **Tailwind CSS v4 Native**: Built on modern `@import "tailwindcss";` setups, CSS-first `@theme` variables, and semantic color design tokens without legacy JS configs.
+- **Full Source Ownership**: The CLI writes components to `src/components/ui/` and primitive hooks directly to `src/hooks/`. Developers own, inspect, and customize all generated source files.
+- **Zero Lock-In**: Decoupled `@nikala-ui/cli` client and `@nikala-ui/core` registry for instant remote HTTP(S) manifest installs.
+
+---
+
+## 2. CLI Command Quick Reference
+
+### Installation & Initialization
+```bash
+# Initialize Nikala UI configuration, cn helper, path aliases, and theme CSS
+bunx @nikala-ui/cli init
+```
+
+### Adding UI Components
+```bash
+# Interactive autocomplete multiselect menu for UI components
+bunx @nikala-ui/cli add
+
+# Direct installation of specific UI components
+bunx @nikala-ui/cli add button input card dialog
+
+# Add all available UI components
+bunx @nikala-ui/cli add --all
+
+# Overwrite existing component files
+bunx @nikala-ui/cli add button --overwrite
+```
+
+### Adding Primitive Hooks (Pure Copy-Paste to `src/hooks/`)
+```bash
+# Interactive autocomplete multiselect menu for reactive hooks
+bunx @nikala-ui/cli add --hook
+
+# Direct copy-paste installation of specific hooks to src/hooks/
+bunx @nikala-ui/cli add --hook create-audio create-fetch create-clipboard
+
+# Shortcut option (-h)
+bunx @nikala-ui/cli add -h create-websocket
+```
+
+### Theme Management & Diagnostics
+```bash
+# Set primary brand accent color and base gray palette
+bunx @nikala-ui/cli theme set wine zinc
+
+# Run workspace health diagnostics
+bunx @nikala-ui/cli validate
+```
+
+---
+
+## 3. Strict Engineering Rules for AI Code Generation
+
+When generating or editing SolidJS code using Nikala UI components and hooks, AI models MUST follow these strict rules:
+
+1. **NEVER Destructure Props Directly**:
+   - `const { variant, class: className } = props;` -> **FORBIDDEN** (breaks SolidJS signal tracking).
+   - `const [local, others] = splitProps(props, ["variant", "class"]);` -> **REQUIRED**.
+
+2. **Children Inspection & Tab Hydration**:
+   - ALWAYS use `const resolved = children(() => props.children);` when inspecting or conditionally rendering JSX children inside tab containers or dynamic branches.
+
+3. **SSR Anti-FOUC Theme Script**:
+   - When using `ThemeProvider`, ALWAYS place `<ThemeScript storageKey="nikala-theme" />` synchronously inside `<head>` or root HTML before `<ThemeProvider>` to eliminate flash of unstyled content during SSR.
+
+4. **Hook Imports**:
+   - Import copy-pasted hooks locally from project alias: `import { createClipboard } from "@/hooks/create-clipboard";`
+
+---
+
+## 4. UI Components Registry (27 Components)
+
+Below is the complete inventory of available Nikala UI components with exported JSX elements:
+
+1. **Accordion**: `Accordion`, `AccordionItem`, `AccordionTrigger`, `AccordionContent`
+2. **Alert**: `Alert`, `AlertTitle`, `AlertDescription`
+3. **Avatar**: `Avatar`, `AvatarImage`, `AvatarFallback`
+4. **Badge**: `Badge`
+5. **Banner**: `Banner`
+6. **Breadcrumb**: `Breadcrumb`, `BreadcrumbList`, `BreadcrumbItem`, `BreadcrumbLink`, `BreadcrumbPage`, `BreadcrumbSeparator`, `BreadcrumbEllipsis`
+7. **Button**: `Button`
+8. **Card**: `Card`, `CardHeader`, `CardTitle`, `CardDescription`, `CardContent`, `CardFooter`
+9. **Checkbox**: `Checkbox`
+10. **Command**: `Command`, `CommandDialog`, `CommandInput`, `CommandList`, `CommandEmpty`, `CommandGroup`, `CommandItem`, `CommandFooter`
+11. **Dialog**: `Dialog`, `DialogTrigger`, `DialogOverlay`, `DialogContent`, `DialogHeader`, `DialogFooter`, `DialogTitle`, `DialogDescription`, `DialogClose`
+12. **Dropdown Menu**: `DropdownMenu`, `DropdownMenuTrigger`, `DropdownMenuContent`, `DropdownMenuItem`, `DropdownMenuLabel`, `DropdownMenuSeparator`, `DropdownMenuShortcut`, `DropdownMenuSub`, `DropdownMenuSubTrigger`, `DropdownMenuSubContent`, `DropdownMenuCheckboxItem`, `DropdownMenuRadioGroup`, `DropdownMenuRadioItem`
+13. **Input**: `Input`
+14. **Input Group**: `InputGroup`, `InputGroupInput`, `InputGroupAddon`
+15. **Kbd**: `Kbd`, `KbdGroup`
+16. **Label**: `Label`
+17. **List**: `List`, `ListGroup`, `ListHeader`, `ListItem`
+18. **Popover**: `Popover`, `PopoverTrigger`, `PopoverContent`
+19. **Progress**: `Progress`, `ProgressIndicator`
+20. **Radio Group**: `RadioGroup`, `RadioGroupItem`, `RadioGroupItemLabel`
+21. **Select**: `Select`, `SelectTrigger`, `SelectValue`, `SelectContent`, `SelectItem`
+22. **Separator**: `Separator`
+23. **Sheet / Drawer**: `Sheet`, `SheetTrigger`, `SheetOverlay`, `SheetContent`, `SheetHeader`, `SheetFooter`, `SheetTitle`, `SheetDescription`, `SheetClose`
+24. **Skeleton**: `Skeleton`
+25. **Switch**: `Switch`
+26. **Tabs**: `Tabs`, `TabsList`, `TabsTrigger`, `TabsContent`
+27. **Textarea**: `Textarea`
+28. **Theme Manager**: `ThemeProvider`, `ThemeScript`, `ThemeToggle`, `useTheme`
+
+---
+
+## 5. Reactive Primitives / Hooks Registry (40 Hooks)
+
+Nikala UI primitives are written directly to `src/hooks/<hook-name>.ts`. Below is the complete catalog:
+
+1. **`createActiveElement`** — Tracks currently focused DOM element (`activeElement()`, `hasFocus()`).
+2. **`createAudio` / `createVideo`** — Controls media playback (`isPlaying()`, `duration()`, `currentTime()`, `toggle()`, `seek()`, `setVolume()`).
+3. **`createBattery`** — Observes device battery level, charging status, and time metrics.
+4. **`createClickOutside`** — Detects clicks outside target element refs (`createClickOutside(targetRef, handler)`).
+5. **`createClipboard`** — Copies text to clipboard with auto-reset status (`copied()`, `copy(text)`, `error()`).
+6. **`createColorMode`** — Manages dark/light theme signals and system preference detection.
+7. **`createControllableSignal`** — Primitive supporting both controlled and uncontrolled state patterns.
+8. **`createDebounce` / `createThrottle`** — Rate-limits function executions and reactive signal updates.
+9. **`createDisclosure`** — Manages boolean open/close disclosure state (`isOpen()`, `open()`, `close()`, `toggle()`).
+10. **`createDocumentTitle`** — Dynamically updates browser tab title with restore on unmount.
+11. **`createEventSource`** — Subscribes to Server-Sent Events (SSE) streams (`data()`, `status()`, `close()`).
+12. **`createFavicon`** — Updates browser tab favicon dynamically from URLs or SVG data URIs.
+13. **`createFetch`** — Handles HTTP REST API requests (`data()`, `loading()`, `error()`, `refetch()`).
+14. **`createFocusTrap`** — Traps keyboard focus inside modal containers for accessibility.
+15. **`createForm`** — Handles form field state, dynamic validation rules, errors, and submission.
+16. **`createFullscreen`** — Requests and monitors element or document fullscreen state (`isFullscreen()`, `toggle()`).
+17. **`createGeolocation`** — Tracks real-time GPS coordinates, accuracy, speed, and heading.
+18. **`createHover`** — Tracks element mouse hover state with enter/exit delay configurations.
+19. **`createIdle`** — Detects user inactivity after customizable timeout threshold (`isIdle()`).
+20. **`createInfiniteScroll`** — Manages infinite scroll pagination and auto-fetching next page triggers.
+21. **`createInputMask`** — Applies formatting masks (phone numbers, credit cards, dates) to text inputs.
+22. **`createIntersectionObserver`** — Observes element visibility and viewport intersection ratios.
+23. **`createKeybindings`** — Listens to keyboard shortcuts, key combinations, and Escape key presses.
+24. **`createLockScroll`** — Locks body or scrollable container scrolling when overlays are active.
+25. **`createLongPress`** — Detects long press / touch hold interactions with custom duration.
+26. **`createMediaQuery`** — Tracks CSS media queries and responsive Tailwind breakpoints.
+27. **`createMousePosition`** — Tracks global window and element-relative cursor coordinates.
+28. **`createNetworkStatus`** — Tracks browser online/offline status and network connection type.
+29. **`createOrientation`** — Monitors screen orientation (`portrait` / `landscape`) and rotation angle.
+30. **`createPermission`** — Queries and observes browser permission states (`granted`, `denied`, `prompt`).
+31. **`createPrevious`** — Accesses previous value of a reactive signal accessor.
+32. **`createResizeObserver`** — Observes element width, height, and content box bounding rects.
+33. **`createScrollIntoView`** — Smoothly scrolls target element or ref into container viewport.
+34. **`createScrollPosition`** — Tracks container scroll offset (X, Y), scroll direction, and boundaries.
+35. **`createStorage`** — Reactive `createLocalStorage` and `createSessionStorage` with cross-tab sync.
+36. **`createTimer`** — Provides interval timers, stopwatch counters, and formatted countdowns.
+37. **`createUndoRedo`** — Manages undo/redo state history stacks and pointer state resets.
+38. **`createWebNotification`** — Sends native browser desktop notifications and handles permission requests.
+39. **`createWebSocket`** — WebSocket client connection manager with auto-reconnect and message parsing.
+40. **`createWindowSize`** — Tracks window inner width and inner height reactively.
+
+---
+
+## 6. Complete Documentation Sitemap Index
+
+- System Philosophy: https://nikala.magradze.dev/docs
+- CLI Reference Guide: https://nikala.magradze.dev/docs/cli
+- Tailwind v4 Theming: https://nikala.magradze.dev/docs/theming
+- Component Documentation: https://nikala.magradze.dev/docs/components/button
+- Primitives / Hooks Documentation: https://nikala.magradze.dev/docs/hooks/create-controllable-signal
+- Live Interactive Playground: https://nikala.magradze.dev/playground
