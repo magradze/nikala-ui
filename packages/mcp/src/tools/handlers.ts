@@ -1,15 +1,19 @@
 import { fetchRegistryIndex, fetchRegistryItem } from "../registry/index.js";
 import fs from "fs-extra";
 import path from "node:path";
+import os from "node:os";
 
 /**
  * Resolves the target workspace root directory intelligently.
  * Priority:
  * 1. Explicit `workspace_dir` passed by AI/IDE in args
- * 2. IDE/Environment variables (`CURSOR_WORKSPACE_DIR`, `WORKSPACE_DIR`, `INIT_CWD`, `PWD`)
- * 3. Parent directory search starting from `process.cwd()` up to root (`/`) looking for `nikala.config.json` or `package.json`
+ * 2. `process.cwd()` if it contains nikala.config.json or package.json (and is not user home)
+ * 3. IDE/Environment variables (`CURSOR_WORKSPACE_DIR`, `WORKSPACE_DIR`, `INIT_CWD`, `PWD`)
+ * 4. Parent directory search starting from `process.cwd()` up to system root (`/`)
  */
 async function resolveWorkspaceRoot(customWorkspaceDir?: string): Promise<string> {
+  const userHome = os.homedir();
+
   if (customWorkspaceDir) {
     const resolved = path.isAbsolute(customWorkspaceDir)
       ? customWorkspaceDir
@@ -19,7 +23,17 @@ async function resolveWorkspaceRoot(customWorkspaceDir?: string): Promise<string
     }
   }
 
-  // 1. Check common IDE environment variables
+  // 1. Check current working directory directly
+  const cwd = process.cwd();
+  if (cwd !== userHome) {
+    const hasConfig = await fs.pathExists(path.join(cwd, "nikala.config.json"));
+    const hasPkg = await fs.pathExists(path.join(cwd, "package.json"));
+    if (hasConfig || hasPkg) {
+      return cwd;
+    }
+  }
+
+  // 2. Check common IDE environment variables
   const envCandidates = [
     process.env.CURSOR_WORKSPACE_DIR,
     process.env.WORKSPACE_DIR,
@@ -28,7 +42,7 @@ async function resolveWorkspaceRoot(customWorkspaceDir?: string): Promise<string
   ];
 
   for (const candidate of envCandidates) {
-    if (candidate && (await fs.pathExists(candidate))) {
+    if (candidate && candidate !== userHome && (await fs.pathExists(candidate))) {
       const hasConfig = await fs.pathExists(path.join(candidate, "nikala.config.json"));
       const hasPkg = await fs.pathExists(path.join(candidate, "package.json"));
       if (hasConfig || hasPkg) {
@@ -37,21 +51,20 @@ async function resolveWorkspaceRoot(customWorkspaceDir?: string): Promise<string
     }
   }
 
-  // 2. Traversal up parent directories starting from current working directory
-  let currentDir = process.cwd();
+  // 3. Traversal up parent directories starting from current working directory
+  let currentDir = cwd;
   while (currentDir && currentDir !== path.parse(currentDir).root) {
-    const hasConfig = await fs.pathExists(path.join(currentDir, "nikala.config.json"));
-    const hasPkg = await fs.pathExists(path.join(currentDir, "package.json"));
-    
-    // Ignore home root itself (/home/username) if it has a dummy package.json
-    if ((hasConfig || hasPkg) && currentDir !== "/home/magradze" && currentDir !== "/home/runner") {
-      return currentDir;
+    if (currentDir !== userHome) {
+      const hasConfig = await fs.pathExists(path.join(currentDir, "nikala.config.json"));
+      const hasPkg = await fs.pathExists(path.join(currentDir, "package.json"));
+      if (hasConfig || hasPkg) {
+        return currentDir;
+      }
     }
-    
     currentDir = path.dirname(currentDir);
   }
 
-  return process.cwd();
+  return cwd;
 }
 
 export async function handleToolCall(name: string, args: Record<string, unknown> | undefined) {
