@@ -258,6 +258,12 @@ export const HOOKS_LIST: DocHookItem[] = [
     description: "SolidJS reactive primitive for dynamically updating browser favicon element",
     href: "/docs/hooks/create-favicon",
   },
+  {
+    name: "create-event-source",
+    title: "createEventSource",
+    description: "SolidJS reactive primitive for subscribing to Server-Sent Events (SSE) streams",
+    href: "/docs/hooks/create-event-source",
+  },
 ];
 
 /* --- Component Library Registry List --- */

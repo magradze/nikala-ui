@@ -36,3 +36,4 @@ export * from "./create-web-notification";
 export * from "./create-websocket";
 export * from "./create-document-title";
 export * from "./create-favicon";
+export * from "./create-event-source";
