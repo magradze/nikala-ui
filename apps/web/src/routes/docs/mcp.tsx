@@ -153,6 +153,16 @@ export default function McpDocsPage() {
                 <td class="px-4 py-3 text-muted-foreground">{`{ "name": "create-audio" }`}</td>
               </tr>
               <tr>
+                <td class="px-4 py-3 font-semibold text-primary">validate_project</td>
+                <td class="px-4 py-3 font-sans text-muted-foreground">Inspects project health (nikala.config.json, cn.ts, components/hooks dirs)</td>
+                <td class="px-4 py-3 text-muted-foreground">{}</td>
+              </tr>
+              <tr>
+                <td class="px-4 py-3 font-semibold text-primary">inspect_workspace</td>
+                <td class="px-4 py-3 font-sans text-muted-foreground">Lists which Nikala components and hooks are ALREADY installed in local project</td>
+                <td class="px-4 py-3 text-muted-foreground">{}</td>
+              </tr>
+              <tr>
                 <td class="px-4 py-3 font-semibold text-primary">search_docs</td>
                 <td class="px-4 py-3 font-sans text-muted-foreground">Searches components, hooks, and guidelines by keywords</td>
                 <td class="px-4 py-3 text-muted-foreground">{`{ "query": "audio" }`}</td>

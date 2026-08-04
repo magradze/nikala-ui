@@ -131,5 +131,85 @@ export async function handleToolCall(name: string, args: Record<string, unknown>
     };
   }
 
+  if (name === "validate_project") {
+    const cwd = process.cwd();
+    const checks = {
+      configExists: await fs.pathExists(path.join(cwd, "nikala.config.json")),
+      cnHelperExists:
+        (await fs.pathExists(path.join(cwd, "src/lib/cn.ts"))) ||
+        (await fs.pathExists(path.join(cwd, "src/lib/cn.js"))),
+      componentsDirExists: await fs.pathExists(path.join(cwd, "src/components/ui")),
+      hooksDirExists: await fs.pathExists(path.join(cwd, "src/hooks")),
+      packageJsonExists: await fs.pathExists(path.join(cwd, "package.json")),
+    };
+
+    const issues: string[] = [];
+    if (!checks.configExists) issues.push("Missing 'nikala.config.json' (run 'nikala init')");
+    if (!checks.cnHelperExists) issues.push("Missing utility helper 'src/lib/cn.ts'");
+    if (!checks.componentsDirExists) issues.push("Missing components directory 'src/components/ui'");
+
+    return {
+      content: [
+        {
+          type: "text",
+          text: JSON.stringify(
+            {
+              status: issues.length === 0 ? "healthy" : "needs_attention",
+              checks,
+              issues,
+            },
+            null,
+            2
+          ),
+        },
+      ],
+    };
+  }
+
+  if (name === "inspect_workspace") {
+    const cwd = process.cwd();
+    const componentsDir = path.join(cwd, "src/components/ui");
+    const hooksDir = path.join(cwd, "src/hooks");
+
+    const installedComponents: string[] = [];
+    const installedHooks: string[] = [];
+
+    if (await fs.pathExists(componentsDir)) {
+      const files = await fs.readdir(componentsDir);
+      for (const file of files) {
+        if (file.endsWith(".tsx") || file.endsWith(".ts")) {
+          installedComponents.push(file.replace(/\.(tsx|ts)$/, ""));
+        }
+      }
+    }
+
+    if (await fs.pathExists(hooksDir)) {
+      const files = await fs.readdir(hooksDir);
+      for (const file of files) {
+        if (file.endsWith(".ts")) {
+          installedHooks.push(file.replace(/\.ts$/, ""));
+        }
+      }
+    }
+
+    return {
+      content: [
+        {
+          type: "text",
+          text: JSON.stringify(
+            {
+              installedComponents,
+              installedHooks,
+              totalInstalledComponents: installedComponents.length,
+              totalInstalledHooks: installedHooks.length,
+            },
+            null,
+            2
+          ),
+        },
+      ],
+    };
+  }
+
   throw new Error(`Unknown tool: ${name}`);
 }

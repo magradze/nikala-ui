@@ -95,4 +95,20 @@ export const MCP_TOOLS: Tool[] = [
       required: ["query"],
     },
   },
+  {
+    name: "validate_project",
+    description: "Inspect local project for Nikala UI setup health (nikala.config.json, cn.ts helper, path aliases, runtime dependencies)",
+    inputSchema: {
+      type: "object",
+      properties: {},
+    },
+  },
+  {
+    name: "inspect_workspace",
+    description: "Inspect local project to list which Nikala UI components (src/components/ui/) and hooks (src/hooks/) are ALREADY installed",
+    inputSchema: {
+      type: "object",
+      properties: {},
+    },
+  },
 ];
