@@ -1,6 +1,6 @@
 {
   "name": "@nikala-ui/core",
-  "version": "0.7.1",
+  "version": "0.8.0",
   "description": "Core component definitions, design tokens, and registry for Nikala UI",
   "type": "module",
   "private": false,
