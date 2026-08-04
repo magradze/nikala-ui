@@ -222,6 +222,12 @@ export const HOOKS_LIST: DocHookItem[] = [
     description: "SolidJS reactive primitive for tracking browser Geolocation position, coordinates, speed, and GPS accuracy",
     href: "/docs/hooks/create-geolocation",
   },
+  {
+    name: "create-permission",
+    title: "createPermission",
+    description: "SolidJS reactive primitive for querying and observing browser permission status changes",
+    href: "/docs/hooks/create-permission",
+  },
 ];
 
 /* --- Component Library Registry List --- */
