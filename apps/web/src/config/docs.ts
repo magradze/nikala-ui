@@ -1,6 +1,6 @@
 // src/config/docs.ts
 import type { Component } from "solid-js";
-import { BookOpen, Terminal, Palette } from "lucide-solid";
+import { BookOpen, Terminal, Palette, Bot } from "lucide-solid";
 import { DocComponentItem, DocHookItem, DocGuideItem, NavSection } from "@/types";
 
 /* --- Documentation Guides List --- */
@@ -25,6 +25,13 @@ export const DOCUMENTATION_LIST: DocGuideItem[] = [
     href: "/docs/theming",
     shortcut: "⌘3",
     icon: Palette,
+  },
+  {
+    title: "MCP Server",
+    subtitle: "Model Context Protocol for AI coding assistants",
+    href: "/docs/mcp",
+    shortcut: "⌘4",
+    icon: Bot,
   },
 ];
 
@@ -313,6 +320,7 @@ export const GETTING_STARTED_SECTION: NavSection = {
     { title: "Introduction", href: "/docs" },
     { title: "CLI Reference", href: "/docs/cli" },
     { title: "Theming", href: "/docs/theming" },
+    { title: "MCP Server", href: "/docs/mcp" },
   ],
 };
 
