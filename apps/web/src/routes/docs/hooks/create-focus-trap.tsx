@@ -11,7 +11,7 @@ import { CodeBlock } from "@/components/code-block";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
-const importCode = `import { createFocusTrap } from "@nikala-ui/hooks";`;
+const importCode = `import { createFocusTrap } from "@/hooks/create-focus-trap";`;
 
 const basicUsageCode = `const [containerRef, setContainerRef] = createSignal<HTMLDivElement>();
 const [active, setActive] = createSignal(false);

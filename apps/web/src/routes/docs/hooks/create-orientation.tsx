@@ -8,7 +8,7 @@ import { ComponentPreview } from "@/components/component-preview";
 import { CodeBlock } from "@/components/code-block";
 import { Badge } from "@/components/ui/badge";
 
-const importCode = `import { createOrientation } from "@nikala-ui/hooks";`;
+const importCode = `import { createOrientation } from "@/hooks/create-orientation";`;
 
 const basicUsageCode = `const { type, angle, isPortrait, isLandscape } = createOrientation();
 

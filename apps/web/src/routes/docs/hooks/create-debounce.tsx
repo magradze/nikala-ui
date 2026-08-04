@@ -10,7 +10,7 @@ import { ComponentPreview } from "@/components/component-preview";
 import { CodeBlock } from "@/components/code-block";
 import { Input } from "@/components/ui/input";
 
-const importCode = `import { createDebounce, createThrottle } from "@nikala-ui/hooks";`;
+const importCode = `import { createDebounce, createThrottle } from "@/hooks/create-debounce";`;
 
 const basicUsageCode = `const [debouncedQuery, setDebouncedQuery] = createSignal("");
 

@@ -9,7 +9,7 @@ import { ComponentPreview } from "@/components/component-preview";
 import { CodeBlock } from "@/components/code-block";
 import { Button } from "@/components/ui/button";
 
-const importCode = `import { createDisclosure } from "@nikala-ui/hooks";`;
+const importCode = `import { createDisclosure } from "@/hooks/create-disclosure";`;
 
 const basicUsageCode = `const { isOpen, open, close, toggle } = createDisclosure({
   defaultIsOpen: false,

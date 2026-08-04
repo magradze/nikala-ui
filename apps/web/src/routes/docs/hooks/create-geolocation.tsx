@@ -8,7 +8,7 @@ import { ComponentPreview } from "@/components/component-preview";
 import { CodeBlock } from "@/components/code-block";
 import { createSignal, onMount, Show } from "solid-js";
 
-const importCode = `import { createGeolocation } from "@nikala-ui/hooks";`;
+const importCode = `import { createGeolocation } from "@/hooks/create-geolocation";`;
 
 const basicUsageCode = `const { coords, loading, error, isSupported, getCurrentPosition } = createGeolocation();
 

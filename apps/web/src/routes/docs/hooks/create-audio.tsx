@@ -8,7 +8,7 @@ import { ComponentPreview } from "@/components/component-preview";
 import { CodeBlock } from "@/components/code-block";
 import { Progress } from "@/components/ui/progress";
 
-const importCode = `import { createAudio, createVideo } from "@nikala-ui/hooks";`;
+const importCode = `import { createAudio, createVideo } from "@/hooks/create-audio";`;
 
 const basicUsageCode = `const { isPlaying, currentTime, duration, toggle, seek, setVolume, volume } = createAudio(
   "/music.mp3"

@@ -11,7 +11,7 @@ import { CodeBlock } from "@/components/code-block";
 
 import { Button } from "@/components/ui/button";
 
-const importCode = `import { createResizeObserver, createElementSize } from "@nikala-ui/hooks";`;
+const importCode = `import { createResizeObserver, createElementSize } from "@/hooks/create-resize-observer";`;
 
 const basicUsageCode = `const [containerRef, setContainerRef] = createSignal<HTMLDivElement>();
 const { width, height } = createElementSize(containerRef);

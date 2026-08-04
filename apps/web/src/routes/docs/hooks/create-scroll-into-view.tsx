@@ -9,7 +9,7 @@ import { CodeBlock } from "@/components/code-block";
 import { Button } from "@/components/ui/button";
 import { createSignal, onMount, Show, For } from "solid-js";
 
-const importCode = `import { createScrollIntoView } from "@nikala-ui/hooks";`;
+const importCode = `import { createScrollIntoView } from "@/hooks/create-scroll-into-view";`;
 
 const basicUsageCode = `const [targetRef, setTargetRef] = createSignal<HTMLElement | null>(null);
 

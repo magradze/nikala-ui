@@ -10,7 +10,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { createSignal, onMount, Show } from "solid-js";
 
-const importCode = `import { createDocumentTitle } from "@nikala-ui/hooks";`;
+const importCode = `import { createDocumentTitle } from "@/hooks/create-document-title";`;
 
 const basicUsageCode = `const [title, setTitle] = createSignal("New Title - Nikala UI");
 

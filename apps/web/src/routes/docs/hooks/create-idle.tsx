@@ -10,7 +10,7 @@ import { ComponentPreview } from "@/components/component-preview";
 import { CodeBlock } from "@/components/code-block";
 import { Button } from "@/components/ui/button";
 
-const importCode = `import { createIdle } from "@nikala-ui/hooks";`;
+const importCode = `import { createIdle } from "@/hooks/create-idle";`;
 
 const basicUsageCode = `const { isIdle, lastActive, reset } = createIdle({
   timeout: 5000, // 5 seconds

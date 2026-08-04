@@ -11,7 +11,7 @@ import { CodeBlock } from "@/components/code-block";
 import { Button } from "@/components/ui/button";
 
 /* --- Code Snippets --- */
-const importCode = `import { createClickOutside } from "@nikala-ui/hooks";`;
+const importCode = `import { createClickOutside } from "@/hooks/create-click-outside";`;
 
 const basicUsageCode = `const [open, setOpen] = createSignal(false);
 let containerRef: HTMLDivElement | undefined;

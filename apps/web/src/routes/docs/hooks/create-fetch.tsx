@@ -8,7 +8,7 @@ import { ComponentPreview } from "@/components/component-preview";
 import { CodeBlock } from "@/components/code-block";
 import { Show } from "solid-js";
 
-const importCode = `import { createFetch } from "@nikala-ui/hooks";`;
+const importCode = `import { createFetch } from "@/hooks/create-fetch";`;
 
 const basicUsageCode = `interface Post { title: string; body: string; }
 

@@ -10,7 +10,7 @@ import { ComponentPreview } from "@/components/component-preview";
 import { CodeBlock } from "@/components/code-block";
 import { Button } from "@/components/ui/button";
 
-const importCode = `import { createScrollPosition } from "@nikala-ui/hooks";`;
+const importCode = `import { createScrollPosition } from "@/hooks/create-scroll-position";`;
 
 const basicUsageCode = `const [containerRef, setContainerRef] = createSignal<HTMLDivElement>();
 const { y, isScrolling, direction, isAtTop, isAtBottom, scrollTo } = createScrollPosition({

@@ -9,7 +9,7 @@ import { ComponentPreview } from "@/components/component-preview";
 import { CodeBlock } from "@/components/code-block";
 import { Button } from "@/components/ui/button";
 
-const importCode = `import { createColorMode } from "@nikala-ui/hooks";`;
+const importCode = `import { createColorMode } from "@/hooks/create-color-mode";`;
 
 const basicUsageCode = `const { mode, setMode, toggleColorMode, isDark } = createColorMode({
   initialValue: "system",

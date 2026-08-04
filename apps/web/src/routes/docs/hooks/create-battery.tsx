@@ -10,7 +10,7 @@ import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
 import { createSignal, onMount, Show } from "solid-js";
 
-const importCode = `import { createBattery } from "@nikala-ui/hooks";`;
+const importCode = `import { createBattery } from "@/hooks/create-battery";`;
 
 const basicUsageCode = `const { battery, isSupported } = createBattery();
 

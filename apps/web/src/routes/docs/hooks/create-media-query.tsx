@@ -9,7 +9,7 @@ import { ComponentPreview } from "@/components/component-preview";
 import { CodeBlock } from "@/components/code-block";
 import { Badge } from "@/components/ui/badge";
 
-const importCode = `import { createMediaQuery, createBreakpoint } from "@nikala-ui/hooks";`;
+const importCode = `import { createMediaQuery, createBreakpoint } from "@/hooks/create-media-query";`;
 
 const basicUsageCode = `const isDesktop = createMediaQuery("(min-width: 1024px)");
 const { active, isMobile, isTablet } = createBreakpoint();

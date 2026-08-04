@@ -9,7 +9,7 @@ import { CodeBlock } from "@/components/code-block";
 import { Button } from "@/components/ui/button";
 import { createSignal, onMount, Show } from "solid-js";
 
-const importCode = `import { createFavicon } from "@nikala-ui/hooks";`;
+const importCode = `import { createFavicon } from "@/hooks/create-favicon";`;
 
 const basicUsageCode = `const [icon, setIcon] = createSignal("/favicon.ico");
 

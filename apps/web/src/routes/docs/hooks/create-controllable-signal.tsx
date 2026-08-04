@@ -12,7 +12,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 
 /* --- Code Snippets --- */
-const importCode = `import { createControllableSignal } from "@nikala-ui/hooks";`;
+const importCode = `import { createControllableSignal } from "@/hooks/create-controllable-signal";`;
 
 const basicUncontrolledCode = `const [value, setValue] = createControllableSignal({
   defaultValue: "Initial State",

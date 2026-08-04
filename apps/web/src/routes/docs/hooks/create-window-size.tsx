@@ -8,7 +8,7 @@ import { DocApiTable } from "@/components/docs/doc-api-table";
 import { ComponentPreview } from "@/components/component-preview";
 import { CodeBlock } from "@/components/code-block";
 
-const importCode = `import { createWindowSize } from "@nikala-ui/hooks";`;
+const importCode = `import { createWindowSize } from "@/hooks/create-window-size";`;
 
 const basicUsageCode = `const { width, height } = createWindowSize();
 

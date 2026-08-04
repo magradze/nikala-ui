@@ -10,7 +10,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { createSignal, onMount, Show } from "solid-js";
 
-const importCode = `import { createPermission } from "@nikala-ui/hooks";`;
+const importCode = `import { createPermission } from "@/hooks/create-permission";`;
 
 const basicUsageCode = `const { state, isSupported, query } = createPermission("geolocation");
 

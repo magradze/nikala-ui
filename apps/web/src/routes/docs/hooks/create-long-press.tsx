@@ -10,7 +10,7 @@ import { ComponentPreview } from "@/components/component-preview";
 import { CodeBlock } from "@/components/code-block";
 import { Button } from "@/components/ui/button";
 
-const importCode = `import { createLongPress } from "@nikala-ui/hooks";`;
+const importCode = `import { createLongPress } from "@/hooks/create-long-press";`;
 
 const basicUsageCode = `const [status, setStatus] = createSignal("Press & Hold for 500ms");
 

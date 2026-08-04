@@ -11,7 +11,7 @@ import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { createSignal, onMount, Show } from "solid-js";
 
-const importCode = `import { createWebNotification } from "@nikala-ui/hooks";`;
+const importCode = `import { createWebNotification } from "@/hooks/create-web-notification";`;
 
 const basicUsageCode = `const { permission, isSupported, show, requestPermission } = createWebNotification();
 const [title, setTitle] = createSignal("Hello Nikala UI");

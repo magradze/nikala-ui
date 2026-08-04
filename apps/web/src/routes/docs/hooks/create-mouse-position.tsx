@@ -9,7 +9,7 @@ import { DocApiTable } from "@/components/docs/doc-api-table";
 import { ComponentPreview } from "@/components/component-preview";
 import { CodeBlock } from "@/components/code-block";
 
-const importCode = `import { createMousePosition } from "@nikala-ui/hooks";`;
+const importCode = `import { createMousePosition } from "@/hooks/create-mouse-position";`;
 
 const basicUsageCode = `const [cardRef, setCardRef] = createSignal<HTMLDivElement>();
 const { x, y, elementX, elementY, isInside } = createMousePosition({

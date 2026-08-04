@@ -8,7 +8,7 @@ import { DocApiTable } from "@/components/docs/doc-api-table";
 import { ComponentPreview } from "@/components/component-preview";
 import { CodeBlock } from "@/components/code-block";
 
-const importCode = `import { createNetworkStatus, createOnline } from "@nikala-ui/hooks";`;
+const importCode = `import { createNetworkStatus, createOnline } from "@/hooks/create-network-status";`;
 
 const basicUsageCode = `const { isOnline, downlink, effectiveType, rtt } = createNetworkStatus();
 

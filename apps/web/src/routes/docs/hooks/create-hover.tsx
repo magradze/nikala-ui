@@ -8,7 +8,7 @@ import { DocApiTable } from "@/components/docs/doc-api-table";
 import { ComponentPreview } from "@/components/component-preview";
 import { CodeBlock } from "@/components/code-block";
 
-const importCode = `import { createHover } from "@nikala-ui/hooks";`;
+const importCode = `import { createHover } from "@/hooks/create-hover";`;
 
 const basicUsageCode = `const { isHovered, props } = createHover({
   delayEnter: 200,

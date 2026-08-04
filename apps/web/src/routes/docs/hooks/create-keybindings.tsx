@@ -10,7 +10,7 @@ import { ComponentPreview } from "@/components/component-preview";
 import { CodeBlock } from "@/components/code-block";
 import { Kbd } from "@/components/ui/kbd";
 
-const importCode = `import { createKeybindings, createEscapeKey } from "@nikala-ui/hooks";`;
+const importCode = `import { createKeybindings, createEscapeKey } from "@/hooks/create-keybindings";`;
 
 const basicUsageCode = `const [lastAction, setLastAction] = createSignal("Press ⌘K or Esc");
 

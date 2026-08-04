@@ -11,7 +11,7 @@ import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { createSignal, onMount, Show } from "solid-js";
 
-const importCode = `import { createWebSocket } from "@nikala-ui/hooks";`;
+const importCode = `import { createWebSocket } from "@/hooks/create-websocket";`;
 
 const basicUsageCode = `const { data, readyState, send, open, close } = createWebSocket(
   "wss://echo.websocket.org"

@@ -9,7 +9,7 @@ import { ComponentPreview } from "@/components/component-preview";
 import { CodeBlock } from "@/components/code-block";
 import { Button } from "@/components/ui/button";
 
-const importCode = `import { createTimer, createCountdown } from "@nikala-ui/hooks";`;
+const importCode = `import { createTimer, createCountdown } from "@/hooks/create-timer";`;
 
 const basicUsageCode = `const { formatted, isRunning, toggle, reset } = createCountdown(60, {
   autostart: false,

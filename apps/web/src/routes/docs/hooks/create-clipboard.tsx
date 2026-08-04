@@ -10,7 +10,7 @@ import { ComponentPreview } from "@/components/component-preview";
 import { CodeBlock } from "@/components/code-block";
 import { Button } from "@/components/ui/button";
 
-const importCode = `import { createClipboard } from "@nikala-ui/hooks";`;
+const importCode = `import { createClipboard } from "@/hooks/create-clipboard";`;
 
 const basicUsageCode = `const { copied, copy, error } = createClipboard({ timeout: 2000 });
 

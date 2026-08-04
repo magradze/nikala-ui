@@ -8,7 +8,7 @@ import { ComponentPreview } from "@/components/component-preview";
 import { CodeBlock } from "@/components/code-block";
 import { Input } from "@/components/ui/input";
 
-const importCode = `import { createUndoRedo } from "@nikala-ui/hooks";`;
+const importCode = `import { createUndoRedo } from "@/hooks/create-undo-redo";`;
 
 const basicUsageCode = `const { state, set, undo, redo, canUndo, canRedo } = createUndoRedo("Initial Text");
 

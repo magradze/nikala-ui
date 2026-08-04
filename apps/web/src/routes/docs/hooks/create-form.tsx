@@ -11,7 +11,7 @@ import { CodeBlock } from "@/components/code-block";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
-const importCode = `import { createForm } from "@nikala-ui/hooks";`;
+const importCode = `import { createForm } from "@/hooks/create-form";`;
 
 const basicUsageCode = `const form = createForm({
   initialValues: { username: "", email: "" },

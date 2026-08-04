@@ -8,7 +8,7 @@ import { DocApiTable } from "@/components/docs/doc-api-table";
 import { ComponentPreview } from "@/components/component-preview";
 import { CodeBlock } from "@/components/code-block";
 
-const importCode = `import { createIntersectionObserver, createInView } from "@nikala-ui/hooks";`;
+const importCode = `import { createIntersectionObserver, createInView } from "@/hooks/create-intersection-observer";`;
 
 const basicUsageCode = `const [cardRef, setCardRef] = createSignal<HTMLDivElement>();
 const isInView = createInView(cardRef, { threshold: 0.5 });

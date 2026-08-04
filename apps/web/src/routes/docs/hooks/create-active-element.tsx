@@ -10,7 +10,7 @@ import { CodeBlock } from "@/components/code-block";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
-const importCode = `import { createActiveElement } from "@nikala-ui/hooks";`;
+const importCode = `import { createActiveElement } from "@/hooks/create-active-element";`;
 
 const basicUsageCode = `const { activeElement, hasFocus } = createActiveElement();
 

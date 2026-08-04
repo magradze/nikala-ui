@@ -11,7 +11,7 @@ import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { createSignal, onMount, Show } from "solid-js";
 
-const importCode = `import { createEventSource } from "@nikala-ui/hooks";`;
+const importCode = `import { createEventSource } from "@/hooks/create-event-source";`;
 
 const basicUsageCode = `const { data, status, open, close } = createEventSource(
   "https://api.example.com/sse-stream"

@@ -9,7 +9,7 @@ import { ComponentPreview } from "@/components/component-preview";
 import { CodeBlock } from "@/components/code-block";
 import { Input } from "@/components/ui/input";
 
-const importCode = `import { createInputMask } from "@nikala-ui/hooks";`;
+const importCode = `import { createInputMask } from "@/hooks/create-input-mask";`;
 
 const basicUsageCode = `const phoneMask = createInputMask({
   mask: "+### ### ### ###",

@@ -10,7 +10,7 @@ import { CodeBlock } from "@/components/code-block";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
-const importCode = `import { createLocalStorage, createSessionStorage } from "@nikala-ui/hooks";`;
+const importCode = `import { createLocalStorage, createSessionStorage } from "@/hooks/create-storage";`;
 
 const basicUsageCode = `const [name, setName, removeName] = createLocalStorage("user-name", "Nikala Guest");
 

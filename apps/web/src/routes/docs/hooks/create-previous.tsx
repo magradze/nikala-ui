@@ -10,7 +10,7 @@ import { ComponentPreview } from "@/components/component-preview";
 import { CodeBlock } from "@/components/code-block";
 import { Button } from "@/components/ui/button";
 
-const importCode = `import { createPrevious } from "@nikala-ui/hooks";`;
+const importCode = `import { createPrevious } from "@/hooks/create-previous";`;
 
 const basicUsageCode = `const [count, setCount] = createSignal(0);
 const previousCount = createPrevious(count);

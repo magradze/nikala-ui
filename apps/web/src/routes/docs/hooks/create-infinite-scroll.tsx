@@ -8,7 +8,7 @@ import { DocApiTable } from "@/components/docs/doc-api-table";
 import { ComponentPreview } from "@/components/component-preview";
 import { CodeBlock } from "@/components/code-block";
 
-const importCode = `import { createInfiniteScroll } from "@nikala-ui/hooks";`;
+const importCode = `import { createInfiniteScroll } from "@/hooks/create-infinite-scroll";`;
 
 const basicUsageCode = `const [items, setItems] = createSignal<string[]>(["Item 1", "Item 2", "Item 3"]);
 

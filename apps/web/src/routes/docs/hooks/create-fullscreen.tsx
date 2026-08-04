@@ -8,7 +8,7 @@ import { DocApiTable } from "@/components/docs/doc-api-table";
 import { ComponentPreview } from "@/components/component-preview";
 import { CodeBlock } from "@/components/code-block";
 
-const importCode = `import { createFullscreen } from "@nikala-ui/hooks";`;
+const importCode = `import { createFullscreen } from "@/hooks/create-fullscreen";`;
 
 const basicUsageCode = `const [boxRef, setBoxRef] = createSignal<HTMLDivElement>();
 const { isFullscreen, toggle } = createFullscreen({ target: boxRef });

@@ -10,7 +10,7 @@ import { ComponentPreview } from "@/components/component-preview";
 import { CodeBlock } from "@/components/code-block";
 import { Button } from "@/components/ui/button";
 
-const importCode = `import { createLockScroll } from "@nikala-ui/hooks";`;
+const importCode = `import { createLockScroll } from "@/hooks/create-lock-scroll";`;
 
 const basicUsageCode = `const [locked, setLocked] = createSignal(false);
 
