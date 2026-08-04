@@ -35,7 +35,7 @@ export function ColorModeDemo() {
 
   return (
     <div class="space-y-4 max-w-sm w-full min-h-[180px] flex flex-col items-center justify-center text-center">
-      <div class="w-full p-4 rounded-xl border border-border bg-card shadow-xs text-xs font-mono space-y-2 text-left">
+      <div class="w-full p-4 rounded-lg border border-border bg-card shadow-xs text-xs font-mono space-y-2 text-left">
         <div>Selected Mode: <span class="font-bold text-foreground uppercase">{mode()}</span></div>
         <div>Is Dark Resolved: <span class="font-bold text-emerald-500">{isDark() ? "YES" : "NO"}</span></div>
       </div>

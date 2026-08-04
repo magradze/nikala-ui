@@ -33,7 +33,7 @@ export function StorageDemo() {
 
   return (
     <div class="space-y-4 max-w-sm w-full min-h-[180px] flex flex-col items-center justify-center text-center">
-      <div class="w-full space-y-3 p-4 rounded-xl border border-border bg-card text-left shadow-xs">
+      <div class="w-full space-y-3 p-4 rounded-lg border border-border bg-card text-left shadow-xs">
         <label class="text-xs font-medium text-foreground">Reactive LocalStorage Value:</label>
         <Input
           value={name()}

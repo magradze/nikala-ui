@@ -30,7 +30,7 @@ export function AudioDemo() {
   );
 
   return (
-    <div class="w-full max-w-sm p-4 rounded-xl border border-border bg-card space-y-4 shadow-sm">
+    <div class="w-full max-w-sm p-4 rounded-lg border border-border bg-card space-y-4 shadow-sm">
       <div class="flex items-center justify-between text-xs font-mono text-muted-foreground">
         <span>{Math.floor(currentTime())}s</span>
         <span class="text-foreground font-semibold">Audio Controller</span>

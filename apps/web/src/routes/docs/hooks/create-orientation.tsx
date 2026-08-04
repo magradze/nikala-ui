@@ -24,7 +24,7 @@ export function OrientationDemo() {
   const { type, angle, isPortrait, isLandscape } = createOrientation();
 
   return (
-    <div class="w-full max-w-sm p-5 rounded-xl border border-border bg-card space-y-4 shadow-sm text-center">
+    <div class="w-full max-w-sm p-5 rounded-lg border border-border bg-card space-y-4 shadow-sm text-center">
       <div class="space-y-1">
         <h4 class="text-xs font-mono uppercase tracking-wider text-muted-foreground">Screen Orientation Status</h4>
         <div class="text-lg font-bold text-foreground capitalize">{type().replace("-", " ")}</div>

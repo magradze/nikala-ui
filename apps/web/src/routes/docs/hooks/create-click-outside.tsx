@@ -73,7 +73,7 @@ export function ClickOutsideDemo() {
       {isOpen() && (
         <div
           ref={cardRef}
-          class="w-full p-4 rounded-xl border border-border bg-card shadow-lg animate-in fade-in-80 zoom-in-95 space-y-2 text-center"
+          class="w-full p-4 rounded-lg border border-border bg-card shadow-lg animate-in fade-in-80 zoom-in-95 space-y-2 text-center"
         >
           <div class="text-xs font-semibold text-foreground">Floating Panel Active</div>
           <p class="text-xs text-muted-foreground">

@@ -46,7 +46,7 @@ export function ActiveElementDemo() {
 
   return (
     <div class="space-y-4 max-w-sm w-full min-h-[180px] flex flex-col items-center justify-center text-center">
-      <div class="w-full p-4 rounded-xl border border-border bg-card shadow-xs space-y-3 text-left">
+      <div class="w-full p-4 rounded-lg border border-border bg-card shadow-xs space-y-3 text-left">
         <div class="space-y-2">
           <Input id="demo-input-1" placeholder="Focus me (input 1)" class="h-8 text-xs" />
           <Input id="demo-input-2" placeholder="Focus me (input 2)" class="h-8 text-xs" />

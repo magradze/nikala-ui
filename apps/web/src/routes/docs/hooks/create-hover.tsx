@@ -31,7 +31,7 @@ export function HoverDemo() {
     <div class="space-y-4 max-w-sm w-full min-h-[180px] flex flex-col items-center justify-center text-center">
       <div
         {...props}
-        class={`w-full p-6 rounded-xl border transition-all duration-300 text-xs font-mono space-y-1 cursor-pointer select-none ${
+        class={`w-full p-6 rounded-lg border transition-all duration-300 text-xs font-mono space-y-1 cursor-pointer select-none ${
           isHovered()
             ? "border-emerald-500/50 bg-emerald-500/10 text-emerald-500 font-bold shadow-md scale-102"
             : "border-border bg-card text-muted-foreground"

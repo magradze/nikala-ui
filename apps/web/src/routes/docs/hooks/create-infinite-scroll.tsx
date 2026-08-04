@@ -50,7 +50,7 @@ export function InfiniteScrollDemo() {
 
   return (
     <div class="w-full max-w-sm space-y-3">
-      <div class="max-h-56 overflow-y-auto rounded-xl border border-border bg-background p-3 space-y-2">
+      <div class="max-h-56 overflow-y-auto rounded-lg border border-border bg-background p-3 space-y-2">
         <For each={items()}>
           {(item) => (
             <div class="rounded-lg border border-border/60 bg-card p-2.5 text-xs font-medium text-foreground shadow-sm">

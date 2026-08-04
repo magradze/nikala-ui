@@ -26,7 +26,7 @@ export function NetworkStatusDemo() {
   return (
     <div class="space-y-4 max-w-sm w-full min-h-[180px] flex flex-col items-center justify-center text-center">
       <div
-        class={`w-full p-5 rounded-xl border transition-all duration-300 text-xs font-mono space-y-2.5 text-left ${
+        class={`w-full p-5 rounded-lg border transition-all duration-300 text-xs font-mono space-y-2.5 text-left ${
           isOnline()
             ? "border-emerald-500/50 bg-emerald-500/10 shadow-sm"
             : "border-destructive/50 bg-destructive/10 text-destructive"

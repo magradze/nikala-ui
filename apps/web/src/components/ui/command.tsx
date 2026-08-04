@@ -46,7 +46,7 @@ export const Command: Component<CommandProps> = (props) => {
     <CommandContext.Provider value={{ search, setSearch }}>
       <div
         class={cn(
-          "flex flex-col w-full h-full rounded-xl bg-popover text-popover-foreground overflow-hidden border border-border shadow-md",
+          "flex flex-col w-full h-full rounded-lg bg-popover text-popover-foreground overflow-hidden border border-border shadow-md",
           local.class
         )}
         {...rest}
@@ -94,7 +94,7 @@ export const CommandDialog: Component<CommandDialogProps> = (props) => {
       <Dialog.Portal>
         <Dialog.Overlay class="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs data-[expanded]:animate-in data-[closed]:animate-out data-[closed]:fade-out-0 data-[expanded]:fade-in-0" />
         <div class="fixed inset-0 z-50 flex items-start justify-center pt-16 sm:pt-24 px-4">
-          <Dialog.Content class="w-full max-w-xl rounded-xl border border-border bg-popover text-popover-foreground shadow-2xl outline-none data-[expanded]:animate-in data-[closed]:animate-out data-[closed]:fade-out-0 data-[expanded]:fade-in-0 data-[closed]:zoom-out-95 data-[expanded]:zoom-in-95">
+          <Dialog.Content class="w-full max-w-xl rounded-lg border border-border bg-popover text-popover-foreground shadow-2xl outline-none data-[expanded]:animate-in data-[closed]:animate-out data-[closed]:fade-out-0 data-[expanded]:fade-in-0 data-[closed]:zoom-out-95 data-[expanded]:zoom-in-95">
             <Command class={props.class}>{props.children}</Command>
           </Dialog.Content>
         </div>

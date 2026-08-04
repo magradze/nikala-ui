@@ -64,7 +64,7 @@ export function FormDemo() {
 
   return (
     <div class="space-y-4 max-w-sm w-full min-h-[180px] flex flex-col items-center justify-center text-center">
-      <form onSubmit={form.handleSubmit} class="w-full p-4 rounded-xl border border-border bg-card shadow-xs space-y-3 text-left">
+      <form onSubmit={form.handleSubmit} class="w-full p-4 rounded-lg border border-border bg-card shadow-xs space-y-3 text-left">
         <div class="space-y-1">
           <label class="text-xs font-medium text-foreground">Username:</label>
           <Input

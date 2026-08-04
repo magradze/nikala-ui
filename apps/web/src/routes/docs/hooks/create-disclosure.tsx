@@ -53,7 +53,7 @@ export function DisclosureDemo() {
       </div>
 
       {isOpen() && (
-        <div class="w-full p-4 rounded-xl border border-border bg-card shadow-sm text-xs font-mono animate-in fade-in-80">
+        <div class="w-full p-4 rounded-lg border border-border bg-card shadow-sm text-xs font-mono animate-in fade-in-80">
           Disclosure state is <span class="text-emerald-500 font-bold">OPEN</span>
         </div>
       )}

@@ -32,7 +32,7 @@ export default function HooksIndexPage() {
               {(hook) => (
                 <A
                   href={hook.href}
-                  class="group relative flex flex-col justify-between rounded-xl border border-border/60 bg-card p-5 transition-all hover:border-primary/50 hover:shadow-md"
+                  class="group relative flex flex-col justify-between rounded-lg border border-border/60 bg-card p-5 transition-all hover:border-primary/50 hover:shadow-md"
                 >
                   <div class="space-y-2">
                     <div class="flex items-center space-x-2">

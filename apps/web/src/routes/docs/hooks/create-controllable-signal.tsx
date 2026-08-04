@@ -92,7 +92,7 @@ export default function CreateControllableSignalDocPage() {
 
         {/* Live Interactive Hero Preview */}
         <ComponentPreview name="create-controllable-signal" code={basicUncontrolledCode}>
-          <div class="space-y-4 max-w-sm w-full rounded-xl border border-border p-5 bg-card/60 backdrop-blur-xs">
+          <div class="space-y-4 max-w-sm w-full rounded-lg border border-border p-5 bg-card/60 backdrop-blur-xs">
             <div class="flex items-center justify-between">
               <span class="text-xs font-semibold text-muted-foreground">Active Selection</span>
               <Badge variant="secondary" class="font-mono text-xs">{demoState()}</Badge>

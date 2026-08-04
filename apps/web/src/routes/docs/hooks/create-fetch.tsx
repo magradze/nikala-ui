@@ -41,7 +41,7 @@ export function FetchDemo() {
   );
 
   return (
-    <div class="w-full max-w-sm p-5 rounded-xl border border-border bg-card space-y-4 shadow-sm">
+    <div class="w-full max-w-sm p-5 rounded-lg border border-border bg-card space-y-4 shadow-sm">
       <div class="flex items-center justify-between">
         <span class="text-xs font-mono text-muted-foreground">GET /posts/1</span>
         <button

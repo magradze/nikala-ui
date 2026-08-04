@@ -33,7 +33,7 @@ export function TimerDemo() {
 
   return (
     <div class="space-y-4 max-w-sm w-full min-h-[160px] flex flex-col items-center justify-center text-center">
-      <div class="text-3xl font-bold font-mono tracking-wider p-4 rounded-xl border border-border bg-card shadow-xs text-foreground">
+      <div class="text-3xl font-bold font-mono tracking-wider p-4 rounded-lg border border-border bg-card shadow-xs text-foreground">
         {formatted()}
       </div>
 

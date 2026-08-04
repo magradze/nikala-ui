@@ -35,7 +35,7 @@ export function ScrollPositionDemo() {
     <div class="space-y-4 max-w-sm w-full min-h-[160px] flex flex-col items-center justify-center text-center">
       <div
         ref={setContainerRef}
-        class="w-full h-44 p-4 rounded-xl border border-border bg-card shadow-xs overflow-y-auto relative"
+        class="w-full h-44 p-4 rounded-lg border border-border bg-card shadow-xs overflow-y-auto relative"
       >
         <div class="sticky top-0 z-10 bg-popover/95 backdrop-blur-xs p-2 rounded-lg border border-border text-xs font-mono shadow-2xs mb-3">
           <div>Y Offset: <span class="font-bold text-foreground">{Math.round(y())}px</span></div>

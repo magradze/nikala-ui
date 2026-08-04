@@ -34,7 +34,7 @@ export function MousePositionDemo() {
     <div class="space-y-4 max-w-sm w-full min-h-[180px] flex flex-col items-center justify-center text-center">
       <div
         ref={setCardRef}
-        class={`w-full p-5 rounded-xl border transition-all duration-200 text-xs font-mono space-y-2 relative overflow-hidden ${
+        class={`w-full p-5 rounded-lg border transition-all duration-200 text-xs font-mono space-y-2 relative overflow-hidden ${
           isInside()
             ? "border-emerald-500/50 bg-emerald-500/10 shadow-md"
             : "border-border bg-card text-muted-foreground"

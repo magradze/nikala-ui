@@ -24,7 +24,7 @@ export function WindowSizeDemo() {
 
   return (
     <div class="space-y-4 max-w-sm w-full min-h-[160px] flex flex-col items-center justify-center text-center">
-      <div class="w-full p-4 rounded-xl border border-border bg-card shadow-xs text-xs font-mono space-y-1">
+      <div class="w-full p-4 rounded-lg border border-border bg-card shadow-xs text-xs font-mono space-y-1">
         <div class="text-muted-foreground">Viewport Width: <span class="text-emerald-500 font-bold">{width()}px</span></div>
         <div class="text-muted-foreground">Viewport Height: <span class="text-emerald-500 font-bold">{height()}px</span></div>
       </div>

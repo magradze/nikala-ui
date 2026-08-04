@@ -54,7 +54,7 @@ export function FocusTrapDemo() {
 
       <div
         ref={setContainerRef}
-        class={`w-full p-4 rounded-xl border transition-all duration-300 space-y-3 text-left ${
+        class={`w-full p-4 rounded-lg border transition-all duration-300 space-y-3 text-left ${
           active()
             ? "border-emerald-500/50 bg-emerald-500/5 shadow-md ring-2 ring-emerald-500/20"
             : "border-border bg-card"

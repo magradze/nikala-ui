@@ -29,7 +29,7 @@ export function FullscreenDemo() {
   return (
     <div
       ref={setContainerRef}
-      class={`flex flex-col items-center justify-center p-6 rounded-xl border transition-all ${
+      class={`flex flex-col items-center justify-center p-6 rounded-lg border transition-all ${
         isFullscreen()
           ? "bg-card text-card-foreground w-full h-full min-h-[300px]"
           : "bg-background text-foreground max-w-sm w-full"

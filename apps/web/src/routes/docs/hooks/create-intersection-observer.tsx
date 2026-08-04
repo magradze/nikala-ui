@@ -27,7 +27,7 @@ export function IntersectionObserverDemo() {
     <div class="space-y-4 max-w-sm w-full min-h-[160px] flex flex-col items-center justify-center text-center">
       <div
         ref={setCardRef}
-        class={`w-full p-4 rounded-xl border transition-all duration-300 ${
+        class={`w-full p-4 rounded-lg border transition-all duration-300 ${
           isInView()
             ? "border-emerald-500/50 bg-emerald-500/10 text-emerald-500 font-bold shadow-md"
             : "border-border bg-card text-muted-foreground"

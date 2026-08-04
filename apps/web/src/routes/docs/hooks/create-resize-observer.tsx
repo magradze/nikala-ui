@@ -63,7 +63,7 @@ export function ResizeObserverDemo() {
       <div
         ref={setContainerRef}
         style={{ width: containerWidth() }}
-        class="p-4 rounded-xl border border-border bg-card shadow-xs transition-all duration-300 min-h-[100px] flex flex-col items-center justify-center"
+        class="p-4 rounded-lg border border-border bg-card shadow-xs transition-all duration-300 min-h-[100px] flex flex-col items-center justify-center"
       >
         <div class="text-xs font-mono space-y-1">
           <div class="text-muted-foreground">Width: <span class="text-emerald-500 font-bold">{Math.round(width())}px</span></div>

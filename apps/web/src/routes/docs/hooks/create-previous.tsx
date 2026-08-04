@@ -29,7 +29,7 @@ export function PreviousDemo() {
 
   return (
     <div class="space-y-4 max-w-sm w-full min-h-[180px] flex flex-col items-center justify-center text-center">
-      <div class="w-full p-4 rounded-xl border border-border bg-card shadow-xs space-y-2 text-xs font-mono">
+      <div class="w-full p-4 rounded-lg border border-border bg-card shadow-xs space-y-2 text-xs font-mono">
         <div>Current Value: <span class="font-bold text-emerald-500 text-sm">{count()}</span></div>
         <div>Previous Value: <span class="font-bold text-muted-foreground">{previousCount() ?? "undefined"}</span></div>
       </div>

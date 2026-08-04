@@ -30,7 +30,7 @@ export function UndoRedoDemo() {
   const { state, set, undo, redo, canUndo, canRedo, reset } = createUndoRedo("Nikala UI Editor");
 
   return (
-    <div class="w-full max-w-sm p-5 rounded-xl border border-border bg-card space-y-4 shadow-sm">
+    <div class="w-full max-w-sm p-5 rounded-lg border border-border bg-card space-y-4 shadow-sm">
       <div class="space-y-1.5">
         <label class="text-xs font-medium text-muted-foreground">Interactive State History</label>
         <Input
