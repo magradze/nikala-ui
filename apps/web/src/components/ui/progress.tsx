@@ -53,10 +53,10 @@ export const Progress: Component<ProgressProps> = (props) => {
         </div>
       </Show>
 
-      <KobalteProgress.Track class="relative h-2 w-full overflow-hidden rounded-full bg-primary/20">
+      <KobalteProgress.Track class="relative h-2 w-full overflow-hidden rounded-lg bg-primary/20">
         <KobalteProgress.Fill
           class={cn(
-            "h-full w-[var(--kb-progress-fill-width)] bg-primary transition-all duration-300 ease-in-out",
+            "h-full w-(--kb-progress-fill-width) bg-primary transition-all duration-300 ease-in-out",
             local.indicatorClass
           )}
         />
