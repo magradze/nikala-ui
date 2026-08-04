@@ -18,7 +18,8 @@ Nikala UI rejects heavy `node_modules` UI dependencies for component structures 
 - **Native SolidJS Reactivity**: Fine-grained reactive signals, props splitting (`splitProps`), and explicit memoization (`children(() => props.children)`).
 - **Tailwind CSS v4 Native**: Built on modern `@import "tailwindcss";` setups, CSS-first `@theme` variables, and semantic color design tokens without legacy JS configs.
 - **Full Source Ownership**: The CLI writes components to `src/components/ui/` and primitive hooks directly to `src/hooks/`. Developers own, inspect, and customize all generated source files.
-- **Zero Lock-In**: Decoupled `@nikala-ui/cli` client and `@nikala-ui/core` registry for instant remote HTTP(S) manifest installs.
+- **Zero Lock-In**: Decoupled `@nikala-ui/cli` client, `@nikala-ui/core` registry, and `@nikala-ui/mcp` server for remote HTTP(S) manifest installs and direct AI IDE integration.
+- **Model Context Protocol (MCP)**: Native `@nikala-ui/mcp` integration supporting Stdio local execution (`npx @nikala-ui/mcp`) and remote HTTP/SSE streaming (`https://nikala.magradze.dev/api/mcp/sse`) with callable tools, pre-built AI prompts, and SolidJS engineering resources.
 
 ---
 

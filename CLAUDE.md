@@ -19,7 +19,8 @@ nikala-ui/
 ├── packages/
 │   ├── cli/                   # @nikala-ui/cli binary tool (nikala init, add, theme, validate, diff)
 │   ├── core/                  # @nikala-ui/core registry JSON manifests, metadata & Kobalte UI components
-│   └── hooks/                 # @nikala-ui/hooks reactive SolidJS primitives suite (40 primitives)
+│   ├── hooks/                 # @nikala-ui/hooks reactive SolidJS primitives suite (40 primitives)
+│   └── mcp/                   # @nikala-ui/mcp Model Context Protocol server (tools, resources, prompts)
 └── .github/
     └── scripts/               # CI/CD snapshot versioning scripts
 ```
@@ -30,6 +31,7 @@ nikala-ui/
 - **`packages/cli`**: The command-line client (`nikala` / `npx @nikala-ui/cli`). Handles project initialization, interactive multiselect for UI components and `--hook` primitives, theme configuration, and diagnostic validation.
 - **`packages/core`**: Central registry containing full source manifests for Kobalte-based UI components.
 - **`packages/hooks`**: Standalone primitives library providing 40 reactive hooks written specifically for SolidJS fine-grained reactivity.
+- **`packages/mcp`**: Model Context Protocol (MCP) server integration supporting Stdio local execution (`npx @nikala-ui/mcp`) and remote HTTP/SSE streaming (`https://nikala.magradze.dev/api/mcp/sse`) with callable tools (`list_components`, `install_component`, `validate_project`, `inspect_workspace`), pre-built AI prompts, and SolidJS engineering resources.
 
 ---
 
@@ -40,12 +42,13 @@ Always prefer using `bun` for script execution and dependency management across 
 ### Building Packages
 
 ```bash
-# Build the entire monorepo (Registry -> CLI -> Web app)
+# Build the entire monorepo (Registry -> CLI -> MCP -> Web app)
 bun run build
 
 # Individual package build commands:
 bun run build:registry     # Builds JSON manifests in packages/core/registry/
 bun run build:cli          # Compiles TypeScript CLI binary in packages/cli/dist/
+bun run build:mcp          # Compiles MCP server binary in packages/mcp/dist/
 bun run build:web          # Compiles production SSR bundle in apps/web/.output/
 ```
 
