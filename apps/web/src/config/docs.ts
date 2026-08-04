@@ -264,6 +264,12 @@ export const HOOKS_LIST: DocHookItem[] = [
     description: "SolidJS reactive primitive for subscribing to Server-Sent Events (SSE) streams",
     href: "/docs/hooks/create-event-source",
   },
+  {
+    name: "create-scroll-into-view",
+    title: "createScrollIntoView",
+    description: "SolidJS reactive primitive for scrolling a target element into view smooth or auto behavior",
+    href: "/docs/hooks/create-scroll-into-view",
+  },
 ];
 
 /* --- Component Library Registry List --- */

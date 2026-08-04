@@ -1,16 +1,16 @@
 import { A, useLocation } from "@solidjs/router";
-import { type Component, For } from "solid-js";
+import { type Component, For, createSignal, createEffect } from "solid-js";
+import { createScrollIntoView } from "@nikala-ui/hooks";
 import {
   DOCS_SIDEBAR_NAVIGATION,
   HOOKS_SIDEBAR_NAVIGATION,
   COMPONENTS_SIDEBAR_NAVIGATION,
 } from "@/config/docs";
 
-import { createSignal, createEffect } from "solid-js";
-
 export const DocsSidebar: Component = () => {
   const location = useLocation();
   const [activeContext, setActiveContext] = createSignal<"hooks" | "components">("components");
+  const [activeElement, setActiveElement] = createSignal<HTMLElement | null>(null);
 
   createEffect(() => {
     if (location.pathname.startsWith("/docs/hooks")) {
@@ -18,6 +18,13 @@ export const DocsSidebar: Component = () => {
     } else if (location.pathname.startsWith("/docs/components")) {
       setActiveContext("components");
     }
+  });
+
+  /* SolidJS Primitive for auto-scrolling active element into view */
+  createScrollIntoView(activeElement, {
+    behavior: "smooth",
+    block: "nearest",
+    delay: 50,
   });
 
   const navigation = () => {
@@ -43,10 +50,16 @@ export const DocsSidebar: Component = () => {
                     return (
                       <A
                         href={item.href}
-                        class={`flex h-8 w-full items-center rounded-md px-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground ${isActive()
-                          ? "bg-primary text-primary-foreground font-bold shadow-2xs"
-                          : "text-muted-foreground hover:bg-accent hover:text-accent-foreground"
-                          }`}
+                        ref={(el) => {
+                          if (isActive()) {
+                            setActiveElement(el);
+                          }
+                        }}
+                        class={`flex h-8 w-full items-center rounded-md px-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground ${
+                          isActive()
+                            ? "bg-primary text-primary-foreground font-bold shadow-2xs"
+                            : "text-muted-foreground hover:bg-accent hover:text-accent-foreground"
+                        }`}
                       >
                         {item.title}
                       </A>

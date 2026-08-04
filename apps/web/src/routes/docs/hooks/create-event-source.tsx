@@ -209,7 +209,7 @@ export default function CreateEventSourceDocPage() {
 
         <DocNextSteps
           prev={{ title: "createFavicon Primitive", href: "/docs/hooks/create-favicon" }}
-          next={{ title: "createOrientation Primitive", href: "/docs/hooks/create-orientation" }}
+          next={{ title: "createScrollIntoView Primitive", href: "/docs/hooks/create-scroll-into-view" }}
         />
       </div>
     </>
