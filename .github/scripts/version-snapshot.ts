@@ -5,17 +5,19 @@ import path from "node:path";
 const packages = [
   "packages/cli/package.json",
   "packages/core/package.json",
+  "packages/hooks/package.json",
 ];
 
 try {
   /* Get current short git commit hash */
   const gitHash = execSync("git rev-parse --short HEAD", { encoding: "utf8" }).trim();
-  const snapshotVersion = `0.0.0-nightly.${gitHash}`;
 
   for (const pkgPath of packages) {
     const fullPath = path.resolve(process.cwd(), pkgPath);
     if (fs.existsSync(fullPath)) {
       const pkg = JSON.parse(fs.readFileSync(fullPath, "utf8"));
+      const baseVersion = pkg.version.split("-")[0]; // e.g. "0.8.0" from "0.8.0" or "0.8.0-nightly"
+      const snapshotVersion = `${baseVersion}-nightly.${gitHash}`;
       pkg.version = snapshotVersion;
       fs.writeFileSync(fullPath, JSON.stringify(pkg, null, 2) + "\n");
       console.log(`Updated ${pkgPath} version to ${snapshotVersion}`);

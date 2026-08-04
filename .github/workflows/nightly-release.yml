@@ -58,6 +58,12 @@ jobs:
           node-version: '24'
           registry-url: 'https://registry.npmjs.org'
 
+      - name: Publish @nikala-ui/hooks Nightly Package
+        if: steps.check-commits.outputs.should_publish == 'true'
+        run: cd packages/hooks && npm publish --tag nightly --access public --provenance
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
       - name: Publish @nikala-ui/core Nightly Package
         if: steps.check-commits.outputs.should_publish == 'true'
         run: cd packages/core && npm publish --tag nightly --access public --provenance
