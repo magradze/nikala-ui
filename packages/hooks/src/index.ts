@@ -29,3 +29,4 @@ export * from "./create-audio-video";
 export * from "./create-orientation";
 export * from "./create-undo-redo";
 export * from "./create-fetch";
+export * from "./create-geolocation";

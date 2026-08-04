@@ -172,7 +172,7 @@ export default function CreateFetchDocPage() {
 
         <DocNextSteps
           prev={{ title: "createUndoRedo Primitive", href: "/docs/hooks/create-undo-redo" }}
-          next={{ title: "Accordion Component", href: "/docs/components/accordion" }}
+          next={{ title: "createGeolocation Primitive", href: "/docs/hooks/create-geolocation" }}
         />
       </div>
     </>

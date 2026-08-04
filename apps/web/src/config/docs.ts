@@ -216,6 +216,12 @@ export const HOOKS_LIST: DocHookItem[] = [
     description: "SolidJS reactive primitive for HTTP REST API fetching, request loading states, error handling, and refetching",
     href: "/docs/hooks/create-fetch",
   },
+  {
+    name: "create-geolocation",
+    title: "createGeolocation",
+    description: "SolidJS reactive primitive for tracking browser Geolocation position, coordinates, speed, and GPS accuracy",
+    href: "/docs/hooks/create-geolocation",
+  },
 ];
 
 /* --- Component Library Registry List --- */
