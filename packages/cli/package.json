@@ -1,6 +1,6 @@
 {
   "name": "@nikala-ui/cli",
-  "version": "0.9.5",
+  "version": "0.9.6",
   "description": "Command line interface for Nikala UI",
   "type": "module",
   "main": "./dist/index.js",
