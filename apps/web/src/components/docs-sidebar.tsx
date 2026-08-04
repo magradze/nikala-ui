@@ -6,17 +6,25 @@ import {
   COMPONENTS_SIDEBAR_NAVIGATION,
 } from "@/config/docs";
 
+import { createSignal, createEffect } from "solid-js";
+
 export const DocsSidebar: Component = () => {
   const location = useLocation();
+  const [activeContext, setActiveContext] = createSignal<"hooks" | "components">("components");
+
+  createEffect(() => {
+    if (location.pathname.startsWith("/docs/hooks")) {
+      setActiveContext("hooks");
+    } else if (location.pathname.startsWith("/docs/components")) {
+      setActiveContext("components");
+    }
+  });
 
   const navigation = () => {
-    if (location.pathname.startsWith("/docs/hooks")) {
+    if (activeContext() === "hooks") {
       return HOOKS_SIDEBAR_NAVIGATION;
     }
-    if (location.pathname.startsWith("/docs/components")) {
-      return COMPONENTS_SIDEBAR_NAVIGATION;
-    }
-    return DOCS_SIDEBAR_NAVIGATION;
+    return COMPONENTS_SIDEBAR_NAVIGATION;
   };
 
   return (
