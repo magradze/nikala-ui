@@ -6,8 +6,8 @@ import path from "node:path";
  * Resolves the target workspace root directory intelligently.
  * Priority:
  * 1. Explicit `workspace_dir` passed by AI/IDE in args
- * 2. `process.env.WORKSPACE_DIR` or `process.env.PWD`
- * 3. Fallback to `process.cwd()`
+ * 2. IDE/Environment variables (`CURSOR_WORKSPACE_DIR`, `WORKSPACE_DIR`, `INIT_CWD`, `PWD`)
+ * 3. Parent directory search starting from `process.cwd()` up to root (`/`) looking for `nikala.config.json` or `package.json`
  */
 async function resolveWorkspaceRoot(customWorkspaceDir?: string): Promise<string> {
   if (customWorkspaceDir) {
@@ -19,17 +19,39 @@ async function resolveWorkspaceRoot(customWorkspaceDir?: string): Promise<string
     }
   }
 
-  const envPwd = process.env.PWD;
-  if (envPwd && (await fs.pathExists(path.join(envPwd, "package.json")))) {
-    return envPwd;
+  // 1. Check common IDE environment variables
+  const envCandidates = [
+    process.env.CURSOR_WORKSPACE_DIR,
+    process.env.WORKSPACE_DIR,
+    process.env.INIT_CWD,
+    process.env.PWD,
+  ];
+
+  for (const candidate of envCandidates) {
+    if (candidate && (await fs.pathExists(candidate))) {
+      const hasConfig = await fs.pathExists(path.join(candidate, "nikala.config.json"));
+      const hasPkg = await fs.pathExists(path.join(candidate, "package.json"));
+      if (hasConfig || hasPkg) {
+        return candidate;
+      }
+    }
   }
 
-  const cwd = process.cwd();
-  if (await fs.pathExists(path.join(cwd, "package.json"))) {
-    return cwd;
+  // 2. Traversal up parent directories starting from current working directory
+  let currentDir = process.cwd();
+  while (currentDir && currentDir !== path.parse(currentDir).root) {
+    const hasConfig = await fs.pathExists(path.join(currentDir, "nikala.config.json"));
+    const hasPkg = await fs.pathExists(path.join(currentDir, "package.json"));
+    
+    // Ignore home root itself (/home/username) if it has a dummy package.json
+    if ((hasConfig || hasPkg) && currentDir !== "/home/magradze" && currentDir !== "/home/runner") {
+      return currentDir;
+    }
+    
+    currentDir = path.dirname(currentDir);
   }
 
-  return cwd;
+  return process.cwd();
 }
 
 export async function handleToolCall(name: string, args: Record<string, unknown> | undefined) {
