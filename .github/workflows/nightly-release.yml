@@ -45,7 +45,7 @@ jobs:
 
       - name: Execute Version Snapshot Stamping
         if: steps.check-commits.outputs.should_publish == 'true'
-        run: bun version-snapshot.ts
+        run: bun .github/scripts/version-snapshot.ts
 
       - name: Build Core Registry & CLI Packages
         if: steps.check-commits.outputs.should_publish == 'true'
@@ -68,7 +68,7 @@ jobs:
         if: steps.check-commits.outputs.should_publish == 'true'
         run: cd packages/cli && npm publish --tag nightly --access public --provenance
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN || secrets.NPM_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Generate Nightly GitHub Release
         if: steps.check-commits.outputs.should_publish == 'true'
