@@ -1,6 +1,6 @@
 {
   "name": "@nikala-ui/hooks",
-  "version": "0.9.4",
+  "version": "0.9.5",
   "description": "Reactive SolidJS primitives and primitives for Nikala UI",
   "type": "module",
   "main": "./src/index.ts",
