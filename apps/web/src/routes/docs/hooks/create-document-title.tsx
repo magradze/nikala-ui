@@ -94,7 +94,7 @@ export default function CreateDocumentTitleDocPage() {
           description="Reactive primitive for dynamically updating browser tab title with support for automatic restoration on component unmount."
         />
 
-        <ComponentPreview name="create-document-title" code={basicUsageCode}>
+        <ComponentPreview isHook name="create-document-title" code={basicUsageCode}>
           <DocumentTitleDemo />
         </ComponentPreview>
 

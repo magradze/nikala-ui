@@ -85,7 +85,7 @@ export default function CreateUndoRedoDocPage() {
           description="Reactive primitive for managing state undo/redo history stacks, ideal for rich text editors, playgrounds, and form inputs."
         />
 
-        <ComponentPreview name="create-undo-redo" code={basicUsageCode}>
+        <ComponentPreview isHook name="create-undo-redo" code={basicUsageCode}>
           <UndoRedoDemo />
         </ComponentPreview>
 

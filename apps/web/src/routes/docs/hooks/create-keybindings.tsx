@@ -74,7 +74,7 @@ export default function CreateKeybindingsDocPage() {
         />
 
         {/* Live Interactive Hero Preview */}
-        <ComponentPreview name="create-keybindings" code={basicUsageCode}>
+        <ComponentPreview isHook name="create-keybindings" code={basicUsageCode}>
           <KeybindingsDemo />
         </ComponentPreview>
 

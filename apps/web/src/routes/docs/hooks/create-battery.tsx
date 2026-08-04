@@ -98,7 +98,7 @@ export default function CreateBatteryDocPage() {
           description="Reactive primitive for tracking device battery charge level, charging status, and power connection metrics."
         />
 
-        <ComponentPreview name="create-battery" code={basicUsageCode}>
+        <ComponentPreview isHook name="create-battery" code={basicUsageCode}>
           <BatteryDemo />
         </ComponentPreview>
 

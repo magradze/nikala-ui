@@ -86,7 +86,7 @@ export default function CreateInputMaskDocPage() {
       />
 
       {/* Live Interactive Hero Preview */}
-      <ComponentPreview name="create-input-mask" code={basicUsageCode}>
+      <ComponentPreview isHook name="create-input-mask" code={basicUsageCode}>
         <InputMaskDemo />
       </ComponentPreview>
 

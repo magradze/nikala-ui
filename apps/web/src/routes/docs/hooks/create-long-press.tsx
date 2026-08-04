@@ -81,7 +81,7 @@ export default function CreateLongPressDocPage() {
         />
 
         {/* Live Interactive Hero Preview */}
-        <ComponentPreview name="create-long-press" code={basicUsageCode}>
+        <ComponentPreview isHook name="create-long-press" code={basicUsageCode}>
           <LongPressDemo />
         </ComponentPreview>
 

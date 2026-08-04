@@ -133,7 +133,7 @@ export default function CreateWebNotificationDocPage() {
           description="Reactive primitive for sending browser desktop notifications, handling click/close callbacks, and managing notification permission states."
         />
 
-        <ComponentPreview name="create-web-notification" code={basicUsageCode}>
+        <ComponentPreview isHook name="create-web-notification" code={basicUsageCode}>
           <WebNotificationDemo />
         </ComponentPreview>
 

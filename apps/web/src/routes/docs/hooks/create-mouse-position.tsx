@@ -67,7 +67,7 @@ export default function CreateMousePositionDocPage() {
         />
 
         {/* Live Interactive Hero Preview */}
-        <ComponentPreview name="create-mouse-position" code={basicUsageCode}>
+        <ComponentPreview isHook name="create-mouse-position" code={basicUsageCode}>
           <MousePositionDemo />
         </ComponentPreview>
 

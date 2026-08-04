@@ -93,7 +93,7 @@ export default function CreateResizeObserverDocPage() {
         />
 
         {/* Live Interactive Hero Preview */}
-        <ComponentPreview name="create-resize-observer" code={basicUsageCode}>
+        <ComponentPreview isHook name="create-resize-observer" code={basicUsageCode}>
           <ResizeObserverDemo />
         </ComponentPreview>
 

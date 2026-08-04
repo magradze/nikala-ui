@@ -117,7 +117,7 @@ export default function CreatePermissionDocPage() {
           description="Reactive primitive for querying browser permission states ('granted', 'denied', 'prompt') and listening to permission status changes."
         />
 
-        <ComponentPreview name="create-permission" code={basicUsageCode}>
+        <ComponentPreview isHook name="create-permission" code={basicUsageCode}>
           <PermissionDemo />
         </ComponentPreview>
 

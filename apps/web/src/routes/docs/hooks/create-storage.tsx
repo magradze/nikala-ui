@@ -73,7 +73,7 @@ export default function CreateStorageDocPage() {
         />
 
         {/* Live Interactive Hero Preview */}
-        <ComponentPreview name="create-storage" code={basicUsageCode}>
+        <ComponentPreview isHook name="create-storage" code={basicUsageCode}>
           <StorageDemo />
         </ComponentPreview>
 

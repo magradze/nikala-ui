@@ -97,7 +97,7 @@ export default function CreateInfiniteScrollDocPage() {
           description="Reactive primitive for infinite scroll lists, automatic page pagination, and sentinel visibility detection."
         />
 
-        <ComponentPreview name="create-infinite-scroll" code={basicUsageCode}>
+        <ComponentPreview isHook name="create-infinite-scroll" code={basicUsageCode}>
           <InfiniteScrollDemo />
         </ComponentPreview>
 

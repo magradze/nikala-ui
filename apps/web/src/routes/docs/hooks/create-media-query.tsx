@@ -67,7 +67,7 @@ export default function CreateMediaQueryDocPage() {
         />
 
         {/* Live Interactive Hero Preview */}
-        <ComponentPreview name="create-media-query" code={basicUsageCode}>
+        <ComponentPreview isHook name="create-media-query" code={basicUsageCode}>
           <MediaQueryDemo />
         </ComponentPreview>
 

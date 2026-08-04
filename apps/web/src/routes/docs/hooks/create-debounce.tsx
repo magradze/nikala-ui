@@ -73,7 +73,7 @@ export default function CreateDebounceDocPage() {
         />
 
         {/* Live Interactive Hero Preview */}
-        <ComponentPreview name="create-debounce" code={basicUsageCode}>
+        <ComponentPreview isHook name="create-debounce" code={basicUsageCode}>
           <DebounceDemo />
         </ComponentPreview>
 

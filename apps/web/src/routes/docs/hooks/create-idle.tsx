@@ -108,7 +108,7 @@ export default function CreateIdleDocPage() {
       />
 
       {/* Live Interactive Hero Preview */}
-      <ComponentPreview name="create-idle" code={basicUsageCode}>
+      <ComponentPreview isHook name="create-idle" code={basicUsageCode}>
         <IdleDemo />
       </ComponentPreview>
 

@@ -88,7 +88,7 @@ export default function CreateColorModeDocPage() {
         />
 
         {/* Live Interactive Hero Preview */}
-        <ComponentPreview name="create-color-mode" code={basicUsageCode}>
+        <ComponentPreview isHook name="create-color-mode" code={basicUsageCode}>
           <ColorModeDemo />
         </ComponentPreview>
 

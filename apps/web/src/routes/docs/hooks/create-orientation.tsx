@@ -62,7 +62,7 @@ export default function CreateOrientationDocPage() {
           description="Reactive primitive for detecting mobile and desktop screen orientation changes, rotation angles, and portrait/landscape state."
         />
 
-        <ComponentPreview name="create-orientation" code={basicUsageCode}>
+        <ComponentPreview isHook name="create-orientation" code={basicUsageCode}>
           <OrientationDemo />
         </ComponentPreview>
 

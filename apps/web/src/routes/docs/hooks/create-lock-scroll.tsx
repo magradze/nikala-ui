@@ -66,7 +66,7 @@ export default function CreateLockScrollDocPage() {
         />
 
         {/* Live Interactive Hero Preview */}
-        <ComponentPreview name="create-lock-scroll" code={basicUsageCode}>
+        <ComponentPreview isHook name="create-lock-scroll" code={basicUsageCode}>
           <LockScrollDemo />
         </ComponentPreview>
 

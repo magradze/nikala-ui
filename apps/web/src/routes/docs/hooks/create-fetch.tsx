@@ -91,7 +91,7 @@ export default function CreateFetchDocPage() {
           description="Reactive primitive for managing HTTP REST API calls, automatic JSON response parsing, loading/error states, and request cancellation."
         />
 
-        <ComponentPreview name="create-fetch" code={basicUsageCode}>
+        <ComponentPreview isHook name="create-fetch" code={basicUsageCode}>
           <FetchDemo />
         </ComponentPreview>
 

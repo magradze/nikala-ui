@@ -67,7 +67,7 @@ export default function CreateTimerDocPage() {
         />
 
         {/* Live Interactive Hero Preview */}
-        <ComponentPreview name="create-timer" code={basicUsageCode}>
+        <ComponentPreview isHook name="create-timer" code={basicUsageCode}>
           <TimerDemo />
         </ComponentPreview>
 

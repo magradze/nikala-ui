@@ -12,14 +12,16 @@ interface ComponentPreviewProps {
   code: string;
   children: JSX.Element;
   align?: "center" | "start" | "end";
+  isHook?: boolean;
 }
 
 export const ComponentPreview: Component<ComponentPreviewProps> = (props) => {
-  const [local] = splitProps(props, ["name", "code", "align", "children"]);
+  const [local] = splitProps(props, ["name", "code", "align", "children", "isHook"]);
   const { copied, copy } = createClipboard({ timeout: 2000 });
   const { formatCommand } = usePackageManager();
 
-  const cliCommand = () => formatCommand(`add ${local.name}`);
+  const cliCommand = () =>
+    formatCommand(local.isHook ? `add --hook ${local.name}` : `add ${local.name}`);
   const resolvedChildren = children(() => local.children);
 
   const copyCli = () => {

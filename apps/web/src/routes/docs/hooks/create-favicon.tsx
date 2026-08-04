@@ -103,7 +103,7 @@ export default function CreateFaviconDocPage() {
           description="Reactive primitive for dynamically altering browser favicon images, SVG icons, or data URIs with automatic restoration on unmount."
         />
 
-        <ComponentPreview name="create-favicon" code={basicUsageCode}>
+        <ComponentPreview isHook name="create-favicon" code={basicUsageCode}>
           <FaviconDemo />
         </ComponentPreview>
 

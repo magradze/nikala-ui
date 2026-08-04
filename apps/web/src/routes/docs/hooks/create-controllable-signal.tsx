@@ -91,7 +91,7 @@ export default function CreateControllableSignalDocPage() {
         />
 
         {/* Live Interactive Hero Preview */}
-        <ComponentPreview name="create-controllable-signal" code={basicUncontrolledCode}>
+        <ComponentPreview isHook name="create-controllable-signal" code={basicUncontrolledCode}>
           <div class="space-y-4 max-w-sm w-full rounded-lg border border-border p-5 bg-card/60 backdrop-blur-xs">
             <div class="flex items-center justify-between">
               <span class="text-xs font-semibold text-muted-foreground">Active Selection</span>
@@ -148,7 +148,7 @@ export default function CreateControllableSignalDocPage() {
             <p class="text-sm text-muted-foreground">
               Pass a getter function for <code class="bg-muted px-1.5 py-0.5 rounded text-xs font-mono">value</code> and an <code class="bg-muted px-1.5 py-0.5 rounded text-xs font-mono">onChange</code> callback when parent component controls state.
             </p>
-            <ComponentPreview name="create-controllable-signal" code={controlledCode}>
+            <ComponentPreview isHook name="create-controllable-signal" code={controlledCode}>
               <div class="space-y-3 p-4 border border-border rounded-lg bg-card/40">
                 <div class="flex items-center space-x-3">
                   <span class="text-xs text-muted-foreground font-mono">Parent Signal State:</span>

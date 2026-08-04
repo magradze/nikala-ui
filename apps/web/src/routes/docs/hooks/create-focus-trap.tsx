@@ -96,7 +96,7 @@ export default function CreateFocusTrapDocPage() {
         />
 
         {/* Live Interactive Hero Preview */}
-        <ComponentPreview name="create-focus-trap" code={basicUsageCode}>
+        <ComponentPreview isHook name="create-focus-trap" code={basicUsageCode}>
           <FocusTrapDemo />
         </ComponentPreview>
 

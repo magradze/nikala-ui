@@ -59,7 +59,7 @@ export default function CreateIntersectionObserverDocPage() {
         />
 
         {/* Live Interactive Hero Preview */}
-        <ComponentPreview name="create-intersection-observer" code={basicUsageCode}>
+        <ComponentPreview isHook name="create-intersection-observer" code={basicUsageCode}>
           <IntersectionObserverDemo />
         </ComponentPreview>
 

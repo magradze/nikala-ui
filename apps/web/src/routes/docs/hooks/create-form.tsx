@@ -130,7 +130,7 @@ export default function CreateFormDocPage() {
       />
 
       {/* Live Interactive Hero Preview */}
-      <ComponentPreview name="create-form" code={basicUsageCode}>
+      <ComponentPreview isHook name="create-form" code={basicUsageCode}>
         <FormDemo />
       </ComponentPreview>
 

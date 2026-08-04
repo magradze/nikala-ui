@@ -79,7 +79,7 @@ export default function CreateDisclosureDocPage() {
         />
 
         {/* Live Interactive Hero Preview */}
-        <ComponentPreview name="create-disclosure" code={basicUsageCode}>
+        <ComponentPreview isHook name="create-disclosure" code={basicUsageCode}>
           <DisclosureDemo />
         </ComponentPreview>
 

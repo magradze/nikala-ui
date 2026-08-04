@@ -95,7 +95,7 @@ export default function CreateScrollPositionDocPage() {
         />
 
         {/* Live Interactive Hero Preview */}
-        <ComponentPreview name="create-scroll-position" code={basicUsageCode}>
+        <ComponentPreview isHook name="create-scroll-position" code={basicUsageCode}>
           <ScrollPositionDemo />
         </ComponentPreview>
 

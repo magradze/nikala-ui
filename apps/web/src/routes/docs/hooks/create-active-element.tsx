@@ -107,7 +107,7 @@ export default function CreateActiveElementDocPage() {
       />
 
       {/* Live Interactive Hero Preview */}
-      <ComponentPreview name="create-active-element" code={basicUsageCode}>
+      <ComponentPreview isHook name="create-active-element" code={basicUsageCode}>
         <ActiveElementDemo />
       </ComponentPreview>
 

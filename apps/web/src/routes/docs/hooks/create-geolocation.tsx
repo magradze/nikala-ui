@@ -107,7 +107,7 @@ export default function CreateGeolocationDocPage() {
           description="Reactive primitive for observing user geographic location, GPS coordinates, accuracy level, and position changes."
         />
 
-        <ComponentPreview name="create-geolocation" code={basicUsageCode}>
+        <ComponentPreview isHook name="create-geolocation" code={basicUsageCode}>
           <GeolocationDemo />
         </ComponentPreview>
 

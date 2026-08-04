@@ -68,7 +68,7 @@ export default function CreateFullscreenDocPage() {
           description="Reactive primitive for entering, exiting, toggling, and tracking element or document fullscreen status."
         />
 
-        <ComponentPreview name="create-fullscreen" code={basicUsageCode}>
+        <ComponentPreview isHook name="create-fullscreen" code={basicUsageCode}>
           <FullscreenDemo />
         </ComponentPreview>
 

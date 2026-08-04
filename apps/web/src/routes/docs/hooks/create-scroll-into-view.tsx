@@ -115,7 +115,7 @@ export default function CreateScrollIntoViewDocPage() {
           description="Reactive primitive for smoothly scrolling target elements or refs into view inside scrollable containers or window viewports."
         />
 
-        <ComponentPreview name="create-scroll-into-view" code={basicUsageCode}>
+        <ComponentPreview isHook name="create-scroll-into-view" code={basicUsageCode}>
           <ScrollIntoViewDemo />
         </ComponentPreview>
 

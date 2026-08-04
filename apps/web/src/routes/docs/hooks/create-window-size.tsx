@@ -51,7 +51,7 @@ export default function CreateWindowSizeDocPage() {
         />
 
         {/* Live Interactive Hero Preview */}
-        <ComponentPreview name="create-window-size" code={basicUsageCode}>
+        <ComponentPreview isHook name="create-window-size" code={basicUsageCode}>
           <WindowSizeDemo />
         </ComponentPreview>
 

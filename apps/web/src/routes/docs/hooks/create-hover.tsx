@@ -62,7 +62,7 @@ export default function CreateHoverDocPage() {
         />
 
         {/* Live Interactive Hero Preview */}
-        <ComponentPreview name="create-hover" code={basicUsageCode}>
+        <ComponentPreview isHook name="create-hover" code={basicUsageCode}>
           <HoverDemo />
         </ComponentPreview>
 

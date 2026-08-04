@@ -64,7 +64,7 @@ export default function CreatePreviousDocPage() {
         />
 
         {/* Live Interactive Hero Preview */}
-        <ComponentPreview name="create-previous" code={basicUsageCode}>
+        <ComponentPreview isHook name="create-previous" code={basicUsageCode}>
           <PreviousDemo />
         </ComponentPreview>
 

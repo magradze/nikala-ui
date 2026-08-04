@@ -156,7 +156,7 @@ export default function CreateWebSocketDocPage() {
           description="Reactive primitive for managing WebSocket client connections, real-time message broadcasting, automatic reconnects, and connection states."
         />
 
-        <ComponentPreview name="create-websocket" code={basicUsageCode}>
+        <ComponentPreview isHook name="create-websocket" code={basicUsageCode}>
           <WebSocketDemo />
         </ComponentPreview>
 

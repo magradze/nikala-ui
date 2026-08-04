@@ -84,7 +84,7 @@ export default function CreateNetworkStatusDocPage() {
         />
 
         {/* Live Interactive Hero Preview */}
-        <ComponentPreview name="create-network-status" code={basicUsageCode}>
+        <ComponentPreview isHook name="create-network-status" code={basicUsageCode}>
           <NetworkStatusDemo />
         </ComponentPreview>
 

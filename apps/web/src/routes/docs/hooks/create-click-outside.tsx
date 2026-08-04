@@ -103,7 +103,7 @@ export default function CreateClickOutsideDocPage() {
         />
 
         {/* Live Interactive Hero Preview */}
-        <ComponentPreview name="create-click-outside" code={basicUsageCode}>
+        <ComponentPreview isHook name="create-click-outside" code={basicUsageCode}>
           <ClickOutsideDemo />
         </ComponentPreview>
 

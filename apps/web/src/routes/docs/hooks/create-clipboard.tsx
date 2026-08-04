@@ -63,7 +63,7 @@ export default function CreateClipboardDocPage() {
         />
 
         {/* Live Interactive Hero Preview */}
-        <ComponentPreview name="create-clipboard" code={basicUsageCode}>
+        <ComponentPreview isHook name="create-clipboard" code={basicUsageCode}>
           <ClipboardDemo />
         </ComponentPreview>
 

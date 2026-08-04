@@ -128,7 +128,7 @@ export default function CreateEventSourceDocPage() {
           description="Reactive primitive for managing Server-Sent Events (SSE) client connections, subscribing to event streams, and handling status updates."
         />
 
-        <ComponentPreview name="create-event-source" code={basicUsageCode}>
+        <ComponentPreview isHook name="create-event-source" code={basicUsageCode}>
           <EventSourceDemo />
         </ComponentPreview>
 

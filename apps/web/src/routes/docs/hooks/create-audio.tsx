@@ -74,7 +74,7 @@ export default function CreateAudioDocPage() {
           description="Reactive primitives for controlling audio and video playback, state, duration, volume levels, and seek positioning."
         />
 
-        <ComponentPreview name="create-audio" code={basicUsageCode}>
+        <ComponentPreview isHook name="create-audio" code={basicUsageCode}>
           <AudioDemo />
         </ComponentPreview>
 
