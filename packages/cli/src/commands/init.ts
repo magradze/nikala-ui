@@ -82,7 +82,7 @@ export async function init(options: InitOptions) {
 
   // 1. Install required packages
   const userPkgPath = path.join(cwd, "package.json");
-  const requiredDeps = ["clsx", "tailwind-merge", "class-variance-authority"];
+  const requiredDeps = ["clsx", "tailwind-merge", "class-variance-authority", "@nikala-ui/hooks"];
 
   if (await fs.pathExists(userPkgPath)) {
     try {
