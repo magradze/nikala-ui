@@ -14,7 +14,14 @@ export async function GET(event: { request: Request }) {
     transports.set(transport.sessionId, transport);
     await server.connect(transport);
 
-    return transport.response;
+    return new Response(null, {
+      status: 200,
+      headers: {
+        "Content-Type": "text/event-stream",
+        "Cache-Control": "no-cache",
+        Connection: "keep-alive",
+      },
+    });
   }
 
   return new Response("Nikala UI MCP SSE Endpoint", { status: 200 });
@@ -34,7 +41,8 @@ export async function POST(event: { request: Request }) {
       return new Response("Session not found", { status: 444 });
     }
 
-    await transport.handlePostMessage(event.request);
+    const body = await event.request.json();
+    await transport.handlePostMessage(event.request as any, event.request as any, body);
     return new Response("Accepted", { status: 202 });
   }
 

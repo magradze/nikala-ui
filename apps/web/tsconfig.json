@@ -15,7 +15,9 @@
 		"paths": {
 			"~/*": ["./src/*"],
 			"@/*": ["./src/*"],
-			"@nikala-ui/hooks": ["../../packages/hooks/src/index.ts"]
+			"@nikala-ui/hooks": ["../../packages/hooks/src/index.ts"],
+			"@nikala-ui/mcp": ["../../packages/mcp/src/index.ts"],
+			"@nikala-ui/mcp/*": ["../../packages/mcp/src/*"]
 		},
 		"types": ["vite/client", "node", "vitest"]
 	},
