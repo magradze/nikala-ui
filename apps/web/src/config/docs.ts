@@ -252,6 +252,12 @@ export const HOOKS_LIST: DocHookItem[] = [
     description: "SolidJS reactive primitive for managing document title dynamically",
     href: "/docs/hooks/create-document-title",
   },
+  {
+    name: "create-favicon",
+    title: "createFavicon",
+    description: "SolidJS reactive primitive for dynamically updating browser favicon element",
+    href: "/docs/hooks/create-favicon",
+  },
 ];
 
 /* --- Component Library Registry List --- */

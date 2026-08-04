@@ -35,3 +35,4 @@ export * from "./create-battery";
 export * from "./create-web-notification";
 export * from "./create-websocket";
 export * from "./create-document-title";
+export * from "./create-favicon";
