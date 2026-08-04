@@ -10,7 +10,7 @@ Official Documentation & Interactive Demos: [nikala.magradze.dev](https://nikala
 
 ## Overview
 
-This package provides reusable, fine-grained reactive primitives designed natively for SolidJS applications. It simplifies managing complex component state such as controlled and uncontrolled inputs, state synchronization, and reactive event callbacks.
+This package provides reusable, fine-grained reactive primitives designed natively for SolidJS applications. It simplifies managing complex component state such as controlled and uncontrolled inputs, state synchronization, browser APIs, and reactive event callbacks.
 
 ---
 
@@ -41,6 +41,20 @@ This package provides reusable, fine-grained reactive primitives designed native
 - **`createInputMask`** — SolidJS reactive primitive for input value masking (phone numbers, credit cards, dates).
 - **`createIdle`** — SolidJS reactive primitive for detecting user inactivity with customizable timeout and activity events.
 - **`createActiveElement`** — SolidJS reactive primitive for tracking the currently focused DOM element.
+- **`createInfiniteScroll`** — SolidJS reactive primitive for infinite scrolling data fetching and threshold triggers.
+- **`createFullscreen`** — SolidJS reactive primitive for toggling and observing Fullscreen API state.
+- **`createAudio` / `createVideo`** — SolidJS reactive primitives for media playback, volume, duration, and control tracking.
+- **`createOrientation`** — SolidJS reactive primitive for observing device screen orientation and angle.
+- **`createUndoRedo`** — SolidJS reactive primitive for managing state history, undo/redo stacks, and reset capabilities.
+- **`createFetch`** — SolidJS reactive primitive for reactive HTTP data fetching, loading states, and error handling.
+- **`createGeolocation`** — SolidJS reactive primitive for tracking device GPS coordinates and location errors.
+- **`createPermission`** — SolidJS reactive primitive for querying and observing browser permission status changes.
+- **`createBattery`** — SolidJS reactive primitive for observing device battery charge level and charging status.
+- **`createWebNotification`** — SolidJS reactive primitive for sending browser desktop notifications and managing permissions.
+- **`createWebSocket`** — SolidJS reactive primitive for WebSocket client connections, auto-reconnections, and message passing.
+- **`createDocumentTitle`** — SolidJS reactive primitive for managing document title dynamically with unmount restoration.
+- **`createFavicon`** — SolidJS reactive primitive for dynamically updating browser favicon link element.
+- **`createEventSource`** — SolidJS reactive primitive for subscribing to Server-Sent Events (SSE) streams.
 - **Native SolidJS Reactivity** — Zero-dependency, fine-grained reactivity built directly on SolidJS signals.
 - **TypeScript First** — Fully typed options, getters, and return tuple interfaces.
 
