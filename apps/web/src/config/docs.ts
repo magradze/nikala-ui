@@ -186,6 +186,12 @@ export const HOOKS_LIST: DocHookItem[] = [
     description: "SolidJS reactive primitive for dynamic infinite scrolling, auto-fetching pages, and scroll pagination",
     href: "/docs/hooks/create-infinite-scroll",
   },
+  {
+    name: "create-fullscreen",
+    title: "createFullscreen",
+    description: "SolidJS reactive primitive for requesting and monitoring element or document fullscreen status",
+    href: "/docs/hooks/create-fullscreen",
+  },
 ];
 
 /* --- Component Library Registry List --- */
