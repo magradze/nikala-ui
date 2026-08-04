@@ -127,7 +127,7 @@ export default function CreateClipboardDocPage() {
         {/* Footer Navigation */}
         <DocNextSteps
           prev={{ title: "createClickOutside Primitive", href: "/docs/hooks/create-click-outside" }}
-          next={{ title: "Accordion Component", href: "/docs/components/accordion" }}
+          next={{ title: "createKeybindings Primitive", href: "/docs/hooks/create-keybindings" }}
         />
       </div>
     </>

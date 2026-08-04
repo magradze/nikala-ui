@@ -153,7 +153,7 @@ export default function CreateFocusTrapDocPage() {
         {/* Footer Navigation */}
         <DocNextSteps
           prev={{ title: "createScrollPosition Primitive", href: "/docs/hooks/create-scroll-position" }}
-          next={{ title: "Accordion Component", href: "/docs/components/accordion" }}
+          next={{ title: "createMousePosition Primitive", href: "/docs/hooks/create-mouse-position" }}
         />
       </div>
     </>

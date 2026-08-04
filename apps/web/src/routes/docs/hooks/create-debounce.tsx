@@ -131,7 +131,7 @@ export default function CreateDebounceDocPage() {
         {/* Footer Navigation */}
         <DocNextSteps
           prev={{ title: "createMediaQuery Primitive", href: "/docs/hooks/create-media-query" }}
-          next={{ title: "Accordion Component", href: "/docs/components/accordion" }}
+          next={{ title: "createIntersectionObserver Primitive", href: "/docs/hooks/create-intersection-observer" }}
         />
       </div>
     </>

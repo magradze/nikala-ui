@@ -130,7 +130,7 @@ export default function CreateMediaQueryDocPage() {
         {/* Footer Navigation */}
         <DocNextSteps
           prev={{ title: "createDisclosure Primitive", href: "/docs/hooks/create-disclosure" }}
-          next={{ title: "Accordion Component", href: "/docs/components/accordion" }}
+          next={{ title: "createDebounce Primitive", href: "/docs/hooks/create-debounce" }}
         />
       </div>
     </>

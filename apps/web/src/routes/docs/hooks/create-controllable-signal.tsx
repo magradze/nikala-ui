@@ -209,7 +209,7 @@ export default function CreateControllableSignalDocPage() {
         {/* Footer Navigation */}
         <DocNextSteps
           prev={{ title: "Hooks & Primitives Overview", href: "/docs/hooks" }}
-          next={{ title: "Accordion Component", href: "/docs/components/accordion" }}
+          next={{ title: "createClickOutside Primitive", href: "/docs/hooks/create-click-outside" }}
         />
       </div>
     </>

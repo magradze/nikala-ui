@@ -183,7 +183,7 @@ export default function CreateIdleDocPage() {
       {/* Footer Navigation */}
       <DocNextSteps
         prev={{ title: "createInputMask Primitive", href: "/docs/hooks/create-input-mask" }}
-        next={{ title: "Accordion Component", href: "/docs/components/accordion" }}
+        next={{ title: "createActiveElement Primitive", href: "/docs/hooks/create-active-element" }}
       />
     </div>
   );

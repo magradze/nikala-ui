@@ -131,7 +131,7 @@ export default function CreateHoverDocPage() {
         {/* Footer Navigation */}
         <DocNextSteps
           prev={{ title: "createLongPress Primitive", href: "/docs/hooks/create-long-press" }}
-          next={{ title: "Accordion Component", href: "/docs/components/accordion" }}
+          next={{ title: "createLocalStorage Primitive", href: "/docs/hooks/create-storage" }}
         />
       </div>
     </>

@@ -148,7 +148,7 @@ export default function CreateTimerDocPage() {
         {/* Footer Navigation */}
         <DocNextSteps
           prev={{ title: "createIntersectionObserver Primitive", href: "/docs/hooks/create-intersection-observer" }}
-          next={{ title: "Accordion Component", href: "/docs/components/accordion" }}
+          next={{ title: "createResizeObserver Primitive", href: "/docs/hooks/create-resize-observer" }}
         />
       </div>
     </>

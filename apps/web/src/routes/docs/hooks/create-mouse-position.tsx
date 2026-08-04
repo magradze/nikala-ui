@@ -137,7 +137,7 @@ export default function CreateMousePositionDocPage() {
         {/* Footer Navigation */}
         <DocNextSteps
           prev={{ title: "createFocusTrap Primitive", href: "/docs/hooks/create-focus-trap" }}
-          next={{ title: "Accordion Component", href: "/docs/components/accordion" }}
+          next={{ title: "createLongPress Primitive", href: "/docs/hooks/create-long-press" }}
         />
       </div>
     </>

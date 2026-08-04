@@ -212,7 +212,7 @@ export default function CreateFormDocPage() {
       {/* Footer Navigation */}
       <DocNextSteps
         prev={{ title: "createColorMode Primitive", href: "/docs/hooks/create-color-mode" }}
-        next={{ title: "Accordion Component", href: "/docs/components/accordion" }}
+        next={{ title: "createInputMask Primitive", href: "/docs/hooks/create-input-mask" }}
       />
     </div>
   );

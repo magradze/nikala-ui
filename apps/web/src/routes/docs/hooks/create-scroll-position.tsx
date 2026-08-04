@@ -177,7 +177,7 @@ export default function CreateScrollPositionDocPage() {
         {/* Footer Navigation */}
         <DocNextSteps
           prev={{ title: "createWindowSize Primitive", href: "/docs/hooks/create-window-size" }}
-          next={{ title: "Accordion Component", href: "/docs/components/accordion" }}
+          next={{ title: "createFocusTrap Primitive", href: "/docs/hooks/create-focus-trap" }}
         />
       </div>
     </>

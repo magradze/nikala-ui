@@ -122,7 +122,7 @@ export default function CreateIntersectionObserverDocPage() {
         {/* Footer Navigation */}
         <DocNextSteps
           prev={{ title: "createDebounce Primitive", href: "/docs/hooks/create-debounce" }}
-          next={{ title: "Accordion Component", href: "/docs/components/accordion" }}
+          next={{ title: "createTimer Primitive", href: "/docs/hooks/create-timer" }}
         />
       </div>
     </>

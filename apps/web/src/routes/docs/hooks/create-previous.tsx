@@ -115,8 +115,8 @@ export default function CreatePreviousDocPage() {
 
         {/* Footer Navigation */}
         <DocNextSteps
-          prev={{ title: "createStorage Primitive", href: "/docs/hooks/create-storage" }}
-          next={{ title: "Accordion Component", href: "/docs/components/accordion" }}
+          prev={{ title: "createLocalStorage Primitive", href: "/docs/hooks/create-storage" }}
+          next={{ title: "createNetworkStatus Primitive", href: "/docs/hooks/create-network-status" }}
         />
       </div>
     </>

@@ -152,7 +152,7 @@ export default function CreateColorModeDocPage() {
         {/* Footer Navigation */}
         <DocNextSteps
           prev={{ title: "createNetworkStatus Primitive", href: "/docs/hooks/create-network-status" }}
-          next={{ title: "Accordion Component", href: "/docs/components/accordion" }}
+          next={{ title: "createForm Primitive", href: "/docs/hooks/create-form" }}
         />
       </div>
     </>

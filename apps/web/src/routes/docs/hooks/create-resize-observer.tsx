@@ -158,7 +158,7 @@ export default function CreateResizeObserverDocPage() {
         {/* Footer Navigation */}
         <DocNextSteps
           prev={{ title: "createTimer Primitive", href: "/docs/hooks/create-timer" }}
-          next={{ title: "Accordion Component", href: "/docs/components/accordion" }}
+          next={{ title: "createWindowSize Primitive", href: "/docs/hooks/create-window-size" }}
         />
       </div>
     </>

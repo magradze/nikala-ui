@@ -128,7 +128,7 @@ export default function CreateLockScrollDocPage() {
         {/* Footer Navigation */}
         <DocNextSteps
           prev={{ title: "createKeybindings Primitive", href: "/docs/hooks/create-keybindings" }}
-          next={{ title: "Accordion Component", href: "/docs/components/accordion" }}
+          next={{ title: "createDisclosure Primitive", href: "/docs/hooks/create-disclosure" }}
         />
       </div>
     </>

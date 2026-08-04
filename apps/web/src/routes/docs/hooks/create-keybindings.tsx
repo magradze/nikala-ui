@@ -144,7 +144,7 @@ export default function CreateKeybindingsDocPage() {
         {/* Footer Navigation */}
         <DocNextSteps
           prev={{ title: "createClipboard Primitive", href: "/docs/hooks/create-clipboard" }}
-          next={{ title: "Accordion Component", href: "/docs/components/accordion" }}
+          next={{ title: "createLockScroll Primitive", href: "/docs/hooks/create-lock-scroll" }}
         />
       </div>
     </>

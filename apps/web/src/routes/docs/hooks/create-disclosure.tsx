@@ -162,7 +162,7 @@ export default function CreateDisclosureDocPage() {
         {/* Footer Navigation */}
         <DocNextSteps
           prev={{ title: "createLockScroll Primitive", href: "/docs/hooks/create-lock-scroll" }}
-          next={{ title: "Accordion Component", href: "/docs/components/accordion" }}
+          next={{ title: "createMediaQuery Primitive", href: "/docs/hooks/create-media-query" }}
         />
       </div>
     </>

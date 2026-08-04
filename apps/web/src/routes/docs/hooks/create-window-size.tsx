@@ -103,7 +103,7 @@ export default function CreateWindowSizeDocPage() {
         {/* Footer Navigation */}
         <DocNextSteps
           prev={{ title: "createResizeObserver Primitive", href: "/docs/hooks/create-resize-observer" }}
-          next={{ title: "Accordion Component", href: "/docs/components/accordion" }}
+          next={{ title: "createScrollPosition Primitive", href: "/docs/hooks/create-scroll-position" }}
         />
       </div>
     </>

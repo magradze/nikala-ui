@@ -149,7 +149,7 @@ export default function CreateLongPressDocPage() {
         {/* Footer Navigation */}
         <DocNextSteps
           prev={{ title: "createMousePosition Primitive", href: "/docs/hooks/create-mouse-position" }}
-          next={{ title: "Accordion Component", href: "/docs/components/accordion" }}
+          next={{ title: "createHover Primitive", href: "/docs/hooks/create-hover" }}
         />
       </div>
     </>

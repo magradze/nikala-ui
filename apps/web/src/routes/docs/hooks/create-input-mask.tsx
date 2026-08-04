@@ -150,7 +150,7 @@ export default function CreateInputMaskDocPage() {
       {/* Footer Navigation */}
       <DocNextSteps
         prev={{ title: "createForm Primitive", href: "/docs/hooks/create-form" }}
-        next={{ title: "Accordion Component", href: "/docs/components/accordion" }}
+        next={{ title: "createIdle Primitive", href: "/docs/hooks/create-idle" }}
       />
     </div>
   );

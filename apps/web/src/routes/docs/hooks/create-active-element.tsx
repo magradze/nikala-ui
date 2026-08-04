@@ -158,7 +158,7 @@ export default function CreateActiveElementDocPage() {
       {/* Footer Navigation */}
       <DocNextSteps
         prev={{ title: "createIdle Primitive", href: "/docs/hooks/create-idle" }}
-        next={{ title: "Accordion Component", href: "/docs/components/accordion" }}
+        next={{ title: "createInfiniteScroll Primitive", href: "/docs/hooks/create-infinite-scroll" }}
       />
     </div>
   );
