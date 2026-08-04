@@ -89,7 +89,7 @@ export function createEventSource<T = unknown>(
       eventList.forEach((eventName) => {
         source.addEventListener(eventName, (e) => {
           const msgEvt = e as MessageEvent;
-          setEvent(msgEvt);
+          setEvent(() => msgEvt);
           try {
             const parsed = JSON.parse(msgEvt.data);
             setData(() => parsed);

@@ -124,7 +124,7 @@ export function createWebSocket<T = unknown>(
       };
 
       socket.onmessage = (event: MessageEvent) => {
-        setLastMessage(event);
+        setLastMessage(() => event);
         try {
           const parsed = JSON.parse(event.data);
           setData(() => parsed);
