@@ -192,6 +192,12 @@ export const HOOKS_LIST: DocHookItem[] = [
     description: "SolidJS reactive primitive for requesting and monitoring element or document fullscreen status",
     href: "/docs/hooks/create-fullscreen",
   },
+  {
+    name: "create-audio",
+    title: "createAudio & createVideo",
+    description: "SolidJS reactive primitives for controlling HTML audio and video playback, duration, volume, and seeking",
+    href: "/docs/hooks/create-audio",
+  },
 ];
 
 /* --- Component Library Registry List --- */
@@ -225,6 +231,7 @@ export const COMPONENTS_LIST: DocComponentItem[] = [
   { name: "toast", title: "Toast", description: "Temporary feedback notification banners built on Kobalte primitives", href: "/docs/components/toast" },
   { name: "tooltip", title: "Tooltip", description: "Contextual hover information popup badge", href: "/docs/components/tooltip" },
   { name: "popover", title: "Popover", description: "Displays rich content in a portal layer triggered by a button", href: "/docs/components/popover" },
+  { name: "progress", title: "Progress", description: "Displays an indicator showing completion progress of a task or media", href: "/docs/components/progress" },
 ];
 
 /* --- Global Sidebar Navigation Config --- */

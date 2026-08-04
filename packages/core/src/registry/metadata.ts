@@ -164,4 +164,9 @@ export const COMPONENT_METADATA: Record<string, ComponentMeta> = {
     description: "Displays rich content in a portal layer triggered by a button, built on Kobalte primitives.",
     dependencies: ["clsx", "tailwind-merge", "@kobalte/core", "lucide-solid"],
   },
+  progress: {
+    title: "Progress",
+    description: "Displays an indicator showing the completion progress of a task or media playback, built on Kobalte primitives.",
+    dependencies: ["clsx", "tailwind-merge", "@kobalte/core"],
+  },
 };

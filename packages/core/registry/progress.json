@@ -1,0 +1,18 @@
+{
+  "name": "progress",
+  "title": "Progress",
+  "description": "Displays an indicator showing the completion progress of a task or media playback, built on Kobalte primitives.",
+  "type": "registry:ui",
+  "dependencies": [
+    "clsx",
+    "tailwind-merge",
+    "@kobalte/core"
+  ],
+  "files": [
+    {
+      "path": "ui/progress.tsx",
+      "content": "import { splitProps, Show, type Component, type JSX } from \"solid-js\";\nimport { Progress as KobalteProgress } from \"@kobalte/core/progress\";\nimport { cn } from \"@/lib/cn\";\n\nexport interface ProgressProps\n  extends Omit<\n    JSX.HTMLAttributes<HTMLDivElement>,\n    \"value\" | \"aria-valuenow\" | \"aria-valuemin\" | \"aria-valuemax\"\n  > {\n  /** The current numeric progress value. */\n  value?: number;\n  /** Minimum progress value. Defaults to 0. */\n  minValue?: number;\n  /** Maximum progress value. Defaults to 100. */\n  maxValue?: number;\n  /** Label text for accessibility and screen readers. */\n  getValueLabel?: (params: { value: number; max: number }) => string;\n  /** Custom label element to display above or beside progress bar. */\n  label?: JSX.Element;\n  /** Optional custom class for root container. */\n  class?: string;\n  /** Optional custom class for indicator fill bar. */\n  indicatorClass?: string;\n}\n\n/**\n * Nikala UI Progress component for showing task completion status or media timeline positions.\n */\nexport const Progress: Component<ProgressProps> = (props) => {\n  const [local, rest] = splitProps(props, [\n    \"value\",\n    \"minValue\",\n    \"maxValue\",\n    \"getValueLabel\",\n    \"label\",\n    \"class\",\n    \"indicatorClass\",\n  ]);\n\n  return (\n    <KobalteProgress\n      value={local.value ?? 0}\n      minValue={local.minValue ?? 0}\n      maxValue={local.maxValue ?? 100}\n      getValueLabel={local.getValueLabel}\n      class={cn(\"flex w-full flex-col gap-1.5\", local.class)}\n      {...rest}\n    >\n      <Show when={local.label}>\n        <div class=\"flex justify-between text-xs font-medium text-muted-foreground\">\n          <KobalteProgress.Label>{local.label}</KobalteProgress.Label>\n          <KobalteProgress.ValueLabel class=\"font-mono text-foreground\" />\n        </div>\n      </Show>\n\n      <KobalteProgress.Track class=\"relative h-2 w-full overflow-hidden rounded-full bg-primary/20\">\n        <KobalteProgress.Fill\n          class={cn(\n            \"h-full w-[var(--kb-progress-fill-width)] bg-primary transition-all duration-300 ease-in-out\",\n            local.indicatorClass\n          )}\n        />\n      </KobalteProgress.Track>\n    </KobalteProgress>\n  );\n};\n",
+      "type": "registry:ui"
+    }
+  ]
+}

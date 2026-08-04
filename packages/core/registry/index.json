@@ -207,6 +207,17 @@
     ]
   },
   {
+    "name": "progress",
+    "title": "Progress",
+    "description": "Displays an indicator showing the completion progress of a task or media playback, built on Kobalte primitives.",
+    "type": "registry:ui",
+    "dependencies": [
+      "clsx",
+      "tailwind-merge",
+      "@kobalte/core"
+    ]
+  },
+  {
     "name": "radio-group",
     "title": "Radio Group",
     "description": "A set of checkable buttons built on Kobalte primitives where only one button can be checked at a time.",
