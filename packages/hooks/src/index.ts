@@ -26,3 +26,4 @@ export * from "./create-active-element";
 export * from "./create-infinite-scroll";
 export * from "./create-fullscreen";
 export * from "./create-audio-video";
+export * from "./create-orientation";

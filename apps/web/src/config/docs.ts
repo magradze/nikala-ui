@@ -198,6 +198,12 @@ export const HOOKS_LIST: DocHookItem[] = [
     description: "SolidJS reactive primitives for controlling HTML audio and video playback, duration, volume, and seeking",
     href: "/docs/hooks/create-audio",
   },
+  {
+    name: "create-orientation",
+    title: "createOrientation",
+    description: "SolidJS reactive primitive for observing mobile and desktop screen orientation changes and rotation angles",
+    href: "/docs/hooks/create-orientation",
+  },
 ];
 
 /* --- Component Library Registry List --- */
