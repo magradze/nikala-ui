@@ -246,6 +246,12 @@ export const HOOKS_LIST: DocHookItem[] = [
     description: "SolidJS reactive primitive for WebSocket client connections, auto-reconnection, and message passing",
     href: "/docs/hooks/create-websocket",
   },
+  {
+    name: "create-document-title",
+    title: "createDocumentTitle",
+    description: "SolidJS reactive primitive for managing document title dynamically",
+    href: "/docs/hooks/create-document-title",
+  },
 ];
 
 /* --- Component Library Registry List --- */
