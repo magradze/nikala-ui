@@ -5,9 +5,12 @@ import {
   ListToolsRequestSchema,
   ListResourcesRequestSchema,
   ReadResourceRequestSchema,
+  ListPromptsRequestSchema,
+  GetPromptRequestSchema,
 } from "@modelcontextprotocol/sdk/types.js";
 import { MCP_TOOLS, handleToolCall } from "./tools/index.js";
 import { RESOURCE_LIST, SOLIDJS_RULES, THEMING_RULES } from "./resources/index.js";
+import { MCP_PROMPTS, handleGetPrompt } from "./prompts/index.js";
 
 /**
  * Creates and configures the Nikala UI MCP Server instance.
@@ -22,6 +25,7 @@ export function createNikalaMcpServer() {
       capabilities: {
         tools: {},
         resources: {},
+        prompts: {},
       },
     }
   );
@@ -59,6 +63,17 @@ export function createNikalaMcpServer() {
     }
 
     throw new Error(`Resource not found: ${uri}`);
+  });
+
+  /* --- List Prompts --- */
+  server.setRequestHandler(ListPromptsRequestSchema, async () => {
+    return { prompts: MCP_PROMPTS };
+  });
+
+  /* --- Get Prompt --- */
+  server.setRequestHandler(GetPromptRequestSchema, async (request) => {
+    const { name, arguments: args } = request.params;
+    return handleGetPrompt(name, args as Record<string, string> | undefined);
   });
 
   return server;

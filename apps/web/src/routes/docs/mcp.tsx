@@ -38,7 +38,7 @@ export default function McpDocsPage() {
 
         {/* 1. Feature Highlights */}
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <Card variant="outline" class="bg-card/50">
+          <Card class="bg-card/50">
             <CardHeader class="pb-2">
               <div class="w-8 h-8 rounded-lg bg-primary/10 text-primary flex items-center justify-center mb-2">
                 <Cpu class="w-4 h-4" />
@@ -50,7 +50,7 @@ export default function McpDocsPage() {
             </CardHeader>
           </Card>
 
-          <Card variant="outline" class="bg-card/50">
+          <Card class="bg-card/50">
             <CardHeader class="pb-2">
               <div class="w-8 h-8 rounded-lg bg-primary/10 text-primary flex items-center justify-center mb-2">
                 <Zap class="w-4 h-4" />
@@ -62,7 +62,7 @@ export default function McpDocsPage() {
             </CardHeader>
           </Card>
 
-          <Card variant="outline" class="bg-card/50">
+          <Card class="bg-card/50">
             <CardHeader class="pb-2">
               <div class="w-8 h-8 rounded-lg bg-primary/10 text-primary flex items-center justify-center mb-2">
                 <Bot class="w-4 h-4" />
@@ -78,7 +78,7 @@ export default function McpDocsPage() {
         {/* 2. Configuration & Transports */}
         <DocSectionHeader
           title="Configuration & Setup"
-          subtitle="Support for both Stdio local execution and remote HTTP/SSE transports"
+          description="Support for both Stdio local execution and remote HTTP/SSE transports"
         />
 
         <div class="space-y-6">
@@ -91,7 +91,7 @@ export default function McpDocsPage() {
             <p class="text-xs text-muted-foreground">
               Add `@nikala-ui/mcp` to your IDE's MCP configuration file (`mcp.json` or Claude Desktop config):
             </p>
-            <CodeBlock code={stdioConfigCode} language="json" filename="mcp.json" showCopy={true} />
+            <CodeBlock code={stdioConfigCode} lang="json" />
           </div>
 
           <div class="p-4 rounded-lg border border-border/60 bg-muted/20 space-y-3">
@@ -102,14 +102,14 @@ export default function McpDocsPage() {
             <p class="text-xs text-muted-foreground">
               For web-based AI tools or assistants supporting Server-Sent Events (SSE) remote MCP connections:
             </p>
-            <CodeBlock code={sseEndpointCode} language="ts" filename="SSE Endpoints" showCopy={true} />
+            <CodeBlock code={sseEndpointCode} lang="ts" />
           </div>
         </div>
 
         {/* 3. Available MCP Tools */}
         <DocSectionHeader
           title="MCP Tools Reference"
-          subtitle="Callable tools registered on the Nikala UI MCP server"
+          description="Callable tools registered on the Nikala UI MCP server"
         />
 
         <div class="border rounded-lg overflow-hidden border-border/60">
@@ -143,6 +143,16 @@ export default function McpDocsPage() {
                 <td class="px-4 py-3 text-muted-foreground">{`{ "name": "create-clipboard" }`}</td>
               </tr>
               <tr>
+                <td class="px-4 py-3 font-semibold text-primary">install_component</td>
+                <td class="px-4 py-3 font-sans text-muted-foreground">Directly writes component source TSX files to project directory (src/components/ui/)</td>
+                <td class="px-4 py-3 text-muted-foreground">{`{ "name": "button" }`}</td>
+              </tr>
+              <tr>
+                <td class="px-4 py-3 font-semibold text-primary">install_hook</td>
+                <td class="px-4 py-3 font-sans text-muted-foreground">Directly writes primitive TS file to project directory (src/hooks/)</td>
+                <td class="px-4 py-3 text-muted-foreground">{`{ "name": "create-audio" }`}</td>
+              </tr>
+              <tr>
                 <td class="px-4 py-3 font-semibold text-primary">search_docs</td>
                 <td class="px-4 py-3 font-sans text-muted-foreground">Searches components, hooks, and guidelines by keywords</td>
                 <td class="px-4 py-3 text-muted-foreground">{`{ "query": "audio" }`}</td>
@@ -151,10 +161,45 @@ export default function McpDocsPage() {
           </table>
         </div>
 
-        {/* 4. MCP Engineering Resources */}
+        {/* 4. MCP Prompts */}
+        <DocSectionHeader
+          title="Pre-built AI Prompts"
+          description="Ready-to-use template prompts for generating Nikala UI structures"
+        />
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div class="p-4 rounded-lg border border-border/60 bg-background space-y-2">
+            <h4 class="font-semibold text-sm text-foreground flex items-center gap-2">
+              <Badge variant="outline" class="text-[10px]">create_form_page</Badge>
+            </h4>
+            <p class="text-xs text-muted-foreground">
+              Generates complete SolidJS form pages with Input, Button, Alert, Card, and createForm primitive.
+            </p>
+          </div>
+
+          <div class="p-4 rounded-lg border border-border/60 bg-background space-y-2">
+            <h4 class="font-semibold text-sm text-foreground flex items-center gap-2">
+              <Badge variant="outline" class="text-[10px]">setup_theme_provider</Badge>
+            </h4>
+            <p class="text-xs text-muted-foreground">
+              Generates root layout theme setup with ThemeProvider, ThemeToggle, and Anti-FOUC ThemeScript.
+            </p>
+          </div>
+
+          <div class="p-4 rounded-lg border border-border/60 bg-background space-y-2">
+            <h4 class="font-semibold text-sm text-foreground flex items-center gap-2">
+              <Badge variant="outline" class="text-[10px]">create_audio_player</Badge>
+            </h4>
+            <p class="text-xs text-muted-foreground">
+              Generates custom media player UI using Progress, Button, Badge, and createAudio primitive.
+            </p>
+          </div>
+        </div>
+
+        {/* 5. MCP Engineering Resources */}
         <DocSectionHeader
           title="Engineering Rule Resources"
-          subtitle="Pre-loaded guidelines automatically served to AI models"
+          description="Pre-loaded guidelines automatically served to AI models"
         />
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
