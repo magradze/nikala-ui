@@ -240,6 +240,12 @@ export const HOOKS_LIST: DocHookItem[] = [
     description: "SolidJS reactive primitive for sending browser desktop notifications and managing notification permissions",
     href: "/docs/hooks/create-web-notification",
   },
+  {
+    name: "create-websocket",
+    title: "createWebSocket",
+    description: "SolidJS reactive primitive for WebSocket client connections, auto-reconnection, and message passing",
+    href: "/docs/hooks/create-websocket",
+  },
 ];
 
 /* --- Component Library Registry List --- */

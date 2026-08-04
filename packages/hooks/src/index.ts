@@ -33,3 +33,4 @@ export * from "./create-geolocation";
 export * from "./create-permission";
 export * from "./create-battery";
 export * from "./create-web-notification";
+export * from "./create-websocket";
