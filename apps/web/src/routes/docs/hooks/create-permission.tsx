@@ -25,6 +25,8 @@ return (
   </div>
 );`;
 
+import { PermissionItemCard } from "@/components/docs/hooks/permission-item-card";
+
 export function PermissionDemo() {
   const [mounted, setMounted] = createSignal(false);
   onMount(() => setMounted(true));
@@ -58,7 +60,7 @@ export function PermissionDemo() {
 
   return (
     <Show when={mounted()} fallback={<div class="p-4 text-xs font-mono text-muted-foreground">Loading Permissions...</div>}>
-      <div class="w-full max-w-sm p-5 rounded-xl border border-border bg-card space-y-4 shadow-sm">
+      <div class="w-full max-w-sm p-5 rounded-lg border border-border bg-card space-y-4 shadow-sm">
         <div class="flex items-center justify-between">
           <span class="text-xs font-mono text-muted-foreground">Browser Permissions Monitor</span>
           <Show when={lastQueried()}>
@@ -74,49 +76,18 @@ export function PermissionDemo() {
 
         <Show when={geoPermission.isSupported()}>
           <div class="space-y-2">
-            <div class="flex items-center justify-between p-3 rounded-lg bg-muted/50 border border-border/50">
-              <div class="space-y-0.5">
-                <div class="text-xs font-semibold text-foreground">Geolocation</div>
-                <div class="text-[10px] text-muted-foreground font-mono">name: "geolocation"</div>
-              </div>
-              <Show
-                when={geoPermission.state() !== "prompt"}
-                fallback={
-                  <Button size="xs" variant="outline" onClick={handleRequestGeo}>
-                    Request Access
-                  </Button>
-                }
-              >
-                <Badge
-                  variant={geoPermission.state() === "granted" ? "success" : "destructive"}
-                  class="capitalize font-mono text-[11px]"
-                >
-                  {geoPermission.state()}
-                </Badge>
-              </Show>
-            </div>
-
-            <div class="flex items-center justify-between p-3 rounded-lg bg-muted/50 border border-border/50">
-              <div class="space-y-0.5">
-                <div class="text-xs font-semibold text-foreground">Notifications</div>
-                <div class="text-[10px] text-muted-foreground font-mono">name: "notifications"</div>
-              </div>
-              <Show
-                when={notifPermission.state() !== "prompt"}
-                fallback={
-                  <Button size="xs" variant="outline" onClick={handleRequestNotif}>
-                    Request Access
-                  </Button>
-                }
-              >
-                <Badge
-                  variant={notifPermission.state() === "granted" ? "success" : "destructive"}
-                  class="capitalize font-mono text-[11px]"
-                >
-                  {notifPermission.state()}
-                </Badge>
-              </Show>
-            </div>
+            <PermissionItemCard
+              title="Geolocation"
+              name="geolocation"
+              state={geoPermission.state()}
+              onRequestAccess={handleRequestGeo}
+            />
+            <PermissionItemCard
+              title="Notifications"
+              name="notifications"
+              state={notifPermission.state()}
+              onRequestAccess={handleRequestNotif}
+            />
           </div>
 
           <div class="pt-1">
