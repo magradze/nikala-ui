@@ -3,8 +3,11 @@
   "title": "createDisclosure",
   "description": "SolidJS reactive primitive for managing boolean open/close disclosure state with helper controls",
   "type": "registry:hook",
-  "dependencies": [
-    "@nikala-ui/hooks"
-  ],
-  "files": []
+  "files": [
+    {
+      "path": "hooks/create-disclosure.ts",
+      "content": "import { createSignal, type Accessor } from \"solid-js\";\n\nexport interface CreateDisclosureOptions {\n  /** Uncontrolled initial open state. Defaults to false. */\n  defaultIsOpen?: boolean;\n  /** Controlled open state accessor */\n  isOpen?: boolean | Accessor<boolean | undefined>;\n  /** Callback triggered when state transitions to open */\n  onOpen?: () => void;\n  /** Callback triggered when state transitions to closed */\n  onClose?: () => void;\n  /** Callback triggered whenever open state changes */\n  onChange?: (isOpen: boolean) => void;\n}\n\nexport interface CreateDisclosureReturn {\n  /** Signal accessor indicating if disclosure is open */\n  isOpen: Accessor<boolean>;\n  /** Function to open the disclosure */\n  open: () => void;\n  /** Function to close the disclosure */\n  close: () => void;\n  /** Function to toggle the disclosure open state */\n  toggle: () => void;\n  /** Setter function to programmatically set open state */\n  setOpen: (open: boolean) => void;\n}\n\n/**\n * SolidJS reactive primitive for managing boolean disclosure (open/close) state with controlled and uncontrolled support.\n *\n * @param options Configuration options including initial state and callbacks.\n */\nexport function createDisclosure(options: CreateDisclosureOptions = {}): CreateDisclosureReturn {\n  const [internalOpen, setInternalOpen] = createSignal<boolean>(\n    options.defaultIsOpen ?? false\n  );\n\n  const isControlled = () => {\n    if (typeof options.isOpen === \"function\") {\n      return options.isOpen() !== undefined;\n    }\n    return options.isOpen !== undefined;\n  };\n\n  const isOpen = (): boolean => {\n    if (typeof options.isOpen === \"function\") {\n      const val = options.isOpen();\n      return val !== undefined ? val : internalOpen();\n    }\n    return options.isOpen !== undefined ? options.isOpen : internalOpen();\n  };\n\n  const setOpenState = (nextState: boolean) => {\n    const currentState = isOpen();\n    if (currentState === nextState) return;\n\n    if (!isControlled()) {\n      setInternalOpen(nextState);\n    }\n\n    options.onChange?.(nextState);\n\n    if (nextState) {\n      options.onOpen?.();\n    } else {\n      options.onClose?.();\n    }\n  };\n\n  const open = () => setOpenState(true);\n  const close = () => setOpenState(false);\n  const toggle = () => setOpenState(!isOpen());\n\n  return {\n    isOpen,\n    open,\n    close,\n    toggle,\n    setOpen: setOpenState,\n  };\n}\n",
+      "type": "registry:hook"
+    }
+  ]
 }

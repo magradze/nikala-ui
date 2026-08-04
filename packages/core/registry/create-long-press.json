@@ -3,8 +3,11 @@
   "title": "createLongPress",
   "description": "SolidJS reactive primitive for detecting long press / hold touch and pointer interactions",
   "type": "registry:hook",
-  "dependencies": [
-    "@nikala-ui/hooks"
-  ],
-  "files": []
+  "files": [
+    {
+      "path": "hooks/create-long-press.ts",
+      "content": "import { createSignal, onCleanup } from \"solid-js\";\n\nexport interface CreateLongPressOptions {\n  /** Long press hold threshold duration in milliseconds. Defaults to 500. */\n  threshold?: number;\n  /** Callback fired when long press hold starts */\n  onStart?: () => void;\n  /** Callback fired when long press is successfully completed */\n  onFinish?: () => void;\n  /** Callback fired when long press is cancelled before threshold */\n  onCancel?: () => void;\n}\n\nexport interface CreateLongPressReturn {\n  /** Accessor indicating if long press is currently being held */\n  isPressed: () => boolean;\n  /** JSX Event Handlers object to spread or attach onto target element */\n  props: {\n    onPointerDown: (e: PointerEvent) => void;\n    onPointerUp: (e: PointerEvent) => void;\n    onPointerLeave: (e: PointerEvent) => void;\n    onCancel: (e: Event) => void;\n  };\n}\n\n/**\n * SolidJS reactive primitive for detecting long press / hold interactions on elements.\n *\n * @param handler Callback function invoked when long press threshold is reached.\n * @param options Options for threshold duration and state callbacks.\n */\nexport function createLongPress(\n  handler: (event: Event) => void,\n  options: CreateLongPressOptions = {}\n): CreateLongPressReturn {\n  const threshold = options.threshold ?? 500;\n  const [isPressed, setIsPressed] = createSignal(false);\n  let timer: ReturnType<typeof setTimeout> | undefined;\n\n  const cancel = (e?: Event) => {\n    if (timer) {\n      clearTimeout(timer);\n      timer = undefined;\n    }\n    if (isPressed()) {\n      setIsPressed(false);\n      options.onCancel?.();\n    }\n  };\n\n  const start = (e: Event) => {\n    cancel();\n    setIsPressed(true);\n    options.onStart?.();\n\n    timer = setTimeout(() => {\n      handler(e);\n      options.onFinish?.();\n      timer = undefined;\n    }, threshold);\n  };\n\n  const finish = (e: Event) => {\n    if (timer) {\n      clearTimeout(timer);\n      timer = undefined;\n      options.onCancel?.();\n    }\n    setIsPressed(false);\n  };\n\n  onCleanup(() => {\n    cancel();\n  });\n\n  return {\n    isPressed,\n    props: {\n      onPointerDown: start,\n      onPointerUp: finish,\n      onPointerLeave: cancel,\n      onCancel: cancel,\n    },\n  };\n}\n",
+      "type": "registry:hook"
+    }
+  ]
 }

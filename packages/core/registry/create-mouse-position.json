@@ -3,8 +3,11 @@
   "title": "createMousePosition",
   "description": "SolidJS reactive primitive for tracking global and element-relative mouse pointer coordinates",
   "type": "registry:hook",
-  "dependencies": [
-    "@nikala-ui/hooks"
-  ],
-  "files": []
+  "files": [
+    {
+      "path": "hooks/create-mouse-position.ts",
+      "content": "import { createEffect, createSignal, onCleanup, type Accessor } from \"solid-js\";\n\nexport interface CreateMousePositionOptions {\n  /** Target element to calculate element-relative mouse coordinates for. Defaults to window. */\n  target?: HTMLElement | Window | Accessor<HTMLElement | Window | undefined>;\n}\n\nexport interface CreateMousePositionReturn {\n  /** Accessor for global page X mouse position */\n  x: Accessor<number>;\n  /** Accessor for global page Y mouse position */\n  y: Accessor<number>;\n  /** Accessor for element-relative X mouse coordinate */\n  elementX: Accessor<number>;\n  /** Accessor for element-relative Y mouse coordinate */\n  elementY: Accessor<number>;\n  /** Accessor indicating if mouse pointer is inside target element bounds */\n  isInside: Accessor<boolean>;\n}\n\n/**\n * SolidJS reactive primitive for tracking global and element-relative mouse pointer coordinates.\n *\n * @param options Configuration options including target element.\n */\nexport function createMousePosition(\n  options: CreateMousePositionOptions = {}\n): CreateMousePositionReturn {\n  const [x, setX] = createSignal(0);\n  const [y, setY] = createSignal(0);\n  const [elementX, setElementX] = createSignal(0);\n  const [elementY, setElementY] = createSignal(0);\n  const [isInside, setIsInside] = createSignal(false);\n\n  const getTarget = (): HTMLElement | Window | undefined => {\n    if (typeof window === \"undefined\") return undefined;\n    if (!options.target) return window;\n    if (typeof options.target === \"function\") {\n      return (options.target as Accessor<HTMLElement | Window | undefined>)();\n    }\n    return options.target;\n  };\n\n  const handleMouseMove = (event: MouseEvent) => {\n    const pageX = event.pageX;\n    const pageY = event.pageY;\n\n    setX(pageX);\n    setY(pageY);\n\n    const target = getTarget();\n    if (target && target !== window) {\n      const el = target as HTMLElement;\n      const rect = el.getBoundingClientRect();\n      const relX = event.clientX - rect.left;\n      const relY = event.clientY - rect.top;\n\n      setElementX(relX);\n      setElementY(relY);\n\n      const inside =\n        relX >= 0 && relX <= rect.width && relY >= 0 && relY <= rect.height;\n      setIsInside(inside);\n    } else {\n      setElementX(pageX);\n      setElementY(pageY);\n      setIsInside(true);\n    }\n  };\n\n  createEffect(() => {\n    if (typeof window === \"undefined\") return;\n\n    window.addEventListener(\"mousemove\", handleMouseMove, { passive: true });\n    onCleanup(() => {\n      window.removeEventListener(\"mousemove\", handleMouseMove);\n    });\n  });\n\n  return {\n    x,\n    y,\n    elementX,\n    elementY,\n    isInside,\n  };\n}\n",
+      "type": "registry:hook"
+    }
+  ]
 }

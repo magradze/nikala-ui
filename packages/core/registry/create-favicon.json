@@ -3,8 +3,11 @@
   "title": "createFavicon",
   "description": "SolidJS reactive primitive for dynamically updating browser favicon element",
   "type": "registry:hook",
-  "dependencies": [
-    "@nikala-ui/hooks"
-  ],
-  "files": []
+  "files": [
+    {
+      "path": "hooks/create-favicon.ts",
+      "content": "import { createEffect, onCleanup, type Accessor } from \"solid-js\";\n\nexport interface CreateFaviconOptions {\n  /** Favicon rel attribute value. Defaults to 'icon'. */\n  rel?: string;\n  /** Favicon image mime-type format (e.g., 'image/x-icon', 'image/svg+xml', 'image/png'). */\n  type?: string;\n  /** Whether to restore original favicon on component unmount. Defaults to true. */\n  restoreOnUnmount?: boolean;\n}\n\n/**\n * SolidJS reactive primitive for dynamically updating browser favicon element.\n */\nexport function createFavicon(\n  href: string | Accessor<string>,\n  options: CreateFaviconOptions = {}\n): void {\n  const getHref = (): string => (typeof href === \"function\" ? href() : href);\n\n  createEffect(() => {\n    if (typeof document === \"undefined\") return;\n\n    const rel = options.rel ?? \"icon\";\n    let linkElement: HTMLLinkElement | null = document.querySelector(\n      `link[rel*=\"${rel}\"]`\n    );\n\n    const originalHref = linkElement ? linkElement.href : \"\";\n\n    if (!linkElement) {\n      linkElement = document.createElement(\"link\");\n      linkElement.rel = rel;\n      if (options.type) linkElement.type = options.type;\n      document.head.appendChild(linkElement);\n    }\n\n    const newHref = getHref();\n    if (newHref) {\n      linkElement.href = newHref;\n      if (options.type) linkElement.type = options.type;\n    }\n\n    onCleanup(() => {\n      if (typeof document !== \"undefined\" && (options.restoreOnUnmount ?? true) && linkElement) {\n        if (originalHref) {\n          linkElement.href = originalHref;\n        }\n      }\n    });\n  });\n}\n",
+      "type": "registry:hook"
+    }
+  ]
 }

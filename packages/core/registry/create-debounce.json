@@ -3,8 +3,11 @@
   "title": "createDebounce",
   "description": "SolidJS reactive primitives for debouncing and throttling rate-limited function execution",
   "type": "registry:hook",
-  "dependencies": [
-    "@nikala-ui/hooks"
-  ],
-  "files": []
+  "files": [
+    {
+      "path": "hooks/create-debounce.ts",
+      "content": "import { onCleanup, type Accessor } from \"solid-js\";\n\nexport interface DebounceThrottleReturn<T extends (...args: any[]) => any> {\n  (...args: Parameters<T>): void;\n  clear: () => void;\n}\n\n/**\n * SolidJS reactive primitive for debouncing function execution.\n *\n * @param fn Function to debounce.\n * @param delay Delay in milliseconds (number or accessor).\n */\nexport function createDebounce<T extends (...args: any[]) => any>(\n  fn: T,\n  delay: number | Accessor<number>\n): DebounceThrottleReturn<T> {\n  const getDelay = (): number => (typeof delay === \"function\" ? delay() : delay);\n  let timer: ReturnType<typeof setTimeout> | undefined;\n\n  const clear = () => {\n    if (timer) {\n      clearTimeout(timer);\n      timer = undefined;\n    }\n  };\n\n  const debounced = (...args: Parameters<T>) => {\n    clear();\n    timer = setTimeout(() => {\n      fn(...args);\n    }, getDelay());\n  };\n\n  debounced.clear = clear;\n\n  onCleanup(() => {\n    clear();\n  });\n\n  return debounced;\n}\n\n/**\n * SolidJS reactive primitive for throttling function execution.\n *\n * @param fn Function to throttle.\n * @param delay Interval in milliseconds (number or accessor).\n */\nexport function createThrottle<T extends (...args: any[]) => any>(\n  fn: T,\n  delay: number | Accessor<number>\n): DebounceThrottleReturn<T> {\n  const getDelay = (): number => (typeof delay === \"function\" ? delay() : delay);\n  let lastCall = 0;\n  let timer: ReturnType<typeof setTimeout> | undefined;\n\n  const clear = () => {\n    if (timer) {\n      clearTimeout(timer);\n      timer = undefined;\n    }\n  };\n\n  const throttled = (...args: Parameters<T>) => {\n    const now = Date.now();\n    const interval = getDelay();\n    const remaining = interval - (now - lastCall);\n\n    if (remaining <= 0) {\n      clear();\n      lastCall = now;\n      fn(...args);\n    } else if (!timer) {\n      timer = setTimeout(() => {\n        lastCall = Date.now();\n        timer = undefined;\n        fn(...args);\n      }, remaining);\n    }\n  };\n\n  throttled.clear = clear;\n\n  onCleanup(() => {\n    clear();\n  });\n\n  return throttled;\n}\n",
+      "type": "registry:hook"
+    }
+  ]
 }

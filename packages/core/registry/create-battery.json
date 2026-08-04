@@ -3,8 +3,11 @@
   "title": "createBattery",
   "description": "SolidJS reactive primitive for observing device battery status, charge level, and charging metrics",
   "type": "registry:hook",
-  "dependencies": [
-    "@nikala-ui/hooks"
-  ],
-  "files": []
+  "files": [
+    {
+      "path": "hooks/create-battery.ts",
+      "content": "import { createSignal, createEffect, onCleanup, type Accessor } from \"solid-js\";\n\nexport interface BatteryState {\n  /** Battery charge level ratio from 0.0 (empty) to 1.0 (full). */\n  level: number;\n  /** Whether the device battery is currently charging. */\n  charging: boolean;\n  /** Seconds remaining until fully charged (0 if already full or unknown). */\n  chargingTime: number;\n  /** Seconds remaining until fully discharged. */\n  dischargingTime: number;\n}\n\nexport interface CreateBatteryReturn {\n  /** Signal accessor containing battery state metrics. */\n  battery: Accessor<BatteryState>;\n  /** Signal accessor indicating whether Battery Status API is supported in browser environment. */\n  isSupported: Accessor<boolean>;\n}\n\nconst initialBatteryState: BatteryState = {\n  level: 1,\n  charging: true,\n  chargingTime: 0,\n  dischargingTime: Infinity,\n};\n\n/**\n * SolidJS reactive primitive for observing device battery status, charge level, and charging metrics.\n */\nexport function createBattery(): CreateBatteryReturn {\n  const [battery, setBattery] = createSignal<BatteryState>(initialBatteryState);\n\n  const isSupported = (): boolean =>\n    typeof window !== \"undefined\" &&\n    typeof navigator !== \"undefined\" &&\n    \"getBattery\" in navigator;\n\n  let batteryManager: any = null;\n\n  const updateBatteryStatus = (): void => {\n    if (!batteryManager) return;\n    setBattery({\n      level: batteryManager.level ?? 1,\n      charging: Boolean(batteryManager.charging),\n      chargingTime: batteryManager.chargingTime ?? 0,\n      dischargingTime: batteryManager.dischargingTime ?? Infinity,\n    });\n  };\n\n  createEffect(() => {\n    if (!isSupported()) return;\n\n    (navigator as any).getBattery().then((manager: any) => {\n      batteryManager = manager;\n      updateBatteryStatus();\n\n      manager.addEventListener(\"levelchange\", updateBatteryStatus);\n      manager.addEventListener(\"chargingchange\", updateBatteryStatus);\n      manager.addEventListener(\"chargingtimechange\", updateBatteryStatus);\n      manager.addEventListener(\"dischargingtimechange\", updateBatteryStatus);\n    }).catch(() => {});\n\n    onCleanup(() => {\n      if (batteryManager) {\n        batteryManager.removeEventListener(\"levelchange\", updateBatteryStatus);\n        batteryManager.removeEventListener(\"chargingchange\", updateBatteryStatus);\n        batteryManager.removeEventListener(\"chargingtimechange\", updateBatteryStatus);\n        batteryManager.removeEventListener(\"dischargingtimechange\", updateBatteryStatus);\n      }\n    });\n  });\n\n  return {\n    battery,\n    isSupported,\n  };\n}\n",
+      "type": "registry:hook"
+    }
+  ]
 }

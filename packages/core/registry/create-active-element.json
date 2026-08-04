@@ -3,8 +3,11 @@
   "title": "createActiveElement",
   "description": "SolidJS reactive primitive for tracking the currently focused DOM element",
   "type": "registry:hook",
-  "dependencies": [
-    "@nikala-ui/hooks"
-  ],
-  "files": []
+  "files": [
+    {
+      "path": "hooks/create-active-element.ts",
+      "content": "import { createSignal, onMount, onCleanup, type Accessor } from \"solid-js\";\nimport { isServer } from \"solid-js/web\";\n\nexport interface CreateActiveElementReturn {\n  /** Accessor returning the currently focused DOM element, or null */\n  activeElement: Accessor<Element | null>;\n  /** Accessor returning true if any element (non-body) is focused */\n  hasFocus: Accessor<boolean>;\n}\n\n/**\n * SolidJS reactive primitive for tracking the currently focused (active) DOM element.\n * Listens to focus/blur events on the document and reactively updates `activeElement` and `hasFocus`.\n */\nexport function createActiveElement(): CreateActiveElementReturn {\n  // SSR: return static defaults\n  if (isServer) {\n    const [activeElement] = createSignal<Element | null>(null);\n    const [hasFocus] = createSignal(false);\n    return { activeElement, hasFocus };\n  }\n\n  const [activeElement, setActiveElement] = createSignal<Element | null>(null);\n\n  const hasFocus = () => {\n    const el = activeElement();\n    return el !== null && el !== document.body;\n  };\n\n  const handleFocusChange = () => {\n    setActiveElement(document.activeElement);\n  };\n\n  onMount(() => {\n    // Set initial value\n    setActiveElement(document.activeElement);\n\n    document.addEventListener(\"focusin\", handleFocusChange, true);\n    document.addEventListener(\"focusout\", handleFocusChange, true);\n\n    onCleanup(() => {\n      document.removeEventListener(\"focusin\", handleFocusChange, true);\n      document.removeEventListener(\"focusout\", handleFocusChange, true);\n    });\n  });\n\n  return {\n    activeElement,\n    hasFocus,\n  };\n}\n",
+      "type": "registry:hook"
+    }
+  ]
 }

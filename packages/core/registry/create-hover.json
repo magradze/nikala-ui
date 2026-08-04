@@ -3,8 +3,11 @@
   "title": "createHover",
   "description": "SolidJS reactive primitive for tracking element hover state with entrance and exit delays",
   "type": "registry:hook",
-  "dependencies": [
-    "@nikala-ui/hooks"
-  ],
-  "files": []
+  "files": [
+    {
+      "path": "hooks/create-hover.ts",
+      "content": "import { createSignal, onCleanup, type Accessor } from \"solid-js\";\n\nexport interface CreateHoverOptions {\n  /** Delay in milliseconds before setting hover state to true */\n  delayEnter?: number;\n  /** Delay in milliseconds before setting hover state to false */\n  delayLeave?: number;\n  /** Callback fired when hover state transitions to true */\n  onHoverStart?: () => void;\n  /** Callback fired when hover state transitions to false */\n  onHoverEnd?: () => void;\n}\n\nexport interface CreateHoverReturn {\n  /** Accessor indicating whether target element is hovered */\n  isHovered: Accessor<boolean>;\n  /** Event listeners props to spread onto target JSX element */\n  props: {\n    onPointerEnter: (e: PointerEvent) => void;\n    onPointerLeave: (e: PointerEvent) => void;\n  };\n}\n\n/**\n * SolidJS reactive primitive for tracking element hover state with optional entrance/exit delays.\n *\n * @param options Configuration options for hover delays and callbacks.\n */\nexport function createHover(options: CreateHoverOptions = {}): CreateHoverReturn {\n  const [isHovered, setIsHovered] = createSignal(false);\n  let enterTimer: ReturnType<typeof setTimeout> | undefined;\n  let leaveTimer: ReturnType<typeof setTimeout> | undefined;\n\n  const clearTimers = () => {\n    if (enterTimer) {\n      clearTimeout(enterTimer);\n      enterTimer = undefined;\n    }\n    if (leaveTimer) {\n      clearTimeout(leaveTimer);\n      leaveTimer = undefined;\n    }\n  };\n\n  const onPointerEnter = () => {\n    clearTimers();\n    const delay = options.delayEnter ?? 0;\n\n    if (delay > 0) {\n      enterTimer = setTimeout(() => {\n        setIsHovered(true);\n        options.onHoverStart?.();\n        enterTimer = undefined;\n      }, delay);\n    } else {\n      setIsHovered(true);\n      options.onHoverStart?.();\n    }\n  };\n\n  const onPointerLeave = () => {\n    clearTimers();\n    const delay = options.delayLeave ?? 0;\n\n    if (delay > 0) {\n      leaveTimer = setTimeout(() => {\n        setIsHovered(false);\n        options.onHoverEnd?.();\n        leaveTimer = undefined;\n      }, delay);\n    } else {\n      setIsHovered(false);\n      options.onHoverEnd?.();\n    }\n  };\n\n  onCleanup(() => {\n    clearTimers();\n  });\n\n  return {\n    isHovered,\n    props: {\n      onPointerEnter,\n      onPointerLeave,\n    },\n  };\n}\n",
+      "type": "registry:hook"
+    }
+  ]
 }

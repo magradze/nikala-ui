@@ -114,14 +114,29 @@ async function buildRegistry() {
 
   // Generate hook registry items
   const { HOOK_METADATA } = await import("../src/registry/metadata.js");
+  const hooksSourceDir = path.resolve(cwd, "../hooks/src");
+
   for (const [hookName, meta] of Object.entries(HOOK_METADATA)) {
+    const hookFileName = `${hookName}.ts`;
+    const hookFilePath = path.join(hooksSourceDir, hookFileName);
+    const hookFiles = [];
+
+    if (await fs.pathExists(hookFilePath)) {
+      const hookContent = await fs.readFile(hookFilePath, "utf-8");
+      hookFiles.push({
+        path: `hooks/${hookFileName}`,
+        content: hookContent,
+        type: "registry:hook" as const,
+      });
+    }
+
     const registryItem: RegistryItem = {
       name: hookName,
       title: meta.title,
       description: meta.description,
       type: "registry:hook",
       dependencies: meta.dependencies,
-      files: [],
+      files: hookFiles,
     };
 
     const outputPath = path.join(outputDir, `${hookName}.json`);

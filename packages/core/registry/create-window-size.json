@@ -3,8 +3,11 @@
   "title": "createWindowSize",
   "description": "SolidJS reactive primitive for tracking window viewport inner width and height",
   "type": "registry:hook",
-  "dependencies": [
-    "@nikala-ui/hooks"
-  ],
-  "files": []
+  "files": [
+    {
+      "path": "hooks/create-window-size.ts",
+      "content": "import { createSignal, onMount, onCleanup, type Accessor } from \"solid-js\";\n\nexport interface CreateWindowSizeReturn {\n  /** Accessor for current window inner width in pixels */\n  width: Accessor<number>;\n  /** Accessor for current window inner height in pixels */\n  height: Accessor<number>;\n}\n\n/**\n * SolidJS reactive primitive for tracking window viewport dimensions (width and height).\n */\nexport function createWindowSize(): CreateWindowSizeReturn {\n  const [width, setWidth] = createSignal<number>(\n    typeof window !== \"undefined\" ? window.innerWidth : 0\n  );\n  const [height, setHeight] = createSignal<number>(\n    typeof window !== \"undefined\" ? window.innerHeight : 0\n  );\n\n  onMount(() => {\n    if (typeof window === \"undefined\") return;\n\n    const handleResize = () => {\n      setWidth(window.innerWidth);\n      setHeight(window.innerHeight);\n    };\n\n    handleResize();\n\n    window.addEventListener(\"resize\", handleResize);\n    onCleanup(() => {\n      window.removeEventListener(\"resize\", handleResize);\n    });\n  });\n\n  return {\n    width,\n    height,\n  };\n}\n",
+      "type": "registry:hook"
+    }
+  ]
 }

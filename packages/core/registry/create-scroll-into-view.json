@@ -3,8 +3,11 @@
   "title": "createScrollIntoView",
   "description": "SolidJS reactive primitive for scrolling a target element into view smooth or auto behavior",
   "type": "registry:hook",
-  "dependencies": [
-    "@nikala-ui/hooks"
-  ],
-  "files": []
+  "files": [
+    {
+      "path": "hooks/create-scroll-into-view.ts",
+      "content": "import { createEffect, onCleanup, type Accessor } from \"solid-js\";\n\nexport interface CreateScrollIntoViewOptions extends ScrollIntoViewOptions {\n  /** Whether the element should scroll into view automatically. Defaults to true. */\n  enabled?: boolean | Accessor<boolean>;\n  /** Delay in milliseconds before executing scrollIntoView. Defaults to 0. */\n  delay?: number;\n}\n\n/**\n * SolidJS reactive primitive for scrolling a target element into view smooth or auto behavior.\n */\nexport function createScrollIntoView(\n  target: HTMLElement | Accessor<HTMLElement | null | undefined> | null | undefined,\n  options: CreateScrollIntoViewOptions = {}\n): void {\n  const getTarget = (): HTMLElement | null | undefined => {\n    if (typeof target === \"function\") {\n      return target();\n    }\n    return target;\n  };\n\n  const isEnabled = (): boolean => {\n    if (typeof options.enabled === \"function\") {\n      return options.enabled();\n    }\n    return options.enabled ?? true;\n  };\n\n  createEffect(() => {\n    if (!isEnabled()) return;\n\n    const el = getTarget();\n    if (!el || typeof window === \"undefined\") return;\n\n    const scrollOptions: ScrollIntoViewOptions = {\n      behavior: options.behavior ?? \"smooth\",\n      block: options.block ?? \"nearest\",\n      inline: options.inline ?? \"nearest\",\n    };\n\n    let timer: ReturnType<typeof setTimeout> | null = null;\n\n    if (options.delay && options.delay > 0) {\n      timer = setTimeout(() => {\n        el.scrollIntoView(scrollOptions);\n      }, options.delay);\n    } else {\n      el.scrollIntoView(scrollOptions);\n    }\n\n    onCleanup(() => {\n      if (timer) clearTimeout(timer);\n    });\n  });\n}\n",
+      "type": "registry:hook"
+    }
+  ]
 }

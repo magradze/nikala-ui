@@ -3,8 +3,11 @@
   "title": "createDocumentTitle",
   "description": "SolidJS reactive primitive for managing document title dynamically",
   "type": "registry:hook",
-  "dependencies": [
-    "@nikala-ui/hooks"
-  ],
-  "files": []
+  "files": [
+    {
+      "path": "hooks/create-document-title.ts",
+      "content": "import { createEffect, onCleanup, type Accessor } from \"solid-js\";\n\nexport interface CreateDocumentTitleOptions {\n  /** Whether to restore original title on component unmount. Defaults to true. */\n  restoreOnUnmount?: boolean;\n}\n\n/**\n * SolidJS reactive primitive for managing document title dynamically.\n */\nexport function createDocumentTitle(\n  title: string | Accessor<string>,\n  options: CreateDocumentTitleOptions = {}\n): void {\n  const getTitle = (): string => (typeof title === \"function\" ? title() : title);\n\n  createEffect(() => {\n    if (typeof document === \"undefined\") return;\n\n    const originalTitle = document.title;\n    const newTitle = getTitle();\n\n    if (newTitle) {\n      document.title = newTitle;\n    }\n\n    onCleanup(() => {\n      if (typeof document !== \"undefined\" && (options.restoreOnUnmount ?? true)) {\n        document.title = originalTitle;\n      }\n    });\n  });\n}\n",
+      "type": "registry:hook"
+    }
+  ]
 }

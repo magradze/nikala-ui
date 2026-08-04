@@ -3,8 +3,11 @@
   "title": "createPrevious",
   "description": "SolidJS reactive primitive for tracking previous value of a signal accessor",
   "type": "registry:hook",
-  "dependencies": [
-    "@nikala-ui/hooks"
-  ],
-  "files": []
+  "files": [
+    {
+      "path": "hooks/create-previous.ts",
+      "content": "import { createEffect, createSignal, type Accessor } from \"solid-js\";\n\n/**\n * SolidJS reactive primitive for tracking previous value of a signal accessor.\n *\n * @param source Target reactive signal accessor to observe.\n */\nexport function createPrevious<T>(source: Accessor<T>): Accessor<T | undefined> {\n  const [previous, setPrevious] = createSignal<T | undefined>(undefined);\n  let current: T = source();\n\n  createEffect(() => {\n    const next = source();\n    if (current !== next) {\n      setPrevious(() => current);\n      current = next;\n    }\n  });\n\n  return previous;\n}\n",
+      "type": "registry:hook"
+    }
+  ]
 }

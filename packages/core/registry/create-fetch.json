@@ -3,8 +3,11 @@
   "title": "createFetch",
   "description": "SolidJS reactive primitive for HTTP REST API fetching, request loading states, error handling, and refetching",
   "type": "registry:hook",
-  "dependencies": [
-    "@nikala-ui/hooks"
-  ],
-  "files": []
+  "files": [
+    {
+      "path": "hooks/create-fetch.ts",
+      "content": "import { createSignal, createEffect, type Accessor } from \"solid-js\";\n\nexport interface CreateFetchOptions<T> extends RequestInit {\n  /** Whether the request should be refetched automatically on window focus. Defaults to false. */\n  refetchOnFocus?: boolean;\n  /** Custom transform function to process raw JSON / text response into required shape. */\n  transform?: (data: unknown) => T;\n  /** Whether the initial request should execute immediately. Defaults to true. */\n  immediate?: boolean;\n}\n\nexport interface CreateFetchReturn<T> {\n  /** Signal containing fetched data. */\n  data: Accessor<T | null>;\n  /** Signal indicating whether request is loading. */\n  isLoading: Accessor<boolean>;\n  /** Signal containing request error if fetch failed. */\n  error: Accessor<Error | null>;\n  /** Imperative function to refetch data manually. */\n  refetch: () => Promise<void>;\n  /** Abort ongoing HTTP request. */\n  abort: () => void;\n}\n\n/**\n * SolidJS reactive primitive for handling HTTP fetch requests, loading states, errors, and manual refetching.\n */\nexport function createFetch<T = unknown>(\n  url: string | Accessor<string>,\n  options: CreateFetchOptions<T> = {}\n): CreateFetchReturn<T> {\n  const [data, setData] = createSignal<T | null>(null);\n  const [isLoading, setIsLoading] = createSignal(options.immediate ?? true);\n  const [error, setError] = createSignal<Error | null>(null);\n\n  let controller: AbortController | null = null;\n\n  const getUrl = (): string => {\n    return typeof url === \"function\" ? url() : url;\n  };\n\n  const abort = (): void => {\n    if (controller) {\n      controller.abort();\n      controller = null;\n    }\n  };\n\n  const executeFetch = async (): Promise<void> => {\n    if (typeof window === \"undefined\") return;\n\n    abort();\n    controller = new AbortController();\n\n    setIsLoading(true);\n    setError(null);\n\n    try {\n      const response = await fetch(getUrl(), {\n        ...options,\n        signal: controller.signal,\n      });\n\n      if (!response.ok) {\n        throw new Error(`HTTP error! status: ${response.status} ${response.statusText}`);\n      }\n\n      const raw = await response.json();\n      const result = options.transform ? options.transform(raw) : (raw as T);\n\n      setData(() => result);\n    } catch (err) {\n      if (err instanceof Error && err.name === \"AbortError\") return;\n      setError(err instanceof Error ? err : new Error(String(err)));\n    } finally {\n      setIsLoading(false);\n    }\n  };\n\n  createEffect(() => {\n    if (options.immediate ?? true) {\n      executeFetch();\n    }\n  });\n\n  return {\n    data,\n    isLoading,\n    error,\n    refetch: executeFetch,\n    abort,\n  };\n}\n",
+      "type": "registry:hook"
+    }
+  ]
 }

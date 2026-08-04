@@ -23,6 +23,10 @@ export async function writeComponentFiles(
     if (file.path.startsWith("ui/")) {
       const relativePath = file.path.replace(/^ui\//, "");
       targetFilePath = path.join(componentsDir, relativePath);
+    } else if (file.path.startsWith("hooks/")) {
+      const relativePath = file.path.replace(/^hooks\//, "");
+      const hooksDir = path.resolve(cwd, "src/hooks");
+      targetFilePath = path.join(hooksDir, relativePath);
     } else {
       targetFilePath = path.resolve(cwd, "src", file.path);
     }

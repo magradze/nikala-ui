@@ -3,8 +3,11 @@
   "title": "createUndoRedo",
   "description": "SolidJS reactive primitive for undo/redo state history management, history stack tracking, and reverting actions",
   "type": "registry:hook",
-  "dependencies": [
-    "@nikala-ui/hooks"
-  ],
-  "files": []
+  "files": [
+    {
+      "path": "hooks/create-undo-redo.ts",
+      "content": "import { createSignal, type Accessor } from \"solid-js\";\n\nexport interface CreateUndoRedoOptions<T> {\n  /** Maximum number of history states to retain. Defaults to 50. */\n  maxHistory?: number;\n}\n\nexport interface CreateUndoRedoReturn<T> {\n  /** Signal containing the current state value. */\n  state: Accessor<T>;\n  /** Update state value and append to history. */\n  set: (nextState: T | ((prev: T) => T)) => void;\n  /** Revert to previous state history entry. */\n  undo: () => void;\n  /** Advance to next state history entry. */\n  redo: () => void;\n  /** Signal indicating whether undo is available. */\n  canUndo: Accessor<boolean>;\n  /** Signal indicating whether redo is available. */\n  canRedo: Accessor<boolean>;\n  /** History stack of past states. */\n  history: Accessor<T[]>;\n  /** Reset history to initial state value. */\n  reset: (initialState?: T) => void;\n}\n\n/**\n * SolidJS reactive primitive for undo/redo state history management.\n */\nexport function createUndoRedo<T>(\n  initialValue: T | Accessor<T>,\n  options: CreateUndoRedoOptions<T> = {}\n): CreateUndoRedoReturn<T> {\n  const getInitial = (): T => {\n    return typeof initialValue === \"function\"\n      ? (initialValue as Accessor<T>)()\n      : initialValue;\n  };\n\n  const maxHistory = options.maxHistory ?? 50;\n\n  const [history, setHistory] = createSignal<T[]>([getInitial()]);\n  const [pointer, setPointer] = createSignal<number>(0);\n\n  const state = (): T => history()[pointer()] ?? getInitial();\n\n  const canUndo = (): boolean => pointer() > 0;\n  const canRedo = (): boolean => pointer() < history().length - 1;\n\n  const set = (nextState: T | ((prev: T) => T)): void => {\n    const current = state();\n    const resolved =\n      typeof nextState === \"function\"\n        ? (nextState as (prev: T) => T)(current)\n        : nextState;\n\n    if (Object.is(resolved, current)) return;\n\n    /* Slice history up to current pointer and push new state */\n    const sliced = history().slice(0, pointer() + 1);\n    const updated = [...sliced, resolved];\n\n    /* Trim to maxHistory limit */\n    if (updated.length > maxHistory) {\n      updated.shift();\n    }\n\n    setHistory(updated);\n    setPointer(updated.length - 1);\n  };\n\n  const undo = (): void => {\n    if (canUndo()) {\n      setPointer((p) => p - 1);\n    }\n  };\n\n  const redo = (): void => {\n    if (canRedo()) {\n      setPointer((p) => p + 1);\n    }\n  };\n\n  const reset = (newInitial?: T): void => {\n    const init = newInitial !== undefined ? newInitial : getInitial();\n    setHistory([init]);\n    setPointer(0);\n  };\n\n  return {\n    state,\n    set,\n    undo,\n    redo,\n    canUndo,\n    canRedo,\n    history,\n    reset,\n  };\n}\n",
+      "type": "registry:hook"
+    }
+  ]
 }

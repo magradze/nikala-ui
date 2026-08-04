@@ -3,8 +3,11 @@
   "title": "createIntersectionObserver",
   "description": "SolidJS reactive primitives for observing element visibility and viewport intersection status",
   "type": "registry:hook",
-  "dependencies": [
-    "@nikala-ui/hooks"
-  ],
-  "files": []
+  "files": [
+    {
+      "path": "hooks/create-intersection-observer.ts",
+      "content": "import { createEffect, createSignal, onCleanup, type Accessor } from \"solid-js\";\n\nexport interface CreateIntersectionObserverOptions extends IntersectionObserverInit {\n  /** Whether the observer is active. Defaults to true. */\n  enabled?: boolean | Accessor<boolean>;\n}\n\n/**\n * SolidJS reactive primitive for observing element visibility and intersection with viewport or root element.\n *\n * @param target Target element or accessor returning HTML element.\n * @param callback Observer callback invoked on intersection state change.\n * @param options IntersectionObserver options (root, rootMargin, threshold, enabled).\n */\nexport function createIntersectionObserver(\n  target: HTMLElement | Accessor<HTMLElement | undefined>,\n  callback: IntersectionObserverCallback,\n  options: CreateIntersectionObserverOptions = {}\n): void {\n  const getTarget = (): HTMLElement | undefined => {\n    if (typeof target === \"function\") {\n      return (target as Accessor<HTMLElement | undefined>)();\n    }\n    return target;\n  };\n\n  const isEnabled = (): boolean => {\n    if (typeof options.enabled === \"function\") {\n      return options.enabled();\n    }\n    return options.enabled ?? true;\n  };\n\n  createEffect(() => {\n    if (typeof window === \"undefined\" || !window.IntersectionObserver) {\n      return;\n    }\n\n    if (!isEnabled()) return;\n\n    const el = getTarget();\n    if (!el) return;\n\n    const observer = new IntersectionObserver(callback, {\n      root: options.root,\n      rootMargin: options.rootMargin,\n      threshold: options.threshold,\n    });\n\n    observer.observe(el);\n\n    onCleanup(() => {\n      observer.disconnect();\n    });\n  });\n}\n\n/**\n * SolidJS reactive primitive returning a boolean accessor indicating if element is currently visible in viewport.\n *\n * @param target Target element or accessor returning HTML element.\n * @param options IntersectionObserver options.\n */\nexport function createInView(\n  target: HTMLElement | Accessor<HTMLElement | undefined>,\n  options: CreateIntersectionObserverOptions = {}\n): Accessor<boolean> {\n  const [isInView, setIsInView] = createSignal(false);\n\n  createIntersectionObserver(\n    target,\n    (entries) => {\n      const entry = entries[0];\n      if (entry) {\n        setIsInView(entry.isIntersecting);\n      }\n    },\n    options\n  );\n\n  return isInView;\n}\n",
+      "type": "registry:hook"
+    }
+  ]
 }

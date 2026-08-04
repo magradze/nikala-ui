@@ -3,8 +3,5 @@
   "title": "createAudio & createVideo",
   "description": "SolidJS reactive primitives for controlling HTML audio and video playback, duration, volume, and seeking",
   "type": "registry:hook",
-  "dependencies": [
-    "@nikala-ui/hooks"
-  ],
   "files": []
 }

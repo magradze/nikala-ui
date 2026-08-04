@@ -82,7 +82,7 @@ export async function init(options: InitOptions) {
 
   // 1. Install required packages
   const userPkgPath = path.join(cwd, "package.json");
-  const requiredDeps = ["clsx", "tailwind-merge", "class-variance-authority", "@nikala-ui/hooks"];
+  const requiredDeps = ["clsx", "tailwind-merge", "class-variance-authority"];
 
   if (await fs.pathExists(userPkgPath)) {
     try {
@@ -121,6 +121,7 @@ export async function init(options: InitOptions) {
     alias: {
       components: config.componentsDir,
       utils: config.utilsDir,
+      hooks: "src/hooks",
     },
   });
   console.log(pc.green("✓ Created nikala.config.json"));

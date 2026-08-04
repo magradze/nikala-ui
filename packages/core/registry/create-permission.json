@@ -3,8 +3,11 @@
   "title": "createPermission",
   "description": "SolidJS reactive primitive for querying and observing browser permission status changes",
   "type": "registry:hook",
-  "dependencies": [
-    "@nikala-ui/hooks"
-  ],
-  "files": []
+  "files": [
+    {
+      "path": "hooks/create-permission.ts",
+      "content": "import { createSignal, createEffect, onCleanup, type Accessor } from \"solid-js\";\n\nexport type PermissionNameType =\n  | \"geolocation\"\n  | \"notifications\"\n  | \"persistent-storage\"\n  | \"push\"\n  | \"screen-wake-lock\"\n  | \"clipboard-read\"\n  | \"clipboard-write\"\n  | \"camera\"\n  | \"microphone\"\n  | (string & {});\n\nexport type PermissionStatusState = \"granted\" | \"denied\" | \"prompt\" | \"unknown\";\n\nexport interface CreatePermissionOptions {\n  /** Permission descriptor or name to query. */\n  name: PermissionNameType;\n}\n\nexport interface CreatePermissionReturn {\n  /** Signal accessor containing current permission status ('granted', 'denied', 'prompt', 'unknown'). */\n  state: Accessor<PermissionStatusState>;\n  /** Signal accessor indicating whether Permissions API is supported in browser environment. */\n  isSupported: Accessor<boolean>;\n  /** Imperative function to re-query permission status manually. */\n  query: () => Promise<PermissionStatusState>;\n}\n\n/**\n * SolidJS reactive primitive for querying and observing browser permission status changes.\n */\nexport function createPermission(\n  options: PermissionNameType | CreatePermissionOptions\n): CreatePermissionReturn {\n  const [state, setState] = createSignal<PermissionStatusState>(\"unknown\");\n\n  const permissionName = typeof options === \"string\" ? options : options.name;\n\n  const isSupported = (): boolean =>\n    typeof window !== \"undefined\" &&\n    typeof navigator !== \"undefined\" &&\n    \"permissions\" in navigator;\n\n  let permissionStatus: PermissionStatus | null = null;\n\n  const query = async (): Promise<PermissionStatusState> => {\n    if (!isSupported()) {\n      setState(\"unknown\");\n      return \"unknown\";\n    }\n\n    try {\n      const status = await navigator.permissions.query({\n        name: permissionName as PermissionName,\n      });\n\n      permissionStatus = status;\n      const currentState = status.state as PermissionStatusState;\n      setState(currentState);\n\n      status.onchange = () => {\n        setState(status.state as PermissionStatusState);\n      };\n\n      return currentState;\n    } catch {\n      setState(\"unknown\");\n      return \"unknown\";\n    }\n  };\n\n  createEffect(() => {\n    if (!isSupported()) return;\n\n    query();\n\n    onCleanup(() => {\n      if (permissionStatus) {\n        permissionStatus.onchange = null;\n      }\n    });\n  });\n\n  return {\n    state,\n    isSupported,\n    query,\n  };\n}\n",
+      "type": "registry:hook"
+    }
+  ]
 }

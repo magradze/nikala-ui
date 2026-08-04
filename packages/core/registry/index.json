@@ -345,360 +345,240 @@
     "name": "create-controllable-signal",
     "title": "createControllableSignal",
     "description": "SolidJS reactive primitive supporting both controlled and uncontrolled state management",
-    "type": "registry:hook",
-    "dependencies": [
-      "@nikala-ui/hooks"
-    ]
+    "type": "registry:hook"
   },
   {
     "name": "create-click-outside",
     "title": "createClickOutside",
     "description": "SolidJS reactive primitive for detecting click and pointer interactions outside target elements",
-    "type": "registry:hook",
-    "dependencies": [
-      "@nikala-ui/hooks"
-    ]
+    "type": "registry:hook"
   },
   {
     "name": "create-clipboard",
     "title": "createClipboard",
     "description": "SolidJS reactive primitive for copying text to clipboard with automatic status reset",
-    "type": "registry:hook",
-    "dependencies": [
-      "@nikala-ui/hooks"
-    ]
+    "type": "registry:hook"
   },
   {
     "name": "create-keybindings",
     "title": "createKeybindings",
     "description": "SolidJS reactive primitives for listening to keyboard shortcuts, key combinations, and Escape key presses",
-    "type": "registry:hook",
-    "dependencies": [
-      "@nikala-ui/hooks"
-    ]
+    "type": "registry:hook"
   },
   {
     "name": "create-lock-scroll",
     "title": "createLockScroll",
     "description": "SolidJS reactive primitive for locking body or container scrolling when overlays are active",
-    "type": "registry:hook",
-    "dependencies": [
-      "@nikala-ui/hooks"
-    ]
+    "type": "registry:hook"
   },
   {
     "name": "create-disclosure",
     "title": "createDisclosure",
     "description": "SolidJS reactive primitive for managing boolean open/close disclosure state with helper controls",
-    "type": "registry:hook",
-    "dependencies": [
-      "@nikala-ui/hooks"
-    ]
+    "type": "registry:hook"
   },
   {
     "name": "create-media-query",
     "title": "createMediaQuery",
     "description": "SolidJS reactive primitives for tracking CSS media queries and responsive Tailwind breakpoints",
-    "type": "registry:hook",
-    "dependencies": [
-      "@nikala-ui/hooks"
-    ]
+    "type": "registry:hook"
   },
   {
     "name": "create-debounce",
     "title": "createDebounce",
     "description": "SolidJS reactive primitives for debouncing and throttling rate-limited function execution",
-    "type": "registry:hook",
-    "dependencies": [
-      "@nikala-ui/hooks"
-    ]
+    "type": "registry:hook"
   },
   {
     "name": "create-intersection-observer",
     "title": "createIntersectionObserver",
     "description": "SolidJS reactive primitives for observing element visibility and viewport intersection status",
-    "type": "registry:hook",
-    "dependencies": [
-      "@nikala-ui/hooks"
-    ]
+    "type": "registry:hook"
   },
   {
     "name": "create-timer",
     "title": "createTimer",
     "description": "SolidJS reactive primitives for recurring interval ticks and formatted countdown timers",
-    "type": "registry:hook",
-    "dependencies": [
-      "@nikala-ui/hooks"
-    ]
+    "type": "registry:hook"
   },
   {
     "name": "create-resize-observer",
     "title": "createResizeObserver",
     "description": "SolidJS reactive primitives for tracking element width and height dimensions dynamically",
-    "type": "registry:hook",
-    "dependencies": [
-      "@nikala-ui/hooks"
-    ]
+    "type": "registry:hook"
   },
   {
     "name": "create-window-size",
     "title": "createWindowSize",
     "description": "SolidJS reactive primitive for tracking window viewport inner width and height",
-    "type": "registry:hook",
-    "dependencies": [
-      "@nikala-ui/hooks"
-    ]
+    "type": "registry:hook"
   },
   {
     "name": "create-scroll-position",
     "title": "createScrollPosition",
     "description": "SolidJS reactive primitive for tracking scroll position, scroll direction, and container bounds",
-    "type": "registry:hook",
-    "dependencies": [
-      "@nikala-ui/hooks"
-    ]
+    "type": "registry:hook"
   },
   {
     "name": "create-focus-trap",
     "title": "createFocusTrap",
     "description": "SolidJS reactive primitive for trapping keyboard focus inside target container element for accessibility",
-    "type": "registry:hook",
-    "dependencies": [
-      "@nikala-ui/hooks"
-    ]
+    "type": "registry:hook"
   },
   {
     "name": "create-mouse-position",
     "title": "createMousePosition",
     "description": "SolidJS reactive primitive for tracking global and element-relative mouse pointer coordinates",
-    "type": "registry:hook",
-    "dependencies": [
-      "@nikala-ui/hooks"
-    ]
+    "type": "registry:hook"
   },
   {
     "name": "create-long-press",
     "title": "createLongPress",
     "description": "SolidJS reactive primitive for detecting long press / hold touch and pointer interactions",
-    "type": "registry:hook",
-    "dependencies": [
-      "@nikala-ui/hooks"
-    ]
+    "type": "registry:hook"
   },
   {
     "name": "create-hover",
     "title": "createHover",
     "description": "SolidJS reactive primitive for tracking element hover state with entrance and exit delays",
-    "type": "registry:hook",
-    "dependencies": [
-      "@nikala-ui/hooks"
-    ]
+    "type": "registry:hook"
   },
   {
     "name": "create-storage",
     "title": "createLocalStorage",
     "description": "SolidJS reactive primitives for Web Storage state synchronization across components and browser tabs",
-    "type": "registry:hook",
-    "dependencies": [
-      "@nikala-ui/hooks"
-    ]
+    "type": "registry:hook"
   },
   {
     "name": "create-previous",
     "title": "createPrevious",
     "description": "SolidJS reactive primitive for tracking previous value of a signal accessor",
-    "type": "registry:hook",
-    "dependencies": [
-      "@nikala-ui/hooks"
-    ]
+    "type": "registry:hook"
   },
   {
     "name": "create-network-status",
     "title": "createNetworkStatus",
     "description": "SolidJS reactive primitives for tracking browser network connectivity and connection quality metrics",
-    "type": "registry:hook",
-    "dependencies": [
-      "@nikala-ui/hooks"
-    ]
+    "type": "registry:hook"
   },
   {
     "name": "create-color-mode",
     "title": "createColorMode",
     "description": "SolidJS reactive primitive for managing dark/light themes and system preferences",
-    "type": "registry:hook",
-    "dependencies": [
-      "@nikala-ui/hooks"
-    ]
+    "type": "registry:hook"
   },
   {
     "name": "create-form",
     "title": "createForm",
     "description": "SolidJS reactive primitive for form state management, field validation, errors, and submission",
-    "type": "registry:hook",
-    "dependencies": [
-      "@nikala-ui/hooks"
-    ]
+    "type": "registry:hook"
   },
   {
     "name": "create-input-mask",
     "title": "createInputMask",
     "description": "SolidJS reactive primitive for input value masking (phone numbers, credit cards, dates)",
-    "type": "registry:hook",
-    "dependencies": [
-      "@nikala-ui/hooks"
-    ]
+    "type": "registry:hook"
   },
   {
     "name": "create-idle",
     "title": "createIdle",
     "description": "SolidJS reactive primitive for detecting user inactivity with customizable timeout",
-    "type": "registry:hook",
-    "dependencies": [
-      "@nikala-ui/hooks"
-    ]
+    "type": "registry:hook"
   },
   {
     "name": "create-active-element",
     "title": "createActiveElement",
     "description": "SolidJS reactive primitive for tracking the currently focused DOM element",
-    "type": "registry:hook",
-    "dependencies": [
-      "@nikala-ui/hooks"
-    ]
+    "type": "registry:hook"
   },
   {
     "name": "create-infinite-scroll",
     "title": "createInfiniteScroll",
     "description": "SolidJS reactive primitive for dynamic infinite scrolling, auto-fetching pages, and scroll pagination",
-    "type": "registry:hook",
-    "dependencies": [
-      "@nikala-ui/hooks"
-    ]
+    "type": "registry:hook"
   },
   {
     "name": "create-fullscreen",
     "title": "createFullscreen",
     "description": "SolidJS reactive primitive for requesting and monitoring element or document fullscreen status",
-    "type": "registry:hook",
-    "dependencies": [
-      "@nikala-ui/hooks"
-    ]
+    "type": "registry:hook"
   },
   {
     "name": "create-audio",
     "title": "createAudio & createVideo",
     "description": "SolidJS reactive primitives for controlling HTML audio and video playback, duration, volume, and seeking",
-    "type": "registry:hook",
-    "dependencies": [
-      "@nikala-ui/hooks"
-    ]
+    "type": "registry:hook"
   },
   {
     "name": "create-orientation",
     "title": "createOrientation",
     "description": "SolidJS reactive primitive for observing mobile and desktop screen orientation changes and rotation angles",
-    "type": "registry:hook",
-    "dependencies": [
-      "@nikala-ui/hooks"
-    ]
+    "type": "registry:hook"
   },
   {
     "name": "create-undo-redo",
     "title": "createUndoRedo",
     "description": "SolidJS reactive primitive for undo/redo state history management, history stack tracking, and reverting actions",
-    "type": "registry:hook",
-    "dependencies": [
-      "@nikala-ui/hooks"
-    ]
+    "type": "registry:hook"
   },
   {
     "name": "create-fetch",
     "title": "createFetch",
     "description": "SolidJS reactive primitive for HTTP REST API fetching, request loading states, error handling, and refetching",
-    "type": "registry:hook",
-    "dependencies": [
-      "@nikala-ui/hooks"
-    ]
+    "type": "registry:hook"
   },
   {
     "name": "create-geolocation",
     "title": "createGeolocation",
     "description": "SolidJS reactive primitive for tracking browser Geolocation position, coordinates, speed, and GPS accuracy",
-    "type": "registry:hook",
-    "dependencies": [
-      "@nikala-ui/hooks"
-    ]
+    "type": "registry:hook"
   },
   {
     "name": "create-permission",
     "title": "createPermission",
     "description": "SolidJS reactive primitive for querying and observing browser permission status changes",
-    "type": "registry:hook",
-    "dependencies": [
-      "@nikala-ui/hooks"
-    ]
+    "type": "registry:hook"
   },
   {
     "name": "create-battery",
     "title": "createBattery",
     "description": "SolidJS reactive primitive for observing device battery status, charge level, and charging metrics",
-    "type": "registry:hook",
-    "dependencies": [
-      "@nikala-ui/hooks"
-    ]
+    "type": "registry:hook"
   },
   {
     "name": "create-web-notification",
     "title": "createWebNotification",
     "description": "SolidJS reactive primitive for sending browser desktop notifications and managing notification permissions",
-    "type": "registry:hook",
-    "dependencies": [
-      "@nikala-ui/hooks"
-    ]
+    "type": "registry:hook"
   },
   {
     "name": "create-websocket",
     "title": "createWebSocket",
     "description": "SolidJS reactive primitive for WebSocket client connections, auto-reconnection, and message passing",
-    "type": "registry:hook",
-    "dependencies": [
-      "@nikala-ui/hooks"
-    ]
+    "type": "registry:hook"
   },
   {
     "name": "create-document-title",
     "title": "createDocumentTitle",
     "description": "SolidJS reactive primitive for managing document title dynamically",
-    "type": "registry:hook",
-    "dependencies": [
-      "@nikala-ui/hooks"
-    ]
+    "type": "registry:hook"
   },
   {
     "name": "create-favicon",
     "title": "createFavicon",
     "description": "SolidJS reactive primitive for dynamically updating browser favicon element",
-    "type": "registry:hook",
-    "dependencies": [
-      "@nikala-ui/hooks"
-    ]
+    "type": "registry:hook"
   },
   {
     "name": "create-event-source",
     "title": "createEventSource",
     "description": "SolidJS reactive primitive for subscribing to Server-Sent Events (SSE) streams",
-    "type": "registry:hook",
-    "dependencies": [
-      "@nikala-ui/hooks"
-    ]
+    "type": "registry:hook"
   },
   {
     "name": "create-scroll-into-view",
     "title": "createScrollIntoView",
     "description": "SolidJS reactive primitive for scrolling a target element into view smooth or auto behavior",
-    "type": "registry:hook",
-    "dependencies": [
-      "@nikala-ui/hooks"
-    ]
+    "type": "registry:hook"
   }
 ]
