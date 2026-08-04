@@ -51,7 +51,19 @@ If your AI assistant supports SSE / Remote MCP endpoints:
 | `list_hooks` | List all 40 available Nikala UI reactive primitives / hooks | None |
 | `get_component_code` | Fetch full source code TSX manifest for a component | `{ "name": "button" }` |
 | `get_hook_code` | Fetch full source code TS primitive manifest for a hook | `{ "name": "create-clipboard" }` |
+| `install_component` | Directly writes component TSX source files to project (`src/components/ui/`) | `{ "name": "button" }` |
+| `install_hook` | Directly writes primitive TS file to project (`src/hooks/`) | `{ "name": "create-audio" }` |
+| `validate_project` | Inspects project setup health (`nikala.config.json`, `cn.ts`, directory structure) | None |
+| `inspect_workspace` | Scans project workspace to report which Nikala components/hooks are installed | None |
 | `search_docs` | Search Nikala UI components, hooks, and guidelines by keywords | `{ "query": "modal" }` |
+
+---
+
+## Pre-built AI Prompts
+
+- **`create_form_page`**: Instructions for generating a complete SolidJS form with Input, Button, Card, and `createForm`.
+- **`setup_theme_provider`**: Instructions for setting up ThemeProvider, ThemeToggle, and Anti-FOUC `<ThemeScript />`.
+- **`create_audio_player`**: Instructions for building a custom media player UI using `Progress`, `Button`, `Badge`, and `createAudio`.
 
 ---
 
