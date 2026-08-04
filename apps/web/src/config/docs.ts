@@ -204,6 +204,12 @@ export const HOOKS_LIST: DocHookItem[] = [
     description: "SolidJS reactive primitive for observing mobile and desktop screen orientation changes and rotation angles",
     href: "/docs/hooks/create-orientation",
   },
+  {
+    name: "create-undo-redo",
+    title: "createUndoRedo",
+    description: "SolidJS reactive primitive for undo/redo state history management, history stack tracking, and reverting actions",
+    href: "/docs/hooks/create-undo-redo",
+  },
 ];
 
 /* --- Component Library Registry List --- */
