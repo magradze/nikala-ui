@@ -27,7 +27,7 @@ export const DOCUMENTATION_LIST: DocGuideItem[] = [
     icon: Palette,
   },
   {
-    title: "MCP Server",
+    title: "MCP",
     subtitle: "Model Context Protocol for AI coding assistants",
     href: "/docs/mcp",
     shortcut: "⌘4",
@@ -320,7 +320,7 @@ export const GETTING_STARTED_SECTION: NavSection = {
     { title: "Introduction", href: "/docs" },
     { title: "CLI Reference", href: "/docs/cli" },
     { title: "Theming", href: "/docs/theming" },
-    { title: "MCP Server", href: "/docs/mcp" },
+    { title: "MCP", href: "/docs/mcp" },
   ],
 };
 
