@@ -34,7 +34,7 @@ export async function fetchRegistryIndex(): Promise<RegistryIndexItem[]> {
       return (await res.json()) as RegistryIndexItem[];
     }
   } catch (err) {
-    console.error("Failed to fetch registry index:", err);
+    console.error("[Nikala MCP] Failed to fetch registry index:", err);
   }
   return [];
 }
@@ -47,7 +47,7 @@ export async function fetchRegistryItem(name: string): Promise<RegistryItem | nu
       return (await res.json()) as RegistryItem;
     }
   } catch (err) {
-    console.error(`Failed to fetch registry item ${name}:`, err);
+    console.error(`[Nikala MCP] Failed to fetch registry item ${name}:`, err);
   }
   return null;
 }
