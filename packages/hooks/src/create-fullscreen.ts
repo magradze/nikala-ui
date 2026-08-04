@@ -30,7 +30,8 @@ export function createFullscreen(
 ): CreateFullscreenReturn {
   const [isFullscreen, setIsFullscreen] = createSignal(false);
 
-  const getTarget = (): HTMLElement => {
+  const getTarget = (): HTMLElement | undefined => {
+    if (typeof document === "undefined") return undefined;
     if (typeof options.target === "function") {
       return options.target() ?? document.documentElement;
     }
@@ -47,7 +48,7 @@ export function createFullscreen(
   const enter = async (): Promise<void> => {
     if (typeof window === "undefined") return;
     const el = getTarget();
-    if (el.requestFullscreen) {
+    if (el?.requestFullscreen) {
       await el.requestFullscreen();
     }
   };
