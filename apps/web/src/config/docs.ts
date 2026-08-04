@@ -210,6 +210,12 @@ export const HOOKS_LIST: DocHookItem[] = [
     description: "SolidJS reactive primitive for undo/redo state history management, history stack tracking, and reverting actions",
     href: "/docs/hooks/create-undo-redo",
   },
+  {
+    name: "create-fetch",
+    title: "createFetch",
+    description: "SolidJS reactive primitive for HTTP REST API fetching, request loading states, error handling, and refetching",
+    href: "/docs/hooks/create-fetch",
+  },
 ];
 
 /* --- Component Library Registry List --- */
