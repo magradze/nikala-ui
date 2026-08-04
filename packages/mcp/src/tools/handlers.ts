@@ -2,6 +2,36 @@ import { fetchRegistryIndex, fetchRegistryItem } from "../registry/index.js";
 import fs from "fs-extra";
 import path from "node:path";
 
+/**
+ * Resolves the target workspace root directory intelligently.
+ * Priority:
+ * 1. Explicit `workspace_dir` passed by AI/IDE in args
+ * 2. `process.env.WORKSPACE_DIR` or `process.env.PWD`
+ * 3. Fallback to `process.cwd()`
+ */
+async function resolveWorkspaceRoot(customWorkspaceDir?: string): Promise<string> {
+  if (customWorkspaceDir) {
+    const resolved = path.isAbsolute(customWorkspaceDir)
+      ? customWorkspaceDir
+      : path.resolve(process.cwd(), customWorkspaceDir);
+    if (await fs.pathExists(resolved)) {
+      return resolved;
+    }
+  }
+
+  const envPwd = process.env.PWD;
+  if (envPwd && (await fs.pathExists(path.join(envPwd, "package.json")))) {
+    return envPwd;
+  }
+
+  const cwd = process.cwd();
+  if (await fs.pathExists(path.join(cwd, "package.json"))) {
+    return cwd;
+  }
+
+  return cwd;
+}
+
 export async function handleToolCall(name: string, args: Record<string, unknown> | undefined) {
   const index = await fetchRegistryIndex();
 
@@ -54,6 +84,7 @@ export async function handleToolCall(name: string, args: Record<string, unknown>
   if (name === "install_component") {
     const componentName = String(args?.name || "");
     const targetDir = String(args?.target_dir || "src/components/ui");
+    const workspaceRoot = await resolveWorkspaceRoot(args?.workspace_dir as string | undefined);
     const item = await fetchRegistryItem(componentName);
 
     if (!item) {
@@ -63,22 +94,21 @@ export async function handleToolCall(name: string, args: Record<string, unknown>
       };
     }
 
-    const cwd = process.cwd();
     const createdFiles: string[] = [];
 
     for (const file of item.files) {
       const relPath = file.path.replace(/^ui\//, "");
-      const fullPath = path.resolve(cwd, targetDir, relPath);
+      const fullPath = path.resolve(workspaceRoot, targetDir, relPath);
       await fs.ensureDir(path.dirname(fullPath));
       await fs.writeFile(fullPath, file.content, "utf-8");
-      createdFiles.push(path.relative(cwd, fullPath));
+      createdFiles.push(path.relative(workspaceRoot, fullPath));
     }
 
     return {
       content: [
         {
           type: "text",
-          text: `Successfully installed component '${componentName}' to project:\n${createdFiles.map((f) => `- ${f}`).join("\n")}`,
+          text: `Successfully installed component '${componentName}' to workspace (${workspaceRoot}):\n${createdFiles.map((f) => `- ${f}`).join("\n")}`,
         },
       ],
     };
@@ -87,6 +117,7 @@ export async function handleToolCall(name: string, args: Record<string, unknown>
   if (name === "install_hook") {
     const hookName = String(args?.name || "");
     const targetDir = String(args?.target_dir || "src/hooks");
+    const workspaceRoot = await resolveWorkspaceRoot(args?.workspace_dir as string | undefined);
     const item = await fetchRegistryItem(hookName);
 
     if (!item) {
@@ -96,35 +127,46 @@ export async function handleToolCall(name: string, args: Record<string, unknown>
       };
     }
 
-    const cwd = process.cwd();
     const createdFiles: string[] = [];
 
     for (const file of item.files) {
       const relPath = file.path.replace(/^hooks\//, "");
-      const fullPath = path.resolve(cwd, targetDir, relPath);
+      const fullPath = path.resolve(workspaceRoot, targetDir, relPath);
       await fs.ensureDir(path.dirname(fullPath));
       await fs.writeFile(fullPath, file.content, "utf-8");
-      createdFiles.push(path.relative(cwd, fullPath));
+      createdFiles.push(path.relative(workspaceRoot, fullPath));
     }
 
     return {
       content: [
         {
           type: "text",
-          text: `Successfully installed hook '${hookName}' to project:\n${createdFiles.map((f) => `- ${f}`).join("\n")}`,
+          text: `Successfully installed hook '${hookName}' to workspace (${workspaceRoot}):\n${createdFiles.map((f) => `- ${f}`).join("\n")}`,
         },
       ],
     };
   }
 
   if (name === "search_docs") {
-    const query = String(args?.query || "").toLowerCase();
-    const matches = index.filter(
-      (item) =>
-        item.name.toLowerCase().includes(query) ||
-        item.title.toLowerCase().includes(query) ||
-        item.description.toLowerCase().includes(query)
-    );
+    const rawQuery = String(args?.query || "").trim().toLowerCase();
+    const keywords = rawQuery.split(/\s+/).filter(Boolean);
+
+    if (keywords.length === 0) {
+      return {
+        content: [{ type: "text", text: JSON.stringify([], null, 2) }],
+      };
+    }
+
+    const matches = index.filter((item) => {
+      const nameStr = item.name.toLowerCase();
+      const titleStr = item.title.toLowerCase();
+      const descStr = item.description.toLowerCase();
+
+      // Match if ANY of the keywords matches (or if ALL match)
+      return keywords.some(
+        (kw) => nameStr.includes(kw) || titleStr.includes(kw) || descStr.includes(kw)
+      );
+    });
 
     return {
       content: [{ type: "text", text: JSON.stringify(matches, null, 2) }],
@@ -132,15 +174,17 @@ export async function handleToolCall(name: string, args: Record<string, unknown>
   }
 
   if (name === "validate_project") {
-    const cwd = process.cwd();
+    const workspaceRoot = await resolveWorkspaceRoot(args?.workspace_dir as string | undefined);
+
     const checks = {
-      configExists: await fs.pathExists(path.join(cwd, "nikala.config.json")),
+      workspaceRoot,
+      configExists: await fs.pathExists(path.join(workspaceRoot, "nikala.config.json")),
       cnHelperExists:
-        (await fs.pathExists(path.join(cwd, "src/lib/cn.ts"))) ||
-        (await fs.pathExists(path.join(cwd, "src/lib/cn.js"))),
-      componentsDirExists: await fs.pathExists(path.join(cwd, "src/components/ui")),
-      hooksDirExists: await fs.pathExists(path.join(cwd, "src/hooks")),
-      packageJsonExists: await fs.pathExists(path.join(cwd, "package.json")),
+        (await fs.pathExists(path.join(workspaceRoot, "src/lib/cn.ts"))) ||
+        (await fs.pathExists(path.join(workspaceRoot, "src/lib/cn.js"))),
+      componentsDirExists: await fs.pathExists(path.join(workspaceRoot, "src/components/ui")),
+      hooksDirExists: await fs.pathExists(path.join(workspaceRoot, "src/hooks")),
+      packageJsonExists: await fs.pathExists(path.join(workspaceRoot, "package.json")),
     };
 
     const issues: string[] = [];
@@ -167,9 +211,9 @@ export async function handleToolCall(name: string, args: Record<string, unknown>
   }
 
   if (name === "inspect_workspace") {
-    const cwd = process.cwd();
-    const componentsDir = path.join(cwd, "src/components/ui");
-    const hooksDir = path.join(cwd, "src/hooks");
+    const workspaceRoot = await resolveWorkspaceRoot(args?.workspace_dir as string | undefined);
+    const componentsDir = path.join(workspaceRoot, "src/components/ui");
+    const hooksDir = path.join(workspaceRoot, "src/hooks");
 
     const installedComponents: string[] = [];
     const installedHooks: string[] = [];
@@ -198,6 +242,7 @@ export async function handleToolCall(name: string, args: Record<string, unknown>
           type: "text",
           text: JSON.stringify(
             {
+              workspaceRoot,
               installedComponents,
               installedHooks,
               totalInstalledComponents: installedComponents.length,

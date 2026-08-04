@@ -55,6 +55,10 @@ export const MCP_TOOLS: Tool[] = [
           type: "string",
           description: "Unique component name to install (e.g. 'button', 'card', 'dialog')",
         },
+        workspace_dir: {
+          type: "string",
+          description: "Absolute or relative path to the target project workspace root (e.g. '/path/to/project')",
+        },
         target_dir: {
           type: "string",
           description: "Target directory path relative to project root (defaults to 'src/components/ui')",
@@ -73,6 +77,10 @@ export const MCP_TOOLS: Tool[] = [
           type: "string",
           description: "Unique hook name to install (e.g. 'create-clipboard', 'create-audio')",
         },
+        workspace_dir: {
+          type: "string",
+          description: "Absolute or relative path to the target project workspace root (e.g. '/path/to/project')",
+        },
         target_dir: {
           type: "string",
           description: "Target directory path relative to project root (defaults to 'src/hooks')",
@@ -83,13 +91,13 @@ export const MCP_TOOLS: Tool[] = [
   },
   {
     name: "search_docs",
-    description: "Search Nikala UI components, hooks, and guidelines by query keywords",
+    description: "Search Nikala UI components, hooks, and guidelines by keywords (supports multi-word fuzzy search)",
     inputSchema: {
       type: "object",
       properties: {
         query: {
           type: "string",
-          description: "Search keyword (e.g., 'modal', 'theme', 'clipboard', 'audio')",
+          description: "Search keywords (e.g., 'modal dialog', 'audio player', 'theme mode')",
         },
       },
       required: ["query"],
@@ -100,7 +108,12 @@ export const MCP_TOOLS: Tool[] = [
     description: "Inspect local project for Nikala UI setup health (nikala.config.json, cn.ts helper, path aliases, runtime dependencies)",
     inputSchema: {
       type: "object",
-      properties: {},
+      properties: {
+        workspace_dir: {
+          type: "string",
+          description: "Absolute or relative path to the target project workspace root",
+        },
+      },
     },
   },
   {
@@ -108,7 +121,12 @@ export const MCP_TOOLS: Tool[] = [
     description: "Inspect local project to list which Nikala UI components (src/components/ui/) and hooks (src/hooks/) are ALREADY installed",
     inputSchema: {
       type: "object",
-      properties: {},
+      properties: {
+        workspace_dir: {
+          type: "string",
+          description: "Absolute or relative path to the target project workspace root",
+        },
+      },
     },
   },
 ];
