@@ -234,6 +234,12 @@ export const HOOKS_LIST: DocHookItem[] = [
     description: "SolidJS reactive primitive for observing device battery status, charge level, and charging metrics",
     href: "/docs/hooks/create-battery",
   },
+  {
+    name: "create-web-notification",
+    title: "createWebNotification",
+    description: "SolidJS reactive primitive for sending browser desktop notifications and managing notification permissions",
+    href: "/docs/hooks/create-web-notification",
+  },
 ];
 
 /* --- Component Library Registry List --- */
