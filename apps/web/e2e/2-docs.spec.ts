@@ -35,7 +35,7 @@ test.describe("2. Documentation & Component Viewer", () => {
     const sidebar = page.locator("aside");
     await expect(sidebar).toBeVisible();
 
-    const cardLink = sidebar.getByRole("link", { name: "Card" });
+    const cardLink = sidebar.getByRole("link", { name: "Card", exact: true });
     await cardLink.click();
     await expect(page).toHaveURL(/\/docs\/components\/card/);
   });
