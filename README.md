@@ -4,6 +4,14 @@ A simple, copy-paste component system for **SolidJS** built natively for **Tailw
 
 Honoring the iconic Georgian painter **Niko Pirosmani (Nikala)**.
 
+[![npm version](https://img.shields.io/npm/v/@nikala-ui/cli.svg?style=flat-square&color=9e3b47)](https://www.npmjs.com/package/@nikala-ui/cli)
+[![npm downloads](https://img.shields.io/npm/dm/@nikala-ui/cli.svg?style=flat-square&color=9e3b47)](https://www.npmjs.com/package/@nikala-ui/cli)
+[![CI Status](https://img.shields.io/github/actions/workflow/status/nikala-ui/ui/workspace-ci.yml?branch=main&style=flat-square&label=CI)](https://github.com/nikala-ui/ui/actions/workflows/workspace-ci.yml)
+[![SolidJS](https://img.shields.io/badge/SolidJS-v1.8+-4c78a8?style=flat-square&logo=solid)](https://solidjs.com)
+[![Tailwind CSS v4](https://img.shields.io/badge/Tailwind_CSS-v4.0-00bcff?style=flat-square&logo=tailwindcss)](https://tailwindcss.com)
+[![TypeScript](https://img.shields.io/badge/TypeScript-100%25-3178c6?style=flat-square&logo=typescript)](https://www.typescriptlang.org)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg?style=flat-square)](https://opensource.org/licenses/MIT)
+
 **Official Documentation & Live Playground:** [nikala.magradze.dev](https://nikala.magradze.dev)
 
 ---
