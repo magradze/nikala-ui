@@ -216,6 +216,16 @@
     ]
   },
   {
+    "name": "pin-input",
+    "title": "Pin Input",
+    "description": "Interactive multi-slot PIN/OTP input component for SMS and 2FA authentication verification codes.",
+    "type": "registry:ui",
+    "dependencies": [
+      "clsx",
+      "tailwind-merge"
+    ]
+  },
+  {
     "name": "popover",
     "title": "Popover",
     "description": "Displays rich content in a portal layer triggered by a button, built on Kobalte primitives.",
