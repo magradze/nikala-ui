@@ -195,6 +195,16 @@
     ]
   },
   {
+    "name": "logo",
+    "title": "Logo",
+    "description": "logo component.",
+    "type": "registry:ui",
+    "dependencies": [
+      "clsx",
+      "tailwind-merge"
+    ]
+  },
+  {
     "name": "popover",
     "title": "Popover",
     "description": "Displays rich content in a portal layer triggered by a button, built on Kobalte primitives.",
