@@ -7,6 +7,7 @@ import { themeCommand } from "./commands/theme.js";
 import { validateCommand } from "./commands/validate.js";
 import { diffCommand } from "./commands/diff.js";
 import { upgradeCommand } from "./commands/upgrade.js";
+import { removeCommand } from "./commands/remove.js";
 
 console.log(`\n🎨 ${pc.bold(pc.red("Nikala UI"))} ${pc.dim("v0.9.9")} — SolidJS + Tailwind v4 components`);
 console.log(`   ${pc.italic(pc.dim("Honoring Niko Pirosmani (Nikala)"))}\n`);
@@ -40,6 +41,16 @@ program
   .description("Upgrade locally installed components and hooks to the latest registry version")
   .option("--all", "Upgrade all installed items")
   .action((components, options) => upgradeCommand(components, options));
+
+// Remove / Uninstall command
+program
+  .command("remove [components...]")
+  .alias("uninstall")
+  .alias("clean")
+  .description("Remove or uninstall installed components or reactive hooks from your project")
+  .option("-h, --hook", "Remove reactive hook primitive(s) instead of UI components")
+  .option("--all", "Remove all installed components or hooks")
+  .action((components, options) => removeCommand(components, options));
 
 // Parent theme command
 const themeProg = program

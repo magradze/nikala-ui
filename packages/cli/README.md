@@ -20,6 +20,10 @@ bunx @nikala-ui/cli add button dialog
 bunx @nikala-ui/cli upgrade
 bunx @nikala-ui/cli update button --all
 
+# Remove / uninstall installed components or hooks
+bunx @nikala-ui/cli remove button
+bunx @nikala-ui/cli uninstall -h create-clipboard
+
 # Initialize project
 bunx @nikala-ui/cli init
 ```

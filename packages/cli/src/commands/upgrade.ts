@@ -88,11 +88,15 @@ export async function upgradeCommand(targets: string[] = [], options: UpgradeOpt
     itemsToUpgrade = response.selected;
   }
 
-  console.log(pc.cyan(`\n🔄 Upgrading ${itemsToUpgrade.length} item(s) to latest registry version...\n`));
+  // 2. Resolve internal registry component dependencies automatically
+  const { resolveRegistryDependencies } = await import("../utils/registry.js");
+  const resolvedUpgradeTargets = await resolveRegistryDependencies(itemsToUpgrade);
+
+  console.log(pc.cyan(`\n🔄 Upgrading ${resolvedUpgradeTargets.length} item(s) to latest registry version...\n`));
 
   const requiredNpmDeps = new Set<string>();
 
-  for (const name of itemsToUpgrade) {
+  for (const name of resolvedUpgradeTargets) {
     const item = await getRegistryItem(name);
     if (!item) continue;
 
