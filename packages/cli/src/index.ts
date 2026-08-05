@@ -6,6 +6,7 @@ import { add } from "./commands/add.js";
 import { themeCommand } from "./commands/theme.js";
 import { validateCommand } from "./commands/validate.js";
 import { diffCommand } from "./commands/diff.js";
+import { upgradeCommand } from "./commands/upgrade.js";
 
 console.log(`\n🎨 ${pc.bold(pc.red("Nikala UI"))} ${pc.dim("v0.9.9")} — SolidJS + Tailwind v4 components`);
 console.log(`   ${pc.italic(pc.dim("Honoring Niko Pirosmani (Nikala)"))}\n`);
@@ -31,6 +32,14 @@ program
   .option("--all", "Add all available items")
   .option("-h, --hook", "Add reactive hook primitive(s) instead of UI components")
   .action(add);
+
+// Upgrade / Update command
+program
+  .command("upgrade [components...]")
+  .alias("update")
+  .description("Upgrade locally installed components and hooks to the latest registry version")
+  .option("--all", "Upgrade all installed items")
+  .action((components, options) => upgradeCommand(components, options));
 
 // Parent theme command
 const themeProg = program

@@ -13,9 +13,15 @@ Official Documentation & Interactive Demos: [nikala.magradze.dev](https://nikala
 Execute directly using your preferred package manager:
 
 ```bash
+# Add components
+bunx @nikala-ui/cli add button dialog
+
+# Upgrade / update installed components & hooks to latest registry versions
+bunx @nikala-ui/cli upgrade
+bunx @nikala-ui/cli update button --all
+
+# Initialize project
 bunx @nikala-ui/cli init
-# or
-npx @nikala-ui/cli init
 ```
 
 ---
