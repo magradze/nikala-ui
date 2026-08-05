@@ -1,6 +1,6 @@
 {
   "name": "@nikala-ui/mcp",
-  "version": "0.9.9",
+  "version": "0.9.10",
   "description": "Model Context Protocol (MCP) server for Nikala UI components, hooks, and guidelines",
   "type": "module",
   "main": "./dist/index.js",
