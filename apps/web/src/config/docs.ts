@@ -296,6 +296,7 @@ export const COMPONENTS_LIST: DocComponentItem[] = [
   { name: "dropdown-menu", title: "Dropdown Menu", description: "Full-featured context menu with submenus and items", href: "/docs/components/dropdown-menu" },
   { name: "input", title: "Input", description: "Reactive text input field with modern focus states", href: "/docs/components/input" },
   { name: "input-group", title: "Input Group", description: "Compound input wrapper with prefix and suffix addons", href: "/docs/components/input-group" },
+  { name: "hover-card", title: "Hover Card", description: "Profile and link preview popover triggered on hover", href: "/docs/components/hover-card" },
   { name: "kbd", title: "Kbd", description: "Keyboard key and shortcut indicators for hotkeys", href: "/docs/components/kbd" },
   { name: "label", title: "Label", description: "Accessible caption label for form controls", href: "/docs/components/label" },
   { name: "list", title: "List", description: "Compound list components supporting icons, avatars, and hotkeys", href: "/docs/components/list" },

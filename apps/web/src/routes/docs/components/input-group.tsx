@@ -169,7 +169,7 @@ export default function InputGroupDocsPage() {
         {/* Footer Navigation */}
         <DocNextSteps
           prev={{ title: "Input Component", href: "/docs/components/input" }}
-          next={{ title: "Kbd Component", href: "/docs/components/kbd" }}
+          next={{ title: "Hover Card Component", href: "/docs/components/hover-card" }}
         />
       </div>
     </>

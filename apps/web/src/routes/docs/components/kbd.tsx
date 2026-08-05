@@ -163,7 +163,7 @@ export default function KbdDocsPage() {
 
         {/* Footer Navigation */}
         <DocNextSteps
-          prev={{ title: "Input Group", href: "/docs/components/input-group" }}
+          prev={{ title: "Hover Card Component", href: "/docs/components/hover-card" }}
           next={{ title: "Label Component", href: "/docs/components/label" }}
         />
       </div>
