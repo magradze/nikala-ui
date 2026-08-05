@@ -96,6 +96,17 @@
     ]
   },
   {
+    "name": "combobox",
+    "title": "Combobox",
+    "description": "Searchable autocomplete dropdown with single/multi-selection tags, avatars, group headers, and customizable clear controls.",
+    "type": "registry:ui",
+    "dependencies": [
+      "clsx",
+      "tailwind-merge",
+      "@kobalte/core"
+    ]
+  },
+  {
     "name": "command",
     "title": "Command / Command Palette",
     "description": "Fast, accessible command palette and search modal built on Kobalte Dialog primitives with auto-filtering.",

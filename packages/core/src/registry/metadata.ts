@@ -75,6 +75,11 @@ export const COMPONENT_METADATA: Record<string, ComponentMeta> = {
     description: "Displays a list of options for the user to pick from, built on Kobalte primitives.",
     dependencies: ["clsx", "tailwind-merge", "@kobalte/core"],
   },
+  combobox: {
+    title: "Combobox",
+    description: "Searchable autocomplete dropdown with single/multi-selection tags, avatars, group headers, and customizable clear controls.",
+    dependencies: ["clsx", "tailwind-merge", "@kobalte/core"],
+  },
   tabs: {
     title: "Tabs",
     description: "A set of layered sections of content displayed one at a time.",

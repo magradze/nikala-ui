@@ -290,6 +290,7 @@ export const COMPONENTS_LIST: DocComponentItem[] = [
   { name: "button", title: "Button", description: "Interactive button with variant and size options", href: "/docs/components/button" },
   { name: "card", title: "Card", description: "Compound card layout with header, title, and footer", href: "/docs/components/card" },
   { name: "checkbox", title: "Checkbox", description: "Checkable input box with custom checkmark indicator", href: "/docs/components/checkbox" },
+  { name: "combobox", title: "Combobox", description: "Searchable autocomplete dropdown with single/multi-selection tags, avatars, and groups", href: "/docs/components/combobox" },
   { name: "command", title: "Command", description: "Fast, accessible command palette and search modal", href: "/docs/components/command" },
   { name: "dialog", title: "Dialog", description: "Accessible modal window overlaying main content", href: "/docs/components/dialog" },
   { name: "dropdown-menu", title: "Dropdown Menu", description: "Full-featured context menu with submenus and items", href: "/docs/components/dropdown-menu" },
