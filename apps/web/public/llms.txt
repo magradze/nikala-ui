@@ -46,6 +46,26 @@ bunx @nikala-ui/cli add --all
 bunx @nikala-ui/cli add button --overwrite
 ```
 
+### Upgrading Components & Hooks
+```bash
+# Interactive menu to select installed items to upgrade
+bunx @nikala-ui/cli upgrade
+
+# Alias command to update specific items or all
+bunx @nikala-ui/cli update button dialog create-clipboard
+bunx @nikala-ui/cli update --all
+```
+
+### Removing & Uninstalling Components
+```bash
+# Interactive menu to safely remove components from codebase
+bunx @nikala-ui/cli remove
+
+# Direct uninstall of specific components or hooks
+bunx @nikala-ui/cli uninstall button dialog
+bunx @nikala-ui/cli remove -h create-clipboard
+```
+
 ### Adding Primitive Hooks (Pure Copy-Paste to `src/hooks/`)
 ```bash
 # Interactive autocomplete multiselect menu for reactive hooks
