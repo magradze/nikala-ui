@@ -174,6 +174,11 @@ export const COMPONENT_METADATA: Record<string, ComponentMeta> = {
     description: "Displays an indicator showing the completion progress of a task or media playback, built on Kobalte primitives.",
     dependencies: ["clsx", "tailwind-merge", "@kobalte/core"],
   },
+  slider: {
+    title: "Slider",
+    description: "Numeric range selection slider supporting single/dual thumbs, custom steps, vertical orientation, and formatted value labels, built on Kobalte primitives.",
+    dependencies: ["clsx", "tailwind-merge", "@kobalte/core"],
+  },
 };
 
 /**

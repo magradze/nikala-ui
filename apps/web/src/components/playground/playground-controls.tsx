@@ -38,8 +38,8 @@ export function PlaygroundControls(props: PlaygroundControlsProps) {
                 <Input
                   type="number"
                   value={props.values[propSpec.name] ?? ""}
-                  onInput={(e) => props.setValue(propSpec.name, Number(e.currentTarget.value))}
-                  class="h-8 text-xs"
+                  onInput={(e) => props.setValue(propSpec.name, e.currentTarget.value === "" ? "" : Number(e.currentTarget.value))}
+                  class="h-8 text-xs font-mono"
                 />
               </Show>
 

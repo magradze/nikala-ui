@@ -293,6 +293,17 @@
     ]
   },
   {
+    "name": "slider",
+    "title": "Slider",
+    "description": "Numeric range selection slider supporting single/dual thumbs, custom steps, vertical orientation, and formatted value labels, built on Kobalte primitives.",
+    "type": "registry:ui",
+    "dependencies": [
+      "clsx",
+      "tailwind-merge",
+      "@kobalte/core"
+    ]
+  },
+  {
     "name": "switch",
     "title": "Switch",
     "description": "A control that allows the user to toggle between checked and unchecked states.",

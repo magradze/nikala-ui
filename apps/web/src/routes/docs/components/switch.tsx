@@ -176,7 +176,7 @@ export default function SwitchDocsPage() {
 
         {/* Footer Navigation */}
         <DocNextSteps
-          prev={{ title: "Skeleton Component", href: "/docs/components/skeleton" }}
+          prev={{ title: "Slider Component", href: "/docs/components/slider" }}
           next={{ title: "Tabs Component", href: "/docs/components/tabs" }}
         />
       </div>

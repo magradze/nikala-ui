@@ -102,7 +102,7 @@ export default function SkeletonDocsPage() {
         {/* Footer Navigation */}
         <DocNextSteps
           prev={{ title: "Sheet Component", href: "/docs/components/sheet" }}
-          next={{ title: "Switch Component", href: "/docs/components/switch" }}
+          next={{ title: "Slider Component", href: "/docs/components/slider" }}
         />
       </div>
     </>
