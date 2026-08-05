@@ -33,7 +33,7 @@ const importCode = `import {
 } from "@/components/ui/sheet";`;
 
 const defaultCode = `<Sheet>
-  <SheetTrigger as={Button} variant="outline">
+  <SheetTrigger as={Button} variant="secondary">
     Open Right Sheet
   </SheetTrigger>
   <SheetContent side="right">
@@ -54,7 +54,7 @@ const defaultCode = `<Sheet>
       </div>
     </div>
     <SheetFooter>
-      <SheetClose as={Button} variant="outline">Cancel</SheetClose>
+      <SheetClose as={Button} variant="secondary">Cancel</SheetClose>
       <Button>Save changes</Button>
     </SheetFooter>
   </SheetContent>
@@ -62,8 +62,8 @@ const defaultCode = `<Sheet>
 
 const sidesCode = `<div class="grid grid-cols-2 gap-4">
   <Sheet>
-    <SheetTrigger as={Button} variant="outline">Top</SheetTrigger>
-    <SheetContent side="top">
+    <SheetTrigger as={Button} variant="secondary">Top</SheetTrigger>
+    <SheetContent side="top" class="h-1/2">
       <SheetHeader>
         <SheetTitle>Top Sheet</SheetTitle>
         <SheetDescription>Slides down from the top edge.</SheetDescription>
@@ -72,8 +72,8 @@ const sidesCode = `<div class="grid grid-cols-2 gap-4">
   </Sheet>
 
   <Sheet>
-    <SheetTrigger as={Button} variant="outline">Bottom</SheetTrigger>
-    <SheetContent side="bottom">
+    <SheetTrigger as={Button} variant="secondary">Bottom</SheetTrigger>
+    <SheetContent side="bottom" class="h-1/2">
       <SheetHeader>
         <SheetTitle>Bottom Sheet</SheetTitle>
         <SheetDescription>Slides up from the bottom edge.</SheetDescription>
@@ -82,7 +82,7 @@ const sidesCode = `<div class="grid grid-cols-2 gap-4">
   </Sheet>
 
   <Sheet>
-    <SheetTrigger as={Button} variant="outline">Left</SheetTrigger>
+    <SheetTrigger as={Button} variant="secondary">Left</SheetTrigger>
     <SheetContent side="left">
       <SheetHeader>
         <SheetTitle>Left Navigation</SheetTitle>
@@ -92,7 +92,7 @@ const sidesCode = `<div class="grid grid-cols-2 gap-4">
   </Sheet>
 
   <Sheet>
-    <SheetTrigger as={Button} variant="outline">Right</SheetTrigger>
+    <SheetTrigger as={Button} variant="secondary">Right</SheetTrigger>
     <SheetContent side="right">
       <SheetHeader>
         <SheetTitle>Right Drawer</SheetTitle>
@@ -122,7 +122,7 @@ export default function SheetDocsPage() {
         {/* Hero Live Preview */}
         <ComponentPreview name="sheet" code={defaultCode}>
           <Sheet>
-            <SheetTrigger as={Button} variant="outline">
+            <SheetTrigger as={Button} variant="secondary">
               Open Right Sheet
             </SheetTrigger>
             <SheetContent side="right">
@@ -143,7 +143,7 @@ export default function SheetDocsPage() {
                 </div>
               </div>
               <SheetFooter>
-                <SheetClose as={Button} variant="outline">Cancel</SheetClose>
+                <SheetClose as={Button} variant="secondary">Cancel</SheetClose>
                 <Button>Save changes</Button>
               </SheetFooter>
             </SheetContent>
@@ -169,8 +169,8 @@ export default function SheetDocsPage() {
             <ComponentPreview name="sheet" code={sidesCode}>
               <div class="grid grid-cols-2 gap-4">
                 <Sheet>
-                  <SheetTrigger as={Button} variant="outline">Top</SheetTrigger>
-                  <SheetContent side="top">
+                  <SheetTrigger as={Button} variant="secondary">Top</SheetTrigger>
+                  <SheetContent side="top" class="h-1/2">
                     <SheetHeader>
                       <SheetTitle>Top Sheet</SheetTitle>
                       <SheetDescription>Slides down from the top edge.</SheetDescription>
@@ -179,8 +179,8 @@ export default function SheetDocsPage() {
                 </Sheet>
 
                 <Sheet>
-                  <SheetTrigger as={Button} variant="outline">Bottom</SheetTrigger>
-                  <SheetContent side="bottom">
+                  <SheetTrigger as={Button} variant="secondary">Bottom</SheetTrigger>
+                  <SheetContent side="bottom" class="h-1/2">
                     <SheetHeader>
                       <SheetTitle>Bottom Sheet</SheetTitle>
                       <SheetDescription>Slides up from the bottom edge.</SheetDescription>
@@ -189,7 +189,7 @@ export default function SheetDocsPage() {
                 </Sheet>
 
                 <Sheet>
-                  <SheetTrigger as={Button} variant="outline">Left</SheetTrigger>
+                  <SheetTrigger as={Button} variant="secondary">Left</SheetTrigger>
                   <SheetContent side="left">
                     <SheetHeader>
                       <SheetTitle>Left Navigation</SheetTitle>
@@ -199,7 +199,7 @@ export default function SheetDocsPage() {
                 </Sheet>
 
                 <Sheet>
-                  <SheetTrigger as={Button} variant="outline">Right</SheetTrigger>
+                  <SheetTrigger as={Button} variant="secondary">Right</SheetTrigger>
                   <SheetContent side="right">
                     <SheetHeader>
                       <SheetTitle>Right Drawer</SheetTitle>

@@ -83,7 +83,7 @@ export const ThemeToggle: Component<ThemeToggleProps> = (props) => {
     <DropdownMenu placement="bottom-end">
       <DropdownMenuTrigger
         as={Button}
-        variant="outline"
+        variant="ghost"
         size="icon"
         class={cn("relative h-9 w-9 cursor-pointer", local.class)}
       >

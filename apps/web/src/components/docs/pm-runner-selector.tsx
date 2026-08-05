@@ -34,7 +34,7 @@ export const PmRunnerSelector: Component<PmRunnerSelectorProps> = (props) => {
             type="button"
             onClick={() => setPm(pm)}
             class={cn(
-              "rounded-xs transition-colors cursor-pointer font-mono",
+              "rounded-sm transition-colors cursor-pointer font-mono",
               buttonSize(),
               activePm() === pm
                 ? "bg-primary text-primary-foreground font-bold shadow-2xs"

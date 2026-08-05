@@ -102,7 +102,7 @@ export default function ListDocsPage() {
 
         {/* Hero Live Preview */}
         <ComponentPreview name="list" code={defaultCode}>
-          <List class="w-full max-w-md border border-border rounded-lg p-2 bg-card/60 shadow-xs">
+          <List class="w-full max-w-md border border-border rounded-lg p-2 bg-card/30 shadow-xs">
             <ListGroup>
               <ListHeader title="Navigation" />
               <ListItem
@@ -138,7 +138,7 @@ export default function ListDocsPage() {
               Pass Lucide icons via <code class="bg-muted px-1.5 py-0.5 rounded text-xs font-mono">icon</code> and shortcut text via <code class="bg-muted px-1.5 py-0.5 rounded text-xs font-mono">shortcut</code>.
             </p>
             <ComponentPreview name="list" code={iconsAndShortcutsCode}>
-              <List class="w-full max-w-md border border-border rounded-lg p-2 bg-card/60 shadow-xs">
+              <List class="w-full max-w-md border border-border rounded-lg p-2 bg-card/30 shadow-xs">
                 <ListItem
                   title="Documentation"
                   subtitle="Read system overview"
@@ -168,7 +168,7 @@ export default function ListDocsPage() {
               Supports avatar images via <code class="bg-muted px-1.5 py-0.5 rounded text-xs font-mono">avatar</code> or text initials via <code class="bg-muted px-1.5 py-0.5 rounded text-xs font-mono">avatarFallback</code>.
             </p>
             <ComponentPreview name="list" code={avatarCode}>
-              <List class="w-full max-w-md border border-border rounded-lg p-2 bg-card/60 shadow-xs">
+              <List class="w-full max-w-md border border-border rounded-lg p-2 bg-card/30 shadow-xs">
                 <ListItem
                   title="Niko Pirosmani"
                   subtitle="Georgian Painter & Artist"
@@ -190,7 +190,7 @@ export default function ListDocsPage() {
               Use <code class="bg-muted px-1.5 py-0.5 rounded text-xs font-mono">ListGroup</code> and <code class="bg-muted px-1.5 py-0.5 rounded text-xs font-mono">ListHeader</code> to organize items into labeled categories.
             </p>
             <ComponentPreview name="list" code={listGroupCode}>
-              <List class="w-full max-w-md border border-border rounded-lg p-2 bg-card/60 shadow-xs">
+              <List class="w-full max-w-md border border-border rounded-lg p-2 bg-card/30 shadow-xs">
                 <ListGroup>
                   <ListHeader title="Account Settings" />
                   <ListItem title="Profile" subtitle="Manage profile details" icon={User} />
@@ -211,7 +211,7 @@ export default function ListDocsPage() {
               Customize hover colors using <code class="bg-muted px-1.5 py-0.5 rounded text-xs font-mono">hoverVariant</code> ("default", "primary", "accent", "muted").
             </p>
             <ComponentPreview name="list" code={hoverVariantsCode}>
-              <List class="w-full max-w-md border border-border rounded-lg p-2 bg-card/60 shadow-xs">
+              <List class="w-full max-w-md border border-border rounded-lg p-2 bg-card/30 shadow-xs">
                 <ListItem title="Default Hover Variant" hoverVariant="default" />
                 <ListItem title="Primary Accent Hover" hoverVariant="primary" />
                 <ListItem title="Subtle Accent Hover" hoverVariant="accent" />

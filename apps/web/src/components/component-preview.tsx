@@ -37,14 +37,14 @@ export const ComponentPreview: Component<ComponentPreviewProps> = (props) => {
   return (
     <div class="group relative my-4 flex flex-col space-y-2">
       <Tabs defaultValue="preview" class="relative mr-auto w-full">
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-3 gap-2 sm:gap-0">
-          <TabsList class="w-full sm:w-auto justify-start rounded-none border-b border-border bg-transparent p-0 gap-4">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-0 md:pb-3 gap-2 sm:gap-0">
+          <TabsList class="w-full sm:w-auto justify-start rounded-none bg-transparent p-0 gap-4">
             <TabsTrigger value="preview">Preview</TabsTrigger>
             <TabsTrigger value="code">Code</TabsTrigger>
           </TabsList>
 
           {/* CLI Copy Button & Reusable PM Runner Selector */}
-          <div class="flex items-center gap-2">
+          <div class="flex flex-col-reverse items-end md:flex-row md:items-center md:justify-center gap-2">
             <Button
               variant="ghost"
               size="sm"
@@ -59,7 +59,7 @@ export const ComponentPreview: Component<ComponentPreviewProps> = (props) => {
         </div>
 
         {/* Live Preview Tab */}
-        <TabsContent value="preview" class="relative rounded-lg border border-border bg-background/50 p-10 backdrop-blur-xs">
+        <TabsContent value="preview" class="relative rounded-lg bg-card/50 border border-border p-10 backdrop-blur-xs">
           <div class={`flex min-h-250px w-full ${alignmentClass()}`}>
             {resolvedChildren()}
           </div>

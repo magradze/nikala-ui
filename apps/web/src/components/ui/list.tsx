@@ -32,7 +32,7 @@ export interface ListGroupProps extends JSX.HTMLAttributes<HTMLDivElement> {
 export const ListGroup: Component<ListGroupProps> = (props) => {
   const [local, rest] = splitProps(props, ["class", "children"]);
   return (
-    <div class={cn("flex flex-col gap-1 w-full my-1", local.class)} {...rest}>
+    <div class={cn("flex flex-col gap-1 w-full", local.class)} {...rest}>
       {local.children}
     </div>
   );
@@ -137,12 +137,12 @@ export const ListItem: Component<ListItemProps> = (props) => {
           <img
             src={local.avatar}
             alt={local.title || "Avatar"}
-            class="w-6 h-6 rounded-full object-cover shrink-0 border border-border"
+            class="w-10 h-10 rounded-lg object-cover shrink-0 border border-border"
           />
         </Show>
 
         <Show when={!local.avatar && local.avatarFallback}>
-          <span class="w-6 h-6 rounded-full bg-primary/10 text-primary text-[10px] font-bold flex items-center justify-center shrink-0 uppercase">
+          <span class="w-10 h-10 rounded-lg bg-primary/10 text-primary text-[10px] font-bold flex items-center justify-center shrink-0 uppercase">
             {local.avatarFallback}
           </span>
         </Show>
@@ -161,7 +161,7 @@ export const ListItem: Component<ListItemProps> = (props) => {
             </span>
           </Show>
           <Show when={local.subtitle}>
-            <span class="truncate text-xs text-muted-foreground font-normal mt-1">
+            <span class="truncate text-xs opacity-50 font-normal mt-1">
               {local.subtitle}
             </span>
           </Show>
@@ -178,7 +178,7 @@ export const ListItem: Component<ListItemProps> = (props) => {
         </Show>
 
         <Show when={local.showChevron}>
-          <ChevronRight class="w-4 h-4 text-muted-foreground group-hover:text-foreground transition-colors" />
+          <ChevronRight class="w-4 h-4 text-muted-foreground transition-colors" />
         </Show>
       </div>
     </>

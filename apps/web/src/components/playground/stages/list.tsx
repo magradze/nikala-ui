@@ -10,7 +10,7 @@ export const config: ComponentSpec = {
     { name: "showChevron", label: "Show Chevron", type: "boolean", default: true },
     { name: "showShortcut", label: "Show Shortcuts", type: "boolean", default: true },
   ],
-  generateCode: (v) => `<List class="max-w-xs border border-border rounded-lg p-1 bg-card">
+  generateCode: (v) => `<List class="max-w-xs border border-border rounded-lg p-1 bg-card/30">
   <ListGroup>
     <ListHeader title="${v.header || "Navigation"}" />
     <ListItem
@@ -27,7 +27,7 @@ export const config: ComponentSpec = {
 
 export default function ListStage(props: StageProps) {
   return (
-    <List class="w-full max-w-xs border border-border rounded-lg p-1 bg-card">
+    <List class="w-full max-w-xs border border-border rounded-lg p-1 bg-card/30">
       <ListGroup>
         <ListHeader title={props.values.header || "Navigation"} />
         <ListItem

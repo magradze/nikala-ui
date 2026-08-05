@@ -57,7 +57,7 @@ export const CodeBlock: Component<CodeBlockProps> = (props) => {
       </Show>
 
       {/* Main Dark Code Box */}
-      <div class="relative rounded-lg border border-border bg-muted/60 text-foreground p-4 font-mono text-sm overflow-x-auto shadow-xs transition-colors">
+      <div class="relative rounded-lg border border-border/40 bg-card/40 text-foreground p-4 font-mono text-sm overflow-x-auto shadow-xs transition-colors">
         {/* Copy Button (INSIDE the code box on top-right on hover) */}
         <div class="absolute right-3 top-3 opacity-0 group-hover:opacity-100 transition-opacity z-10">
           <Button

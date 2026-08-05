@@ -160,7 +160,7 @@ export default function DropdownMenuDocsPage() {
                 {/* Hero Live Preview */}
                 <ComponentPreview name="dropdown-menu" code={defaultCode}>
                     <DropdownMenu>
-                        <DropdownMenuTrigger as={Button} variant="outline">
+                        <DropdownMenuTrigger as={Button} variant="secondary">
                             Open Menu
                         </DropdownMenuTrigger>
                         <DropdownMenuContent class="w-56">
@@ -205,7 +205,7 @@ export default function DropdownMenuDocsPage() {
                         </p>
                         <ComponentPreview name="dropdown-menu" code={subMenuCode}>
                             <DropdownMenu>
-                                <DropdownMenuTrigger as={Button} variant="outline">
+                                <DropdownMenuTrigger as={Button} variant="secondary">
                                     Options & Submenu
                                 </DropdownMenuTrigger>
                                 <DropdownMenuContent class="w-56">
@@ -237,7 +237,7 @@ export default function DropdownMenuDocsPage() {
                         </p>
                         <ComponentPreview name="dropdown-menu" code={checkboxCode}>
                             <DropdownMenu>
-                                <DropdownMenuTrigger as={Button} variant="outline">
+                                <DropdownMenuTrigger as={Button} variant="secondary">
                                     View Preferences
                                 </DropdownMenuTrigger>
                                 <DropdownMenuContent class="w-56">
@@ -268,7 +268,7 @@ export default function DropdownMenuDocsPage() {
                         </p>
                         <ComponentPreview name="dropdown-menu" code={radioCode}>
                             <DropdownMenu>
-                                <DropdownMenuTrigger as={Button} variant="outline">
+                                <DropdownMenuTrigger as={Button} variant="secondary">
                                     Panel Position ({position()})
                                 </DropdownMenuTrigger>
                                 <DropdownMenuContent class="w-56">
