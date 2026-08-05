@@ -2,6 +2,7 @@ import { createSignal, For } from "solid-js";
 import { Seo } from "@/components/seo";
 import { DocPageHeader } from "@/components/docs/doc-page-header";
 import { DocSectionHeader } from "@/components/docs/doc-section-header";
+import { DocApiTable } from "@/components/docs/doc-api-table";
 import { ComponentPreview } from "@/components/component-preview";
 import { DocNextSteps } from "@/components/docs/doc-next-steps";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
@@ -406,9 +407,68 @@ export default function ComboboxDocsPage() {
           </div>
         </ComponentPreview>
 
+        {/* API Reference */}
+        <div class="space-y-6 pt-6">
+          <DocSectionHeader title="API Reference" />
+
+          <DocApiTable
+            title="Combobox (Root)"
+            items={[
+              {
+                prop: "options",
+                type: "T[]",
+                default: "[]",
+                description: "Array of option objects or strings to filter and select from.",
+              },
+              {
+                prop: "multiple",
+                type: "boolean",
+                default: "false",
+                description: "Enables multi-selection mode with tag pills.",
+              },
+              {
+                prop: "triggerMode",
+                type: '"focus" | "input" | "both" | "manual"',
+                default: '"focus"',
+                description: "Determines whether popover opens on input focus, click, both, or button only.",
+              },
+              {
+                prop: "placeholder",
+                type: "string",
+                default: '"Select..."',
+                description: "Placeholder text when no value is selected.",
+              },
+              {
+                prop: "disabled",
+                type: "boolean",
+                default: "false",
+                description: "Disables interaction and dims trigger control.",
+              },
+            ]}
+          />
+
+          <DocApiTable
+            title="ComboboxControl"
+            items={[
+              {
+                prop: "clearable",
+                type: "boolean",
+                default: "false",
+                description: "Shows X button to clear current selection.",
+              },
+              {
+                prop: "onClear",
+                type: "() => void",
+                default: "—",
+                description: "Custom callback fired when clear button is clicked.",
+              },
+            ]}
+          />
+        </div>
+
         <DocNextSteps
-          prev={{ title: "Select", href: "/docs/components/select" }}
-          next={{ title: "Command", href: "/docs/components/command" }}
+          prev={{ title: "Checkbox Component", href: "/docs/components/checkbox" }}
+          next={{ title: "Command Component", href: "/docs/components/command" }}
         />
       </div>
     </>

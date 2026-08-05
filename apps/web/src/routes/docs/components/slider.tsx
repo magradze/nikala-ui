@@ -2,6 +2,7 @@ import { createSignal } from "solid-js";
 import { Seo } from "@/components/seo";
 import { DocPageHeader } from "@/components/docs/doc-page-header";
 import { DocSectionHeader } from "@/components/docs/doc-section-header";
+import { DocApiTable } from "@/components/docs/doc-api-table";
 import { ComponentPreview } from "@/components/component-preview";
 import { DocNextSteps } from "@/components/docs/doc-next-steps";
 import {
@@ -211,6 +212,65 @@ export default function SliderDocsPage() {
             <span class="text-xs font-semibold text-foreground">Gain</span>
           </div>
         </ComponentPreview>
+
+        {/* API Reference */}
+        <div class="space-y-6 pt-6">
+          <DocSectionHeader title="API Reference" />
+
+          <DocApiTable
+            title="Slider (Root)"
+            items={[
+              {
+                prop: "value",
+                type: "number[]",
+                default: "[0]",
+                description: "Array of numeric values for single or dual thumbs.",
+              },
+              {
+                prop: "onChange",
+                type: "(value: number[]) => void",
+                default: "—",
+                description: "Callback fired when slider value updates during dragging.",
+              },
+              {
+                prop: "minValue",
+                type: "number",
+                default: "0",
+                description: "Minimum allowable numeric bound.",
+              },
+              {
+                prop: "maxValue",
+                type: "number",
+                default: "100",
+                description: "Maximum allowable numeric bound.",
+              },
+              {
+                prop: "step",
+                type: "number",
+                default: "1",
+                description: "Granularity step size of value changes.",
+              },
+              {
+                prop: "orientation",
+                type: '"horizontal" | "vertical"',
+                default: '"horizontal"',
+                description: "Layout direction of the range slider.",
+              },
+              {
+                prop: "getValueLabel",
+                type: "(params: { values: number[] }) => string",
+                default: "—",
+                description: "Format function for screen-reader and SliderValueLabel readout.",
+              },
+              {
+                prop: "disabled",
+                type: "boolean",
+                default: "false",
+                description: "Disables interaction and reduces track opacity.",
+              },
+            ]}
+          />
+        </div>
 
         <DocNextSteps
           prev={{ title: "Skeleton Component", href: "/docs/components/skeleton" }}
