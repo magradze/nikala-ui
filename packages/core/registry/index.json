@@ -147,6 +147,17 @@
     ]
   },
   {
+    "name": "hover-card",
+    "title": "Hover Card",
+    "description": "Profile and link preview popover triggered on hover, built on Kobalte primitives.",
+    "type": "registry:ui",
+    "dependencies": [
+      "clsx",
+      "tailwind-merge",
+      "@kobalte/core"
+    ]
+  },
+  {
     "name": "input-group",
     "title": "Input Group",
     "description": "Compound input wrapper for combining text inputs with prefix and suffix addons.",

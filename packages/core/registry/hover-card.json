@@ -1,0 +1,18 @@
+{
+  "name": "hover-card",
+  "title": "Hover Card",
+  "description": "Profile and link preview popover triggered on hover, built on Kobalte primitives.",
+  "type": "registry:ui",
+  "dependencies": [
+    "clsx",
+    "tailwind-merge",
+    "@kobalte/core"
+  ],
+  "files": [
+    {
+      "path": "ui/hover-card.tsx",
+      "content": "import { splitProps, type JSX, type ValidComponent } from \"solid-js\";\nimport * as HoverCardPrimitive from \"@kobalte/core/hover-card\";\nimport { cn } from \"@/lib/cn\";\n\nexport type HoverCardProps = HoverCardPrimitive.HoverCardRootProps;\n\n/**\n * Root HoverCard component built on Kobalte primitives.\n * Controls hover open/close delays (default: 200ms / 150ms).\n */\nexport const HoverCard = (props: HoverCardProps) => {\n  return (\n    <HoverCardPrimitive.Root\n      openDelay={200}\n      closeDelay={150}\n      {...props}\n    />\n  );\n};\n\nexport type HoverCardTriggerProps<T extends ValidComponent = \"a\"> =\n  HoverCardPrimitive.HoverCardTriggerProps<T> &\n    JSX.AnchorHTMLAttributes<HTMLAnchorElement> & {\n      class?: string;\n      children?: JSX.Element;\n    };\n\n/**\n * HoverCard trigger handle (link, avatar, or text).\n */\nexport const HoverCardTrigger = <T extends ValidComponent = \"a\">(\n  props: HoverCardTriggerProps<T>\n) => {\n  const [local, rest] = splitProps(props as HoverCardTriggerProps, [\n    \"class\",\n    \"children\",\n  ]);\n\n  return (\n    <HoverCardPrimitive.Trigger\n      class={cn(\n        \"inline-flex items-center text-sm font-medium text-foreground underline-offset-4 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2\",\n        local.class\n      )}\n      {...(rest as any)}\n    >\n      {local.children}\n    </HoverCardPrimitive.Trigger>\n  );\n};\n\nexport type HoverCardContentProps<T extends ValidComponent = \"div\"> =\n  HoverCardPrimitive.HoverCardContentProps<T> & {\n    class?: string;\n    children?: JSX.Element;\n  };\n\n/**\n * Floating card preview container rendered in a portal layer.\n * Includes offset spacing from trigger and support for optional HoverCardArrow.\n */\nexport const HoverCardContent = <T extends ValidComponent = \"div\">(\n  props: HoverCardContentProps<T>\n) => {\n  const [local, rest] = splitProps(props as HoverCardContentProps, [\n    \"class\",\n    \"children\",\n  ]);\n\n  return (\n    <HoverCardPrimitive.Portal>\n      <HoverCardPrimitive.Content\n        sideOffset={8}\n        class={cn(\n          \"z-50 w-80 rounded-lg border border-border bg-popover p-4 text-popover-foreground shadow-xl outline-none transition-all data-expanded:animate-in data-closed:animate-out data-[closed]:fade-out-0 data-[expanded]:fade-in-0 data-closed:zoom-out-95 data-expanded:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2\",\n          local.class\n        )}\n        {...(rest as any)}\n      >\n        {local.children}\n      </HoverCardPrimitive.Content>\n    </HoverCardPrimitive.Portal>\n  );\n};\n\nexport type HoverCardArrowProps<T extends ValidComponent = \"div\"> =\n  HoverCardPrimitive.HoverCardArrowProps<T> & {\n    class?: string;\n  };\n\n/**\n * Optional arrow pointer pointing to the trigger.\n */\nexport const HoverCardArrow = <T extends ValidComponent = \"div\">(\n  props: HoverCardArrowProps<T>\n) => {\n  const [local, rest] = splitProps(props as HoverCardArrowProps, [\"class\"]);\n\n  return (\n    <HoverCardPrimitive.Arrow\n      class={cn(\"fill-popover stroke-border stroke-1\", local.class)}\n      {...(rest as any)}\n    />\n  );\n};\n",
+      "type": "registry:ui"
+    }
+  ]
+}

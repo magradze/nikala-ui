@@ -184,6 +184,11 @@ export const COMPONENT_METADATA: Record<string, ComponentMeta> = {
     description: "Interactive multi-slot PIN/OTP input component for SMS and 2FA authentication verification codes.",
     dependencies: ["clsx", "tailwind-merge"],
   },
+  "hover-card": {
+    title: "Hover Card",
+    description: "Profile and link preview popover triggered on hover, built on Kobalte primitives.",
+    dependencies: ["clsx", "tailwind-merge", "@kobalte/core"],
+  },
 };
 
 /**
