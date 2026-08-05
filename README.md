@@ -4,12 +4,16 @@ A simple, copy-paste component system for **SolidJS** built natively for **Tailw
 
 Honoring the iconic Georgian painter **Niko Pirosmani (Nikala)**.
 
-[![npm version](https://img.shields.io/npm/v/@nikala-ui/cli.svg?style=flat-square&color=9e3b47)](https://www.npmjs.com/package/@nikala-ui/cli)
-[![npm downloads](https://img.shields.io/npm/dm/@nikala-ui/cli.svg?style=flat-square&color=9e3b47)](https://www.npmjs.com/package/@nikala-ui/cli)
+[![npm version](https://img.shields.io/npm/v/@nikala-ui/cli.svg?style=flat-square&color=38bdf8)](https://www.npmjs.com/package/@nikala-ui/cli)
+[![npm downloads](https://img.shields.io/npm/dm/@nikala-ui/cli.svg?style=flat-square&color=38bdf8)](https://www.npmjs.com/package/@nikala-ui/cli)
 [![CI Status](https://img.shields.io/github/actions/workflow/status/nikala-ui/ui/workspace-ci.yml?branch=main&style=flat-square&label=CI)](https://github.com/nikala-ui/ui/actions/workflows/workspace-ci.yml)
+[![GitHub Stars](https://img.shields.io/github/stars/nikala-ui/ui?style=flat-square&logo=github&color=eab308)](https://github.com/nikala-ui/ui/stargazers)
 [![SolidJS](https://img.shields.io/badge/SolidJS-v1.8+-4c78a8?style=flat-square&logo=solid)](https://solidjs.com)
-[![Tailwind CSS v4](https://img.shields.io/badge/Tailwind_CSS-v4.0-00bcff?style=flat-square&logo=tailwindcss)](https://tailwindcss.com)
+[![Tailwind CSS v4](https://img.shields.io/badge/Tailwind_CSS-v4.0-38bdf8?style=flat-square&logo=tailwindcss)](https://tailwindcss.com)
 [![TypeScript](https://img.shields.io/badge/TypeScript-100%25-3178c6?style=flat-square&logo=typescript)](https://www.typescriptlang.org)
+[![Bun](https://img.shields.io/badge/Bun-v1.1+-fbf0df?style=flat-square&logo=bun&logoColor=black)](https://bun.sh)
+[![MCP Enabled](https://img.shields.io/badge/MCP-Server_Ready-8b5cf6?style=flat-square)](https://nikala.magradze.dev/docs/mcp)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-22c55e.svg?style=flat-square)](https://github.com/nikala-ui/ui)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg?style=flat-square)](https://opensource.org/licenses/MIT)
 
 **Official Documentation & Live Playground:** [nikala.magradze.dev](https://nikala.magradze.dev)
