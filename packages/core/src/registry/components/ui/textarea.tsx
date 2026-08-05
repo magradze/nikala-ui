@@ -57,7 +57,7 @@ export const Textarea: Component<TextareaProps> = (props) => {
         maxLength={local.maxLength}
         onInput={handleInput}
         class={cn(
-          "flex min-h-[80px] w-full rounded-md border border-input bg-transparent px-3 py-2 text-base shadow-2xs transition-colors placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm",
+          "flex min-h-20 w-full rounded-md border border-input bg-muted px-3 py-2 text-base shadow-2xs transition-colors placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm",
           local.class
         )}
         {...rest}

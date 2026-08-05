@@ -2,7 +2,6 @@ import {
   createContext,
   useContext,
   createSignal,
-  onMount,
   onCleanup,
   Show,
   splitProps,
@@ -10,6 +9,7 @@ import {
   type JSX,
   type Accessor,
 } from "solid-js";
+import { createKeybindings } from "@nikala-ui/hooks";
 import { Dialog } from "@kobalte/core/dialog";
 import { Search, ArrowUp, ArrowDown, CornerDownLeft } from "lucide-solid";
 import { cn } from "@/lib/cn";
@@ -76,25 +76,25 @@ export const CommandDialog: Component<CommandDialogProps> = (props) => {
   };
 
   /* Listen for global Ctrl+K / Cmd+K hotkeys */
-  onMount(() => {
-    if (props.enableHotkey !== false) {
-      const handleKeyDown = (e: KeyboardEvent) => {
-        if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
-          e.preventDefault();
-          setOpen(!isOpen());
-        }
-      };
-      window.addEventListener("keydown", handleKeyDown);
-      onCleanup(() => window.removeEventListener("keydown", handleKeyDown));
+  createKeybindings(
+    [
+      {
+        key: ["meta+k", "ctrl+k"],
+        handler: () => setOpen(!isOpen()),
+        preventDefault: true,
+      },
+    ],
+    {
+      enabled: () => props.enableHotkey !== false,
     }
-  });
+  );
 
   return (
     <Dialog open={isOpen()} onOpenChange={setOpen}>
       <Dialog.Portal>
-        <Dialog.Overlay class="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs data-[expanded]:animate-in data-[closed]:animate-out data-[closed]:fade-out-0 data-[expanded]:fade-in-0" />
+        <Dialog.Overlay class="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs data-expanded:animate-in data-closed:animate-out data-[closed]:fade-out-0 data-[expanded]:fade-in-0" />
         <div class="fixed inset-0 z-50 flex items-start justify-center pt-16 sm:pt-24 px-4">
-          <Dialog.Content class="w-full max-w-xl rounded-lg border border-border bg-popover text-popover-foreground shadow-2xl outline-none data-[expanded]:animate-in data-[closed]:animate-out data-[closed]:fade-out-0 data-[expanded]:fade-in-0 data-[closed]:zoom-out-95 data-[expanded]:zoom-in-95">
+          <Dialog.Content class="w-full max-w-xl rounded-lg border border-border bg-popover text-popover-foreground shadow-2xl outline-none data-expanded:animate-in data-closed:animate-out data-[closed]:fade-out-0 data-[expanded]:fade-in-0 data-closed:zoom-out-95 data-expanded:zoom-in-95">
             <Command class={props.class}>{props.children}</Command>
           </Dialog.Content>
         </div>
@@ -145,7 +145,7 @@ export const CommandList: Component<CommandListProps> = (props) => {
 
   return (
     <div
-      class={cn("max-h-[330px] overflow-y-auto p-1.5 scrollbar-thin", local.class)}
+      class={cn("max-h-82.5 overflow-y-auto p-1.5 scrollbar-thin", local.class)}
       {...rest}
     >
       <List>{local.children}</List>

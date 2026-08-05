@@ -47,7 +47,7 @@ export const Checkbox: Component<CheckboxProps> = (props) => {
     <button
       type="button"
       role="checkbox"
-      aria-checked={Boolean(isChecked())}
+      aria-checked={isChecked()}
       data-state={isChecked() ? "checked" : "unchecked"}
       disabled={local.disabled}
       onClick={toggle}

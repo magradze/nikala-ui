@@ -14,7 +14,7 @@ export const InputGroup: Component<InputGroupProps> = (props) => {
   return (
     <div
       class={cn(
-        "relative flex w-full items-center rounded-md border border-input bg-background text-sm shadow-2xs transition-colors focus-within:border-primary focus-within:ring-1 focus-within:ring-primary",
+        "relative flex w-full items-center rounded-md border border-input bg-muted text-sm shadow-2xs transition-colors focus-within:border-primary focus-within:ring-1 focus-within:ring-primary",
         local.class
       )}
       {...rest}
@@ -71,7 +71,7 @@ export const InputGroupInput: Component<InputGroupInputProps> = (props) => {
   return (
     <input
       class={cn(
-        "flex h-9 w-full flex-1 border-0 bg-transparent px-2.5 py-1 text-sm outline-none placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50",
+        "flex h-9 w-full flex-1 border-0 px-2.5 py-1 text-sm outline-none placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50",
         local.class
       )}
       {...rest}

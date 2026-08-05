@@ -21,7 +21,7 @@ export const Avatar: Component<AvatarProps> = (props) => {
   return (
     <div
       class={cn(
-        "relative flex h-10 w-10 shrink-0 overflow-hidden rounded-full border border-border bg-muted",
+        "relative flex h-10 w-10 shrink-0 overflow-hidden rounded-lg border border-border bg-muted",
         local.class
       )}
       {...rest}
