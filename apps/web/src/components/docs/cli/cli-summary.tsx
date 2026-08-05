@@ -15,7 +15,7 @@ export function CliSummary() {
               {prefix()} init
             </CardTitle>
             <CardDescription class="text-xs">
-              Initializes configuration, path aliases, and CSS design tokens.
+              Initializes configuration, path aliases, and OKLCH CSS design tokens.
             </CardDescription>
           </CardHeader>
         </Card>
@@ -27,6 +27,28 @@ export function CliSummary() {
             </CardTitle>
             <CardDescription class="text-xs">
               Installs reactive components directly into your codebase.
+            </CardDescription>
+          </CardHeader>
+        </Card>
+
+        <Card class="bg-card/50">
+          <CardHeader class="p-4">
+            <CardTitle class="text-sm font-mono text-primary">
+              {prefix()} upgrade
+            </CardTitle>
+            <CardDescription class="text-xs">
+              Syncs and upgrades installed components to latest registry versions.
+            </CardDescription>
+          </CardHeader>
+        </Card>
+
+        <Card class="bg-card/50">
+          <CardHeader class="p-4">
+            <CardTitle class="text-sm font-mono text-primary">
+              {prefix()} remove
+            </CardTitle>
+            <CardDescription class="text-xs">
+              Safely uninstalls or cleans installed components and reactive hooks.
             </CardDescription>
           </CardHeader>
         </Card>
@@ -49,17 +71,6 @@ export function CliSummary() {
             </CardTitle>
             <CardDescription class="text-xs">
               Compares local component code against upstream registry manifests.
-            </CardDescription>
-          </CardHeader>
-        </Card>
-
-        <Card class="bg-card/50 sm:col-span-2 lg:col-span-2">
-          <CardHeader class="p-4">
-            <CardTitle class="text-sm font-mono text-primary">
-              {prefix()} theme
-            </CardTitle>
-            <CardDescription class="text-xs">
-              Customizes base gray palettes and primary accent colors directly from CLI.
             </CardDescription>
           </CardHeader>
         </Card>

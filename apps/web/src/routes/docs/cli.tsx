@@ -6,6 +6,8 @@ import { CliInitSection } from "@/components/docs/cli/cli-init-section";
 import { CliAddSection } from "@/components/docs/cli/cli-add-section";
 import { CliValidateSection } from "@/components/docs/cli/cli-validate-section";
 import { CliDiffSection } from "@/components/docs/cli/cli-diff-section";
+import { CliUpgradeSection } from "@/components/docs/cli/cli-upgrade-section";
+import { CliRemoveSection } from "@/components/docs/cli/cli-remove-section";
 import { CliThemeSection } from "@/components/docs/cli/cli-theme-section";
 import { CliPmSwitcher } from "@/components/docs/cli/cli-pm-switcher";
 
@@ -14,7 +16,7 @@ export default function CliDocsPage() {
     <>
       <Seo
         title="CLI Reference"
-        description="Comprehensive CLI guide for initializing Nikala UI, adding components, validating workspace health, and customizing themes."
+        description="Comprehensive CLI guide for initializing Nikala UI, adding components, upgrading, removing, validating workspace health, and customizing themes."
         path="/docs/cli"
       />
 
@@ -22,7 +24,7 @@ export default function CliDocsPage() {
         <DocPageHeader
           title="CLI Reference"
           badge="CLI Tool"
-          description="Command line interface guide for initializing projects, managing components, inspecting diffs, and setting up theme palettes."
+          description="Command line interface guide for initializing projects, managing components, upgrading, uninstalling, inspecting diffs, and setting up theme palettes."
         />
 
         <CliPmSwitcher />
@@ -30,6 +32,8 @@ export default function CliDocsPage() {
         <CliSummary />
         <CliInitSection />
         <CliAddSection />
+        <CliUpgradeSection />
+        <CliRemoveSection />
         <CliValidateSection />
         <CliDiffSection />
         <CliThemeSection />
