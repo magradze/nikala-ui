@@ -312,6 +312,7 @@ export const COMPONENTS_LIST: DocComponentItem[] = [
   { name: "toast", title: "Toast", description: "Temporary feedback notification banners built on Kobalte primitives", href: "/docs/components/toast" },
   { name: "tooltip", title: "Tooltip", description: "Contextual hover information popup badge", href: "/docs/components/tooltip" },
   { name: "popover", title: "Popover", description: "Displays rich content in a portal layer triggered by a button", href: "/docs/components/popover" },
+  { name: "pin-input", title: "Pin Input", description: "4 or 6-digit SMS/2FA verification PIN code input slots", href: "/docs/components/pin-input" },
   { name: "progress", title: "Progress", description: "Displays an indicator showing completion progress of a task or media", href: "/docs/components/progress" },
 ];
 
