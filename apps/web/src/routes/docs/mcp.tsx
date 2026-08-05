@@ -7,11 +7,16 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 import { Bot, Cpu, Globe, Server, Terminal, Zap } from "lucide-solid";
 
-const stdioConfigCode = `{
+const stdioConfigCode = `
+  {
   "mcpServers": {
     "nikala-ui": {
       "command": "npx",
-      "args": ["-y", "@nikala-ui/mcp"]
+      "args": ["-y", "@nikala-ui/mcp"],
+      "cwd": "/absolute/path/to/your/project",
+      "env": {
+        "WORKSPACE_DIR": "/absolute/path/to/your/project"
+      }
     }
   }
 }`;
