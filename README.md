@@ -120,37 +120,19 @@ export function App() {
 
 ---
 
-## Available Components (29)
+---
 
-- **`Button`** — Interactive button with variant and size options (`cva`).
-- **`Input`** — Reactive text input with modern focus states.
-- **`Card`** — Compound card layout (`Header`, `Title`, `Description`, `Content`, `Footer`).
-- **`Badge`** — Status indicator and tag badges with multiple variants.
-- **`Avatar`** — Profile image component with automatic fallback handling (`Image`, `Fallback`).
-- **`Separator`** — Visual or semantic horizontal/vertical line divider.
-- **`Textarea`** — Multi-line text area field with focus styling.
-- **`Label`** — Accessible caption label for form controls.
-- **`Skeleton`** — Animated pulse loading placeholder for content loading states.
-- **`Switch`** — Toggle switch control for boolean states.
-- **`Checkbox`** — Checkable input box with custom SVG checkmark indicator.
-- **`Radio Group`** — Accessible radio button group with vertical and horizontal layout support (`RadioGroup`, `RadioGroupItem`).
-- **`Select`** — Custom dropdown select menu component (`Select`, `SelectTrigger`, `SelectValue`, `SelectContent`, `SelectItem`).
-- **`Tabs`** — Layered content switcher supporting horizontal and vertical layout orientations (`Tabs`, `TabsList`, `TabsTrigger`, `TabsContent`).
-- **`Accordion`** — Vertically stacked collapsible content sections supporting single and multiple modes (`Accordion`, `AccordionItem`, `AccordionTrigger`, `AccordionContent`).
-- **`Breadcrumb`** — Accessible navigation trail hierarchy (`Breadcrumb`, `BreadcrumbList`, `BreadcrumbItem`, `BreadcrumbLink`, `BreadcrumbPage`, `BreadcrumbSeparator`, `BreadcrumbEllipsis`).
-- **`Alert`** — Callout banner for user feedback with status variants, dismiss button, and timer (`Alert`, `AlertTitle`, `AlertDescription`).
-- **`Banner`** — Announcement banner with sticky positioning, dismissal persistence, auto-hide timer, Lucide icons, and variant styles (`Banner`).
-- **`Dialog`** — Accessible modal window with backdrop blur, closable button, and outside-click options (`Dialog`, `DialogTrigger`, `DialogContent`, `DialogHeader`, `DialogTitle`, `DialogDescription`, `DialogFooter`).
-- **`Sheet`** — Sliding panel component with 4-directional slide-in animations and backdrop blur (`Sheet`, `SheetTrigger`, `SheetContent`, `SheetHeader`, `SheetTitle`, `SheetDescription`, `SheetFooter`).
-- **`Dropdown Menu`** — Full-featured context menu with submenus, checkboxes, radio items, shortcuts, and avatar trigger (`DropdownMenu`, `DropdownMenuTrigger`, `DropdownMenuContent`, `DropdownMenuItem`, `DropdownMenuSub`).
-- **`List`** — Compound list components supporting titles, subtitles, icons, avatars, hotkey badges, chevron indicators, and interactive links (`List`, `ListGroup`, `ListHeader`, `ListItem`).
-- **`Kbd`** — Keyboard key and shortcut group indicators for displaying hotkeys (`Kbd`, `KbdGroup`).
-- **`Input Group`** — Compound input wrapper for combining text inputs with prefix and suffix addons (`InputGroup`, `InputGroupInput`, `InputGroupAddon`).
-- **`Command`** — Accessible command palette and search modal built on Kobalte Dialog primitives with auto-filtering (`Command`, `CommandDialog`, `CommandInput`, `CommandList`, `CommandEmpty`, `CommandGroup`, `CommandItem`, `CommandFooter`).
-- **`Theme Manager`** — Zero-dependency theme provider, brand accent color customizer, border-radius controls, and transition animations (`ThemeProvider`, `ThemeToggle`, `useTheme`).
-- **`Toast`** — Temporary feedback notification banners built on Kobalte primitives with status variants and programmatic trigger support (`Toast`, `ToastTitle`, `ToastDescription`, `ToastCloseButton`, `ToastRegion`, `ToastList`, `showToast`).
-- **`Tooltip`** — Contextual popup text hint on hover or focus built on Kobalte primitives with arrow pointer support (`Tooltip`, `TooltipTrigger`, `TooltipContent`, `TooltipArrow`).
-- **`Popover`** — Interactive floating panel for rich contextual content and form triggers with multi-directional placement (`Popover`, `PopoverTrigger`, `PopoverContent`, `PopoverTitle`, `PopoverDescription`, `PopoverCloseButton`, `PopoverArrow`).
+## Components
+
+Nikala UI provides a growing library of accessible, beautifully designed SolidJS components built natively for Tailwind CSS v4.
+
+Explore all components, interactive live previews, and API references at **[nikala.magradze.dev/docs/components](https://nikala.magradze.dev/docs/components)**.
+
+You can also list all available components directly from your terminal:
+
+```bash
+bunx @nikala-ui/cli add
+```
 
 ---
 
