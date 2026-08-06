@@ -68,6 +68,7 @@ export function Header() {
               variant="outline"
               size="sm"
               onClick={() => setOpen(true)}
+              aria-label="Search documentation"
               class="flex items-center gap-2"
             >
               <span>Search...</span>

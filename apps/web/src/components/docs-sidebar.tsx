@@ -36,7 +36,7 @@ export const DocsSidebar: Component = () => {
 
   return (
     <aside class="fixed top-14 z-30 hidden h-[calc(100vh-3.5rem)] w-full shrink-0 md:sticky md:block overflow-y-auto border-r border-border/40 py-6 px-2 bg-background">
-      <div class="space-y-6">
+      <nav aria-label="Documentation Navigation" class="space-y-6">
         <For each={navigation()}>
           {(section) => (
             <div class="space-y-2">
@@ -70,7 +70,7 @@ export const DocsSidebar: Component = () => {
             </div>
           )}
         </For>
-      </div>
+      </nav>
     </aside>
   );
 };
