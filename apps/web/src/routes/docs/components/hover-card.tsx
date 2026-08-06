@@ -4,6 +4,7 @@ import { DocPageHeader } from "@/components/docs/doc-page-header";
 import { DocSectionHeader } from "@/components/docs/doc-section-header";
 import { DocApiTable } from "@/components/docs/doc-api-table";
 import { ComponentPreview } from "@/components/component-preview";
+import { CodeBlock } from "@/components/code-block";
 import { DocNextSteps } from "@/components/docs/doc-next-steps";
 import {
   HoverCard,
@@ -13,6 +14,13 @@ import {
 } from "@/components/ui/hover-card";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
+
+const importCode = `import {
+  HoverCard,
+  HoverCardTrigger,
+  HoverCardContent,
+  HoverCardArrow,
+} from "@/components/ui/hover-card";`;
 
 export default function HoverCardDocsPage() {
   const [isFollowing, setIsFollowing] = createSignal(false);
@@ -101,6 +109,11 @@ export default function HoverCardDocsPage() {
             </HoverCard>
           </div>
         </ComponentPreview>
+
+        <div class="space-y-4">
+          <DocSectionHeader title="Usage" />
+          <CodeBlock code={importCode} lang="tsx" />
+        </div>
 
         {/* 2. Repository / Link Preview */}
         <DocSectionHeader

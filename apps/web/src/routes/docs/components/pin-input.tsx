@@ -4,12 +4,19 @@ import { DocPageHeader } from "@/components/docs/doc-page-header";
 import { DocSectionHeader } from "@/components/docs/doc-section-header";
 import { DocApiTable } from "@/components/docs/doc-api-table";
 import { ComponentPreview } from "@/components/component-preview";
+import { CodeBlock } from "@/components/code-block";
 import { DocNextSteps } from "@/components/docs/doc-next-steps";
 import {
   PinInput,
   PinInputInput,
   PinInputLabel,
 } from "@/components/ui/pin-input";
+
+const importCode = `import {
+  PinInput,
+  PinInputInput,
+  PinInputLabel,
+} from "@/components/ui/pin-input";`;
 
 export default function PinInputDocsPage() {
   const [value, setValue] = createSignal("");
@@ -64,6 +71,11 @@ export default function PinInputDocsPage() {
             </p>
           </div>
         </ComponentPreview>
+
+        <div class="space-y-4">
+          <DocSectionHeader title="Usage" />
+          <CodeBlock code={importCode} lang="tsx" />
+        </div>
 
         {/* 2. Alphanumeric OTP */}
         <DocSectionHeader

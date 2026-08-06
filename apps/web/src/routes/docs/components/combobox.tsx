@@ -4,6 +4,7 @@ import { DocPageHeader } from "@/components/docs/doc-page-header";
 import { DocSectionHeader } from "@/components/docs/doc-section-header";
 import { DocApiTable } from "@/components/docs/doc-api-table";
 import { ComponentPreview } from "@/components/component-preview";
+import { CodeBlock } from "@/components/code-block";
 import { DocNextSteps } from "@/components/docs/doc-next-steps";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import {
@@ -63,6 +64,17 @@ const GROUPS: CountryGroup[] = [
     countries: [COUNTRIES[1], COUNTRIES[6]],
   },
 ];
+
+const importCode = `import {
+  Combobox,
+  ComboboxControl,
+  ComboboxInput,
+  ComboboxContent,
+  ComboboxItem,
+  ComboboxGroup,
+  ComboboxToken,
+  ComboboxEmpty,
+} from "@/components/ui/combobox";`;
 
 export default function ComboboxDocsPage() {
   const [singleValue, setSingleValue] = createSignal<CountryOption | null>(COUNTRIES[0]);
@@ -139,6 +151,11 @@ export default function ComboboxDocsPage() {
             </Combobox>
           </div>
         </ComponentPreview>
+
+        <div class="space-y-4">
+          <DocSectionHeader title="Usage" />
+          <CodeBlock code={importCode} lang="tsx" />
+        </div>
 
         {/* Open on Focus / Click */}
         <DocSectionHeader

@@ -4,6 +4,7 @@ import { DocPageHeader } from "@/components/docs/doc-page-header";
 import { DocSectionHeader } from "@/components/docs/doc-section-header";
 import { DocApiTable } from "@/components/docs/doc-api-table";
 import { ComponentPreview } from "@/components/component-preview";
+import { CodeBlock } from "@/components/code-block";
 import { DocNextSteps } from "@/components/docs/doc-next-steps";
 import {
   Slider,
@@ -13,6 +14,15 @@ import {
   SliderLabel,
   SliderValueLabel,
 } from "@/components/ui/slider";
+
+const importCode = `import {
+  Slider,
+  SliderTrack,
+  SliderFill,
+  SliderThumb,
+  SliderLabel,
+  SliderValueLabel,
+} from "@/components/ui/slider";`;
 
 export default function SliderDocsPage() {
   const [singleValue, setSingleValue] = createSignal([40]);
@@ -67,6 +77,11 @@ export default function SliderDocsPage() {
             </Slider>
           </div>
         </ComponentPreview>
+
+        <div class="space-y-4">
+          <DocSectionHeader title="Usage" />
+          <CodeBlock code={importCode} lang="tsx" />
+        </div>
 
         {/* 2. Range Slider (Dual Thumbs) */}
         <DocSectionHeader
