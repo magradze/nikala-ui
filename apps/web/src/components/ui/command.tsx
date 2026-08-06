@@ -21,6 +21,10 @@ import { List, ListGroup, ListHeader, ListItem, type ListItemProps } from "../ui
 interface CommandContextValue {
   search: Accessor<string>;
   setSearch: (value: string) => void;
+  activeIndex: Accessor<number>;
+  setActiveIndex: (fn: (prev: number) => number) => void;
+  registerItemIndex: (element: HTMLElement) => number;
+  onItemSelect: (index: number, action?: () => void) => void;
 }
 
 const CommandContext = createContext<CommandContextValue>();
@@ -34,24 +38,96 @@ export const useCommand = () => {
 };
 
 /* --- Root Command Container --- */
-export interface CommandProps extends JSX.HTMLAttributes<HTMLDivElement> {
+export interface CommandProps extends Omit<JSX.HTMLAttributes<HTMLDivElement>, "children"> {
   class?: string;
+  children?: JSX.Element | ((ctx: CommandContextValue) => JSX.Element);
 }
 
 export const Command: Component<CommandProps> = (props) => {
   const [local, rest] = splitProps(props, ["class", "children"]);
   const [search, setSearch] = createSignal("");
+  const [activeIndex, setActiveIndex] = createSignal(0);
+
+  let containerRef: HTMLDivElement | undefined;
+  let itemsList: HTMLElement[] = [];
+
+  const registerItemIndex = (element: HTMLElement) => {
+    if (!itemsList.includes(element)) {
+      itemsList.push(element);
+    }
+    return itemsList.indexOf(element);
+  };
+
+  const onItemSelect = (index: number, action?: () => void) => {
+    setActiveIndex(index);
+    if (action) action();
+  };
+
+  const getVisibleItems = () => {
+    if (!containerRef) return [];
+    return Array.from(containerRef.querySelectorAll<HTMLElement>("[data-command-item]:not(.hidden)"));
+  };
+
+  const updateActiveAttribute = (index: number) => {
+    const visible = getVisibleItems();
+    visible.forEach((el, idx) => {
+      if (idx === index) {
+        el.setAttribute("aria-selected", "true");
+        el.scrollIntoView({ block: "nearest" });
+      } else {
+        el.removeAttribute("aria-selected");
+      }
+    });
+  };
+
+  const handleKeyDown = (e: KeyboardEvent) => {
+    const visible = getVisibleItems();
+    if (visible.length === 0) return;
+
+    if (e.key === "ArrowDown") {
+      e.preventDefault();
+      const next = (activeIndex() + 1) % visible.length;
+      setActiveIndex(next);
+      updateActiveAttribute(next);
+    } else if (e.key === "ArrowUp") {
+      e.preventDefault();
+      const prev = (activeIndex() - 1 + visible.length) % visible.length;
+      setActiveIndex(prev);
+      updateActiveAttribute(prev);
+    } else if (e.key === "Enter") {
+      e.preventDefault();
+      const current = visible[activeIndex()];
+      if (current) {
+        current.click();
+      }
+    }
+  };
+
+  const ctx: CommandContextValue = {
+    search,
+    setSearch: (val) => {
+      setSearch(val);
+      setActiveIndex(0);
+    },
+    activeIndex,
+    setActiveIndex: (fn) => setActiveIndex(fn),
+    registerItemIndex,
+    onItemSelect,
+  };
 
   return (
-    <CommandContext.Provider value={{ search, setSearch }}>
+    <CommandContext.Provider value={ctx}>
       <div
+        ref={containerRef}
+        onKeyDown={handleKeyDown}
         class={cn(
-          "flex flex-col w-full h-full rounded-lg bg-popover text-popover-foreground overflow-hidden border border-border shadow-md",
+          "flex flex-col w-full h-full rounded-lg bg-popover text-popover-foreground overflow-hidden border border-border shadow-md outline-none",
           local.class
         )}
+        tabIndex={0}
         {...rest}
       >
-        {local.children}
+        {typeof local.children === "function" ? (local.children as any)(ctx) : local.children}
       </div>
     </CommandContext.Provider>
   );
@@ -62,7 +138,7 @@ export interface CommandDialogProps {
   open?: boolean;
   onOpenChange?: (open: boolean) => void;
   enableHotkey?: boolean;
-  children?: JSX.Element;
+  children?: JSX.Element | ((ctx: CommandContextValue) => JSX.Element);
   class?: string;
 }
 
@@ -120,6 +196,7 @@ export const CommandInput: Component<CommandInputProps> = (props) => {
       </InputGroupAddon>
 
       <InputGroupInput
+        ref={(el) => setTimeout(() => el.focus(), 50)}
         value={search()}
         onInput={(e) => {
           setSearch(e.currentTarget.value);
@@ -166,7 +243,7 @@ export const CommandEmpty: Component<CommandEmptyProps> = (props) => {
     <Show when={search().trim().length > 0}>
       <div
         class={cn(
-          "py-8 text-center text-sm text-muted-foreground font-medium select-none",
+          "py-8 text-center text-sm text-muted-foreground font-medium select-none empty:block hidden [...:has(li:not(.hidden))_&]:hidden",
           local.class
         )}
         {...rest}
@@ -200,6 +277,7 @@ export interface CommandItemProps extends ListItemProps {
 }
 
 export const CommandItem: Component<CommandItemProps> = (props) => {
+  let itemRef: HTMLDivElement | undefined;
   const [local, rest] = splitProps(props, [
     "title",
     "subtitle",
@@ -208,7 +286,7 @@ export const CommandItem: Component<CommandItemProps> = (props) => {
     "onClick",
     "class",
   ]);
-  const { search } = useCommand();
+  const { search, activeIndex } = useCommand();
 
   /* Auto fuzzy-filter item based on search query */
   const matchesSearch = () => {
@@ -236,10 +314,15 @@ export const CommandItem: Component<CommandItemProps> = (props) => {
   return (
     <Show when={matchesSearch()}>
       <ListItem
+        ref={itemRef}
+        data-command-item="true"
         title={local.title}
         subtitle={local.subtitle}
         onClick={handleClick}
-        class={local.class}
+        class={cn(
+          "aria-selected:bg-accent aria-selected:text-accent-foreground cursor-pointer transition-colors hover:bg-accent hover:text-accent-foreground",
+          local.class
+        )}
         {...rest}
       />
     </Show>

@@ -1,4 +1,4 @@
-import { createSignal, For } from "solid-js";
+import { createSignal, For, Show } from "solid-js";
 import { A } from "@solidjs/router";
 import { COMPONENTS_LIST, DOCUMENTATION_LIST, HOOKS_LIST } from "@/config/docs";
 import { Badge } from "@/components/ui/badge";
@@ -79,62 +79,109 @@ export function Header() {
 
             {/* Global Command Palette Modal */}
             <CommandDialog open={open()} onOpenChange={setOpen} enableHotkey={true}>
-              <CommandInput placeholder="Search documentation, CLI, hooks, components..." />
+              {({ search }) => {
+                const query = () => search().toLowerCase().trim();
 
-              <CommandList>
-                <CommandEmpty />
+                const filteredDocs = () =>
+                  DOCUMENTATION_LIST.filter(
+                    (doc) =>
+                      !query() ||
+                      doc.title.toLowerCase().includes(query()) ||
+                      doc.subtitle.toLowerCase().includes(query())
+                  );
 
-                {/* Documentation Section */}
-                <CommandGroup heading="Documentation">
-                  <For each={DOCUMENTATION_LIST}>
-                    {(doc) => (
-                      <CommandItem
-                        title={doc.title}
-                        subtitle={doc.subtitle}
-                        icon={doc.icon}
-                        href={doc.href}
-                        shortcut={doc.shortcut}
-                        showChevron={true}
-                        onSelect={() => setOpen(false)}
-                      />
-                    )}
-                  </For>
-                </CommandGroup>
+                const filteredHooks = () =>
+                  HOOKS_LIST.filter(
+                    (hook) =>
+                      !query() ||
+                      hook.title.toLowerCase().includes(query()) ||
+                      hook.description.toLowerCase().includes(query()) ||
+                      hook.name.toLowerCase().includes(query())
+                  );
 
-                {/* Hooks Section */}
-                <CommandGroup heading="Hooks & Primitives">
-                  <For each={HOOKS_LIST}>
-                    {(hook) => (
-                      <CommandItem
-                        title={hook.title}
-                        subtitle={hook.description}
-                        icon={Webhook}
-                        href={hook.href}
-                        showChevron={true}
-                        onSelect={() => setOpen(false)}
-                      />
-                    )}
-                  </For>
-                </CommandGroup>
+                const filteredComponents = () =>
+                  COMPONENTS_LIST.filter(
+                    (comp) =>
+                      !query() ||
+                      comp.title.toLowerCase().includes(query()) ||
+                      comp.description.toLowerCase().includes(query()) ||
+                      comp.name.toLowerCase().includes(query())
+                  );
 
-                {/* Components Section */}
-                <CommandGroup heading="Components">
-                  <For each={COMPONENTS_LIST}>
-                    {(comp) => (
-                      <CommandItem
-                        title={comp.title}
-                        subtitle={comp.description}
-                        icon={ComponentIcon}
-                        href={comp.href}
-                        showChevron={true}
-                        onSelect={() => setOpen(false)}
-                      />
-                    )}
-                  </For>
-                </CommandGroup>
-              </CommandList>
+                const hasAnyResults = () =>
+                  filteredDocs().length > 0 ||
+                  filteredHooks().length > 0 ||
+                  filteredComponents().length > 0;
 
-              <CommandFooter />
+                return (
+                  <>
+                    <CommandInput placeholder="Search documentation, CLI, hooks, components..." />
+
+                    <CommandList>
+                      <Show when={query().length > 0 && !hasAnyResults()}>
+                        <CommandEmpty />
+                      </Show>
+
+                      {/* Documentation Section */}
+                      <Show when={filteredDocs().length > 0}>
+                        <CommandGroup heading="Documentation">
+                          <For each={filteredDocs()}>
+                            {(doc) => (
+                              <CommandItem
+                                title={doc.title}
+                                subtitle={doc.subtitle}
+                                icon={doc.icon}
+                                href={doc.href}
+                                shortcut={doc.shortcut}
+                                showChevron={true}
+                                onSelect={() => setOpen(false)}
+                              />
+                            )}
+                          </For>
+                        </CommandGroup>
+                      </Show>
+
+                      {/* Hooks Section */}
+                      <Show when={filteredHooks().length > 0}>
+                        <CommandGroup heading="Hooks & Primitives">
+                          <For each={filteredHooks()}>
+                            {(hook) => (
+                              <CommandItem
+                                title={hook.title}
+                                subtitle={hook.description}
+                                icon={Webhook}
+                                href={hook.href}
+                                showChevron={true}
+                                onSelect={() => setOpen(false)}
+                              />
+                            )}
+                          </For>
+                        </CommandGroup>
+                      </Show>
+
+                      {/* Components Section */}
+                      <Show when={filteredComponents().length > 0}>
+                        <CommandGroup heading="Components">
+                          <For each={filteredComponents()}>
+                            {(comp) => (
+                              <CommandItem
+                                title={comp.title}
+                                subtitle={comp.description}
+                                icon={ComponentIcon}
+                                href={comp.href}
+                                showChevron={true}
+                                onSelect={() => setOpen(false)}
+                              />
+                            )}
+                          </For>
+                        </CommandGroup>
+                      </Show>
+                    </CommandList>
+
+                    <CommandFooter />
+                  </>
+                );
+              }}
             </CommandDialog>
             {/* GitHub Link */}
             <GithubButton repo="nikala-ui/ui" class="hidden sm:inline-flex" />
