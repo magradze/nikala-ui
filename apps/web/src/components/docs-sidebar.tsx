@@ -47,7 +47,7 @@ export const DocsSidebar: Component = () => {
             const isGettingStarted = section.title === "Getting Started";
             const hasActiveItem = () => section.items.some((item) => location.pathname === item.href);
 
-            const [isOpen, setIsOpen] = createSignal(hasActiveItem());
+            const [isOpen, setIsOpen] = createSignal(hasActiveItem() || isGettingStarted);
 
             // Dynamically open category when user navigates via Command palette or direct URL
             createEffect(() => {

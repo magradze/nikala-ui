@@ -243,7 +243,7 @@ export const CommandEmpty: Component<CommandEmptyProps> = (props) => {
     <Show when={search().trim().length > 0}>
       <div
         class={cn(
-          "py-8 text-center text-sm text-muted-foreground font-medium select-none empty:block hidden [...:has(li:not(.hidden))_&]:hidden",
+          "py-8 text-center text-sm text-muted-foreground font-medium select-none",
           local.class
         )}
         {...rest}
