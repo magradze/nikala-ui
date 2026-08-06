@@ -11,7 +11,8 @@
     "build:cli": "cd packages/cli && bun run build",
     "build:mcp": "cd packages/mcp && bun run build",
     "build:web": "cd apps/web && bun run build",
-    "build": "bun run build:registry && bun run build:cli && bun run build:mcp && bun run build:web"
+    "build": "bun run build:registry && bun run build:cli && bun run build:mcp && bun run build:web",
+    "bump": "bun run scripts/bump.ts"
   },
   "devDependencies": {
     "@types/node": "^26.1.1",
