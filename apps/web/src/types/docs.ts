@@ -4,6 +4,7 @@ import type { Component, JSX } from "solid-js";
 export interface NavItem {
   title: string;
   href: string;
+  addedAt?: string; // YYYY-MM-DD format
 }
 
 export interface NavSection {

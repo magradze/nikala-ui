@@ -12,6 +12,17 @@ import {
 } from "@/components/ui/collapsible";
 import { ChevronRight } from "lucide-solid";
 
+/**
+ * Helper function to determine if a component/hook item is new (added within last 14 days).
+ */
+export function isItemNew(addedAt?: string): boolean {
+  if (!addedAt) return false;
+  const itemDate = new Date(addedAt).getTime();
+  const now = new Date().getTime();
+  const diffDays = (now - itemDate) / (1000 * 3600 * 24);
+  return diffDays >= 0 && diffDays <= 14;
+}
+
 export const DocsSidebar: Component = () => {
   const location = useLocation();
   const [activeContext, setActiveContext] = createSignal<"hooks" | "components">("components");
@@ -46,6 +57,7 @@ export const DocsSidebar: Component = () => {
           {(section) => {
             const isGettingStarted = section.title === "Getting Started";
             const hasActiveItem = () => section.items.some((item) => location.pathname === item.href);
+            const sectionHasNewItem = () => section.items.some((item) => isItemNew(item.addedAt));
 
             const [isOpen, setIsOpen] = createSignal(hasActiveItem() || isGettingStarted);
 
@@ -66,6 +78,7 @@ export const DocsSidebar: Component = () => {
                     <For each={section.items}>
                       {(item) => {
                         const isActive = () => location.pathname === item.href;
+                        const isNew = isItemNew(item.addedAt);
                         return (
                           <A
                             href={item.href}
@@ -74,13 +87,19 @@ export const DocsSidebar: Component = () => {
                                 setActiveElement(el);
                               }
                             }}
-                            class={`flex h-8 w-full items-center rounded-md px-2 text-sm font-medium transition-colors ${
+                            class={`flex h-8 w-full items-center justify-between rounded-md px-2 text-sm font-medium transition-colors ${
                               isActive()
                                 ? "bg-primary text-primary-foreground font-bold shadow-2xs"
                                 : "text-muted-foreground hover:bg-accent hover:text-accent-foreground"
                             }`}
                           >
-                            {item.title}
+                            <span>{item.title}</span>
+                            <Show when={isNew}>
+                              <span class="relative flex h-2 w-2">
+                                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+                                <span class="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
+                              </span>
+                            </Show>
                           </A>
                         );
                       }}
@@ -93,13 +112,22 @@ export const DocsSidebar: Component = () => {
             return (
               <Collapsible open={isOpen()} onOpenChange={setIsOpen} class="space-y-1">
                 <CollapsibleTrigger class="group flex h-8 w-full items-center justify-between rounded-md px-2 text-xs font-semibold text-foreground tracking-wider uppercase hover:bg-accent/50 transition-colors">
-                  <span>{section.title}</span>
+                  <div class="flex items-center gap-1.5">
+                    <span>{section.title}</span>
+                    <Show when={!isOpen() && sectionHasNewItem()}>
+                      <span class="relative flex h-1.5 w-1.5">
+                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+                        <span class="relative inline-flex rounded-full h-1.5 w-1.5 bg-primary"></span>
+                      </span>
+                    </Show>
+                  </div>
                   <ChevronRight class="h-3.5 w-3.5 text-muted-foreground transition-transform duration-200 group-data-[expanded]:rotate-90" />
                 </CollapsibleTrigger>
                 <CollapsibleContent class="space-y-0.5 pl-1 pt-1">
                   <For each={section.items}>
                     {(item) => {
                       const isActive = () => location.pathname === item.href;
+                      const isNew = isItemNew(item.addedAt);
                       return (
                         <A
                           href={item.href}
@@ -108,13 +136,19 @@ export const DocsSidebar: Component = () => {
                               setActiveElement(el);
                             }
                           }}
-                          class={`flex h-8 w-full items-center rounded-md px-2 text-sm font-medium transition-colors ${
+                          class={`flex h-8 w-full items-center justify-between rounded-md px-2 text-sm font-medium transition-colors ${
                             isActive()
                               ? "bg-primary text-primary-foreground font-bold shadow-2xs"
                               : "text-muted-foreground hover:bg-accent hover:text-accent-foreground"
                           }`}
                         >
-                          {item.title}
+                          <span>{item.title}</span>
+                          <Show when={isNew}>
+                            <span class="relative flex h-2 w-2">
+                              <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+                              <span class="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
+                            </span>
+                          </Show>
                         </A>
                       );
                     }}
