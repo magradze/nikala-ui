@@ -315,6 +315,7 @@ export const COMPONENTS_LIST: DocComponentItem[] = [
   { name: "popover", title: "Popover", description: "Displays rich content in a portal layer triggered by a button", href: "/docs/components/popover" },
   { name: "pin-input", title: "Pin Input", description: "4 or 6-digit SMS/2FA verification PIN code input slots", href: "/docs/components/pin-input" },
   { name: "progress", title: "Progress", description: "Displays an indicator showing completion progress of a task or media", href: "/docs/components/progress" },
+  { name: "collapsible", title: "Collapsible", description: "An interactive component that expands and collapses content panels with height transitions", href: "/docs/components/collapsible" },
 ];
 
 /* --- Global Sidebar Navigation Config --- */
@@ -328,33 +329,147 @@ export const GETTING_STARTED_SECTION: NavSection = {
   ],
 };
 
-export const HOOKS_SECTION: NavSection = {
-  title: "Hooks",
-  items: HOOKS_LIST.map((hook) => ({
-    title: hook.title,
-    href: hook.href,
-  })),
-};
-
-export const COMPONENTS_SECTION: NavSection = {
-  title: "Components",
-  items: COMPONENTS_LIST.map((comp) => ({
-    title: comp.title,
-    href: comp.href,
-  })),
-};
-
-export const DOCS_SIDEBAR_NAVIGATION: NavSection[] = [
-  GETTING_STARTED_SECTION,
-  COMPONENTS_SECTION,
+/* --- Categorized Component Sections --- */
+export const COMPONENT_SECTIONS: NavSection[] = [
+  {
+    title: "Inputs & Forms",
+    items: [
+      { title: "Button", href: "/docs/components/button" },
+      { title: "Checkbox", href: "/docs/components/checkbox" },
+      { title: "Input", href: "/docs/components/input" },
+      { title: "Input Group", href: "/docs/components/input-group" },
+      { title: "Label", href: "/docs/components/label" },
+      { title: "Pin Input", href: "/docs/components/pin-input" },
+      { title: "Radio Group", href: "/docs/components/radio-group" },
+      { title: "Select", href: "/docs/components/select" },
+      { title: "Switch", href: "/docs/components/switch" },
+      { title: "Textarea", href: "/docs/components/textarea" },
+    ],
+  },
+  {
+    title: "Data Display",
+    items: [
+      { title: "Avatar", href: "/docs/components/avatar" },
+      { title: "Badge", href: "/docs/components/badge" },
+      { title: "Card", href: "/docs/components/card" },
+      { title: "Kbd", href: "/docs/components/kbd" },
+      { title: "List", href: "/docs/components/list" },
+      { title: "Progress", href: "/docs/components/progress" },
+      { title: "Skeleton", href: "/docs/components/skeleton" },
+    ],
+  },
+  {
+    title: "Feedback & Status",
+    items: [
+      { title: "Alert", href: "/docs/components/alert" },
+      { title: "Banner", href: "/docs/components/banner" },
+      { title: "Toast", href: "/docs/components/toast" },
+      { title: "Tooltip", href: "/docs/components/tooltip" },
+    ],
+  },
+  {
+    title: "Overlays & Dialogs",
+    items: [
+      { title: "Dialog", href: "/docs/components/dialog" },
+      { title: "Dropdown Menu", href: "/docs/components/dropdown-menu" },
+      { title: "Hover Card", href: "/docs/components/hover-card" },
+      { title: "Popover", href: "/docs/components/popover" },
+      { title: "Sheet", href: "/docs/components/sheet" },
+    ],
+  },
+  {
+    title: "Navigation & Layout",
+    items: [
+      { title: "Accordion", href: "/docs/components/accordion" },
+      { title: "Breadcrumb", href: "/docs/components/breadcrumb" },
+      { title: "Collapsible", href: "/docs/components/collapsible" },
+      { title: "Combobox", href: "/docs/components/combobox" },
+      { title: "Command", href: "/docs/components/command" },
+      { title: "Separator", href: "/docs/components/separator" },
+      { title: "Slider", href: "/docs/components/slider" },
+      { title: "Tabs", href: "/docs/components/tabs" },
+    ],
+  },
+  {
+    title: "Utilities",
+    items: [
+      { title: "Theme Manager", href: "/docs/components/theme-manager" },
+    ],
+  },
 ];
 
-export const HOOKS_SIDEBAR_NAVIGATION: NavSection[] = [
-  GETTING_STARTED_SECTION,
-  HOOKS_SECTION,
+/* --- Categorized Hooks Sections --- */
+export const HOOK_SECTIONS: NavSection[] = [
+  {
+    title: "State & Controls",
+    items: [
+      { title: "createControllableSignal", href: "/docs/hooks/create-controllable-signal" },
+      { title: "createDisclosure", href: "/docs/hooks/create-disclosure" },
+      { title: "createForm", href: "/docs/hooks/create-form" },
+      { title: "createPrevious", href: "/docs/hooks/create-previous" },
+      { title: "createUndoRedo", href: "/docs/hooks/create-undo-redo" },
+    ],
+  },
+  {
+    title: "DOM & Interactivity",
+    items: [
+      { title: "createActiveElement", href: "/docs/hooks/create-active-element" },
+      { title: "createClickOutside", href: "/docs/hooks/create-click-outside" },
+      { title: "createClipboard", href: "/docs/hooks/create-clipboard" },
+      { title: "createDebounce", href: "/docs/hooks/create-debounce" },
+      { title: "createFocusTrap", href: "/docs/hooks/create-focus-trap" },
+      { title: "createHover", href: "/docs/hooks/create-hover" },
+      { title: "createInputMask", href: "/docs/hooks/create-input-mask" },
+      { title: "createKeybindings", href: "/docs/hooks/create-keybindings" },
+      { title: "createLockScroll", href: "/docs/hooks/create-lock-scroll" },
+      { title: "createLongPress", href: "/docs/hooks/create-long-press" },
+      { title: "createMousePosition", href: "/docs/hooks/create-mouse-position" },
+      { title: "createScrollIntoView", href: "/docs/hooks/create-scroll-into-view" },
+    ],
+  },
+  {
+    title: "Sensors & Observers",
+    items: [
+      { title: "createIdle", href: "/docs/hooks/create-idle" },
+      { title: "createIntersectionObserver", href: "/docs/hooks/create-intersection-observer" },
+      { title: "createMediaQuery", href: "/docs/hooks/create-media-query" },
+      { title: "createOrientation", href: "/docs/hooks/create-orientation" },
+      { title: "createResizeObserver", href: "/docs/hooks/create-resize-observer" },
+      { title: "createScrollPosition", href: "/docs/hooks/create-scroll-position" },
+      { title: "createWindowSize", href: "/docs/hooks/create-window-size" },
+    ],
+  },
+  {
+    title: "Browser & Network API",
+    items: [
+      { title: "createAudio & Video", href: "/docs/hooks/create-audio" },
+      { title: "createBattery", href: "/docs/hooks/create-battery" },
+      { title: "createColorMode", href: "/docs/hooks/create-color-mode" },
+      { title: "createDocumentTitle", href: "/docs/hooks/create-document-title" },
+      { title: "createEventSource", href: "/docs/hooks/create-event-source" },
+      { title: "createFavicon", href: "/docs/hooks/create-favicon" },
+      { title: "createFetch", href: "/docs/hooks/create-fetch" },
+      { title: "createFullscreen", href: "/docs/hooks/create-fullscreen" },
+      { title: "createGeolocation", href: "/docs/hooks/create-geolocation" },
+      { title: "createInfiniteScroll", href: "/docs/hooks/create-infinite-scroll" },
+      { title: "createLocalStorage", href: "/docs/hooks/create-storage" },
+      { title: "createNetworkStatus", href: "/docs/hooks/create-network-status" },
+      { title: "createPermission", href: "/docs/hooks/create-permission" },
+      { title: "createTimer", href: "/docs/hooks/create-timer" },
+      { title: "createWebNotification", href: "/docs/hooks/create-web-notification" },
+      { title: "createWebSocket", href: "/docs/hooks/create-websocket" },
+    ],
+  },
 ];
 
 export const COMPONENTS_SIDEBAR_NAVIGATION: NavSection[] = [
   GETTING_STARTED_SECTION,
-  COMPONENTS_SECTION,
+  ...COMPONENT_SECTIONS,
 ];
+
+export const HOOKS_SIDEBAR_NAVIGATION: NavSection[] = [
+  GETTING_STARTED_SECTION,
+  ...HOOK_SECTIONS,
+];
+
+export const DOCS_SIDEBAR_NAVIGATION: NavSection[] = COMPONENTS_SIDEBAR_NAVIGATION;
