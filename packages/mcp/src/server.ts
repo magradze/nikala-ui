@@ -19,7 +19,7 @@ export function createNikalaMcpServer() {
   const mcpServer = new McpServer(
     {
       name: "nikala-ui-mcp",
-      version: "0.9.10",
+      version: "0.9.11",
     }
   );
   const server = mcpServer.server;

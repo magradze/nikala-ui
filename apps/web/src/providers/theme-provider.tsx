@@ -10,7 +10,7 @@ import {
 } from "solid-js";
 
 export type Theme = "light" | "dark" | "system";
-export type AccentColor = "wine" | "violet" | "sky" | "emerald" | "rose" | "amber" | "zinc";
+export type AccentColor = "amber" | "violet" | "sky" | "emerald" | "rose" | "zinc";
 export type Radius = "0" | "0.3" | "0.5" | "0.75" | "1.0";
 
 export interface ThemeProviderProps {
@@ -28,12 +28,11 @@ const ACCENT_COLORS: Record<
   AccentColor,
   { light: string; dark: string; lightFg: string; darkFg: string }
 > = {
-  wine: { light: "#722f37", dark: "#9e3b47", lightFg: "#ffffff", darkFg: "#ffffff" },
+  amber: { light: "#d97706", dark: "#fbbf24", lightFg: "#ffffff", darkFg: "#111827" },
   violet: { light: "#7c3aed", dark: "#8b5cf6", lightFg: "#ffffff", darkFg: "#ffffff" },
   sky: { light: "#0284c7", dark: "#38bdf8", lightFg: "#ffffff", darkFg: "#0f172a" },
   emerald: { light: "#059669", dark: "#34d399", lightFg: "#ffffff", darkFg: "#052e16" },
   rose: { light: "#e11d48", dark: "#fb7185", lightFg: "#ffffff", darkFg: "#ffffff" },
-  amber: { light: "#d97706", dark: "#fbbf24", lightFg: "#ffffff", darkFg: "#111827" },
   zinc: { light: "#18181b", dark: "#fafafa", lightFg: "#fafafa", darkFg: "#18181b" },
 };
 

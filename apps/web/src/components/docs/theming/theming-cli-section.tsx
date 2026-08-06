@@ -5,7 +5,7 @@ import { formatCliCmd } from "@/lib/cli-formatter";
 export function ThemingCliSection() {
   const themeInteractiveCmd = () => formatCliCmd("theme");
   const themeSetCmd = () =>
-    `# Set primary accent color and base gray palette\n${formatCliCmd("theme set sky slate")}\n\n# Set Pirosmani wine accent\n${formatCliCmd("theme set wine zinc")}`;
+    `# Set primary accent color and base gray palette\n${formatCliCmd("theme set sky slate")}\n\n# Set Amber accent\n${formatCliCmd("theme set amber zinc")}`;
 
   return (
     <div class="space-y-4">

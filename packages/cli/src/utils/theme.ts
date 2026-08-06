@@ -173,43 +173,82 @@ export const BASE_PALETTES: Record<string, BasePalette> = {
 };
 
 export const PRIMARY_COLORS: Record<string, PrimaryColor> = {
-  wine: {
-    light: "oklch(0.4 0.09 15.0)",
-    dark: "oklch(0.4 0.09 15.0)",
-    lightFg: "oklch(0.9850 0 0)",
-    darkFg: "oklch(0.9850 0 0)",
-    charts: {
-      chart1: "oklch(0.55 0.18 15)",
-      chart2: "oklch(0.65 0.15 25)",
-      chart3: "oklch(0.45 0.12 350)",
-      chart4: "oklch(0.75 0.10 35)",
-      chart5: "oklch(0.35 0.08 10)",
-    },
-  },
-  violet: {
-    light: "oklch(0.55 0.22 285)",
-    dark: "oklch(0.65 0.2 285)",
-    lightFg: "oklch(0.9850 0 0)",
-    darkFg: "oklch(0.9850 0 0)",
-    charts: {
-      chart1: "oklch(0.65 0.22 285)",
-      chart2: "oklch(0.55 0.19 260)",
-      chart3: "oklch(0.75 0.15 310)",
-      chart4: "oklch(0.45 0.16 270)",
-      chart5: "oklch(0.85 0.10 290)",
-    },
-  },
-  sky: {
-    light: "oklch(0.6 0.16 230)",
-    dark: "oklch(0.7 0.14 230)",
+  amber: {
+    light: "oklch(0.65 0.18 70)",
+    dark: "oklch(0.75 0.16 70)",
     lightFg: "oklch(0.9850 0 0)",
     darkFg: "oklch(0.1450 0 0)",
     charts: {
-      chart1: "oklch(0.7 0.16 230)",
-      chart2: "oklch(0.6 0.14 210)",
-      chart3: "oklch(0.5 0.15 250)",
-      chart4: "oklch(0.8 0.10 220)",
-      chart5: "oklch(0.4 0.12 240)",
+      chart1: "oklch(0.75 0.18 70)",
+      chart2: "oklch(0.65 0.16 50)",
+      chart3: "oklch(0.55 0.15 85)",
+      chart4: "oklch(0.85 0.12 60)",
+      chart5: "oklch(0.45 0.14 75)",
+    },
+  },
+  red: {
+    light: "oklch(0.5770 0.2450 27.3250)",
+    dark: "oklch(0.65 0.22 25)",
+    lightFg: "oklch(0.9850 0 0)",
+    darkFg: "oklch(0.9850 0 0)",
+    charts: {
+      chart1: "oklch(0.65 0.24 25)",
+      chart2: "oklch(0.55 0.20 15)",
+      chart3: "oklch(0.75 0.18 35)",
+      chart4: "oklch(0.45 0.18 5)",
+      chart5: "oklch(0.85 0.12 40)",
+    },
+  },
+  orange: {
+    light: "oklch(0.64 0.21 40)",
+    dark: "oklch(0.72 0.19 40)",
+    lightFg: "oklch(0.9850 0 0)",
+    darkFg: "oklch(0.1450 0 0)",
+    charts: {
+      chart1: "oklch(0.72 0.21 40)",
+      chart2: "oklch(0.62 0.18 30)",
+      chart3: "oklch(0.52 0.16 50)",
+      chart4: "oklch(0.82 0.14 45)",
+      chart5: "oklch(0.42 0.15 35)",
+    },
+  },
+  yellow: {
+    light: "oklch(0.75 0.18 90)",
+    dark: "oklch(0.82 0.16 90)",
+    lightFg: "oklch(0.1450 0 0)",
+    darkFg: "oklch(0.1450 0 0)",
+    charts: {
+      chart1: "oklch(0.82 0.18 90)",
+      chart2: "oklch(0.72 0.16 80)",
+      chart3: "oklch(0.62 0.14 100)",
+      chart4: "oklch(0.88 0.12 95)",
+      chart5: "oklch(0.52 0.15 85)",
+    },
+  },
+  lime: {
+    light: "oklch(0.65 0.20 130)",
+    dark: "oklch(0.75 0.18 130)",
+    lightFg: "oklch(0.1450 0 0)",
+    darkFg: "oklch(0.1450 0 0)",
+    charts: {
+      chart1: "oklch(0.75 0.20 130)",
+      chart2: "oklch(0.65 0.17 120)",
+      chart3: "oklch(0.55 0.16 140)",
+      chart4: "oklch(0.85 0.14 135)",
+      chart5: "oklch(0.45 0.15 125)",
+    },
+  },
+  green: {
+    light: "oklch(0.55 0.18 145)",
+    dark: "oklch(0.65 0.16 145)",
+    lightFg: "oklch(0.9850 0 0)",
+    darkFg: "oklch(0.1450 0 0)",
+    charts: {
+      chart1: "oklch(0.65 0.18 145)",
+      chart2: "oklch(0.55 0.15 135)",
+      chart3: "oklch(0.45 0.16 155)",
+      chart4: "oklch(0.75 0.12 140)",
+      chart5: "oklch(0.35 0.10 150)",
     },
   },
   emerald: {
@@ -225,9 +264,126 @@ export const PRIMARY_COLORS: Record<string, PrimaryColor> = {
       chart5: "oklch(0.35 0.10 165)",
     },
   },
+  teal: {
+    light: "oklch(0.55 0.16 180)",
+    dark: "oklch(0.65 0.14 180)",
+    lightFg: "oklch(0.9850 0 0)",
+    darkFg: "oklch(0.1450 0 0)",
+    charts: {
+      chart1: "oklch(0.65 0.16 180)",
+      chart2: "oklch(0.55 0.14 170)",
+      chart3: "oklch(0.45 0.15 190)",
+      chart4: "oklch(0.75 0.11 175)",
+      chart5: "oklch(0.35 0.10 185)",
+    },
+  },
+  cyan: {
+    light: "oklch(0.60 0.16 200)",
+    dark: "oklch(0.70 0.14 200)",
+    lightFg: "oklch(0.9850 0 0)",
+    darkFg: "oklch(0.1450 0 0)",
+    charts: {
+      chart1: "oklch(0.70 0.16 200)",
+      chart2: "oklch(0.60 0.14 190)",
+      chart3: "oklch(0.50 0.15 210)",
+      chart4: "oklch(0.80 0.11 195)",
+      chart5: "oklch(0.40 0.12 205)",
+    },
+  },
+  sky: {
+    light: "oklch(0.60 0.16 230)",
+    dark: "oklch(0.70 0.14 230)",
+    lightFg: "oklch(0.9850 0 0)",
+    darkFg: "oklch(0.1450 0 0)",
+    charts: {
+      chart1: "oklch(0.70 0.16 230)",
+      chart2: "oklch(0.60 0.14 210)",
+      chart3: "oklch(0.50 0.15 250)",
+      chart4: "oklch(0.80 0.10 220)",
+      chart5: "oklch(0.40 0.12 240)",
+    },
+  },
+  blue: {
+    light: "oklch(0.55 0.20 255)",
+    dark: "oklch(0.65 0.18 255)",
+    lightFg: "oklch(0.9850 0 0)",
+    darkFg: "oklch(0.9850 0 0)",
+    charts: {
+      chart1: "oklch(0.65 0.20 255)",
+      chart2: "oklch(0.55 0.17 240)",
+      chart3: "oklch(0.45 0.18 270)",
+      chart4: "oklch(0.75 0.13 250)",
+      chart5: "oklch(0.35 0.14 260)",
+    },
+  },
+  indigo: {
+    light: "oklch(0.52 0.22 270)",
+    dark: "oklch(0.62 0.20 270)",
+    lightFg: "oklch(0.9850 0 0)",
+    darkFg: "oklch(0.9850 0 0)",
+    charts: {
+      chart1: "oklch(0.62 0.22 270)",
+      chart2: "oklch(0.52 0.19 255)",
+      chart3: "oklch(0.72 0.16 285)",
+      chart4: "oklch(0.42 0.17 265)",
+      chart5: "oklch(0.82 0.11 275)",
+    },
+  },
+  violet: {
+    light: "oklch(0.55 0.22 285)",
+    dark: "oklch(0.65 0.20 285)",
+    lightFg: "oklch(0.9850 0 0)",
+    darkFg: "oklch(0.9850 0 0)",
+    charts: {
+      chart1: "oklch(0.65 0.22 285)",
+      chart2: "oklch(0.55 0.19 260)",
+      chart3: "oklch(0.75 0.15 310)",
+      chart4: "oklch(0.45 0.16 270)",
+      chart5: "oklch(0.85 0.10 290)",
+    },
+  },
+  purple: {
+    light: "oklch(0.55 0.23 300)",
+    dark: "oklch(0.65 0.21 300)",
+    lightFg: "oklch(0.9850 0 0)",
+    darkFg: "oklch(0.9850 0 0)",
+    charts: {
+      chart1: "oklch(0.65 0.23 300)",
+      chart2: "oklch(0.55 0.19 285)",
+      chart3: "oklch(0.75 0.16 315)",
+      chart4: "oklch(0.45 0.17 295)",
+      chart5: "oklch(0.85 0.11 305)",
+    },
+  },
+  fuchsia: {
+    light: "oklch(0.55 0.24 325)",
+    dark: "oklch(0.65 0.22 325)",
+    lightFg: "oklch(0.9850 0 0)",
+    darkFg: "oklch(0.9850 0 0)",
+    charts: {
+      chart1: "oklch(0.65 0.24 325)",
+      chart2: "oklch(0.55 0.20 310)",
+      chart3: "oklch(0.75 0.17 340)",
+      chart4: "oklch(0.45 0.18 320)",
+      chart5: "oklch(0.85 0.12 330)",
+    },
+  },
+  pink: {
+    light: "oklch(0.58 0.22 350)",
+    dark: "oklch(0.68 0.20 350)",
+    lightFg: "oklch(0.9850 0 0)",
+    darkFg: "oklch(0.9850 0 0)",
+    charts: {
+      chart1: "oklch(0.68 0.22 350)",
+      chart2: "oklch(0.58 0.18 335)",
+      chart3: "oklch(0.78 0.15 5)",
+      chart4: "oklch(0.48 0.16 345)",
+      chart5: "oklch(0.88 0.10 355)",
+    },
+  },
   rose: {
     light: "oklch(0.55 0.22 15)",
-    dark: "oklch(0.65 0.2 15)",
+    dark: "oklch(0.65 0.20 15)",
     lightFg: "oklch(0.9850 0 0)",
     darkFg: "oklch(0.9850 0 0)",
     charts: {
@@ -236,19 +392,6 @@ export const PRIMARY_COLORS: Record<string, PrimaryColor> = {
       chart3: "oklch(0.75 0.16 25)",
       chart4: "oklch(0.45 0.15 5)",
       chart5: "oklch(0.85 0.10 30)",
-    },
-  },
-  amber: {
-    light: "oklch(0.65 0.18 70)",
-    dark: "oklch(0.75 0.16 70)",
-    lightFg: "oklch(0.9850 0 0)",
-    darkFg: "oklch(0.1450 0 0)",
-    charts: {
-      chart1: "oklch(0.75 0.18 70)",
-      chart2: "oklch(0.65 0.16 50)",
-      chart3: "oklch(0.55 0.15 85)",
-      chart4: "oklch(0.85 0.12 60)",
-      chart5: "oklch(0.45 0.14 75)",
     },
   },
   zinc: {
@@ -266,12 +409,9 @@ export const PRIMARY_COLORS: Record<string, PrimaryColor> = {
   },
 };
 
-/**
- * Generates Tailwind CSS v4 theme variables matching tweakcn specification.
- */
-export function generateThemeCss(baseColor: string = "zinc", primaryColor: string = "wine"): string {
+export function generateThemeCss(baseColor: string = "zinc", primaryColor: string = "amber"): string {
   const base = BASE_PALETTES[baseColor] || BASE_PALETTES.zinc;
-  const primary = PRIMARY_COLORS[primaryColor] || PRIMARY_COLORS.wine;
+  const primary = PRIMARY_COLORS[primaryColor] || PRIMARY_COLORS.amber;
 
   return `@import "tailwindcss";
 

@@ -10,7 +10,6 @@ export const calloutVariants = cva(
       variant: {
         info: "border-sky-500/30 bg-sky-500/10 text-sky-900 dark:text-sky-200",
         warning: "border-amber-500/30 bg-amber-500/10 text-amber-900 dark:text-amber-200",
-        pirosmani: "border-primary/30 bg-primary/5 text-foreground",
       },
     },
     defaultVariants: {

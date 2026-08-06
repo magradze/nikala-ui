@@ -2,7 +2,7 @@
   "$schema": "https://nikala.dev/schema.json",
   "style": "default",
   "baseColor": "neutral",
-  "primaryColor": "wine",
+  "primaryColor": "amber",
   "css": "src/app.css",
   "alias": {
     "components": "src/components/ui",

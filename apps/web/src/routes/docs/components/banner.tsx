@@ -44,7 +44,7 @@ const customIconCode = `<Banner
   High priority security patch required. Please update immediately.
 </Banner>`;
 
-const nonDismissibleCode = `<Banner variant="pirosmani" dismissible={false}>
+const nonDismissibleCode = `<Banner variant="warning" dismissible={false}>
   Persistent header message that cannot be closed by user.
 </Banner>`;
 
@@ -93,7 +93,7 @@ export default function BannerDocsPage() {
           <div class="space-y-3">
             <h3 class="text-lg font-semibold tracking-tight">Variants</h3>
             <p class="text-sm text-muted-foreground">
-              Supports default, info, success, warning, destructive, and Pirosmani signature wine variants.
+              Supports default, info, success, warning, and destructive variants.
             </p>
             <ComponentPreview name="banner" code={variantsCode}>
               <div class="flex flex-col gap-3 w-full">
@@ -102,7 +102,6 @@ export default function BannerDocsPage() {
                 <Banner variant="success" dismissible={false}>Operation completed successfully!</Banner>
                 <Banner variant="warning" dismissible={false}>Warning: Unsaved changes ahead</Banner>
                 <Banner variant="destructive" dismissible={false}>Critical system alert</Banner>
-                <Banner variant="pirosmani" dismissible={false}>Nikala Pirosmani signature Qvevri wine accent</Banner>
               </div>
             </ComponentPreview>
           </div>
@@ -154,7 +153,7 @@ export default function BannerDocsPage() {
             </p>
             <ComponentPreview name="banner" code={nonDismissibleCode}>
               <div class="w-full">
-                <Banner variant="pirosmani" dismissible={false}>
+                <Banner variant="warning" dismissible={false}>
                   Persistent header message that cannot be closed by user.
                 </Banner>
               </div>
@@ -170,7 +169,7 @@ export default function BannerDocsPage() {
             items={[
               {
                 prop: "variant",
-                type: '"default" | "warning" | "info" | "success" | "destructive" | "pirosmani"',
+                type: '"default" | "warning" | "info" | "success" | "destructive"',
                 default: '"default"',
                 description: "Color theme and visual alert state variant.",
               },

@@ -32,12 +32,11 @@ export interface ThemeToggleProps {
 }
 
 const ACCENT_OPTIONS: { name: AccentColor; label: string; color: string }[] = [
-  { name: "wine", label: "Wine", color: "bg-[#722f37]" },
+  { name: "amber", label: "Amber", color: "bg-[#d97706]" },
   { name: "violet", label: "Violet", color: "bg-[#7c3aed]" },
   { name: "sky", label: "Sky", color: "bg-[#0284c7]" },
   { name: "emerald", label: "Emerald", color: "bg-[#059669]" },
   { name: "rose", label: "Rose", color: "bg-[#e11d48]" },
-  { name: "amber", label: "Amber", color: "bg-[#d97706]" },
   { name: "zinc", label: "Zinc", color: "bg-[#18181b]" },
 ];
 

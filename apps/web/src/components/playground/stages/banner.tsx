@@ -6,7 +6,7 @@ export const config: ComponentSpec = {
   name: "Banner",
   props: [
     { name: "children", label: "Banner Text", type: "text", default: "Website is under active construction." },
-    { name: "variant", label: "Variant", type: "select", options: ["default", "warning", "info", "success", "destructive", "pirosmani"], default: "warning" },
+    { name: "variant", label: "Variant", type: "select", options: ["default", "warning", "info", "success", "destructive"], default: "warning" },
     { name: "dismissible", label: "Dismissible", type: "boolean", default: true },
     { name: "showIcon", label: "Show Icon", type: "boolean", default: true },
     { name: "link", label: "Link URL", type: "text", default: "https://github.com/nikala-ui/ui" },

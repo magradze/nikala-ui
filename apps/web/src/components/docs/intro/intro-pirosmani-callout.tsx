@@ -4,7 +4,7 @@ import { DocCallout } from "@/components/docs/doc-callout";
 export function IntroPirosmaniCallout() {
   return (
     <DocCallout
-      variant="pirosmani"
+      variant="warning"
       title="Niko Pirosmani (Nikala)"
       icon={Palette}
     >

@@ -35,12 +35,11 @@ export const ThemeScript: Component<ThemeScriptProps> = (props) => {
   root.style.colorScheme = resolvedDark ? 'dark' : 'light';
 
   var colorMap = {
-    wine: resolvedDark ? '#9e3b47' : '#722f37',
+    amber: resolvedDark ? '#fbbf24' : '#d97706',
     violet: resolvedDark ? '#8b5cf6' : '#7c3aed',
     sky: resolvedDark ? '#38bdf8' : '#0284c7',
     emerald: resolvedDark ? '#34d399' : '#059669',
     rose: resolvedDark ? '#fb7185' : '#e11d48',
-    amber: resolvedDark ? '#fbbf24' : '#d97706',
     zinc: resolvedDark ? '#fafafa' : '#18181b'
   };
 

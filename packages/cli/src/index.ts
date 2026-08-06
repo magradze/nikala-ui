@@ -9,7 +9,7 @@ import { diffCommand } from "./commands/diff.js";
 import { upgradeCommand } from "./commands/upgrade.js";
 import { removeCommand } from "./commands/remove.js";
 
-console.log(`\n🎨 ${pc.bold(pc.red("Nikala UI"))} ${pc.dim("v0.9.10")} — SolidJS + Tailwind v4 components`);
+console.log(`\n🎨 ${pc.bold(pc.red("Nikala UI"))} ${pc.dim("v0.9.11")} — SolidJS + Tailwind v4 components`);
 console.log(`   ${pc.italic(pc.dim("Honoring Niko Pirosmani (Nikala)"))}\n`);
 console.log(`   ${pc.dim("Docs:")} ${pc.underline(pc.cyan("https://nikala.dev"))}\n`);
 
@@ -18,7 +18,7 @@ const program = new Command();
 program
   .name("nikala")
   .description("Nikala UI — SolidJS + Tailwind v4 components")
-  .version("0.9.10");
+  .version("0.9.11");
 
 program
   .command("init")

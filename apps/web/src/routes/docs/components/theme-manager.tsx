@@ -144,7 +144,7 @@ export default function ThemeManagerDocsPage() {
               },
               {
                 prop: "defaultAccent",
-                type: '"wine" | "violet" | "sky" | "emerald" | "rose" | "amber" | "zinc"',
+                type: '"amber" | "violet" | "sky" | "emerald" | "rose" | "zinc"',
                 default: "-",
                 description: "Initial primary brand accent color override.",
               },

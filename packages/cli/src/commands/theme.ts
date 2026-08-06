@@ -18,7 +18,7 @@ export async function themeCommand(primaryArg?: string, baseArg?: string) {
     process.exit(1);
   }
 
-  let selectedPrimary = primaryArg || config.primaryColor || "wine";
+  let selectedPrimary = primaryArg || config.primaryColor || "amber";
   let selectedBase = baseArg || config.baseColor || "zinc";
 
   // If no arguments provided, launch interactive prompts

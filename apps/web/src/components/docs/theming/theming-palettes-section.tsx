@@ -3,12 +3,11 @@ import { DocSectionHeader } from "@/components/docs/doc-section-header";
 import { DocCallout } from "@/components/docs/doc-callout";
 
 const accentColors = [
-  { name: "wine", hex: "#722f37", bg: "bg-[#722f37]" },
+  { name: "amber", hex: "#d97706", bg: "bg-[#d97706]" },
   { name: "violet", hex: "#7c3aed", bg: "bg-[#7c3aed]" },
   { name: "sky", hex: "#0284c7", bg: "bg-[#0284c7]" },
   { name: "emerald", hex: "#059669", bg: "bg-[#059669]" },
   { name: "rose", hex: "#e11d48", bg: "bg-[#e11d48]" },
-  { name: "amber", hex: "#d97706", bg: "bg-[#d97706]" },
   { name: "zinc", hex: "#18181b", bg: "bg-[#18181b] dark:bg-[#fafafa]" },
 ];
 
@@ -22,8 +21,8 @@ export function ThemingPalettesSection() {
         description="Select from base gray palettes and dynamic brand accent colors."
       />
 
-      <DocCallout variant="pirosmani" title="Wine Accent (#722f37)" icon={Palette}>
-        The signature <code class="font-bold text-primary">wine</code> accent color honors Niko Pirosmani's iconic Qvevri red palette (#722f37).
+      <DocCallout variant="warning" title="Amber Accent (#d97706)" icon={Palette}>
+        The signature <code class="font-bold text-primary">amber</code> accent color provides a warm, energetic gold tone for your components.
       </DocCallout>
 
       {/* Base Gray Palettes */}

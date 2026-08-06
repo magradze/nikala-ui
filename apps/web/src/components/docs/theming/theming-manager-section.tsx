@@ -29,7 +29,7 @@ export default function App() {
 const themeScriptPropsCode = `<ThemeScript 
   storageKey="nikala-theme" 
   defaultTheme="system" 
-  defaultAccent="wine" 
+  defaultAccent="amber" 
   defaultRadius="0.5" 
 />`;
 
