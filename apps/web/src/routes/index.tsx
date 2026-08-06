@@ -11,8 +11,6 @@ export default function Home() {
     <>
       {/* Dynamic SEO Meta Tags */}
       <Seo
-        title="Nikala UI — SolidJS & Tailwind CSS v4 Component System"
-        description="A simple, copy-paste component system for SolidJS built natively for Tailwind CSS v4."
         path="/"
       />
       <div class="relative min-h-screen flex flex-col text-foreground selection:bg-primary selection:text-primary-foreground">

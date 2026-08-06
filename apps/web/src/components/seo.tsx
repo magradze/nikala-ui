@@ -4,15 +4,18 @@ import { Title, Meta, Link } from "@solidjs/meta";
 import { type Component } from "solid-js";
 
 const DEFAULT_SEO = {
-  title: "Nikala UI — Copy-Paste SolidJS & Tailwind CSS v4 Component System",
-  description: "A simple, copy-paste component system for SolidJS built natively for Tailwind CSS v4. Honoring Georgian painter Niko Pirosmani.",
+  title: "Nikala UI — SolidJS & Tailwind CSS v4 Component System",
+  description: "A simple, copy-paste component system and reactive primitives suite for SolidJS built natively for Tailwind CSS v4. Honoring Niko Pirosmani.",
   siteUrl: "https://nikala.dev",
   ogImage: "/og-image.png",
   twitterHandle: "@magradze",
 };
 
 export const Seo: Component<SeoProps> = (props) => {
-  const pageTitle = () => (props.title ? `${props.title} — Nikala UI` : DEFAULT_SEO.title);
+  const pageTitle = () => {
+    if (!props.title) return DEFAULT_SEO.title;
+    return props.title.includes("Nikala UI") ? props.title : `${props.title} — Nikala UI`;
+  };
   const pageDescription = () => props.description || DEFAULT_SEO.description;
   const canonicalUrl = () => `${DEFAULT_SEO.siteUrl}${props.path || ""}`;
   const ogImageUrl = () => props.image || `${DEFAULT_SEO.siteUrl}${DEFAULT_SEO.ogImage}`;
