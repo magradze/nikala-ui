@@ -1,0 +1,22 @@
+# AI Crawlers & LLM Bots Access
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: *
+Allow: /
+
+# Sitemaps & LLM Docs
+Sitemap: https://nikala.magradze.dev/sitemap.xml
+# LLM Documentation: https://nikala.magradze.dev/llms.txt
