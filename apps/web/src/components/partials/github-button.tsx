@@ -43,7 +43,7 @@ export const GithubButton: Component<GithubButtonProps> = (props) => {
     <a
       href={`https://github.com/${repoName()}`}
       target="_blank"
-      rel="noreferrer"
+      rel="noopener noreferrer"
       class={cn("inline-flex items-center", local.class)}
       aria-label="GitHub Repository"
       {...rest}

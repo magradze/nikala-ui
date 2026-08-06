@@ -11,13 +11,14 @@ export const Footer: () => JSX.Element = () => {
             <a
               href="/llms.txt"
               target="_blank"
+              rel="noopener noreferrer"
               class="inline-flex items-center gap-1 text-[11px] font-mono px-2 py-0.5 rounded-lg border border-primary/30 bg-primary/5 text-primary hover:bg-primary/10 transition-colors"
             >
               LLM Docs (llms.txt)
             </a>
           </div>
           <p class="text-xs">
-            Honoring <span class="text-foreground font-medium">Niko Pirosmani</span>. Created with ❤️ by <a href="https://github.com/magradze" target="_blank" class="underline hover:text-foreground">Magradze</a>.
+            Honoring <span class="text-foreground font-medium">Niko Pirosmani</span>. Created with ❤️ by <a href="https://github.com/magradze" target="_blank" rel="noopener noreferrer" class="underline hover:text-foreground">Magradze</a>.
           </p>
         </div>
       </footer>
