@@ -1,4 +1,4 @@
-import { Server } from "@modelcontextprotocol/sdk/server/index.js";
+import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import {
   CallToolRequestSchema,
@@ -16,19 +16,13 @@ import { MCP_PROMPTS, handleGetPrompt } from "./prompts/index.js";
  * Creates and configures the Nikala UI MCP Server instance.
  */
 export function createNikalaMcpServer() {
-  const server = new Server(
+  const mcpServer = new McpServer(
     {
       name: "nikala-ui-mcp",
       version: "0.9.10",
-    },
-    {
-      capabilities: {
-        tools: {},
-        resources: {},
-        prompts: {},
-      },
     }
   );
+  const server = mcpServer.server;
 
   /* --- List Available MCP Tools --- */
   server.setRequestHandler(ListToolsRequestSchema, async () => {
