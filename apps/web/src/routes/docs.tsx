@@ -9,12 +9,12 @@ const DocsLayout: Component<RouteSectionProps> = (props) => {
       {/* Global Application Header */}
       <Header />
 
-      <div class="container max-w-screen-2xl flex-1 items-start md:grid md:grid-cols-[220px_minmax(0,1fr)] lg:grid-cols-[240px_minmax(0,1fr)] gap-6 px-4 md:px-0">
+      <div class="container max-w-screen-2xl flex-1 items-start md:grid md:grid-cols-[220px_minmax(0,1fr)] lg:grid-cols-[240px_minmax(0,1fr)] gap-0 px-4 md:px-0">
         {/* Left Documentation Sidebar Navigation */}
         <DocsSidebar />
 
         {/* Dynamic Route Content Container */}
-        <main class="relative py-6 lg:py-8 min-w-0">
+        <main class="relative py-6 lg:py-8 min-w-0 px-0 md:px-4 lg:px-6">
           {props.children}
         </main>
       </div>
