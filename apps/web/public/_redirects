@@ -1,1 +1,4 @@
+# Domain Redirect (nikala.magradze.dev -> nikala.dev)
+https://nikala.magradze.dev/*  https://nikala.dev/:splat  301!
+
 /*  /index.html  200
