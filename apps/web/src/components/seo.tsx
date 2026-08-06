@@ -17,6 +17,63 @@ export const Seo: Component<SeoProps> = (props) => {
   const canonicalUrl = () => `${DEFAULT_SEO.siteUrl}${props.path || ""}`;
   const ogImageUrl = () => props.image || `${DEFAULT_SEO.siteUrl}${DEFAULT_SEO.ogImage}`;
 
+  const jsonLd = () => {
+    const mainAppSchema = {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Nikala UI",
+      "applicationCategory": "DeveloperApplication",
+      "operatingSystem": "Web",
+      "url": canonicalUrl(),
+      "description": pageDescription(),
+      "author": {
+        "@type": "Person",
+        "name": "Giorgi Magradze",
+        "url": "https://github.com/magradze"
+      },
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      }
+    };
+
+    if (!props.path || props.path === "/") {
+      return JSON.stringify(mainAppSchema);
+    }
+
+    // Generate BreadcrumbList for inner routes (e.g. /docs/components/button)
+    const segments = props.path.split("/").filter(Boolean);
+    const breadcrumbItems = [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": DEFAULT_SEO.siteUrl
+      }
+    ];
+
+    let currentPath = "";
+    segments.forEach((seg, idx) => {
+      currentPath += `/${seg}`;
+      const name = seg.charAt(0).toUpperCase() + seg.slice(1).replace(/-/g, " ");
+      breadcrumbItems.push({
+        "@type": "ListItem",
+        "position": idx + 2,
+        "name": name,
+        "item": `${DEFAULT_SEO.siteUrl}${currentPath}`
+      });
+    });
+
+    const breadcrumbSchema = {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": breadcrumbItems
+    };
+
+    return JSON.stringify([mainAppSchema, breadcrumbSchema]);
+  };
+
   return (
     <>
       {/* Primary Page Title */}
@@ -27,10 +84,11 @@ export const Seo: Component<SeoProps> = (props) => {
       <Meta name="description" content={pageDescription()} />
       <Meta name="author" content="Magradze" />
       <Meta name="keywords" content="SolidJS, Tailwind CSS v4, UI Components, SolidStart, Niko Pirosmani, Nikala UI, Design System" />
+      {props.noindex && <Meta name="robots" content="noindex, follow" />}
 
       {/* GEO & Regional Meta Tags */}
-      <Meta name="geo.region" content="GE" />
-      <Meta name="geo.placename" content="Georgia" />
+      <Meta name="geo.region" content="FR" />
+      <Meta name="geo.placename" content="France" />
 
       {/* Open Graph / Social Sharing (Facebook, Discord, LinkedIn) */}
       <Meta property="og:type" content="website" />
@@ -50,6 +108,9 @@ export const Seo: Component<SeoProps> = (props) => {
 
       {/* Canonical URL */}
       <Link rel="canonical" href={canonicalUrl()} />
+
+      {/* JSON-LD Structured Data */}
+      <script type="application/ld+json">{jsonLd()}</script>
     </>
   );
 };

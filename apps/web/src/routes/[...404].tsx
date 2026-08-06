@@ -14,6 +14,7 @@ export default function NotFoundPage() {
       <Seo
         title="404 — Page Not Found"
         description="The page you are looking for could not be found on Nikala UI."
+        noindex={true}
       />
 
       <div class="relative min-h-screen flex flex-col bg-background text-foreground selection:bg-primary selection:text-primary-foreground">

@@ -3,4 +3,5 @@ export interface SeoProps {
   description?: string;
   image?: string;
   path?: string;
+  noindex?: boolean;
 }
