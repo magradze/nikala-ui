@@ -4,7 +4,7 @@ Core design system components, providers, and registry manifests for **Nikala UI
 
 Honoring the iconic Georgian painter **Niko Pirosmani (Nikala)**.
 
-Official Documentation & Interactive Demos: [nikala.magradze.dev](https://nikala.magradze.dev)
+Official Documentation & Interactive Demos: [nikala.dev](https://nikala.dev)
 
 ---
 

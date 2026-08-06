@@ -31,7 +31,7 @@ const urlCode = `<InputGroup class="max-w-sm">
   <InputGroupAddon align="inline-start" class="text-xs font-mono">
     https://
   </InputGroupAddon>
-  <InputGroupInput placeholder="nikala.magradze.dev" />
+  <InputGroupInput placeholder="nikala.dev" />
   <InputGroupAddon align="inline-end">
     <Globe class="w-4 h-4 text-muted-foreground" />
   </InputGroupAddon>
@@ -123,7 +123,7 @@ export default function InputGroupDocsPage() {
                 <InputGroupAddon align="inline-start" class="text-xs font-mono">
                   https://
                 </InputGroupAddon>
-                <InputGroupInput placeholder="nikala.magradze.dev" />
+                <InputGroupInput placeholder="nikala.dev" />
                 <InputGroupAddon align="inline-end">
                   <Globe class="w-4 h-4 text-muted-foreground" />
                 </InputGroupAddon>

@@ -4,7 +4,7 @@ Command Line Interface (CLI) for **Nikala UI** — a copy-paste component system
 
 Honoring the iconic Georgian painter **Niko Pirosmani (Nikala)**.
 
-Official Documentation & Interactive Demos: [nikala.magradze.dev](https://nikala.magradze.dev)
+Official Documentation & Interactive Demos: [nikala.dev](https://nikala.dev)
 
 ---
 

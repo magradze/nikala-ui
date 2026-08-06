@@ -3,37 +3,37 @@
   <!-- Main Pages -->
   <url>
     <lastmod>2026-08-06</lastmod>
-    <loc>https://nikala.magradze.dev/</loc>
+    <loc>https://nikala.dev/</loc>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <lastmod>2026-08-06</lastmod>
-    <loc>https://nikala.magradze.dev/playground</loc>
+    <loc>https://nikala.dev/playground</loc>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <lastmod>2026-08-06</lastmod>
-    <loc>https://nikala.magradze.dev/docs</loc>
+    <loc>https://nikala.dev/docs</loc>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <lastmod>2026-08-06</lastmod>
-    <loc>https://nikala.magradze.dev/docs/cli</loc>
+    <loc>https://nikala.dev/docs/cli</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <lastmod>2026-08-06</lastmod>
-    <loc>https://nikala.magradze.dev/docs/theming</loc>
+    <loc>https://nikala.dev/docs/theming</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <lastmod>2026-08-06</lastmod>
-    <loc>https://nikala.magradze.dev/docs/mcp</loc>
+    <loc>https://nikala.dev/docs/mcp</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -41,205 +41,205 @@
   <!-- Components -->
   <url>
     <lastmod>2026-08-06</lastmod>
-    <loc>https://nikala.magradze.dev/docs/components/accordion</loc>
+    <loc>https://nikala.dev/docs/components/accordion</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <lastmod>2026-08-06</lastmod>
-    <loc>https://nikala.magradze.dev/docs/components/alert</loc>
+    <loc>https://nikala.dev/docs/components/alert</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <lastmod>2026-08-06</lastmod>
-    <loc>https://nikala.magradze.dev/docs/components/avatar</loc>
+    <loc>https://nikala.dev/docs/components/avatar</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <lastmod>2026-08-06</lastmod>
-    <loc>https://nikala.magradze.dev/docs/components/badge</loc>
+    <loc>https://nikala.dev/docs/components/badge</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <lastmod>2026-08-06</lastmod>
-    <loc>https://nikala.magradze.dev/docs/components/banner</loc>
+    <loc>https://nikala.dev/docs/components/banner</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <lastmod>2026-08-06</lastmod>
-    <loc>https://nikala.magradze.dev/docs/components/breadcrumb</loc>
+    <loc>https://nikala.dev/docs/components/breadcrumb</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <lastmod>2026-08-06</lastmod>
-    <loc>https://nikala.magradze.dev/docs/components/button</loc>
+    <loc>https://nikala.dev/docs/components/button</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <lastmod>2026-08-06</lastmod>
-    <loc>https://nikala.magradze.dev/docs/components/card</loc>
+    <loc>https://nikala.dev/docs/components/card</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <lastmod>2026-08-06</lastmod>
-    <loc>https://nikala.magradze.dev/docs/components/checkbox</loc>
+    <loc>https://nikala.dev/docs/components/checkbox</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <lastmod>2026-08-06</lastmod>
-    <loc>https://nikala.magradze.dev/docs/components/combobox</loc>
+    <loc>https://nikala.dev/docs/components/combobox</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <lastmod>2026-08-06</lastmod>
-    <loc>https://nikala.magradze.dev/docs/components/command</loc>
+    <loc>https://nikala.dev/docs/components/command</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <lastmod>2026-08-06</lastmod>
-    <loc>https://nikala.magradze.dev/docs/components/dialog</loc>
+    <loc>https://nikala.dev/docs/components/dialog</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <lastmod>2026-08-06</lastmod>
-    <loc>https://nikala.magradze.dev/docs/components/dropdown-menu</loc>
+    <loc>https://nikala.dev/docs/components/dropdown-menu</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <lastmod>2026-08-06</lastmod>
-    <loc>https://nikala.magradze.dev/docs/components/hover-card</loc>
+    <loc>https://nikala.dev/docs/components/hover-card</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <lastmod>2026-08-06</lastmod>
-    <loc>https://nikala.magradze.dev/docs/components/input</loc>
+    <loc>https://nikala.dev/docs/components/input</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <lastmod>2026-08-06</lastmod>
-    <loc>https://nikala.magradze.dev/docs/components/input-group</loc>
+    <loc>https://nikala.dev/docs/components/input-group</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <lastmod>2026-08-06</lastmod>
-    <loc>https://nikala.magradze.dev/docs/components/kbd</loc>
+    <loc>https://nikala.dev/docs/components/kbd</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <lastmod>2026-08-06</lastmod>
-    <loc>https://nikala.magradze.dev/docs/components/label</loc>
+    <loc>https://nikala.dev/docs/components/label</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <lastmod>2026-08-06</lastmod>
-    <loc>https://nikala.magradze.dev/docs/components/list</loc>
+    <loc>https://nikala.dev/docs/components/list</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <lastmod>2026-08-06</lastmod>
-    <loc>https://nikala.magradze.dev/docs/components/pin-input</loc>
+    <loc>https://nikala.dev/docs/components/pin-input</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <lastmod>2026-08-06</lastmod>
-    <loc>https://nikala.magradze.dev/docs/components/popover</loc>
+    <loc>https://nikala.dev/docs/components/popover</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <lastmod>2026-08-06</lastmod>
-    <loc>https://nikala.magradze.dev/docs/components/progress</loc>
+    <loc>https://nikala.dev/docs/components/progress</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <lastmod>2026-08-06</lastmod>
-    <loc>https://nikala.magradze.dev/docs/components/radio-group</loc>
+    <loc>https://nikala.dev/docs/components/radio-group</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <lastmod>2026-08-06</lastmod>
-    <loc>https://nikala.magradze.dev/docs/components/select</loc>
+    <loc>https://nikala.dev/docs/components/select</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <lastmod>2026-08-06</lastmod>
-    <loc>https://nikala.magradze.dev/docs/components/separator</loc>
+    <loc>https://nikala.dev/docs/components/separator</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <lastmod>2026-08-06</lastmod>
-    <loc>https://nikala.magradze.dev/docs/components/sheet</loc>
+    <loc>https://nikala.dev/docs/components/sheet</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <lastmod>2026-08-06</lastmod>
-    <loc>https://nikala.magradze.dev/docs/components/skeleton</loc>
+    <loc>https://nikala.dev/docs/components/skeleton</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <lastmod>2026-08-06</lastmod>
-    <loc>https://nikala.magradze.dev/docs/components/slider</loc>
+    <loc>https://nikala.dev/docs/components/slider</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <lastmod>2026-08-06</lastmod>
-    <loc>https://nikala.magradze.dev/docs/components/switch</loc>
+    <loc>https://nikala.dev/docs/components/switch</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <lastmod>2026-08-06</lastmod>
-    <loc>https://nikala.magradze.dev/docs/components/tabs</loc>
+    <loc>https://nikala.dev/docs/components/tabs</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <lastmod>2026-08-06</lastmod>
-    <loc>https://nikala.magradze.dev/docs/components/textarea</loc>
+    <loc>https://nikala.dev/docs/components/textarea</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <lastmod>2026-08-06</lastmod>
-    <loc>https://nikala.magradze.dev/docs/components/theme-manager</loc>
+    <loc>https://nikala.dev/docs/components/theme-manager</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <lastmod>2026-08-06</lastmod>
-    <loc>https://nikala.magradze.dev/docs/components/toast</loc>
+    <loc>https://nikala.dev/docs/components/toast</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <lastmod>2026-08-06</lastmod>
-    <loc>https://nikala.magradze.dev/docs/components/tooltip</loc>
+    <loc>https://nikala.dev/docs/components/tooltip</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -247,247 +247,247 @@
   <!-- Hooks -->
   <url>
     <lastmod>2026-08-06</lastmod>
-    <loc>https://nikala.magradze.dev/docs/hooks</loc>
+    <loc>https://nikala.dev/docs/hooks</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <lastmod>2026-08-06</lastmod>
-    <loc>https://nikala.magradze.dev/docs/hooks/create-active-element</loc>
+    <loc>https://nikala.dev/docs/hooks/create-active-element</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <lastmod>2026-08-06</lastmod>
-    <loc>https://nikala.magradze.dev/docs/hooks/create-audio</loc>
+    <loc>https://nikala.dev/docs/hooks/create-audio</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <lastmod>2026-08-06</lastmod>
-    <loc>https://nikala.magradze.dev/docs/hooks/create-battery</loc>
+    <loc>https://nikala.dev/docs/hooks/create-battery</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <lastmod>2026-08-06</lastmod>
-    <loc>https://nikala.magradze.dev/docs/hooks/create-click-outside</loc>
+    <loc>https://nikala.dev/docs/hooks/create-click-outside</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <lastmod>2026-08-06</lastmod>
-    <loc>https://nikala.magradze.dev/docs/hooks/create-clipboard</loc>
+    <loc>https://nikala.dev/docs/hooks/create-clipboard</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <lastmod>2026-08-06</lastmod>
-    <loc>https://nikala.magradze.dev/docs/hooks/create-color-mode</loc>
+    <loc>https://nikala.dev/docs/hooks/create-color-mode</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <lastmod>2026-08-06</lastmod>
-    <loc>https://nikala.magradze.dev/docs/hooks/create-controllable-signal</loc>
+    <loc>https://nikala.dev/docs/hooks/create-controllable-signal</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <lastmod>2026-08-06</lastmod>
-    <loc>https://nikala.magradze.dev/docs/hooks/create-debounce</loc>
+    <loc>https://nikala.dev/docs/hooks/create-debounce</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <lastmod>2026-08-06</lastmod>
-    <loc>https://nikala.magradze.dev/docs/hooks/create-disclosure</loc>
+    <loc>https://nikala.dev/docs/hooks/create-disclosure</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <lastmod>2026-08-06</lastmod>
-    <loc>https://nikala.magradze.dev/docs/hooks/create-document-title</loc>
+    <loc>https://nikala.dev/docs/hooks/create-document-title</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <lastmod>2026-08-06</lastmod>
-    <loc>https://nikala.magradze.dev/docs/hooks/create-event-source</loc>
+    <loc>https://nikala.dev/docs/hooks/create-event-source</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <lastmod>2026-08-06</lastmod>
-    <loc>https://nikala.magradze.dev/docs/hooks/create-favicon</loc>
+    <loc>https://nikala.dev/docs/hooks/create-favicon</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <lastmod>2026-08-06</lastmod>
-    <loc>https://nikala.magradze.dev/docs/hooks/create-fetch</loc>
+    <loc>https://nikala.dev/docs/hooks/create-fetch</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <lastmod>2026-08-06</lastmod>
-    <loc>https://nikala.magradze.dev/docs/hooks/create-focus-trap</loc>
+    <loc>https://nikala.dev/docs/hooks/create-focus-trap</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <lastmod>2026-08-06</lastmod>
-    <loc>https://nikala.magradze.dev/docs/hooks/create-form</loc>
+    <loc>https://nikala.dev/docs/hooks/create-form</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <lastmod>2026-08-06</lastmod>
-    <loc>https://nikala.magradze.dev/docs/hooks/create-fullscreen</loc>
+    <loc>https://nikala.dev/docs/hooks/create-fullscreen</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <lastmod>2026-08-06</lastmod>
-    <loc>https://nikala.magradze.dev/docs/hooks/create-geolocation</loc>
+    <loc>https://nikala.dev/docs/hooks/create-geolocation</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <lastmod>2026-08-06</lastmod>
-    <loc>https://nikala.magradze.dev/docs/hooks/create-hover</loc>
+    <loc>https://nikala.dev/docs/hooks/create-hover</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <lastmod>2026-08-06</lastmod>
-    <loc>https://nikala.magradze.dev/docs/hooks/create-idle</loc>
+    <loc>https://nikala.dev/docs/hooks/create-idle</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <lastmod>2026-08-06</lastmod>
-    <loc>https://nikala.magradze.dev/docs/hooks/create-infinite-scroll</loc>
+    <loc>https://nikala.dev/docs/hooks/create-infinite-scroll</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <lastmod>2026-08-06</lastmod>
-    <loc>https://nikala.magradze.dev/docs/hooks/create-input-mask</loc>
+    <loc>https://nikala.dev/docs/hooks/create-input-mask</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <lastmod>2026-08-06</lastmod>
-    <loc>https://nikala.magradze.dev/docs/hooks/create-intersection-observer</loc>
+    <loc>https://nikala.dev/docs/hooks/create-intersection-observer</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <lastmod>2026-08-06</lastmod>
-    <loc>https://nikala.magradze.dev/docs/hooks/create-keybindings</loc>
+    <loc>https://nikala.dev/docs/hooks/create-keybindings</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <lastmod>2026-08-06</lastmod>
-    <loc>https://nikala.magradze.dev/docs/hooks/create-lock-scroll</loc>
+    <loc>https://nikala.dev/docs/hooks/create-lock-scroll</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <lastmod>2026-08-06</lastmod>
-    <loc>https://nikala.magradze.dev/docs/hooks/create-long-press</loc>
+    <loc>https://nikala.dev/docs/hooks/create-long-press</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <lastmod>2026-08-06</lastmod>
-    <loc>https://nikala.magradze.dev/docs/hooks/create-media-query</loc>
+    <loc>https://nikala.dev/docs/hooks/create-media-query</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <lastmod>2026-08-06</lastmod>
-    <loc>https://nikala.magradze.dev/docs/hooks/create-mouse-position</loc>
+    <loc>https://nikala.dev/docs/hooks/create-mouse-position</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <lastmod>2026-08-06</lastmod>
-    <loc>https://nikala.magradze.dev/docs/hooks/create-network-status</loc>
+    <loc>https://nikala.dev/docs/hooks/create-network-status</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <lastmod>2026-08-06</lastmod>
-    <loc>https://nikala.magradze.dev/docs/hooks/create-orientation</loc>
+    <loc>https://nikala.dev/docs/hooks/create-orientation</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <lastmod>2026-08-06</lastmod>
-    <loc>https://nikala.magradze.dev/docs/hooks/create-permission</loc>
+    <loc>https://nikala.dev/docs/hooks/create-permission</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <lastmod>2026-08-06</lastmod>
-    <loc>https://nikala.magradze.dev/docs/hooks/create-previous</loc>
+    <loc>https://nikala.dev/docs/hooks/create-previous</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <lastmod>2026-08-06</lastmod>
-    <loc>https://nikala.magradze.dev/docs/hooks/create-resize-observer</loc>
+    <loc>https://nikala.dev/docs/hooks/create-resize-observer</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <lastmod>2026-08-06</lastmod>
-    <loc>https://nikala.magradze.dev/docs/hooks/create-scroll-into-view</loc>
+    <loc>https://nikala.dev/docs/hooks/create-scroll-into-view</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <lastmod>2026-08-06</lastmod>
-    <loc>https://nikala.magradze.dev/docs/hooks/create-scroll-position</loc>
+    <loc>https://nikala.dev/docs/hooks/create-scroll-position</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <lastmod>2026-08-06</lastmod>
-    <loc>https://nikala.magradze.dev/docs/hooks/create-storage</loc>
+    <loc>https://nikala.dev/docs/hooks/create-storage</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <lastmod>2026-08-06</lastmod>
-    <loc>https://nikala.magradze.dev/docs/hooks/create-timer</loc>
+    <loc>https://nikala.dev/docs/hooks/create-timer</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <lastmod>2026-08-06</lastmod>
-    <loc>https://nikala.magradze.dev/docs/hooks/create-undo-redo</loc>
+    <loc>https://nikala.dev/docs/hooks/create-undo-redo</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <lastmod>2026-08-06</lastmod>
-    <loc>https://nikala.magradze.dev/docs/hooks/create-web-notification</loc>
+    <loc>https://nikala.dev/docs/hooks/create-web-notification</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <lastmod>2026-08-06</lastmod>
-    <loc>https://nikala.magradze.dev/docs/hooks/create-websocket</loc>
+    <loc>https://nikala.dev/docs/hooks/create-websocket</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <lastmod>2026-08-06</lastmod>
-    <loc>https://nikala.magradze.dev/docs/hooks/create-window-size</loc>
+    <loc>https://nikala.dev/docs/hooks/create-window-size</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>

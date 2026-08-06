@@ -11,7 +11,7 @@ export const config: ComponentSpec = {
   name: "Input Group",
   props: [
     { name: "prefix", label: "Prefix Text", type: "text", default: "https://" },
-    { name: "placeholder", label: "Placeholder", type: "text", default: "nikala.magradze.dev" },
+    { name: "placeholder", label: "Placeholder", type: "text", default: "nikala.dev" },
     { name: "showSuffix", label: "Show Suffix Addon", type: "boolean", default: true },
     { name: "suffixText", label: "Suffix Text", type: "text", default: ".com" },
   ],

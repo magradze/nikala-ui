@@ -4,7 +4,7 @@ Reactive SolidJS state primitives and custom hooks for **Nikala UI**.
 
 Honoring the iconic Georgian painter **Niko Pirosmani (Nikala)**.
 
-Official Documentation & Interactive Demos: [nikala.magradze.dev](https://nikala.magradze.dev)
+Official Documentation & Interactive Demos: [nikala.dev](https://nikala.dev)
 
 ---
 
@@ -85,7 +85,7 @@ const [value, setValue] = createControllableSignal({
 ## Documentation & Links
 
 - Repository: [github.com/nikala-ui/ui](https://github.com/nikala-ui/ui)
-- Hooks Documentation: [nikala.magradze.dev/docs/hooks](https://nikala.magradze.dev/docs/hooks)
+- Hooks Documentation: [nikala.dev/docs/hooks](https://nikala.dev/docs/hooks)
 
 ## License
 

@@ -2,11 +2,11 @@
 
 > Nikala UI is a copy-paste component system and reactive primitives suite for SolidJS built natively for Tailwind CSS v4. Honoring Georgian painter Niko Pirosmani (Nikala).
 
-- Official Website: https://nikala.magradze.dev
+- Official Website: https://nikala.dev
 - GitHub Repository: https://github.com/nikala-ui/ui
-- Documentation Portal: https://nikala.magradze.dev/docs
-- Interactive Playground: https://nikala.magradze.dev/playground
-- Raw LLM Reference: https://nikala.magradze.dev/llms.txt
+- Documentation Portal: https://nikala.dev/docs
+- Interactive Playground: https://nikala.dev/playground
+- Raw LLM Reference: https://nikala.dev/llms.txt
 
 ---
 
@@ -19,7 +19,7 @@ Nikala UI rejects heavy `node_modules` UI dependencies for component structures 
 - **Tailwind CSS v4 Native**: Built on modern `@import "tailwindcss";` setups, CSS-first `@theme` variables, and semantic color design tokens without legacy JS configs.
 - **Full Source Ownership**: The CLI writes components to `src/components/ui/` and primitive hooks directly to `src/hooks/`. Developers own, inspect, and customize all generated source files.
 - **Zero Lock-In**: Decoupled `@nikala-ui/cli` client, `@nikala-ui/core` registry, and `@nikala-ui/mcp` server for remote HTTP(S) manifest installs and direct AI IDE integration.
-- **Model Context Protocol (MCP)**: Native `@nikala-ui/mcp` integration supporting Stdio local execution (`npx @nikala-ui/mcp`) and remote HTTP/SSE streaming (`https://nikala.magradze.dev/api/mcp/sse`) with callable tools, pre-built AI prompts, and SolidJS engineering resources.
+- **Model Context Protocol (MCP)**: Native `@nikala-ui/mcp` integration supporting Stdio local execution (`npx @nikala-ui/mcp`) and remote HTTP/SSE streaming (`https://nikala.dev/api/mcp/sse`) with callable tools, pre-built AI prompts, and SolidJS engineering resources.
 
 ---
 
@@ -199,86 +199,86 @@ Nikala UI primitives are written directly to `src/hooks/<hook-name>.ts`. Below i
 ## 6. Complete Documentation Sitemap Index
 
 ### Overview Pages
-- System Philosophy & Intro: https://nikala.magradze.dev/docs
-- CLI Reference Guide: https://nikala.magradze.dev/docs/cli
-- Tailwind v4 Theming System: https://nikala.magradze.dev/docs/theming
-- Model Context Protocol (MCP): https://nikala.magradze.dev/docs/mcp
-- Live Interactive Playground: https://nikala.magradze.dev/playground
+- System Philosophy & Intro: https://nikala.dev/docs
+- CLI Reference Guide: https://nikala.dev/docs/cli
+- Tailwind v4 Theming System: https://nikala.dev/docs/theming
+- Model Context Protocol (MCP): https://nikala.dev/docs/mcp
+- Live Interactive Playground: https://nikala.dev/playground
 
 ### All Component Pages (34 Components)
-- Accordion: https://nikala.magradze.dev/docs/components/accordion
-- Alert: https://nikala.magradze.dev/docs/components/alert
-- Avatar: https://nikala.magradze.dev/docs/components/avatar
-- Badge: https://nikala.magradze.dev/docs/components/badge
-- Banner: https://nikala.magradze.dev/docs/components/banner
-- Breadcrumb: https://nikala.magradze.dev/docs/components/breadcrumb
-- Button: https://nikala.magradze.dev/docs/components/button
-- Card: https://nikala.magradze.dev/docs/components/card
-- Checkbox: https://nikala.magradze.dev/docs/components/checkbox
-- Combobox: https://nikala.magradze.dev/docs/components/combobox
-- Command: https://nikala.magradze.dev/docs/components/command
-- Dialog: https://nikala.magradze.dev/docs/components/dialog
-- Dropdown Menu: https://nikala.magradze.dev/docs/components/dropdown-menu
-- Hover Card: https://nikala.magradze.dev/docs/components/hover-card
-- Input: https://nikala.magradze.dev/docs/components/input
-- Input Group: https://nikala.magradze.dev/docs/components/input-group
-- Kbd: https://nikala.magradze.dev/docs/components/kbd
-- Label: https://nikala.magradze.dev/docs/components/label
-- List: https://nikala.magradze.dev/docs/components/list
-- Pin Input: https://nikala.magradze.dev/docs/components/pin-input
-- Popover: https://nikala.magradze.dev/docs/components/popover
-- Progress: https://nikala.magradze.dev/docs/components/progress
-- Radio Group: https://nikala.magradze.dev/docs/components/radio-group
-- Select: https://nikala.magradze.dev/docs/components/select
-- Separator: https://nikala.magradze.dev/docs/components/separator
-- Sheet: https://nikala.magradze.dev/docs/components/sheet
-- Skeleton: https://nikala.magradze.dev/docs/components/skeleton
-- Slider: https://nikala.magradze.dev/docs/components/slider
-- Switch: https://nikala.magradze.dev/docs/components/switch
-- Tabs: https://nikala.magradze.dev/docs/components/tabs
-- Textarea: https://nikala.magradze.dev/docs/components/textarea
-- Theme Manager: https://nikala.magradze.dev/docs/components/theme-manager
-- Toast: https://nikala.magradze.dev/docs/components/toast
-- Tooltip: https://nikala.magradze.dev/docs/components/tooltip
+- Accordion: https://nikala.dev/docs/components/accordion
+- Alert: https://nikala.dev/docs/components/alert
+- Avatar: https://nikala.dev/docs/components/avatar
+- Badge: https://nikala.dev/docs/components/badge
+- Banner: https://nikala.dev/docs/components/banner
+- Breadcrumb: https://nikala.dev/docs/components/breadcrumb
+- Button: https://nikala.dev/docs/components/button
+- Card: https://nikala.dev/docs/components/card
+- Checkbox: https://nikala.dev/docs/components/checkbox
+- Combobox: https://nikala.dev/docs/components/combobox
+- Command: https://nikala.dev/docs/components/command
+- Dialog: https://nikala.dev/docs/components/dialog
+- Dropdown Menu: https://nikala.dev/docs/components/dropdown-menu
+- Hover Card: https://nikala.dev/docs/components/hover-card
+- Input: https://nikala.dev/docs/components/input
+- Input Group: https://nikala.dev/docs/components/input-group
+- Kbd: https://nikala.dev/docs/components/kbd
+- Label: https://nikala.dev/docs/components/label
+- List: https://nikala.dev/docs/components/list
+- Pin Input: https://nikala.dev/docs/components/pin-input
+- Popover: https://nikala.dev/docs/components/popover
+- Progress: https://nikala.dev/docs/components/progress
+- Radio Group: https://nikala.dev/docs/components/radio-group
+- Select: https://nikala.dev/docs/components/select
+- Separator: https://nikala.dev/docs/components/separator
+- Sheet: https://nikala.dev/docs/components/sheet
+- Skeleton: https://nikala.dev/docs/components/skeleton
+- Slider: https://nikala.dev/docs/components/slider
+- Switch: https://nikala.dev/docs/components/switch
+- Tabs: https://nikala.dev/docs/components/tabs
+- Textarea: https://nikala.dev/docs/components/textarea
+- Theme Manager: https://nikala.dev/docs/components/theme-manager
+- Toast: https://nikala.dev/docs/components/toast
+- Tooltip: https://nikala.dev/docs/components/tooltip
 
 ### All Reactive Hooks & Primitives (40 Hooks)
-- createActiveElement: https://nikala.magradze.dev/docs/hooks/create-active-element
-- createAudio: https://nikala.magradze.dev/docs/hooks/create-audio
-- createBattery: https://nikala.magradze.dev/docs/hooks/create-battery
-- createClickOutside: https://nikala.magradze.dev/docs/hooks/create-click-outside
-- createClipboard: https://nikala.magradze.dev/docs/hooks/create-clipboard
-- createColorMode: https://nikala.magradze.dev/docs/hooks/create-color-mode
-- createControllableSignal: https://nikala.magradze.dev/docs/hooks/create-controllable-signal
-- createDebounce: https://nikala.magradze.dev/docs/hooks/create-debounce
-- createDisclosure: https://nikala.magradze.dev/docs/hooks/create-disclosure
-- createDocumentTitle: https://nikala.magradze.dev/docs/hooks/create-document-title
-- createEventSource: https://nikala.magradze.dev/docs/hooks/create-event-source
-- createFavicon: https://nikala.magradze.dev/docs/hooks/create-favicon
-- createFetch: https://nikala.magradze.dev/docs/hooks/create-fetch
-- createFocusTrap: https://nikala.magradze.dev/docs/hooks/create-focus-trap
-- createForm: https://nikala.magradze.dev/docs/hooks/create-form
-- createFullscreen: https://nikala.magradze.dev/docs/hooks/create-fullscreen
-- createGeolocation: https://nikala.magradze.dev/docs/hooks/create-geolocation
-- createHover: https://nikala.magradze.dev/docs/hooks/create-hover
-- createIdle: https://nikala.magradze.dev/docs/hooks/create-idle
-- createInfiniteScroll: https://nikala.magradze.dev/docs/hooks/create-infinite-scroll
-- createInputMask: https://nikala.magradze.dev/docs/hooks/create-input-mask
-- createIntersectionObserver: https://nikala.magradze.dev/docs/hooks/create-intersection-observer
-- createKeybindings: https://nikala.magradze.dev/docs/hooks/create-keybindings
-- createLockScroll: https://nikala.magradze.dev/docs/hooks/create-lock-scroll
-- createLongPress: https://nikala.magradze.dev/docs/hooks/create-long-press
-- createMediaQuery: https://nikala.magradze.dev/docs/hooks/create-media-query
-- createMousePosition: https://nikala.magradze.dev/docs/hooks/create-mouse-position
-- createNetworkStatus: https://nikala.magradze.dev/docs/hooks/create-network-status
-- createOrientation: https://nikala.magradze.dev/docs/hooks/create-orientation
-- createPermission: https://nikala.magradze.dev/docs/hooks/create-permission
-- createPrevious: https://nikala.magradze.dev/docs/hooks/create-previous
-- createResizeObserver: https://nikala.magradze.dev/docs/hooks/create-resize-observer
-- createScrollIntoView: https://nikala.magradze.dev/docs/hooks/create-scroll-into-view
-- createScrollPosition: https://nikala.magradze.dev/docs/hooks/create-scroll-position
-- createStorage: https://nikala.magradze.dev/docs/hooks/create-storage
-- createTimer: https://nikala.magradze.dev/docs/hooks/create-timer
-- createUndoRedo: https://nikala.magradze.dev/docs/hooks/create-undo-redo
-- createWebNotification: https://nikala.magradze.dev/docs/hooks/create-web-notification
-- createWebSocket: https://nikala.magradze.dev/docs/hooks/create-websocket
-- createWindowSize: https://nikala.magradze.dev/docs/hooks/create-window-size
+- createActiveElement: https://nikala.dev/docs/hooks/create-active-element
+- createAudio: https://nikala.dev/docs/hooks/create-audio
+- createBattery: https://nikala.dev/docs/hooks/create-battery
+- createClickOutside: https://nikala.dev/docs/hooks/create-click-outside
+- createClipboard: https://nikala.dev/docs/hooks/create-clipboard
+- createColorMode: https://nikala.dev/docs/hooks/create-color-mode
+- createControllableSignal: https://nikala.dev/docs/hooks/create-controllable-signal
+- createDebounce: https://nikala.dev/docs/hooks/create-debounce
+- createDisclosure: https://nikala.dev/docs/hooks/create-disclosure
+- createDocumentTitle: https://nikala.dev/docs/hooks/create-document-title
+- createEventSource: https://nikala.dev/docs/hooks/create-event-source
+- createFavicon: https://nikala.dev/docs/hooks/create-favicon
+- createFetch: https://nikala.dev/docs/hooks/create-fetch
+- createFocusTrap: https://nikala.dev/docs/hooks/create-focus-trap
+- createForm: https://nikala.dev/docs/hooks/create-form
+- createFullscreen: https://nikala.dev/docs/hooks/create-fullscreen
+- createGeolocation: https://nikala.dev/docs/hooks/create-geolocation
+- createHover: https://nikala.dev/docs/hooks/create-hover
+- createIdle: https://nikala.dev/docs/hooks/create-idle
+- createInfiniteScroll: https://nikala.dev/docs/hooks/create-infinite-scroll
+- createInputMask: https://nikala.dev/docs/hooks/create-input-mask
+- createIntersectionObserver: https://nikala.dev/docs/hooks/create-intersection-observer
+- createKeybindings: https://nikala.dev/docs/hooks/create-keybindings
+- createLockScroll: https://nikala.dev/docs/hooks/create-lock-scroll
+- createLongPress: https://nikala.dev/docs/hooks/create-long-press
+- createMediaQuery: https://nikala.dev/docs/hooks/create-media-query
+- createMousePosition: https://nikala.dev/docs/hooks/create-mouse-position
+- createNetworkStatus: https://nikala.dev/docs/hooks/create-network-status
+- createOrientation: https://nikala.dev/docs/hooks/create-orientation
+- createPermission: https://nikala.dev/docs/hooks/create-permission
+- createPrevious: https://nikala.dev/docs/hooks/create-previous
+- createResizeObserver: https://nikala.dev/docs/hooks/create-resize-observer
+- createScrollIntoView: https://nikala.dev/docs/hooks/create-scroll-into-view
+- createScrollPosition: https://nikala.dev/docs/hooks/create-scroll-position
+- createStorage: https://nikala.dev/docs/hooks/create-storage
+- createTimer: https://nikala.dev/docs/hooks/create-timer
+- createUndoRedo: https://nikala.dev/docs/hooks/create-undo-redo
+- createWebNotification: https://nikala.dev/docs/hooks/create-web-notification
+- createWebSocket: https://nikala.dev/docs/hooks/create-websocket
+- createWindowSize: https://nikala.dev/docs/hooks/create-window-size

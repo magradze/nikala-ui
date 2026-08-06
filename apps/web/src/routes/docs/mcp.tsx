@@ -22,8 +22,8 @@ const stdioConfigCode = `
 }`;
 
 const sseEndpointCode = `// Remote SSE Connection Endpoint
-URL: https://nikala.magradze.dev/api/mcp/sse
-Messages: https://nikala.magradze.dev/api/mcp/messages`;
+URL: https://nikala.dev/api/mcp/sse
+Messages: https://nikala.dev/api/mcp/messages`;
 
 export default function McpDocsPage() {
   return (

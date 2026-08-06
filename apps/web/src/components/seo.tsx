@@ -6,7 +6,7 @@ import { type Component } from "solid-js";
 const DEFAULT_SEO = {
   title: "Nikala UI — Copy-Paste SolidJS & Tailwind CSS v4 Component System",
   description: "A simple, copy-paste component system for SolidJS built natively for Tailwind CSS v4. Honoring Georgian painter Niko Pirosmani.",
-  siteUrl: "https://nikala.magradze.dev",
+  siteUrl: "https://nikala.dev",
   ogImage: "/og-image.png",
   twitterHandle: "@magradze",
 };

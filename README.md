@@ -11,7 +11,7 @@ Honoring the iconic Georgian painter **Niko Pirosmani (Nikala)**.
 [![Tailwind CSS v4](https://img.shields.io/badge/Tailwind_CSS-v4.0-38bdf8?style=flat-square&logo=tailwindcss)](https://tailwindcss.com)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg?style=flat-square)](https://opensource.org/licenses/MIT)
 
-**Official Documentation & Live Playground:** [nikala.magradze.dev](https://nikala.magradze.dev)
+**Official Documentation & Live Playground:** [nikala.dev](https://nikala.dev)
 
 ---
 
@@ -133,7 +133,7 @@ export function App() {
 
 Nikala UI provides a growing library of accessible, beautifully designed SolidJS components built natively for Tailwind CSS v4.
 
-Explore all components, interactive live previews, and API references at **[nikala.magradze.dev/docs/components](https://nikala.magradze.dev/docs/components)**.
+Explore all components, interactive live previews, and API references at **[nikala.dev/docs/components](https://nikala.dev/docs/components)**.
 
 You can also list all available components directly from your terminal:
 

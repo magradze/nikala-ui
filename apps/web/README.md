@@ -2,7 +2,7 @@
 
 Official documentation website and interactive playground for **Nikala UI** — a copy-paste component system for SolidJS built natively for Tailwind CSS v4.
 
-Official Site: [nikala.magradze.dev](https://nikala.magradze.dev)
+Official Site: [nikala.dev](https://nikala.dev)
 
 ## Features
 

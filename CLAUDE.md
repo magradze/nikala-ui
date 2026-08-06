@@ -3,7 +3,7 @@
 > **Nikala UI** is a lightweight, copy-paste component system and reactive primitives suite for **SolidJS** built natively for **Tailwind CSS v4**. Honoring iconic Georgian painter **Niko Pirosmani (Nikala)**.
 
 - **Monorepo Root**: `/home/magradze/Projects/nikala-ui`
-- **Documentation & Live Site**: [nikala.magradze.dev](https://nikala.magradze.dev)
+- **Documentation & Live Site**: [nikala.dev](https://nikala.dev)
 - **Primary Package Manager**: `bun` (Version 1.3+)
 
 ---
@@ -27,11 +27,11 @@ nikala-ui/
 
 ### Workspace Package Roles
 
-- **`apps/web`**: The official documentation portal, live component previews, and interactive playground hosted at `nikala.magradze.dev`.
+- **`apps/web`**: The official documentation portal, live component previews, and interactive playground hosted at `nikala.dev`.
 - **`packages/cli`**: The command-line client (`nikala` / `npx @nikala-ui/cli`). Handles project initialization, interactive multiselect for UI components and `--hook` primitives, theme configuration, and diagnostic validation.
 - **`packages/core`**: Central registry containing full source manifests for Kobalte-based UI components.
 - **`packages/hooks`**: Standalone primitives library providing 40 reactive hooks written specifically for SolidJS fine-grained reactivity.
-- **`packages/mcp`**: Model Context Protocol (MCP) server integration supporting Stdio local execution (`npx @nikala-ui/mcp`) and remote HTTP/SSE streaming (`https://nikala.magradze.dev/api/mcp/sse`) with callable tools (`list_components`, `install_component`, `validate_project`, `inspect_workspace`), pre-built AI prompts, and SolidJS engineering resources.
+- **`packages/mcp`**: Model Context Protocol (MCP) server integration supporting Stdio local execution (`npx @nikala-ui/mcp`) and remote HTTP/SSE streaming (`https://nikala.dev/api/mcp/sse`) with callable tools (`list_components`, `install_component`, `validate_project`, `inspect_workspace`), pre-built AI prompts, and SolidJS engineering resources.
 
 ---
 

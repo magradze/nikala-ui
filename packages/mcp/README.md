@@ -12,7 +12,7 @@
 - **Zero Hardcoding**: Dynamically resolves metadata, code manifests, and dependencies directly from official Nikala UI registry manifests.
 - **Dual Transport Support**:
   - **Stdio Transport**: Local CLI binary for IDE integration (`npx @nikala-ui/mcp`).
-  - **SSE Transport**: Remote HTTP/SSE server endpoint hosted on `nikala.magradze.dev/api/mcp/sse`.
+  - **SSE Transport**: Remote HTTP/SSE server endpoint hosted on `nikala.dev/api/mcp/sse`.
 - **Engineering Rule Resources**: Exposes SolidJS fine-grained reactivity rules (`splitProps`, `children()` memoization) and Tailwind CSS v4 design token constraints directly to AI models.
 
 ---
@@ -38,8 +38,8 @@ Add `@nikala-ui/mcp` to your MCP configuration file (e.g. `mcp.json` or Claude D
 
 If your AI assistant supports SSE / Remote MCP endpoints:
 
-- **SSE Endpoint URL**: `https://nikala.magradze.dev/api/mcp/sse`
-- **Messages Endpoint URL**: `https://nikala.magradze.dev/api/mcp/messages`
+- **SSE Endpoint URL**: `https://nikala.dev/api/mcp/sse`
+- **Messages Endpoint URL**: `https://nikala.dev/api/mcp/messages`
 
 ---
 
