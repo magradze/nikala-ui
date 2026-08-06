@@ -40,10 +40,52 @@ export async function highlightCode(code: string, lang = "tsx") {
   }
 
   try {
-    const Prism = await loadPrism();
     const targetLang = lang.toLowerCase();
 
-/* Resolve grammar with fallback cascade */
+    /* Custom precision highlighter for CLI bash commands */
+    if (targetLang === "bash") {
+      const trimmed = code.trim();
+      const parts = trimmed.split(/\s+/);
+      if (
+        parts.length >= 2 &&
+        (parts[0] === "bunx" ||
+          parts[0] === "npx" ||
+          parts[0] === "pnpm" ||
+          parts[0] === "yarn")
+      ) {
+        const runner = parts[0]; // e.g. bunx / npx
+        const pkg = parts[1]; // e.g. @nikala-ui/cli
+        const restTokens = parts.slice(2);
+
+        const highlightedRest = restTokens
+          .map((token, index) => {
+            // Flags like --all, --overwrite, -y, --hook
+            if (token.startsWith("-")) {
+              return `<span class="text-muted-foreground opacity-80">${token}</span>`;
+            }
+            // First subcommand after CLI name like add, init, theme, list
+            if (
+              index === 0 &&
+              ["add", "init", "theme", "set", "diff", "list", "check"].includes(
+                token
+              )
+            ) {
+              return `<span class="text-sky-500 dark:text-sky-400 font-medium">${token}</span>`;
+            }
+            // Target value arguments (component names, themes, etc.)
+            return `<span class="text-foreground">${token}</span>`;
+          })
+          .join(" ");
+
+        return `<span class="text-emerald-500 font-semibold">${runner}</span> <span class="text-primary font-semibold">${pkg}</span>${
+          highlightedRest ? " " + highlightedRest : ""
+        }`;
+      }
+    }
+
+    const Prism = await loadPrism();
+
+    /* Resolve grammar with fallback cascade for TSX/JSON/CSS */
     const grammar =
       Prism.languages[targetLang] ||
       Prism.languages.tsx ||
