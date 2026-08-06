@@ -110,7 +110,7 @@ export const Seo: Component<SeoProps> = (props) => {
       <Link rel="canonical" href={canonicalUrl()} />
 
       {/* JSON-LD Structured Data */}
-      <script type="application/ld+json">{jsonLd()}</script>
+      <script type="application/ld+json" innerHTML={jsonLd()} />
     </>
   );
 };
