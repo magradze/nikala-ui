@@ -19,7 +19,7 @@ export default function IntroductionPage() {
       <div class="space-y-10 pb-16">
         <DocPageHeader
           title="Introduction"
-          badge="v0.5.0"
+          badge="v0.9.10"
           description="Re-imagining component systems for SolidJS and Tailwind CSS v4."
         />
 
