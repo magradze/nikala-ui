@@ -8,7 +8,9 @@ export default createHandler(() => (
         <head>
           <meta charset="utf-8" />
           <meta name="viewport" content="width=device-width, initial-scale=1" />
+          {/* Google Search Console Verification for both domains */}
           <meta name="google-site-verification" content="ASH5Gq4EFSogT7EFI7mLFmoe2qH3AJTtC9aIsXVYXmo" />
+          <meta name="google-site-verification" content="_kXfLspD07TOVsR6TupXFOrNYUBpy_Bkb03VAzOk0Gs" />
           <link rel="icon" href="/favicon.ico" />
           {/* Font Optimization & Preconnect */}
           <link rel="preconnect" href="https://fonts.googleapis.com" />
