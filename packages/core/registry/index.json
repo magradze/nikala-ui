@@ -96,6 +96,17 @@
     ]
   },
   {
+    "name": "collapsible",
+    "title": "Collapsible",
+    "description": "An interactive component that expands and collapses content panels with smooth height animations, built on Kobalte primitives.",
+    "type": "registry:ui",
+    "dependencies": [
+      "clsx",
+      "tailwind-merge",
+      "@kobalte/core"
+    ]
+  },
+  {
     "name": "combobox",
     "title": "Combobox",
     "description": "Searchable autocomplete dropdown with single/multi-selection tags, avatars, group headers, and customizable clear controls.",

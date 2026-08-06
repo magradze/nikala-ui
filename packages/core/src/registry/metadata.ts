@@ -179,6 +179,11 @@ export const COMPONENT_METADATA: Record<string, ComponentMeta> = {
     description: "Numeric range selection slider supporting single/dual thumbs, custom steps, vertical orientation, and formatted value labels, built on Kobalte primitives.",
     dependencies: ["clsx", "tailwind-merge", "@kobalte/core"],
   },
+  collapsible: {
+    title: "Collapsible",
+    description: "An interactive component that expands and collapses content panels with smooth height animations, built on Kobalte primitives.",
+    dependencies: ["clsx", "tailwind-merge", "@kobalte/core"],
+  },
   "pin-input": {
     title: "Pin Input",
     description: "Interactive multi-slot PIN/OTP input component for SMS and 2FA authentication verification codes.",
