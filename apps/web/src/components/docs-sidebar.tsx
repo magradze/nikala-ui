@@ -1,5 +1,5 @@
 import { A, useLocation } from "@solidjs/router";
-import { type Component, For, createSignal, createEffect } from "solid-js";
+import { type Component, For, createSignal, createEffect, Show } from "solid-js";
 import { createScrollIntoView } from "@nikala-ui/hooks";
 import {
   HOOKS_SIDEBAR_NAVIGATION,
@@ -121,7 +121,7 @@ export const DocsSidebar: Component = () => {
                       </span>
                     </Show>
                   </div>
-                  <ChevronRight class="h-3.5 w-3.5 text-muted-foreground transition-transform duration-200 group-data-[expanded]:rotate-90" />
+                  <ChevronRight class="h-3.5 w-3.5 text-muted-foreground transition-transform duration-200 group-data-expanded:rotate-90" />
                 </CollapsibleTrigger>
                 <CollapsibleContent class="space-y-0.5 pl-1 pt-1">
                   <For each={section.items}>
