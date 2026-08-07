@@ -316,6 +316,7 @@ export const COMPONENTS_LIST: DocComponentItem[] = [
   { name: "pin-input", title: "Pin Input", description: "4 or 6-digit SMS/2FA verification PIN code input slots", href: "/docs/components/pin-input" },
   { name: "progress", title: "Progress", description: "Displays an indicator showing completion progress of a task or media", href: "/docs/components/progress" },
   { name: "collapsible", title: "Collapsible", description: "An interactive component that expands and collapses content panels with height transitions", href: "/docs/components/collapsible" },
+  { name: "aspect-ratio", title: "Aspect Ratio", description: "Displays content within a specific aspect ratio using CSS aspect-ratio while preventing layout shifts", href: "/docs/components/aspect-ratio" },
 ];
 
 /* --- Global Sidebar Navigation Config --- */
@@ -381,6 +382,7 @@ export const COMPONENT_SECTIONS: NavSection[] = [
     title: "Navigation & Layout",
     items: [
       { title: "Accordion", href: "/docs/components/accordion" },
+      { title: "Aspect Ratio", href: "/docs/components/aspect-ratio", addedAt: "2026-08-07" },
       { title: "Breadcrumb", href: "/docs/components/breadcrumb" },
       { title: "Collapsible", href: "/docs/components/collapsible", addedAt: "2026-08-06" },
       { title: "Combobox", href: "/docs/components/combobox", addedAt: "2026-08-05" },
