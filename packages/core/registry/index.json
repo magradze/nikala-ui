@@ -22,6 +22,16 @@
     ]
   },
   {
+    "name": "aspect-ratio",
+    "title": "Aspect Ratio",
+    "description": "Displays content within a specific aspect ratio using CSS aspect-ratio while preventing layout shifts.",
+    "type": "registry:ui",
+    "dependencies": [
+      "clsx",
+      "tailwind-merge"
+    ]
+  },
+  {
     "name": "avatar",
     "title": "Avatar",
     "description": "An image element with fallback representation for representing users.",

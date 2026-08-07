@@ -1,0 +1,17 @@
+{
+  "name": "aspect-ratio",
+  "title": "Aspect Ratio",
+  "description": "Displays content within a specific aspect ratio using CSS aspect-ratio while preventing layout shifts.",
+  "type": "registry:ui",
+  "dependencies": [
+    "clsx",
+    "tailwind-merge"
+  ],
+  "files": [
+    {
+      "path": "ui/aspect-ratio.tsx",
+      "content": "import { splitProps, type Component, type JSX } from \"solid-js\";\nimport { cn } from \"@/lib/cn\";\n\nexport interface AspectRatioProps extends JSX.HTMLAttributes<HTMLDivElement> {\n  ratio?: number;\n  class?: string;\n  children?: JSX.Element;\n}\n\n/**\n * Nikala UI AspectRatio Component.\n * Displays content within a specific aspect ratio (e.g. 16/9, 4/3, 1/1) using CSS aspect-ratio.\n */\nexport const AspectRatio: Component<AspectRatioProps> = (props) => {\n  const [local, rest] = splitProps(props, [\"ratio\", \"class\", \"children\", \"style\"]);\n\n  const computedRatio = () => (local.ratio !== undefined ? local.ratio : 16 / 9);\n\n  return (\n    <div\n      class={cn(\"relative w-full overflow-hidden\", local.class)}\n      style={{\n        \"aspect-ratio\": `${computedRatio()}`,\n        ...(typeof local.style === \"object\" ? local.style : {}),\n      }}\n      {...rest}\n    >\n      {local.children}\n    </div>\n  );\n};\n",
+      "type": "registry:ui"
+    }
+  ]
+}
