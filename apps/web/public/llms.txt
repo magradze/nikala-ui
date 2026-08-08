@@ -108,7 +108,7 @@ When generating or editing SolidJS code using Nikala UI components and hooks, AI
 
 ---
 
-## 4. UI Components Registry (40 Components)
+## 4. UI Components Registry (41 Components)
 
 Below is the complete inventory of available Nikala UI components with exported JSX elements:
 
@@ -140,18 +140,19 @@ Below is the complete inventory of available Nikala UI components with exported 
 26. **Progress**: `Progress`, `ProgressIndicator`
 27. **Radio Group**: `RadioGroup`, `RadioGroupItem`, `RadioGroupItemLabel`
 28. **Resizable**: `ResizableGroup`, `ResizablePanel`, `ResizableHandle`
-29. **Select**: `Select`, `SelectTrigger`, `SelectValue`, `SelectContent`, `SelectItem`
-30. **Separator**: `Separator`
-31. **Sheet / Drawer**: `Sheet`, `SheetTrigger`, `SheetOverlay`, `SheetContent`, `SheetHeader`, `SheetFooter`, `SheetTitle`, `SheetDescription`, `SheetClose`
-32. **Skeleton**: `Skeleton`
-33. **Slider**: `Slider`, `SliderTrack`, `SliderFill`, `SliderThumb`, `SliderLabel`, `SliderValueLabel`
-34. **Switch**: `Switch`
-35. **Tabs**: `Tabs`, `TabsList`, `TabsTrigger`, `TabsContent`
-36. **Textarea**: `Textarea`
-37. **Theme Manager**: `ThemeProvider`, `ThemeScript`, `ThemeToggle`, `useTheme`
-38. **Toast**: `Toast`, `ToastTitle`, `ToastDescription`, `ToastCloseButton`, `ToastRegion`, `ToastList`, `showToast`
-39. **Toggle**: `Toggle`, `ToggleGroup`
-40. **Tooltip**: `Tooltip`, `TooltipTrigger`, `TooltipContent`, `TooltipArrow`
+29. **Scroll Area**: `ScrollArea`
+30. **Select**: `Select`, `SelectTrigger`, `SelectValue`, `SelectContent`, `SelectItem`
+31. **Separator**: `Separator`
+32. **Sheet / Drawer**: `Sheet`, `SheetTrigger`, `SheetOverlay`, `SheetContent`, `SheetHeader`, `SheetFooter`, `SheetTitle`, `SheetDescription`, `SheetClose`
+33. **Skeleton**: `Skeleton`
+34. **Slider**: `Slider`, `SliderTrack`, `SliderFill`, `SliderThumb`, `SliderLabel`, `SliderValueLabel`
+35. **Switch**: `Switch`
+36. **Tabs**: `Tabs`, `TabsList`, `TabsTrigger`, `TabsContent`
+37. **Textarea**: `Textarea`
+38. **Theme Manager**: `ThemeProvider`, `ThemeScript`, `ThemeToggle`, `useTheme`
+39. **Toast**: `Toast`, `ToastTitle`, `ToastDescription`, `ToastCloseButton`, `ToastRegion`, `ToastList`, `showToast`
+40. **Toggle**: `Toggle`, `ToggleGroup`
+41. **Tooltip**: `Tooltip`, `TooltipTrigger`, `TooltipContent`, `TooltipArrow`
 
 ---
 
