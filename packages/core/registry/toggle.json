@@ -1,0 +1,18 @@
+{
+  "name": "toggle",
+  "title": "Toggle",
+  "description": "A two-state interactive button component built on Kobalte primitives.",
+  "type": "registry:ui",
+  "dependencies": [
+    "clsx",
+    "tailwind-merge",
+    "@kobalte/core"
+  ],
+  "files": [
+    {
+      "path": "ui/toggle.tsx",
+      "content": "import { splitProps, type Component, type JSX } from \"solid-js\";\nimport { ToggleButton as KobalteToggle } from \"@kobalte/core/toggle-button\";\nimport { cva, type VariantProps } from \"class-variance-authority\";\nimport { cn } from \"@/lib/cn\";\n\nexport const toggleVariants = cva(\n  \"inline-flex items-center justify-center gap-2 rounded-md text-sm font-medium transition-colors hover:bg-muted hover:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 data-[pressed]:bg-accent data-[pressed]:text-accent-foreground [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 cursor-pointer\",\n  {\n    variants: {\n      variant: {\n        default: \"bg-transparent\",\n        outline:\n          \"border border-input bg-transparent shadow-xs hover:bg-accent hover:text-accent-foreground data-[pressed]:bg-accent data-[pressed]:text-accent-foreground\",\n      },\n      size: {\n        default: \"h-9 px-3 min-w-9\",\n        sm: \"h-8 px-2 text-xs min-w-8\",\n        lg: \"h-10 px-3 min-w-10\",\n      },\n    },\n    defaultVariants: {\n      variant: \"default\",\n      size: \"default\",\n    },\n  }\n);\n\nexport interface ToggleProps\n  extends JSX.ButtonHTMLAttributes<HTMLButtonElement>,\n    VariantProps<typeof toggleVariants> {\n  pressed?: boolean;\n  defaultPressed?: boolean;\n  onPressedChange?: (pressed: boolean) => void;\n  disabled?: boolean;\n  class?: string;\n  children?: JSX.Element;\n}\n\nexport const Toggle: Component<ToggleProps> = (props) => {\n  const [local, rest] = splitProps(props, [\n    \"variant\",\n    \"size\",\n    \"class\",\n    \"children\",\n    \"pressed\",\n    \"defaultPressed\",\n    \"onPressedChange\",\n    \"disabled\",\n    \"onChange\",\n  ]);\n\n  return (\n    <KobalteToggle\n      isPressed={local.pressed}\n      defaultIsPressed={local.defaultPressed}\n      onChange={local.onPressedChange}\n      disabled={local.disabled}\n      class={cn(\n        toggleVariants({ variant: local.variant, size: local.size }),\n        local.class\n      )}\n      {...rest}\n    >\n      {local.children}\n    </KobalteToggle>\n  );\n};\n\nexport interface ToggleGroupProps extends JSX.HTMLAttributes<HTMLDivElement> {\n  type?: \"single\" | \"multiple\";\n  value?: string | string[];\n  defaultValue?: string | string[];\n  onChange?: (value: any) => void;\n  disabled?: boolean;\n  class?: string;\n  children?: JSX.Element;\n}\n\nexport const ToggleGroup: Component<ToggleGroupProps> = (props) => {\n  const [local, rest] = splitProps(props, [\n    \"type\",\n    \"value\",\n    \"defaultValue\",\n    \"onChange\",\n    \"disabled\",\n    \"class\",\n    \"children\",\n  ]);\n\n  return (\n    <div\n      class={cn(\n        \"flex items-center justify-center gap-1 rounded-md border border-border/40 p-1 bg-background\",\n        local.class\n      )}\n      {...rest}\n    >\n      {local.children}\n    </div>\n  );\n};\n",
+      "type": "registry:ui"
+    }
+  ]
+}

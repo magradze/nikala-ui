@@ -405,6 +405,17 @@
     ]
   },
   {
+    "name": "toggle",
+    "title": "Toggle",
+    "description": "A two-state interactive button component built on Kobalte primitives.",
+    "type": "registry:ui",
+    "dependencies": [
+      "clsx",
+      "tailwind-merge",
+      "@kobalte/core"
+    ]
+  },
+  {
     "name": "tooltip",
     "title": "Tooltip",
     "description": "A popup that displays information related to an element when the element receives keyboard focus or the mouse hovers over it, built on Kobalte primitives.",

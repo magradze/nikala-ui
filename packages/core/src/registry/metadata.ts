@@ -189,6 +189,11 @@ export const COMPONENT_METADATA: Record<string, ComponentMeta> = {
     description: "Displays content within a specific aspect ratio using CSS aspect-ratio while preventing layout shifts.",
     dependencies: ["clsx", "tailwind-merge"],
   },
+  toggle: {
+    title: "Toggle",
+    description: "A two-state interactive button component built on Kobalte primitives.",
+    dependencies: ["clsx", "tailwind-merge", "@kobalte/core"],
+  },
   "pin-input": {
     title: "Pin Input",
     description: "Interactive multi-slot PIN/OTP input component for SMS and 2FA authentication verification codes.",
