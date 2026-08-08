@@ -318,6 +318,7 @@ export const COMPONENTS_LIST: DocComponentItem[] = [
   { name: "collapsible", title: "Collapsible", description: "An interactive component that expands and collapses content panels with height transitions", href: "/docs/components/collapsible" },
   { name: "aspect-ratio", title: "Aspect Ratio", description: "Displays content within a specific aspect ratio using CSS aspect-ratio while preventing layout shifts", href: "/docs/components/aspect-ratio" },
   { name: "toggle", title: "Toggle", description: "A two-state interactive button component built on Kobalte primitives", href: "/docs/components/toggle" },
+  { name: "number-input", title: "Number Input", description: "A numeric stepper input component supporting min, max, step, and keyboard navigation", href: "/docs/components/number-input" },
 ];
 
 /* --- Global Sidebar Navigation Config --- */
@@ -341,6 +342,7 @@ export const COMPONENT_SECTIONS: NavSection[] = [
       { title: "Input", href: "/docs/components/input" },
       { title: "Input Group", href: "/docs/components/input-group" },
       { title: "Label", href: "/docs/components/label" },
+      { title: "Number Input", href: "/docs/components/number-input", addedAt: "2026-08-08" },
       { title: "Pin Input", href: "/docs/components/pin-input" },
       { title: "Radio Group", href: "/docs/components/radio-group" },
       { title: "Select", href: "/docs/components/select" },
