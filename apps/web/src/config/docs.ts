@@ -317,6 +317,7 @@ export const COMPONENTS_LIST: DocComponentItem[] = [
   { name: "progress", title: "Progress", description: "Displays an indicator showing completion progress of a task or media", href: "/docs/components/progress" },
   { name: "collapsible", title: "Collapsible", description: "An interactive component that expands and collapses content panels with height transitions", href: "/docs/components/collapsible" },
   { name: "aspect-ratio", title: "Aspect Ratio", description: "Displays content within a specific aspect ratio using CSS aspect-ratio while preventing layout shifts", href: "/docs/components/aspect-ratio" },
+  { name: "toggle", title: "Toggle", description: "A two-state interactive button component built on Kobalte primitives", href: "/docs/components/toggle" },
 ];
 
 /* --- Global Sidebar Navigation Config --- */
@@ -345,6 +346,7 @@ export const COMPONENT_SECTIONS: NavSection[] = [
       { title: "Select", href: "/docs/components/select" },
       { title: "Switch", href: "/docs/components/switch" },
       { title: "Textarea", href: "/docs/components/textarea" },
+      { title: "Toggle", href: "/docs/components/toggle", addedAt: "2026-08-08" },
     ],
   },
   {
