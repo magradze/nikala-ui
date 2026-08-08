@@ -74,11 +74,13 @@ export const COMPONENT_METADATA: Record<string, ComponentMeta> = {
     title: "Select",
     description: "Displays a list of options for the user to pick from, built on Kobalte primitives.",
     dependencies: ["clsx", "tailwind-merge", "@kobalte/core"],
+    registryDependencies: ["scroll-area"],
   },
   combobox: {
     title: "Combobox",
     description: "Searchable autocomplete dropdown with single/multi-selection tags, avatars, group headers, and customizable clear controls.",
     dependencies: ["clsx", "tailwind-merge", "@kobalte/core"],
+    registryDependencies: ["scroll-area"],
   },
   tabs: {
     title: "Tabs",
@@ -104,16 +106,19 @@ export const COMPONENT_METADATA: Record<string, ComponentMeta> = {
     title: "Dialog",
     description: "A modal window overlaying the main content, built on Kobalte primitives with blur and outside-click options.",
     dependencies: ["clsx", "tailwind-merge", "@kobalte/core"],
+    registryDependencies: ["scroll-area"],
   },
   sheet: {
     title: "Sheet / Drawer",
     description: "Extends the dialog component to display content that slides in from screen edges.",
     dependencies: ["clsx", "tailwind-merge", "class-variance-authority", "@kobalte/core"],
+    registryDependencies: ["scroll-area"],
   },
   "dropdown-menu": {
     title: "Dropdown Menu",
     description: "Displays a menu to the user—such as a set of actions or functions—triggered by a button or avatar.",
     dependencies: ["clsx", "tailwind-merge", "@kobalte/core"],
+    registryDependencies: ["scroll-area"],
   },
   "theme-manager": {
     title: "Theme Manager",
@@ -152,7 +157,7 @@ export const COMPONENT_METADATA: Record<string, ComponentMeta> = {
       "lucide-solid",
       "@kobalte/core",
     ],
-    registryDependencies: ["kbd", "input-group", "list"],
+    registryDependencies: ["kbd", "input-group", "list", "scroll-area"],
   },
   toast: {
     title: "Toast / Sonner",
@@ -204,7 +209,7 @@ export const COMPONENT_METADATA: Record<string, ComponentMeta> = {
     title: "Context Menu",
     description: "Displays a contextual popup menu triggered by right-clicking target areas, built on Kobalte primitives.",
     dependencies: ["clsx", "tailwind-merge", "@kobalte/core"],
-    registryDependencies: ["separator", "kbd", "create-click-outside"],
+    registryDependencies: ["separator", "kbd", "create-click-outside", "scroll-area"],
   },
   resizable: {
     title: "Resizable",

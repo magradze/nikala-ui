@@ -125,6 +125,9 @@
       "clsx",
       "tailwind-merge",
       "@kobalte/core"
+    ],
+    "registryDependencies": [
+      "scroll-area"
     ]
   },
   {
@@ -142,7 +145,8 @@
     "registryDependencies": [
       "kbd",
       "input-group",
-      "list"
+      "list",
+      "scroll-area"
     ]
   },
   {
@@ -158,7 +162,8 @@
     "registryDependencies": [
       "separator",
       "kbd",
-      "create-click-outside"
+      "create-click-outside",
+      "scroll-area"
     ]
   },
   {
@@ -170,6 +175,9 @@
       "clsx",
       "tailwind-merge",
       "@kobalte/core"
+    ],
+    "registryDependencies": [
+      "scroll-area"
     ]
   },
   {
@@ -181,6 +189,9 @@
       "clsx",
       "tailwind-merge",
       "@kobalte/core"
+    ],
+    "registryDependencies": [
+      "scroll-area"
     ]
   },
   {
@@ -361,6 +372,9 @@
       "clsx",
       "tailwind-merge",
       "@kobalte/core"
+    ],
+    "registryDependencies": [
+      "scroll-area"
     ]
   },
   {
@@ -383,6 +397,9 @@
       "tailwind-merge",
       "class-variance-authority",
       "@kobalte/core"
+    ],
+    "registryDependencies": [
+      "scroll-area"
     ]
   },
   {

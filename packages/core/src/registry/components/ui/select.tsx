@@ -1,23 +1,20 @@
-import { splitProps, type JSX, type ValidComponent } from "solid-js";
+import { splitProps, type Component, type JSX, type ValidComponent } from "solid-js";
 import * as SelectPrimitive from "@kobalte/core/select";
 import type { PolymorphicProps } from "@kobalte/core/polymorphic";
 import { createClickOutside } from "@nikala-ui/hooks";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import { cn } from "@/lib/cn";
 
 export type SelectRootProps<Option = any, OptGroup = any, T extends ValidComponent = "div"> =
-  SelectPrimitive.SelectRootProps<Option, OptGroup, T> & {
-    class?: string;
-  };
+  SelectPrimitive.SelectRootProps<Option, OptGroup, T>;
 
 /**
- * Root Select component built on top of Kobalte headless primitives.
+ * Root Select component wrapper built on Kobalte primitives.
  */
 export const Select = <Option = any, OptGroup = any, T extends ValidComponent = "div">(
-  props: PolymorphicProps<T, SelectRootProps<Option, OptGroup, T>>
+  props: SelectRootProps<Option, OptGroup, T>
 ) => {
-  const [local, rest] = splitProps(props as SelectRootProps, ["class"]);
-
-  return <SelectPrimitive.Root class={cn("relative w-full", local.class)} {...(rest as any)} />;
+  return <SelectPrimitive.Root {...props} />;
 };
 
 export type SelectTriggerProps<T extends ValidComponent = "button"> =
@@ -109,12 +106,14 @@ export const SelectContent = <T extends ValidComponent = "div">(
           if (typeof (props as any).ref === "function") (props as any).ref(el);
         }}
         class={cn(
-          "relative z-50 min-w-8rem overflow-hidden rounded-md border border-border bg-popover text-popover-foreground shadow-md animate-in fade-in-80",
+          "relative z-50 min-w-8rem overflow-hidden rounded-md border border-border bg-popover text-popover-foreground shadow-md animate-in fade-in-80 max-h-60",
           local.class
         )}
         {...rest}
       >
-        <SelectPrimitive.Listbox class="p-1 outline-none" />
+        <ScrollArea class="max-h-60">
+          <SelectPrimitive.Listbox class="p-1 outline-none" />
+        </ScrollArea>
       </SelectPrimitive.Content>
     </SelectPrimitive.Portal>
   );
@@ -137,16 +136,23 @@ export const SelectItem = <T extends ValidComponent = "li">(
   return (
     <SelectPrimitive.Item
       class={cn(
-        "relative flex w-full cursor-pointer select-none items-center rounded-sm py-1.5 pl-8 pr-2 text-sm outline-none data-[disabled]:pointer-events-none data-[highlighted]:bg-accent data-[highlighted]:text-accent-foreground",
+        "relative flex w-full cursor-pointer select-none items-center rounded-sm py-1.5 pl-8 pr-2 text-sm outline-none data-[disabled]:pointer-events-none data-[highlighted]:bg-accent data-[highlighted]:text-accent-foreground data-[disabled]:opacity-50 text-foreground",
         local.class
       )}
       {...rest}
     >
-      <SelectPrimitive.ItemIndicator class="absolute left-2 flex h-3.5 w-3.5 items-center justify-center">
-        <svg class="h-4 w-4 fill-none stroke-current stroke-2" viewBox="0 0 24 24">
+      <span class="absolute left-2 flex h-3.5 w-3.5 items-center justify-center">
+        <SelectPrimitive.ItemIndicator
+          as="svg"
+          class="h-4 w-4"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+        >
           <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
-        </svg>
-      </SelectPrimitive.ItemIndicator>
+        </SelectPrimitive.ItemIndicator>
+      </span>
       <SelectPrimitive.ItemLabel>{local.children}</SelectPrimitive.ItemLabel>
     </SelectPrimitive.Item>
   );

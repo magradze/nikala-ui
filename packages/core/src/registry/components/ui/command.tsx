@@ -16,6 +16,7 @@ import { cn } from "@/lib/cn";
 import { Kbd, KbdGroup } from "../ui/kbd";
 import { InputGroup, InputGroupInput, InputGroupAddon } from "../ui/input-group";
 import { List, ListGroup, ListHeader, ListItem, type ListItemProps } from "../ui/list";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 /* --- Command Context State --- */
 interface CommandContextValue {
@@ -23,8 +24,8 @@ interface CommandContextValue {
   setSearch: (value: string) => void;
   activeIndex: Accessor<number>;
   setActiveIndex: (fn: (prev: number) => number) => void;
-  registerItemIndex: (element: HTMLElement) => number;
-  onItemSelect: (index: number, action?: () => void) => void;
+  registerItemIndex: () => number;
+  onItemSelect: (fn: () => void) => void;
 }
 
 const CommandContext = createContext<CommandContextValue>();
@@ -32,13 +33,13 @@ const CommandContext = createContext<CommandContextValue>();
 export const useCommand = () => {
   const ctx = useContext(CommandContext);
   if (!ctx) {
-    throw new Error("useCommand must be used within a <Command />");
+    throw new Error("useCommand must be used within a <Command /> root component.");
   }
   return ctx;
 };
 
-/* --- Root Command Container --- */
-export interface CommandProps extends Omit<JSX.HTMLAttributes<HTMLDivElement>, "children"> {
+/* --- Command Root --- */
+export interface CommandProps extends JSX.HTMLAttributes<HTMLDivElement> {
   class?: string;
   children?: JSX.Element | ((ctx: CommandContextValue) => JSX.Element);
 }
@@ -47,56 +48,32 @@ export const Command: Component<CommandProps> = (props) => {
   const [local, rest] = splitProps(props, ["class", "children"]);
   const [search, setSearch] = createSignal("");
   const [activeIndex, setActiveIndex] = createSignal(0);
-
+  let itemCounter = 0;
+  const itemCallbacks: Record<number, () => void> = {};
   let containerRef: HTMLDivElement | undefined;
-  let itemsList: HTMLElement[] = [];
 
-  const registerItemIndex = (element: HTMLElement) => {
-    if (!itemsList.includes(element)) {
-      itemsList.push(element);
-    }
-    return itemsList.indexOf(element);
+  const registerItemIndex = () => {
+    const idx = itemCounter;
+    itemCounter += 1;
+    return idx;
   };
 
-  const onItemSelect = (index: number, action?: () => void) => {
-    setActiveIndex(index);
-    if (action) action();
-  };
-
-  const getVisibleItems = () => {
-    if (!containerRef) return [];
-    return Array.from(containerRef.querySelectorAll<HTMLElement>("[data-command-item]:not(.hidden)"));
-  };
-
-  const updateActiveAttribute = (index: number) => {
-    const visible = getVisibleItems();
-    visible.forEach((el, idx) => {
-      if (idx === index) {
-        el.setAttribute("aria-selected", "true");
-        el.scrollIntoView({ block: "nearest" });
-      } else {
-        el.removeAttribute("aria-selected");
-      }
-    });
+  const onItemSelect = (fn: () => void) => {
+    itemCallbacks[activeIndex()] = fn;
   };
 
   const handleKeyDown = (e: KeyboardEvent) => {
-    const visible = getVisibleItems();
-    if (visible.length === 0) return;
-
     if (e.key === "ArrowDown") {
       e.preventDefault();
-      const next = (activeIndex() + 1) % visible.length;
-      setActiveIndex(next);
-      updateActiveAttribute(next);
+      setActiveIndex((prev) => Math.min(prev + 1, Math.max(0, itemCounter - 1)));
     } else if (e.key === "ArrowUp") {
       e.preventDefault();
-      const prev = (activeIndex() - 1 + visible.length) % visible.length;
-      setActiveIndex(prev);
-      updateActiveAttribute(prev);
+      setActiveIndex((prev) => Math.max(prev - 1, 0));
     } else if (e.key === "Enter") {
       e.preventDefault();
-      const current = visible[activeIndex()];
+      const fn = itemCallbacks[activeIndex()];
+      if (fn) fn();
+      const current = containerRef?.querySelector('[data-command-active="true"]') as HTMLElement;
       if (current) {
         current.click();
       }
@@ -138,55 +115,52 @@ export interface CommandDialogProps {
   open?: boolean;
   onOpenChange?: (open: boolean) => void;
   enableHotkey?: boolean;
-  children?: JSX.Element | ((ctx: CommandContextValue) => JSX.Element);
+  hotkey?: string;
   class?: string;
+  children?: JSX.Element;
 }
 
 export const CommandDialog: Component<CommandDialogProps> = (props) => {
   const [internalOpen, setInternalOpen] = createSignal(false);
+  const isControlled = () => props.open !== undefined;
+  const isOpen = () => (isControlled() ? (props.open as boolean) : internalOpen());
 
-  const isOpen = () => (props.open !== undefined ? props.open : internalOpen());
-  const setOpen = (val: boolean) => {
-    if (props.open === undefined) setInternalOpen(val);
-    if (typeof props.onOpenChange === "function") props.onOpenChange(val);
+  const handleToggle = (val: boolean) => {
+    if (!isControlled()) {
+      setInternalOpen(val);
+    }
+    props.onOpenChange?.(val);
   };
 
-  /* Listen for global Ctrl+K / Cmd+K hotkeys */
-  createKeybindings(
-    [
-      {
-        key: ["meta+k", "ctrl+k"],
-        handler: () => setOpen(!isOpen()),
-        preventDefault: true,
+  if (props.enableHotkey !== false) {
+    const key = props.hotkey || "mod+k";
+    createKeybindings({
+      [key]: (e) => {
+        e.preventDefault();
+        handleToggle(!isOpen());
       },
-    ],
-    {
-      enabled: () => props.enableHotkey !== false,
-    }
-  );
+    });
+  }
 
   return (
-    <Dialog open={isOpen()} onOpenChange={setOpen}>
+    <Dialog.Root open={isOpen()} onOpenChange={handleToggle}>
       <Dialog.Portal>
-        <Dialog.Overlay class="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs data-expanded:animate-in data-closed:animate-out data-[closed]:fade-out-0 data-[expanded]:fade-in-0" />
-        <div class="fixed inset-0 z-50 flex items-start justify-center pt-16 sm:pt-24 px-4">
-          <Dialog.Content class="w-full max-w-xl rounded-lg border border-border bg-popover text-popover-foreground shadow-2xl outline-none data-expanded:animate-in data-closed:animate-out data-[closed]:fade-out-0 data-[expanded]:fade-in-0 data-closed:zoom-out-95 data-expanded:zoom-in-95">
-            <Command class={props.class}>{props.children}</Command>
-          </Dialog.Content>
-        </div>
+        <Dialog.Overlay class="fixed inset-0 z-50 bg-black/80 backdrop-blur-xs transition-opacity animate-in fade-in-0" />
+        <Dialog.Content class="fixed left-1/2 top-1/2 z-50 w-full max-w-xl -translate-x-1/2 -translate-y-1/2 p-0 shadow-2xl border-0 bg-transparent outline-none">
+          <Command class={props.class}>{props.children}</Command>
+        </Dialog.Content>
       </Dialog.Portal>
-    </Dialog>
+    </Dialog.Root>
   );
 };
 
-/* --- Command Input --- */
-export interface CommandInputProps
-  extends JSX.InputHTMLAttributes<HTMLInputElement> {
+/* --- Command Search Input --- */
+export interface CommandInputProps extends JSX.InputHTMLAttributes<HTMLInputElement> {
   class?: string;
 }
 
 export const CommandInput: Component<CommandInputProps> = (props) => {
-  const [local, rest] = splitProps(props, ["class", "value", "onInput"]);
+  const [local, rest] = splitProps(props, ["class", "onInput"]);
   const { search, setSearch } = useCommand();
 
   return (
@@ -221,149 +195,165 @@ export const CommandList: Component<CommandListProps> = (props) => {
   const [local, rest] = splitProps(props, ["class", "children"]);
 
   return (
-    <div
-      class={cn("max-h-82.5 overflow-y-auto p-1.5 scrollbar-thin", local.class)}
+    <ScrollArea
+      class={cn("max-h-82.5 p-1.5", local.class)}
       {...rest}
     >
       <List>{local.children}</List>
-    </div>
+    </ScrollArea>
   );
 };
 
-/* --- Command Empty Block --- */
+/* --- Command Empty State --- */
 export interface CommandEmptyProps extends JSX.HTMLAttributes<HTMLDivElement> {
   class?: string;
 }
 
 export const CommandEmpty: Component<CommandEmptyProps> = (props) => {
   const [local, rest] = splitProps(props, ["class", "children"]);
-  const { search } = useCommand();
 
   return (
-    <Show when={search().trim().length > 0}>
-      <div
-        class={cn(
-          "py-8 text-center text-sm text-muted-foreground font-medium select-none",
-          local.class
-        )}
-        {...rest}
-      >
-        {local.children || `No results found for "${search()}".`}
-      </div>
-    </Show>
+    <div
+      class={cn("py-6 text-center text-sm text-muted-foreground", local.class)}
+      {...rest}
+    >
+      {local.children || "No results found."}
+    </div>
   );
 };
 
-/* --- Command Group --- */
+/* --- Command Group Container --- */
 export interface CommandGroupProps {
-  heading: string;
-  children?: JSX.Element;
+  heading?: JSX.Element;
   class?: string;
+  children?: JSX.Element;
 }
 
 export const CommandGroup: Component<CommandGroupProps> = (props) => {
+  const [local, rest] = splitProps(props, ["heading", "class", "children"]);
+
   return (
-    <ListGroup class={props.class}>
-      <ListHeader title={props.heading} />
-      {props.children}
+    <ListGroup class={cn("px-1 py-1.5", local.class)} {...rest}>
+      <Show when={local.heading}>
+        <ListHeader class="px-2 py-1 text-xs font-semibold text-muted-foreground tracking-wider uppercase">
+          {local.heading}
+        </ListHeader>
+      </Show>
+      {local.children}
     </ListGroup>
   );
 };
 
-/* --- Command Item --- */
+/* --- Command Selectable Item --- */
 export interface CommandItemProps extends ListItemProps {
+  value?: string;
   keywords?: string[];
+  disabled?: boolean;
   onSelect?: () => void;
+  class?: string;
 }
 
 export const CommandItem: Component<CommandItemProps> = (props) => {
-  let itemRef: HTMLDivElement | undefined;
   const [local, rest] = splitProps(props, [
-    "title",
-    "subtitle",
+    "value",
     "keywords",
+    "disabled",
     "onSelect",
-    "onClick",
     "class",
+    "children",
   ]);
-  const { search, activeIndex } = useCommand();
 
-  /* Auto fuzzy-filter item based on search query */
-  const matchesSearch = () => {
-    const query = search().toLowerCase().trim();
+  const ctx = useCommand();
+  const index = ctx.registerItemIndex();
+
+  const isActive = () => ctx.activeIndex() === index;
+
+  const isVisible = () => {
+    const query = ctx.search().toLowerCase().trim();
     if (!query) return true;
 
-    const titleMatch = local.title?.toLowerCase().includes(query);
-    const subtitleMatch = local.subtitle?.toLowerCase().includes(query);
-    const keywordMatch = local.keywords?.some((k) =>
-      k.toLowerCase().includes(query)
-    );
+    const valStr = (local.value || "").toLowerCase();
+    if (valStr.includes(query)) return true;
 
-    return Boolean(titleMatch || subtitleMatch || keywordMatch);
+    if (local.keywords) {
+      return local.keywords.some((k) => k.toLowerCase().includes(query));
+    }
+
+    return false;
   };
 
-  const handleClick = (e: MouseEvent) => {
-    if (typeof local.onSelect === "function") {
-      local.onSelect();
-    }
-    if (typeof local.onClick === "function") {
-      local.onClick(e as any);
-    }
+  const handleSelect = () => {
+    if (local.disabled) return;
+    if (local.onSelect) local.onSelect();
   };
 
   return (
-    <Show when={matchesSearch()}>
+    <Show when={isVisible()}>
       <ListItem
-        ref={itemRef}
-        data-command-item="true"
-        title={local.title}
-        subtitle={local.subtitle}
-        onClick={handleClick}
+        data-command-active={isActive() ? "true" : "false"}
         class={cn(
-          "aria-selected:bg-accent aria-selected:text-accent-foreground cursor-pointer transition-colors hover:bg-accent hover:text-accent-foreground",
+          "relative flex cursor-pointer select-none items-center rounded-md px-2 py-1.5 text-sm outline-none transition-colors",
+          isActive()
+            ? "bg-accent text-accent-foreground font-medium"
+            : "text-popover-foreground hover:bg-muted/50",
+          local.disabled && "pointer-events-none opacity-50",
           local.class
         )}
+        onClick={handleSelect}
+        onMouseEnter={() => ctx.setActiveIndex(() => index)}
         {...rest}
-      />
+      >
+        {local.children}
+      </ListItem>
     </Show>
   );
 };
 
-/* --- Command Footer --- */
+/* --- Command Footer Indicator Bar --- */
 export interface CommandFooterProps extends JSX.HTMLAttributes<HTMLDivElement> {
   class?: string;
 }
 
 export const CommandFooter: Component<CommandFooterProps> = (props) => {
-  const [local, rest] = splitProps(props, ["class"]);
+  const [local, rest] = splitProps(props, ["class", "children"]);
 
   return (
     <div
       class={cn(
-        "flex items-center justify-between border-t border-border bg-muted/30 px-3 py-2 text-xs text-muted-foreground select-none",
+        "flex items-center justify-between border-t border-border px-3 py-2 text-xs text-muted-foreground bg-muted/40",
         local.class
       )}
       {...rest}
     >
-      <div class="flex items-center gap-3">
-        <span class="flex items-center gap-1">
-          <KbdGroup>
-            <Kbd size="sm"><ArrowUp class="w-2.5 h-2.5" /></Kbd>
-            <Kbd size="sm"><ArrowDown class="w-2.5 h-2.5" /></Kbd>
-          </KbdGroup>
-          <span>Navigate</span>
-        </span>
+      {local.children || (
+        <>
+          <div class="flex items-center gap-2">
+            <span class="inline-flex items-center gap-1">
+              <KbdGroup>
+                <Kbd size="sm">
+                  <ArrowUp class="w-2.5 h-2.5" />
+                </Kbd>
+                <Kbd size="sm">
+                  <ArrowDown class="w-2.5 h-2.5" />
+                </Kbd>
+              </KbdGroup>
+              <span>Navigate</span>
+            </span>
 
-        <span class="flex items-center gap-1">
-          <Kbd size="sm"><CornerDownLeft class="w-2.5 h-2.5" /></Kbd>
-          <span>Select</span>
-        </span>
-      </div>
+            <span class="inline-flex items-center gap-1">
+              <Kbd size="sm">
+                <CornerDownLeft class="w-2.5 h-2.5" />
+              </Kbd>
+              <span>Select</span>
+            </span>
+          </div>
 
-      <span class="flex items-center gap-1">
-        <Kbd size="sm">Esc</Kbd>
-        <span>Close</span>
-      </span>
+          <span class="inline-flex items-center gap-1">
+            <Kbd size="sm">ESC</Kbd>
+            <span>Close</span>
+          </span>
+        </>
+      )}
     </div>
   );
 };

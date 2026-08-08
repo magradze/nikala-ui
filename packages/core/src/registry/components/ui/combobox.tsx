@@ -1,86 +1,44 @@
 import { splitProps, type JSX, type ValidComponent } from "solid-js";
+import { Check, ChevronDown, X } from "lucide-solid";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import * as ComboboxPrimitive from "@kobalte/core/combobox";
 import { cn } from "@/lib/cn";
 
 export type ComboboxRootProps<Option = any, OptGroup = any, T extends ValidComponent = "div"> =
-  ComboboxPrimitive.ComboboxRootProps<Option, OptGroup, T> & {
-    class?: string;
-    children?: JSX.Element;
-    triggerMode?: "input" | "focus" | "both" | "manual";
-  };
+  ComboboxPrimitive.ComboboxRootProps<Option, OptGroup, T>;
 
 /**
- * Root Combobox component providing search, single/multi-selection, and group support.
- * `triggerMode="focus"` or `triggerMode="both"` enables opening dropdown on input click/focus.
+ * Root Combobox primitive component wrapper.
  */
 export const Combobox = <Option = any, OptGroup = any, T extends ValidComponent = "div">(
   props: ComboboxRootProps<Option, OptGroup, T>
 ) => {
-  const [local, rest] = splitProps(props as ComboboxRootProps, ["class", "children", "triggerMode"]);
-
-  return (
-    <ComboboxPrimitive.Root
-      triggerMode={local.triggerMode ?? "input"}
-      class={cn("relative w-full", local.class)}
-      {...(rest as any)}
-    >
-      {local.children}
-    </ComboboxPrimitive.Root>
-  );
+  return <ComboboxPrimitive.Root {...props} />;
 };
 
 export type ComboboxControlProps<Option = any, T extends ValidComponent = "div"> =
   ComboboxPrimitive.ComboboxControlProps<Option, T> & {
     class?: string;
     children?: JSX.Element;
-    clearable?: boolean;
-    onClear?: () => void;
   };
 
 /**
- * Input container for Combobox supporting search input, selected tags, and clear button.
+ * Input container box supporting single or multi-select tokens.
  */
 export const ComboboxControl = <Option = any, T extends ValidComponent = "div">(
   props: ComboboxControlProps<Option, T>
 ) => {
-  const [local, rest] = splitProps(props as ComboboxControlProps, [
-    "class",
-    "children",
-    "clearable",
-    "onClear",
-  ]);
+  const [local, rest] = splitProps(props as ComboboxControlProps, ["class", "children"]);
 
   return (
     <ComboboxPrimitive.Control
       class={cn(
-        "flex min-h-9 w-full flex-wrap items-center justify-between rounded-md border border-input bg-muted px-3 py-1 text-sm shadow-sm transition-colors focus-within:ring-1 focus-within:ring-primary focus-within:border-primary disabled:cursor-not-allowed disabled:opacity-50 gap-1.5 text-foreground",
+        "flex min-h-9 w-full flex-wrap items-center gap-1.5 rounded-md border border-input bg-muted px-3 py-1.5 text-sm shadow-2xs ring-offset-background focus-within:ring-1 focus-within:ring-primary focus-within:border-primary disabled:cursor-not-allowed disabled:opacity-50 text-foreground cursor-text transition-colors",
         local.class
       )}
       {...(rest as any)}
     >
-      <div class="flex flex-wrap items-center gap-1.5 flex-1 min-w-0">
-        {local.children}
-      </div>
-
-      <div class="flex items-center gap-1 shrink-0 self-center">
-        {local.clearable && (
-          <button
-            type="button"
-            tabIndex={-1}
-            onClick={(e) => {
-              e.stopPropagation();
-              if (local.onClear) local.onClear();
-            }}
-            class="rounded-sm p-0.5 opacity-60 hover:opacity-100 hover:bg-accent text-foreground transition-opacity focus:outline-none cursor-pointer"
-            aria-label="Clear selection"
-          >
-            <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-            </svg>
-          </button>
-        )}
-        <ComboboxTrigger />
-      </div>
+      {local.children}
     </ComboboxPrimitive.Control>
   );
 };
@@ -92,8 +50,7 @@ export type ComboboxInputProps<T extends ValidComponent = "input"> =
   };
 
 /**
- * Search input field embedded within ComboboxControl.
- * Supports `openOnFocus` to automatically trigger the dropdown when focused or clicked.
+ * Filter search input field.
  */
 export const ComboboxInput = <T extends ValidComponent = "input">(
   props: ComboboxInputProps<T>
@@ -178,12 +135,10 @@ export const ComboboxToken = <Option = any>(props: ComboboxTokenProps<Option>) =
           e.stopPropagation();
           if (local.onRemove) local.onRemove();
         }}
-        class="rounded-xs p-0.5 hover:bg-muted-foreground/20 text-muted-foreground hover:text-foreground transition-colors focus:outline-none cursor-pointer"
-        aria-label="Remove tag"
+        class="rounded-xs opacity-70 hover:opacity-100 focus:outline-none cursor-pointer text-muted-foreground hover:text-foreground"
       >
-        <svg class="h-3 w-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-        </svg>
+        <X class="h-3 w-3" />
+        <span class="sr-only">Remove</span>
       </button>
     </span>
   );
@@ -206,12 +161,14 @@ export const ComboboxContent = <T extends ValidComponent = "div">(
     <ComboboxPrimitive.Portal>
       <ComboboxPrimitive.Content
         class={cn(
-          "relative z-50 min-w-8rem overflow-hidden rounded-md border border-border bg-popover text-popover-foreground shadow-md animate-in fade-in-80 data-[expanded]:animate-in data-[closed]:animate-out data-[closed]:fade-out-0 data-[closed]:fade-out-0 data-[expanded]:fade-in-0 data-[closed]:zoom-out-95 data-[expanded]:zoom-in-95",
+          "relative z-50 min-w-8rem overflow-hidden rounded-md border border-border bg-popover text-popover-foreground shadow-md animate-in fade-in-80 data-expanded:animate-in data-closed:animate-out data-[closed]:fade-out-0 data-[expanded]:fade-in-0 data-closed:zoom-out-95 data-expanded:zoom-in-95 max-h-60",
           local.class
         )}
         {...(rest as any)}
       >
-        <ComboboxPrimitive.Listbox class="max-h-60 overflow-y-auto p-1 outline-none" />
+        <ScrollArea class="max-h-60">
+          <ComboboxPrimitive.Listbox class="p-1 outline-none" />
+        </ScrollArea>
       </ComboboxPrimitive.Content>
     </ComboboxPrimitive.Portal>
   );
@@ -234,62 +191,44 @@ export const ComboboxItem = <T extends ValidComponent = "li">(
   return (
     <ComboboxPrimitive.Item
       class={cn(
-        "relative flex w-full cursor-pointer select-none items-center rounded-sm py-1.5 pl-8 pr-2 text-sm outline-none data-disabled:pointer-events-none data-disabled:opacity-50 data-highlighted:bg-accent data-highlighted:text-accent-foreground text-popover-foreground transition-colors",
+        "relative flex w-full cursor-pointer select-none items-center justify-between rounded-sm px-2 py-1.5 text-sm outline-none data-[disabled]:pointer-events-none data-[highlighted]:bg-accent data-[highlighted]:text-accent-foreground data-[disabled]:opacity-50 text-foreground transition-colors",
         local.class
       )}
-      {...rest}
+      {...(rest as any)}
     >
-      <ComboboxPrimitive.ItemIndicator class="absolute left-2 flex h-4 w-4 items-center justify-center text-primary">
-        <svg class="h-4 w-4 fill-none stroke-current stroke-2" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
-        </svg>
-      </ComboboxPrimitive.ItemIndicator>
-      <ComboboxPrimitive.ItemLabel class="flex items-center gap-2 w-full truncate">
+      <ComboboxPrimitive.ItemLabel class="flex-1 truncate">
         {local.children}
       </ComboboxPrimitive.ItemLabel>
+      <ComboboxPrimitive.ItemIndicator class="ml-2 flex h-4 w-4 items-center justify-center text-primary">
+        <Check class="h-4 w-4 stroke-2" />
+      </ComboboxPrimitive.ItemIndicator>
     </ComboboxPrimitive.Item>
   );
 };
 
 export type ComboboxGroupProps<T extends ValidComponent = "li"> =
-  ComboboxPrimitive.ComboboxSectionProps<T> & {
+  ComboboxPrimitive.ComboboxGroupProps<T> & {
     class?: string;
-    children?: JSX.Element;
     label?: JSX.Element;
+    children?: JSX.Element;
   };
 
 /**
- * Group container for organizing related options.
+ * Grouped category container with a group title header.
  */
 export const ComboboxGroup = <T extends ValidComponent = "li">(
   props: ComboboxGroupProps<T>
 ) => {
-  const [local, rest] = splitProps(props as ComboboxGroupProps, ["class", "children", "label"]);
+  const [local, rest] = splitProps(props as ComboboxGroupProps, ["class", "label", "children"]);
 
   return (
-    <ComboboxPrimitive.Section class={cn("px-1 py-1", local.class)} {...(rest as any)}>
+    <ComboboxPrimitive.Group class={cn("overflow-hidden p-1 text-foreground", local.class)} {...(rest as any)}>
       {local.label && (
-        <span class="px-2 py-1.5 text-xs font-semibold text-muted-foreground uppercase tracking-wider block">
+        <ComboboxPrimitive.GroupLabel class="px-2 py-1.5 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
           {local.label}
-        </span>
+        </ComboboxPrimitive.GroupLabel>
       )}
       {local.children}
-    </ComboboxPrimitive.Section>
+    </ComboboxPrimitive.Group>
   );
 };
-
-/**
- * Empty state notice when no matching search items exist.
- */
-export const ComboboxEmpty = (props: { class?: string; children?: JSX.Element }) => {
-  return (
-    <div class={cn("py-6 text-center text-sm text-muted-foreground", props.class)}>
-      {props.children || "No matching items found."}
-    </div>
-  );
-};
-
-/**
- * Hidden native select element for form integrations.
- */
-export const ComboboxHiddenSelect = ComboboxPrimitive.HiddenSelect;
