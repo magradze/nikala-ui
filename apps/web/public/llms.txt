@@ -108,7 +108,7 @@ When generating or editing SolidJS code using Nikala UI components and hooks, AI
 
 ---
 
-## 4. UI Components Registry (36 Components)
+## 4. UI Components Registry (37 Components)
 
 Below is the complete inventory of available Nikala UI components with exported JSX elements:
 
@@ -147,7 +147,8 @@ Below is the complete inventory of available Nikala UI components with exported 
 33. **Textarea**: `Textarea`
 34. **Theme Manager**: `ThemeProvider`, `ThemeScript`, `ThemeToggle`, `useTheme`
 35. **Toast**: `Toast`, `ToastTitle`, `ToastDescription`, `ToastCloseButton`, `ToastRegion`, `ToastList`, `showToast`
-36. **Tooltip**: `Tooltip`, `TooltipTrigger`, `TooltipContent`, `TooltipArrow`
+36. **Toggle**: `Toggle`, `ToggleGroup`
+37. **Tooltip**: `Tooltip`, `TooltipTrigger`, `TooltipContent`, `TooltipArrow`
 
 ---
 
