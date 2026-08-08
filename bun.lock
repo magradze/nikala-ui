@@ -16,6 +16,7 @@
         "@modelcontextprotocol/sdk": "^1.2.0",
         "@nikala-ui/cli": "workspace:*",
         "@nikala-ui/core": "workspace:*",
+        "@nikala-ui/hooks": "workspace:*",
         "@nikala-ui/mcp": "workspace:*",
         "@solidjs/meta": "^0.29.4",
         "@solidjs/router": "^0.16.2",
@@ -42,7 +43,7 @@
     },
     "packages/cli": {
       "name": "@nikala-ui/cli",
-      "version": "0.9.3",
+      "version": "0.9.11",
       "bin": {
         "nikala": "./dist/index.js",
       },
@@ -63,7 +64,7 @@
     },
     "packages/core": {
       "name": "@nikala-ui/core",
-      "version": "0.9.3",
+      "version": "0.9.11",
       "dependencies": {
         "@nikala-ui/hooks": "workspace:*",
         "lucide-solid": "^1.28.0",
@@ -82,7 +83,7 @@
     },
     "packages/hooks": {
       "name": "@nikala-ui/hooks",
-      "version": "0.9.3",
+      "version": "0.9.11",
       "devDependencies": {
         "@types/node": "^26.1.1",
         "typescript": "^5.7.2",
@@ -93,7 +94,7 @@
     },
     "packages/mcp": {
       "name": "@nikala-ui/mcp",
-      "version": "0.9.3",
+      "version": "0.9.11",
       "bin": {
         "nikala-mcp": "./dist/index.js",
       },

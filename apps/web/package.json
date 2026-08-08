@@ -12,6 +12,7 @@
     "@modelcontextprotocol/sdk": "^1.2.0",
     "@nikala-ui/cli": "workspace:*",
     "@nikala-ui/core": "workspace:*",
+    "@nikala-ui/hooks": "workspace:*",
     "@nikala-ui/mcp": "workspace:*",
     "@solidjs/meta": "^0.29.4",
     "@solidjs/router": "^0.16.2",
