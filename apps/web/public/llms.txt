@@ -108,7 +108,7 @@ When generating or editing SolidJS code using Nikala UI components and hooks, AI
 
 ---
 
-## 4. UI Components Registry (38 Components)
+## 4. UI Components Registry (39 Components)
 
 Below is the complete inventory of available Nikala UI components with exported JSX elements:
 
@@ -125,31 +125,32 @@ Below is the complete inventory of available Nikala UI components with exported 
 11. **Collapsible**: `Collapsible`, `CollapsibleTrigger`, `CollapsibleContent`
 12. **Combobox**: `Combobox`, `ComboboxControl`, `ComboboxInput`, `ComboboxTrigger`, `ComboboxContent`, `ComboboxItem`, `ComboboxGroup`
 13. **Command**: `Command`, `CommandDialog`, `CommandInput`, `CommandList`, `CommandEmpty`, `CommandGroup`, `CommandItem`, `CommandFooter`
-14. **Dialog**: `Dialog`, `DialogTrigger`, `DialogOverlay`, `DialogContent`, `DialogHeader`, `DialogFooter`, `DialogTitle`, `DialogDescription`, `DialogClose`
-15. **Dropdown Menu**: `DropdownMenu`, `DropdownMenuTrigger`, `DropdownMenuContent`, `DropdownMenuItem`, `DropdownMenuLabel`, `DropdownMenuSeparator`, `DropdownMenuShortcut`, `DropdownMenuSub`, `DropdownMenuSubTrigger`, `DropdownMenuSubContent`, `DropdownMenuCheckboxItem`, `DropdownMenuRadioGroup`, `DropdownMenuRadioItem`
-16. **Hover Card**: `HoverCard`, `HoverCardTrigger`, `HoverCardContent`, `HoverCardArrow`
-17. **Input**: `Input`
-18. **Input Group**: `InputGroup`, `InputGroupInput`, `InputGroupAddon`
-19. **Kbd**: `Kbd`, `KbdGroup`
-20. **Label**: `Label`
-21. **List**: `List`, `ListGroup`, `ListHeader`, `ListItem`
-22. **Number Input**: `NumberInput`
-23. **Pin Input**: `PinInput`, `PinInputInput`, `PinInputLabel`
-24. **Popover**: `Popover`, `PopoverTrigger`, `PopoverContent`
-25. **Progress**: `Progress`, `ProgressIndicator`
-26. **Radio Group**: `RadioGroup`, `RadioGroupItem`, `RadioGroupItemLabel`
-27. **Select**: `Select`, `SelectTrigger`, `SelectValue`, `SelectContent`, `SelectItem`
-28. **Separator**: `Separator`
-29. **Sheet / Drawer**: `Sheet`, `SheetTrigger`, `SheetOverlay`, `SheetContent`, `SheetHeader`, `SheetFooter`, `SheetTitle`, `SheetDescription`, `SheetClose`
-30. **Skeleton**: `Skeleton`
-31. **Slider**: `Slider`, `SliderTrack`, `SliderFill`, `SliderThumb`, `SliderLabel`, `SliderValueLabel`
-32. **Switch**: `Switch`
-33. **Tabs**: `Tabs`, `TabsList`, `TabsTrigger`, `TabsContent`
-34. **Textarea**: `Textarea`
-35. **Theme Manager**: `ThemeProvider`, `ThemeScript`, `ThemeToggle`, `useTheme`
-36. **Toast**: `Toast`, `ToastTitle`, `ToastDescription`, `ToastCloseButton`, `ToastRegion`, `ToastList`, `showToast`
-37. **Toggle**: `Toggle`, `ToggleGroup`
-38. **Tooltip**: `Tooltip`, `TooltipTrigger`, `TooltipContent`, `TooltipArrow`
+14. **Context Menu**: `ContextMenu`, `ContextMenuTrigger`, `ContextMenuContent`, `ContextMenuItem`, `ContextMenuCheckboxItem`, `ContextMenuRadioGroup`, `ContextMenuRadioItem`, `ContextMenuLabel`, `ContextMenuSeparator`, `ContextMenuShortcut`, `ContextMenuSub`, `ContextMenuSubTrigger`, `ContextMenuSubContent`
+15. **Dialog**: `Dialog`, `DialogTrigger`, `DialogOverlay`, `DialogContent`, `DialogHeader`, `DialogFooter`, `DialogTitle`, `DialogDescription`, `DialogClose`
+16. **Dropdown Menu**: `DropdownMenu`, `DropdownMenuTrigger`, `DropdownMenuContent`, `DropdownMenuItem`, `DropdownMenuLabel`, `DropdownMenuSeparator`, `DropdownMenuShortcut`, `DropdownMenuSub`, `DropdownMenuSubTrigger`, `DropdownMenuSubContent`, `DropdownMenuCheckboxItem`, `DropdownMenuRadioGroup`, `DropdownMenuRadioItem`
+17. **Hover Card**: `HoverCard`, `HoverCardTrigger`, `HoverCardContent`, `HoverCardArrow`
+18. **Input**: `Input`
+19. **Input Group**: `InputGroup`, `InputGroupInput`, `InputGroupAddon`
+20. **Kbd**: `Kbd`, `KbdGroup`
+21. **Label**: `Label`
+22. **List**: `List`, `ListGroup`, `ListHeader`, `ListItem`
+23. **Number Input**: `NumberInput`
+24. **Pin Input**: `PinInput`, `PinInputInput`, `PinInputLabel`
+25. **Popover**: `Popover`, `PopoverTrigger`, `PopoverContent`
+26. **Progress**: `Progress`, `ProgressIndicator`
+27. **Radio Group**: `RadioGroup`, `RadioGroupItem`, `RadioGroupItemLabel`
+28. **Select**: `Select`, `SelectTrigger`, `SelectValue`, `SelectContent`, `SelectItem`
+29. **Separator**: `Separator`
+30. **Sheet / Drawer**: `Sheet`, `SheetTrigger`, `SheetOverlay`, `SheetContent`, `SheetHeader`, `SheetFooter`, `SheetTitle`, `SheetDescription`, `SheetClose`
+31. **Skeleton**: `Skeleton`
+32. **Slider**: `Slider`, `SliderTrack`, `SliderFill`, `SliderThumb`, `SliderLabel`, `SliderValueLabel`
+33. **Switch**: `Switch`
+34. **Tabs**: `Tabs`, `TabsList`, `TabsTrigger`, `TabsContent`
+35. **Textarea**: `Textarea`
+36. **Theme Manager**: `ThemeProvider`, `ThemeScript`, `ThemeToggle`, `useTheme`
+37. **Toast**: `Toast`, `ToastTitle`, `ToastDescription`, `ToastCloseButton`, `ToastRegion`, `ToastList`, `showToast`
+38. **Toggle**: `Toggle`, `ToggleGroup`
+39. **Tooltip**: `Tooltip`, `TooltipTrigger`, `TooltipContent`, `TooltipArrow`
 
 ---
 
