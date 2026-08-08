@@ -75,7 +75,7 @@ replaceInFile(
   `version: "${version}"`
 );
 
-// 5. Update Web Header badge & Mobile Nav
+// 5. Update Web Header badge, Mobile Nav & Hero section
 replaceInFile(
   "apps/web/src/components/partials/header.tsx",
   /v\d+\.\d+\.\d+/g,
@@ -83,6 +83,11 @@ replaceInFile(
 );
 replaceInFile(
   "apps/web/src/components/partials/mobile-nav.tsx",
+  /v\d+\.\d+\.\d+/g,
+  `v${version}`
+);
+replaceInFile(
+  "apps/web/src/components/sections/hero.tsx",
   /v\d+\.\d+\.\d+/g,
   `v${version}`
 );
