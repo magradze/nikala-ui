@@ -320,6 +320,7 @@ export const COMPONENTS_LIST: DocComponentItem[] = [
   { name: "toggle", title: "Toggle", description: "A two-state interactive button component built on Kobalte primitives", href: "/docs/components/toggle" },
   { name: "number-input", title: "Number Input", description: "A numeric stepper input component supporting min, max, step, and keyboard navigation", href: "/docs/components/number-input" },
   { name: "context-menu", title: "Context Menu", description: "Displays a contextual popup menu triggered by right-clicking or tapping target areas", href: "/docs/components/context-menu" },
+  { name: "resizable", title: "Resizable", description: "Accessible resizable panel layout component supporting drag-to-resize handles", href: "/docs/components/resizable" },
 ];
 
 /* --- Global Sidebar Navigation Config --- */
@@ -361,6 +362,7 @@ export const COMPONENT_SECTIONS: NavSection[] = [
       { title: "Kbd", href: "/docs/components/kbd" },
       { title: "List", href: "/docs/components/list" },
       { title: "Progress", href: "/docs/components/progress" },
+      { title: "Resizable", href: "/docs/components/resizable", addedAt: "2026-08-08" },
       { title: "Skeleton", href: "/docs/components/skeleton" },
     ],
   },
