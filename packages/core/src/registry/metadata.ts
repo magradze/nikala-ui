@@ -206,6 +206,12 @@ export const COMPONENT_METADATA: Record<string, ComponentMeta> = {
     dependencies: ["clsx", "tailwind-merge", "@kobalte/core"],
     registryDependencies: ["separator", "kbd", "create-click-outside"],
   },
+  resizable: {
+    title: "Resizable",
+    description: "Accessible resizable panel layout component supporting drag-to-resize handles.",
+    dependencies: ["clsx", "tailwind-merge", "lucide-solid"],
+    registryDependencies: ["create-resize-observer"],
+  },
   "pin-input": {
     title: "Pin Input",
     description: "Interactive multi-slot PIN/OTP input component for SMS and 2FA authentication verification codes.",
