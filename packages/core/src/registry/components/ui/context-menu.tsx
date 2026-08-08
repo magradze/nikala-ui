@@ -97,13 +97,15 @@ export const ContextMenuContent = <T extends ValidComponent = "div">(
           if (typeof local.ref === "function") local.ref(el);
         }}
         class={cn(
-          "z-50 min-w-[8rem] overflow-hidden rounded-md border border-border bg-popover text-popover-foreground shadow-md transition-all animate-in fade-in-80 slide-in-from-top-1 max-h-72",
+          "z-50 min-w-[8rem] rounded-md border border-border bg-popover text-popover-foreground shadow-md transition-all animate-in fade-in-80 slide-in-from-top-1 max-h-72 flex flex-col",
           local.class
         )}
         {...(rest as any)}
       >
-        <ScrollArea class="max-h-72 p-1">
-          {local.children}
+        <ScrollArea class="max-h-72 w-full rounded-[inherit]">
+          <div class="p-1">
+            {local.children}
+          </div>
         </ScrollArea>
       </ContextMenuPrimitive.Content>
     </ContextMenuPrimitive.Portal>

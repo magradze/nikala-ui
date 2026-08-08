@@ -166,7 +166,7 @@ export const ComboboxContent = <T extends ValidComponent = "div">(
         )}
         {...(rest as any)}
       >
-        <ScrollArea class="max-h-60">
+        <ScrollArea class="max-h-60 w-full">
           <ComboboxPrimitive.Listbox class="p-1 outline-none" />
         </ScrollArea>
       </ComboboxPrimitive.Content>

@@ -115,7 +115,7 @@ export const SelectContent = <T extends ValidComponent = "div">(
         )}
         {...rest}
       >
-        <ScrollArea class="max-h-60">
+        <ScrollArea class="max-h-60 w-full">
           <SelectPrimitive.Listbox class="p-1 outline-none" />
         </ScrollArea>
       </SelectPrimitive.Content>

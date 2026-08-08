@@ -121,10 +121,11 @@ export const ThemeToggle: Component<ThemeToggleProps> = (props) => {
         }
       >
         {/* Max Mode: Full Theme Customizer Panel */}
-        <DropdownMenuContent class="w-64 p-3">
-          <DropdownMenuLabel class="px-0 pt-0 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-            Theme Mode
-          </DropdownMenuLabel>
+        <DropdownMenuContent class="w-64">
+          <div class="p-2 space-y-2">
+            <DropdownMenuLabel class="px-0 pt-0 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+              Theme Mode
+            </DropdownMenuLabel>
           <div class="grid grid-cols-3 gap-1 my-1.5">
             <Button
               variant={theme() === "light" ? "default" : "outline"}
@@ -192,6 +193,7 @@ export const ThemeToggle: Component<ThemeToggleProps> = (props) => {
                 </Button>
               )}
             </For>
+          </div>
           </div>
         </DropdownMenuContent>
       </Show>

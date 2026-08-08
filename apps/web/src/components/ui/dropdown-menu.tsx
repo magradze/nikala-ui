@@ -113,14 +113,17 @@ export const DropdownMenuContent = <T extends ValidComponent = "div">(
           contentRef = el;
           if (typeof (props as any).ref === "function") (props as any).ref(el);
         }}
+        {...(rest as any)}
+        sideOffset={(rest as any).sideOffset ?? 8}
         class={cn(
-          "z-50 min-w-32 overflow-hidden rounded-md border border-border bg-popover text-popover-foreground shadow-md animate-in fade-in-80 max-h-72",
+          "z-50 min-w-32 overflow-hidden rounded-md border border-border bg-popover text-popover-foreground shadow-md animate-in fade-in-80 max-h-72 flex flex-col mt-1",
           local.class
         )}
-        {...(rest as any)}
       >
-        <ScrollArea class="max-h-72 p-1">
-          {local.children}
+        <ScrollArea class="max-h-72 w-full">
+          <div class="p-1">
+            {local.children}
+          </div>
         </ScrollArea>
       </DropdownMenuPrimitive.Content>
     </DropdownMenuPrimitive.Portal>
