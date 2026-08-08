@@ -196,9 +196,9 @@ export const COMPONENT_METADATA: Record<string, ComponentMeta> = {
   },
   "number-input": {
     title: "Number Input",
-    description: "A numeric stepper input component supporting min, max, step, and keyboard navigation, built on Kobalte primitives.",
+    description: "A numeric stepper input component supporting min, max, step, negative values, and long-press auto-repeat, built on Kobalte primitives.",
     dependencies: ["clsx", "tailwind-merge", "@kobalte/core", "lucide-solid"],
-    registryDependencies: ["input", "button"],
+    registryDependencies: ["input", "button", "create-long-press"],
   },
   "pin-input": {
     title: "Pin Input",

@@ -250,7 +250,7 @@
   {
     "name": "number-input",
     "title": "Number Input",
-    "description": "A numeric stepper input component supporting min, max, step, and keyboard navigation, built on Kobalte primitives.",
+    "description": "A numeric stepper input component supporting min, max, step, negative values, and long-press auto-repeat, built on Kobalte primitives.",
     "type": "registry:ui",
     "dependencies": [
       "clsx",
@@ -260,7 +260,8 @@
     ],
     "registryDependencies": [
       "input",
-      "button"
+      "button",
+      "create-long-press"
     ]
   },
   {

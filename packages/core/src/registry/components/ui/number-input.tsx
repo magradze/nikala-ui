@@ -1,8 +1,9 @@
-import { splitProps, type Component, type JSX, createSignal, onCleanup } from "solid-js";
+import { createSignal, onCleanup, splitProps, type Component, type JSX } from "solid-js";
 import { NumberField as KobalteNumberField } from "@kobalte/core/number-field";
 import { Plus, Minus } from "lucide-solid";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { createLongPress } from "@/hooks/create-long-press";
 import { cn } from "@/lib/cn";
 
 export interface NumberInputProps {
@@ -42,8 +43,7 @@ export const NumberInput: Component<NumberInputProps> = (props) => {
       : 0
   );
 
-  let timeoutId: ReturnType<typeof setTimeout> | null = null;
-  let intervalId: ReturnType<typeof setInterval> | null = null;
+  let autoRepeatInterval: ReturnType<typeof setInterval> | undefined;
 
   const currentVal = () => (local.value !== undefined ? local.value : internalVal());
 
@@ -64,32 +64,45 @@ export const NumberInput: Component<NumberInputProps> = (props) => {
     local.onValueChange?.(clamped);
   };
 
-  const stopLongPress = () => {
-    if (timeoutId !== null) {
-      clearTimeout(timeoutId);
-      timeoutId = null;
-    }
-    if (intervalId !== null) {
-      clearInterval(intervalId);
-      intervalId = null;
+  const stopAutoRepeat = () => {
+    if (autoRepeatInterval) {
+      clearInterval(autoRepeatInterval);
+      autoRepeatInterval = undefined;
     }
   };
 
-  const startLongPress = (direction: 1 | -1) => {
+  const startAutoRepeat = (direction: 1 | -1) => {
     if (local.disabled || local.readOnly) return;
-    stopLongPress();
-
-    const step = local.step || 1;
-
-    // Start auto-repeat only after holding for 300ms
-    timeoutId = setTimeout(() => {
-      intervalId = setInterval(() => {
-        handleValueChange(currentVal() + direction * step);
-      }, 75);
-    }, 300);
+    stopAutoRepeat();
+    const stepAmount = local.step || 1;
+    autoRepeatInterval = setInterval(() => {
+      handleValueChange(currentVal() + direction * stepAmount);
+    }, 75);
   };
 
-  onCleanup(() => stopLongPress());
+  /* Nikala UI createLongPress hook for Increment Trigger */
+  const incrementLongPress = createLongPress(
+    () => {
+      startAutoRepeat(1);
+    },
+    {
+      threshold: 300,
+      onCancel: stopAutoRepeat,
+    }
+  );
+
+  /* Nikala UI createLongPress hook for Decrement Trigger */
+  const decrementLongPress = createLongPress(
+    () => {
+      startAutoRepeat(-1);
+    },
+    {
+      threshold: 300,
+      onCancel: stopAutoRepeat,
+    }
+  );
+
+  onCleanup(() => stopAutoRepeat());
 
   return (
     <KobalteNumberField
@@ -116,9 +129,7 @@ export const NumberInput: Component<NumberInputProps> = (props) => {
           size="icon"
           class="h-7 w-7 rounded-sm p-0 text-muted-foreground hover:text-foreground select-none"
           aria-label="Decrement value"
-          onPointerDown={() => startLongPress(-1)}
-          onPointerUp={stopLongPress}
-          onPointerLeave={stopLongPress}
+          {...decrementLongPress.props}
         >
           <Minus class="h-3.5 w-3.5" />
         </KobalteNumberField.DecrementTrigger>
@@ -129,9 +140,7 @@ export const NumberInput: Component<NumberInputProps> = (props) => {
           size="icon"
           class="h-7 w-7 rounded-sm p-0 text-muted-foreground hover:text-foreground select-none"
           aria-label="Increment value"
-          onPointerDown={() => startLongPress(1)}
-          onPointerUp={stopLongPress}
-          onPointerLeave={stopLongPress}
+          {...incrementLongPress.props}
         >
           <Plus class="h-3.5 w-3.5" />
         </KobalteNumberField.IncrementTrigger>
