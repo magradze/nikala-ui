@@ -39,7 +39,7 @@ test.describe("1. Landing Page & Main Navigation", () => {
     await expect(heading).toContainText("SolidJS");
 
     const badge = page.locator("section a[href='/docs']").first();
-    await expect(badge).toContainText("Nikala UI v0.5.0 is now live");
+    await expect(badge).toContainText(/Nikala UI v\d+\.\d+\.\d+ is now live/);
   });
 
   test("should copy CLI init command to clipboard", async ({ page }) => {
