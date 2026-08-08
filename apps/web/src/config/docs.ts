@@ -321,6 +321,7 @@ export const COMPONENTS_LIST: DocComponentItem[] = [
   { name: "number-input", title: "Number Input", description: "A numeric stepper input component supporting min, max, step, and keyboard navigation", href: "/docs/components/number-input" },
   { name: "context-menu", title: "Context Menu", description: "Displays a contextual popup menu triggered by right-clicking or tapping target areas", href: "/docs/components/context-menu" },
   { name: "resizable", title: "Resizable", description: "Accessible resizable panel layout component supporting drag-to-resize handles", href: "/docs/components/resizable" },
+  { name: "scroll-area", title: "Scroll Area", description: "Augments native scroll functionality with custom styled scrollbars", href: "/docs/components/scroll-area" },
 ];
 
 /* --- Global Sidebar Navigation Config --- */
@@ -363,6 +364,7 @@ export const COMPONENT_SECTIONS: NavSection[] = [
       { title: "List", href: "/docs/components/list" },
       { title: "Progress", href: "/docs/components/progress" },
       { title: "Resizable", href: "/docs/components/resizable", addedAt: "2026-08-08" },
+      { title: "Scroll Area", href: "/docs/components/scroll-area", addedAt: "2026-08-08" },
       { title: "Skeleton", href: "/docs/components/skeleton" },
     ],
   },
