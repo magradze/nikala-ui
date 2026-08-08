@@ -200,6 +200,12 @@ export const COMPONENT_METADATA: Record<string, ComponentMeta> = {
     dependencies: ["clsx", "tailwind-merge", "@kobalte/core", "lucide-solid"],
     registryDependencies: ["input", "button", "create-long-press"],
   },
+  "context-menu": {
+    title: "Context Menu",
+    description: "Displays a contextual popup menu triggered by right-clicking target areas, built on Kobalte primitives.",
+    dependencies: ["clsx", "tailwind-merge", "@kobalte/core"],
+    registryDependencies: ["separator", "kbd", "create-click-outside"],
+  },
   "pin-input": {
     title: "Pin Input",
     description: "Interactive multi-slot PIN/OTP input component for SMS and 2FA authentication verification codes.",

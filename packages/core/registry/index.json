@@ -146,6 +146,22 @@
     ]
   },
   {
+    "name": "context-menu",
+    "title": "Context Menu",
+    "description": "Displays a contextual popup menu triggered by right-clicking target areas, built on Kobalte primitives.",
+    "type": "registry:ui",
+    "dependencies": [
+      "clsx",
+      "tailwind-merge",
+      "@kobalte/core"
+    ],
+    "registryDependencies": [
+      "separator",
+      "kbd",
+      "create-click-outside"
+    ]
+  },
+  {
     "name": "dialog",
     "title": "Dialog",
     "description": "A modal window overlaying the main content, built on Kobalte primitives with blur and outside-click options.",
