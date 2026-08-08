@@ -108,7 +108,7 @@ When generating or editing SolidJS code using Nikala UI components and hooks, AI
 
 ---
 
-## 4. UI Components Registry (39 Components)
+## 4. UI Components Registry (40 Components)
 
 Below is the complete inventory of available Nikala UI components with exported JSX elements:
 
@@ -139,18 +139,19 @@ Below is the complete inventory of available Nikala UI components with exported 
 25. **Popover**: `Popover`, `PopoverTrigger`, `PopoverContent`
 26. **Progress**: `Progress`, `ProgressIndicator`
 27. **Radio Group**: `RadioGroup`, `RadioGroupItem`, `RadioGroupItemLabel`
-28. **Select**: `Select`, `SelectTrigger`, `SelectValue`, `SelectContent`, `SelectItem`
-29. **Separator**: `Separator`
-30. **Sheet / Drawer**: `Sheet`, `SheetTrigger`, `SheetOverlay`, `SheetContent`, `SheetHeader`, `SheetFooter`, `SheetTitle`, `SheetDescription`, `SheetClose`
-31. **Skeleton**: `Skeleton`
-32. **Slider**: `Slider`, `SliderTrack`, `SliderFill`, `SliderThumb`, `SliderLabel`, `SliderValueLabel`
-33. **Switch**: `Switch`
-34. **Tabs**: `Tabs`, `TabsList`, `TabsTrigger`, `TabsContent`
-35. **Textarea**: `Textarea`
-36. **Theme Manager**: `ThemeProvider`, `ThemeScript`, `ThemeToggle`, `useTheme`
-37. **Toast**: `Toast`, `ToastTitle`, `ToastDescription`, `ToastCloseButton`, `ToastRegion`, `ToastList`, `showToast`
-38. **Toggle**: `Toggle`, `ToggleGroup`
-39. **Tooltip**: `Tooltip`, `TooltipTrigger`, `TooltipContent`, `TooltipArrow`
+28. **Resizable**: `ResizableGroup`, `ResizablePanel`, `ResizableHandle`
+29. **Select**: `Select`, `SelectTrigger`, `SelectValue`, `SelectContent`, `SelectItem`
+30. **Separator**: `Separator`
+31. **Sheet / Drawer**: `Sheet`, `SheetTrigger`, `SheetOverlay`, `SheetContent`, `SheetHeader`, `SheetFooter`, `SheetTitle`, `SheetDescription`, `SheetClose`
+32. **Skeleton**: `Skeleton`
+33. **Slider**: `Slider`, `SliderTrack`, `SliderFill`, `SliderThumb`, `SliderLabel`, `SliderValueLabel`
+34. **Switch**: `Switch`
+35. **Tabs**: `Tabs`, `TabsList`, `TabsTrigger`, `TabsContent`
+36. **Textarea**: `Textarea`
+37. **Theme Manager**: `ThemeProvider`, `ThemeScript`, `ThemeToggle`, `useTheme`
+38. **Toast**: `Toast`, `ToastTitle`, `ToastDescription`, `ToastCloseButton`, `ToastRegion`, `ToastList`, `showToast`
+39. **Toggle**: `Toggle`, `ToggleGroup`
+40. **Tooltip**: `Tooltip`, `TooltipTrigger`, `TooltipContent`, `TooltipArrow`
 
 ---
 
