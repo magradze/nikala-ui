@@ -339,6 +339,20 @@
     ]
   },
   {
+    "name": "scroll-area",
+    "title": "Scroll Area",
+    "description": "Augments native scroll functionality with custom styled scrollbars and reactive scroll tracking.",
+    "type": "registry:ui",
+    "dependencies": [
+      "clsx",
+      "tailwind-merge"
+    ],
+    "registryDependencies": [
+      "create-scroll-position",
+      "create-resize-observer"
+    ]
+  },
+  {
     "name": "select",
     "title": "Select",
     "description": "Displays a list of options for the user to pick from, built on Kobalte primitives.",

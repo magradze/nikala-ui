@@ -212,6 +212,12 @@ export const COMPONENT_METADATA: Record<string, ComponentMeta> = {
     dependencies: ["clsx", "tailwind-merge", "lucide-solid"],
     registryDependencies: ["create-resize-observer"],
   },
+  "scroll-area": {
+    title: "Scroll Area",
+    description: "Augments native scroll functionality with custom styled scrollbars and reactive scroll tracking.",
+    dependencies: ["clsx", "tailwind-merge"],
+    registryDependencies: ["create-scroll-position", "create-resize-observer"],
+  },
   "pin-input": {
     title: "Pin Input",
     description: "Interactive multi-slot PIN/OTP input component for SMS and 2FA authentication verification codes.",
