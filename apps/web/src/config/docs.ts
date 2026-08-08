@@ -319,6 +319,7 @@ export const COMPONENTS_LIST: DocComponentItem[] = [
   { name: "aspect-ratio", title: "Aspect Ratio", description: "Displays content within a specific aspect ratio using CSS aspect-ratio while preventing layout shifts", href: "/docs/components/aspect-ratio" },
   { name: "toggle", title: "Toggle", description: "A two-state interactive button component built on Kobalte primitives", href: "/docs/components/toggle" },
   { name: "number-input", title: "Number Input", description: "A numeric stepper input component supporting min, max, step, and keyboard navigation", href: "/docs/components/number-input" },
+  { name: "context-menu", title: "Context Menu", description: "Displays a contextual popup menu triggered by right-clicking or tapping target areas", href: "/docs/components/context-menu" },
 ];
 
 /* --- Global Sidebar Navigation Config --- */
@@ -375,6 +376,7 @@ export const COMPONENT_SECTIONS: NavSection[] = [
   {
     title: "Overlays & Dialogs",
     items: [
+      { title: "Context Menu", href: "/docs/components/context-menu", addedAt: "2026-08-08" },
       { title: "Dialog", href: "/docs/components/dialog" },
       { title: "Dropdown Menu", href: "/docs/components/dropdown-menu" },
       { title: "Hover Card", href: "/docs/components/hover-card" },
