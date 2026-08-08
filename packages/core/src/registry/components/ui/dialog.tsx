@@ -102,8 +102,10 @@ export const DialogContent = <T extends ValidComponent = "div">(
         )}
         {...(rest as any)}
       >
-        <ScrollArea class="max-h-[80vh] p-6">
-          {local.children}
+        <ScrollArea class="max-h-[80vh] w-full">
+          <div class="p-6 space-y-4">
+            {local.children}
+          </div>
         </ScrollArea>
         <Show when={local.showCloseButton !== false}>
           <DialogPrimitive.CloseButton class="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-expanded:bg-accent data-expanded:text-muted-foreground cursor-pointer z-50">

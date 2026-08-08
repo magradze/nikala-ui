@@ -137,8 +137,10 @@ export const SheetContent = <T extends ValidComponent = "div">(
         class={cn(sheetVariants({ side: side() }), "p-0", local.class)}
         {...(rest as any)}
       >
-        <ScrollArea class="h-full w-full p-6">
-          {local.children}
+        <ScrollArea class="h-full w-full">
+          <div class="p-6 space-y-4">
+            {local.children}
+          </div>
         </ScrollArea>
         <Show when={local.showCloseButton !== false}>
           <DialogPrimitive.CloseButton class="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none cursor-pointer z-50">
