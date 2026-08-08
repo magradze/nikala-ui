@@ -194,6 +194,12 @@ export const COMPONENT_METADATA: Record<string, ComponentMeta> = {
     description: "A two-state interactive button component built on Kobalte primitives.",
     dependencies: ["clsx", "tailwind-merge", "@kobalte/core"],
   },
+  "number-input": {
+    title: "Number Input",
+    description: "A numeric stepper input component supporting min, max, step, and keyboard navigation, built on Kobalte primitives.",
+    dependencies: ["clsx", "tailwind-merge", "@kobalte/core", "lucide-solid"],
+    registryDependencies: ["input", "button"],
+  },
   "pin-input": {
     title: "Pin Input",
     description: "Interactive multi-slot PIN/OTP input component for SMS and 2FA authentication verification codes.",

@@ -248,6 +248,22 @@
     ]
   },
   {
+    "name": "number-input",
+    "title": "Number Input",
+    "description": "A numeric stepper input component supporting min, max, step, and keyboard navigation, built on Kobalte primitives.",
+    "type": "registry:ui",
+    "dependencies": [
+      "clsx",
+      "tailwind-merge",
+      "@kobalte/core",
+      "lucide-solid"
+    ],
+    "registryDependencies": [
+      "input",
+      "button"
+    ]
+  },
+  {
     "name": "pin-input",
     "title": "Pin Input",
     "description": "Interactive multi-slot PIN/OTP input component for SMS and 2FA authentication verification codes.",

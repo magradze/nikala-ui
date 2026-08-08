@@ -1,0 +1,23 @@
+{
+  "name": "number-input",
+  "title": "Number Input",
+  "description": "A numeric stepper input component supporting min, max, step, and keyboard navigation, built on Kobalte primitives.",
+  "type": "registry:ui",
+  "dependencies": [
+    "clsx",
+    "tailwind-merge",
+    "@kobalte/core",
+    "lucide-solid"
+  ],
+  "registryDependencies": [
+    "input",
+    "button"
+  ],
+  "files": [
+    {
+      "path": "ui/number-input.tsx",
+      "content": "import { splitProps, type Component, type JSX, createSignal, onCleanup } from \"solid-js\";\nimport { NumberField as KobalteNumberField } from \"@kobalte/core/number-field\";\nimport { Plus, Minus } from \"lucide-solid\";\nimport { Input } from \"@/components/ui/input\";\nimport { Button } from \"@/components/ui/button\";\nimport { cn } from \"@/lib/cn\";\n\nexport interface NumberInputProps {\n  value?: number;\n  defaultValue?: number;\n  onValueChange?: (value: number) => void;\n  minValue?: number;\n  maxValue?: number;\n  step?: number;\n  allowNegative?: boolean;\n  disabled?: boolean;\n  readOnly?: boolean;\n  class?: string;\n  id?: string;\n}\n\nexport const NumberInput: Component<NumberInputProps> = (props) => {\n  const [local, rest] = splitProps(props, [\n    \"value\",\n    \"defaultValue\",\n    \"onValueChange\",\n    \"minValue\",\n    \"maxValue\",\n    \"step\",\n    \"allowNegative\",\n    \"disabled\",\n    \"readOnly\",\n    \"class\",\n    \"id\",\n  ]);\n\n  const [internalVal, setInternalVal] = createSignal<number>(\n    local.value !== undefined\n      ? local.value\n      : local.defaultValue !== undefined\n      ? local.defaultValue\n      : 0\n  );\n\n  let timeoutId: ReturnType<typeof setTimeout> | null = null;\n  let intervalId: ReturnType<typeof setInterval> | null = null;\n\n  const currentVal = () => (local.value !== undefined ? local.value : internalVal());\n\n  const effectiveMin = () => {\n    if (local.minValue !== undefined) return local.minValue;\n    return local.allowNegative ? -Infinity : 0;\n  };\n\n  const effectiveMax = () => {\n    if (local.maxValue !== undefined) return local.maxValue;\n    return Infinity;\n  };\n\n  const handleValueChange = (val: number) => {\n    if (isNaN(val)) return;\n    const clamped = Math.max(effectiveMin(), Math.min(effectiveMax(), val));\n    setInternalVal(clamped);\n    local.onValueChange?.(clamped);\n  };\n\n  const stopLongPress = () => {\n    if (timeoutId !== null) {\n      clearTimeout(timeoutId);\n      timeoutId = null;\n    }\n    if (intervalId !== null) {\n      clearInterval(intervalId);\n      intervalId = null;\n    }\n  };\n\n  const startLongPress = (direction: 1 | -1) => {\n    if (local.disabled || local.readOnly) return;\n    stopLongPress();\n\n    const step = local.step || 1;\n\n    // Start auto-repeat only after holding for 300ms\n    timeoutId = setTimeout(() => {\n      intervalId = setInterval(() => {\n        handleValueChange(currentVal() + direction * step);\n      }, 75);\n    }, 300);\n  };\n\n  onCleanup(() => stopLongPress());\n\n  return (\n    <KobalteNumberField\n      value={currentVal()}\n      onRawValueChange={handleValueChange}\n      minValue={effectiveMin()}\n      maxValue={effectiveMax()}\n      step={local.step || 1}\n      disabled={local.disabled}\n      readOnly={local.readOnly}\n      id={local.id}\n      class={cn(\"relative flex items-center max-w-[160px]\", local.class)}\n      {...rest}\n    >\n      <KobalteNumberField.Input\n        as={Input}\n        class=\"pr-16 text-center font-mono focus-visible:ring-1\"\n      />\n\n      <div class=\"absolute right-1 flex items-center gap-0.5\">\n        <KobalteNumberField.DecrementTrigger\n          as={Button}\n          variant=\"ghost\"\n          size=\"icon\"\n          class=\"h-7 w-7 rounded-sm p-0 text-muted-foreground hover:text-foreground select-none\"\n          aria-label=\"Decrement value\"\n          onPointerDown={() => startLongPress(-1)}\n          onPointerUp={stopLongPress}\n          onPointerLeave={stopLongPress}\n        >\n          <Minus class=\"h-3.5 w-3.5\" />\n        </KobalteNumberField.DecrementTrigger>\n\n        <KobalteNumberField.IncrementTrigger\n          as={Button}\n          variant=\"ghost\"\n          size=\"icon\"\n          class=\"h-7 w-7 rounded-sm p-0 text-muted-foreground hover:text-foreground select-none\"\n          aria-label=\"Increment value\"\n          onPointerDown={() => startLongPress(1)}\n          onPointerUp={stopLongPress}\n          onPointerLeave={stopLongPress}\n        >\n          <Plus class=\"h-3.5 w-3.5\" />\n        </KobalteNumberField.IncrementTrigger>\n      </div>\n    </KobalteNumberField>\n  );\n};\n",
+      "type": "registry:ui"
+    }
+  ]
+}
