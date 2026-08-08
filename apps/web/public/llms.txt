@@ -108,7 +108,7 @@ When generating or editing SolidJS code using Nikala UI components and hooks, AI
 
 ---
 
-## 4. UI Components Registry (37 Components)
+## 4. UI Components Registry (38 Components)
 
 Below is the complete inventory of available Nikala UI components with exported JSX elements:
 
@@ -133,22 +133,23 @@ Below is the complete inventory of available Nikala UI components with exported 
 19. **Kbd**: `Kbd`, `KbdGroup`
 20. **Label**: `Label`
 21. **List**: `List`, `ListGroup`, `ListHeader`, `ListItem`
-22. **Pin Input**: `PinInput`, `PinInputInput`, `PinInputLabel`
-23. **Popover**: `Popover`, `PopoverTrigger`, `PopoverContent`
-24. **Progress**: `Progress`, `ProgressIndicator`
-25. **Radio Group**: `RadioGroup`, `RadioGroupItem`, `RadioGroupItemLabel`
-26. **Select**: `Select`, `SelectTrigger`, `SelectValue`, `SelectContent`, `SelectItem`
-27. **Separator**: `Separator`
-28. **Sheet / Drawer**: `Sheet`, `SheetTrigger`, `SheetOverlay`, `SheetContent`, `SheetHeader`, `SheetFooter`, `SheetTitle`, `SheetDescription`, `SheetClose`
-29. **Skeleton**: `Skeleton`
-30. **Slider**: `Slider`, `SliderTrack`, `SliderFill`, `SliderThumb`, `SliderLabel`, `SliderValueLabel`
-31. **Switch**: `Switch`
-32. **Tabs**: `Tabs`, `TabsList`, `TabsTrigger`, `TabsContent`
-33. **Textarea**: `Textarea`
-34. **Theme Manager**: `ThemeProvider`, `ThemeScript`, `ThemeToggle`, `useTheme`
-35. **Toast**: `Toast`, `ToastTitle`, `ToastDescription`, `ToastCloseButton`, `ToastRegion`, `ToastList`, `showToast`
-36. **Toggle**: `Toggle`, `ToggleGroup`
-37. **Tooltip**: `Tooltip`, `TooltipTrigger`, `TooltipContent`, `TooltipArrow`
+22. **Number Input**: `NumberInput`
+23. **Pin Input**: `PinInput`, `PinInputInput`, `PinInputLabel`
+24. **Popover**: `Popover`, `PopoverTrigger`, `PopoverContent`
+25. **Progress**: `Progress`, `ProgressIndicator`
+26. **Radio Group**: `RadioGroup`, `RadioGroupItem`, `RadioGroupItemLabel`
+27. **Select**: `Select`, `SelectTrigger`, `SelectValue`, `SelectContent`, `SelectItem`
+28. **Separator**: `Separator`
+29. **Sheet / Drawer**: `Sheet`, `SheetTrigger`, `SheetOverlay`, `SheetContent`, `SheetHeader`, `SheetFooter`, `SheetTitle`, `SheetDescription`, `SheetClose`
+30. **Skeleton**: `Skeleton`
+31. **Slider**: `Slider`, `SliderTrack`, `SliderFill`, `SliderThumb`, `SliderLabel`, `SliderValueLabel`
+32. **Switch**: `Switch`
+33. **Tabs**: `Tabs`, `TabsList`, `TabsTrigger`, `TabsContent`
+34. **Textarea**: `Textarea`
+35. **Theme Manager**: `ThemeProvider`, `ThemeScript`, `ThemeToggle`, `useTheme`
+36. **Toast**: `Toast`, `ToastTitle`, `ToastDescription`, `ToastCloseButton`, `ToastRegion`, `ToastList`, `showToast`
+37. **Toggle**: `Toggle`, `ToggleGroup`
+38. **Tooltip**: `Tooltip`, `TooltipTrigger`, `TooltipContent`, `TooltipArrow`
 
 ---
 
