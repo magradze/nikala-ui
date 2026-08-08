@@ -2,6 +2,7 @@ import { splitProps, type Component, type JSX, type ValidComponent } from "solid
 import * as ContextMenuPrimitive from "@kobalte/core/context-menu";
 import type { PolymorphicProps } from "@kobalte/core/polymorphic";
 import { createClickOutside } from "@nikala-ui/hooks";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 import { Kbd } from "@/components/ui/kbd";
 import { cn } from "@/lib/cn";
@@ -69,15 +70,15 @@ export type ContextMenuContentProps<T extends ValidComponent = "div"> =
   ContextMenuPrimitive.ContextMenuContentProps<T> & {
     class?: string;
     ref?: (el: HTMLElement) => void;
+    children?: JSX.Element;
   };
 
 export const ContextMenuContent = <T extends ValidComponent = "div">(
   props: PolymorphicProps<T, ContextMenuContentProps<T>>
 ) => {
-  const [local, rest] = splitProps(props as ContextMenuContentProps, ["class", "ref"]);
+  const [local, rest] = splitProps(props as ContextMenuContentProps, ["class", "ref", "children"]);
   let menuRef: HTMLElement | undefined;
 
-  // Utilize Nikala UI createClickOutside hook for outside clicks handling
   createClickOutside({
     target: () => menuRef,
     onInteractOutside: () => {
@@ -93,11 +94,15 @@ export const ContextMenuContent = <T extends ValidComponent = "div">(
           if (typeof local.ref === "function") local.ref(el);
         }}
         class={cn(
-          "z-50 min-w-[8rem] overflow-hidden rounded-md border border-border bg-popover p-1 text-popover-foreground shadow-md transition-all animate-in fade-in-80 slide-in-from-top-1",
+          "z-50 min-w-[8rem] overflow-hidden rounded-md border border-border bg-popover text-popover-foreground shadow-md transition-all animate-in fade-in-80 slide-in-from-top-1 max-h-72",
           local.class
         )}
         {...(rest as any)}
-      />
+      >
+        <ScrollArea class="max-h-72 p-1">
+          {local.children}
+        </ScrollArea>
+      </ContextMenuPrimitive.Content>
     </ContextMenuPrimitive.Portal>
   );
 };

@@ -1,4 +1,6 @@
 import { splitProps, type JSX, type ValidComponent } from "solid-js";
+import { Check, ChevronDown, X } from "lucide-solid";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import * as ComboboxPrimitive from "@kobalte/core/combobox";
 import { cn } from "@/lib/cn";
 
@@ -206,12 +208,14 @@ export const ComboboxContent = <T extends ValidComponent = "div">(
     <ComboboxPrimitive.Portal>
       <ComboboxPrimitive.Content
         class={cn(
-          "relative z-50 min-w-8rem overflow-hidden rounded-md border border-border bg-popover text-popover-foreground shadow-md animate-in fade-in-80 data-expanded:animate-in data-closed:animate-out data-[closed]:fade-out-0 data-[expanded]:fade-in-0 data-closed:zoom-out-95 data-expanded:zoom-in-95",
+          "relative z-50 min-w-8rem overflow-hidden rounded-md border border-border bg-popover text-popover-foreground shadow-md animate-in fade-in-80 data-expanded:animate-in data-closed:animate-out data-[closed]:fade-out-0 data-[expanded]:fade-in-0 data-closed:zoom-out-95 data-expanded:zoom-in-95 max-h-60",
           local.class
         )}
         {...(rest as any)}
       >
-        <ComboboxPrimitive.Listbox class="max-h-60 overflow-y-auto p-1 outline-none" />
+        <ScrollArea class="max-h-60">
+          <ComboboxPrimitive.Listbox class="p-1 outline-none" />
+        </ScrollArea>
       </ComboboxPrimitive.Content>
     </ComboboxPrimitive.Portal>
   );

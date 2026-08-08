@@ -16,6 +16,7 @@ import { cn } from "@/lib/cn";
 import { Kbd, KbdGroup } from "../ui/kbd";
 import { InputGroup, InputGroupInput, InputGroupAddon } from "../ui/input-group";
 import { List, ListGroup, ListHeader, ListItem, type ListItemProps } from "../ui/list";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 /* --- Command Context State --- */
 interface CommandContextValue {
@@ -221,12 +222,12 @@ export const CommandList: Component<CommandListProps> = (props) => {
   const [local, rest] = splitProps(props, ["class", "children"]);
 
   return (
-    <div
-      class={cn("max-h-82.5 overflow-y-auto p-1.5 scrollbar-thin", local.class)}
+    <ScrollArea
+      class={cn("max-h-82.5 p-1.5", local.class)}
       {...rest}
     >
       <List>{local.children}</List>
-    </div>
+    </ScrollArea>
   );
 };
 

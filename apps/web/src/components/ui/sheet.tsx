@@ -2,6 +2,8 @@ import { splitProps, type Component, type JSX, type ValidComponent, Show } from 
 import * as DialogPrimitive from "@kobalte/core/dialog";
 import type { PolymorphicProps } from "@kobalte/core/polymorphic";
 import { cva, type VariantProps } from "class-variance-authority";
+import { X } from "lucide-solid";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import { cn } from "@/lib/cn";
 
 // Global CSS Keyframe Animations specifically designed for Kobalte animationend DOM events
@@ -132,15 +134,15 @@ export const SheetContent = <T extends ValidComponent = "div">(
       <DialogPrimitive.Content
         onPointerDownOutside={handlePointerDownOutside}
         onInteractOutside={handleInteractOutside}
-        class={cn(sheetVariants({ side: side() }), local.class)}
+        class={cn(sheetVariants({ side: side() }), "p-0", local.class)}
         {...(rest as any)}
       >
-        {local.children}
+        <ScrollArea class="h-full w-full p-6">
+          {local.children}
+        </ScrollArea>
         <Show when={local.showCloseButton !== false}>
-          <DialogPrimitive.CloseButton class="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none cursor-pointer">
-            <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-            </svg>
+          <DialogPrimitive.CloseButton class="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none cursor-pointer z-50">
+            <X class="h-4 w-4" />
             <span class="sr-only">Close</span>
           </DialogPrimitive.CloseButton>
         </Show>

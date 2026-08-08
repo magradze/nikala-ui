@@ -2,6 +2,7 @@ import { splitProps, type Component, type JSX, type ValidComponent } from "solid
 import * as DropdownMenuPrimitive from "@kobalte/core/dropdown-menu";
 import type { PolymorphicProps } from "@kobalte/core/polymorphic";
 import { createClickOutside } from "@nikala-ui/hooks";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import { cn } from "@/lib/cn";
 
 export type DropdownMenuRootProps = Omit<
@@ -87,12 +88,13 @@ export const DropdownMenuSubContent = <T extends ValidComponent = "div">(
 export type DropdownMenuContentProps<T extends ValidComponent = "div"> =
   DropdownMenuPrimitive.DropdownMenuContentProps<T> & {
     class?: string;
+    children?: JSX.Element;
   };
 
 export const DropdownMenuContent = <T extends ValidComponent = "div">(
   props: PolymorphicProps<T, DropdownMenuContentProps<T>>
 ) => {
-  const [local, rest] = splitProps(props as DropdownMenuContentProps, ["class"]);
+  const [local, rest] = splitProps(props as DropdownMenuContentProps, ["class", "children"]);
   let contentRef: HTMLElement | undefined;
 
   createClickOutside({
@@ -112,11 +114,15 @@ export const DropdownMenuContent = <T extends ValidComponent = "div">(
           if (typeof (props as any).ref === "function") (props as any).ref(el);
         }}
         class={cn(
-          "z-50 min-w-32 mt-1 overflow-hidden rounded-md border border-border bg-popover p-1 text-popover-foreground shadow-md data-expanded:animate-in data-closed:animate-out data-[closed]:fade-out-0 data-[expanded]:fade-in-0",
+          "z-50 min-w-32 overflow-hidden rounded-md border border-border bg-popover text-popover-foreground shadow-md animate-in fade-in-80 max-h-72",
           local.class
         )}
         {...(rest as any)}
-      />
+      >
+        <ScrollArea class="max-h-72 p-1">
+          {local.children}
+        </ScrollArea>
+      </DropdownMenuPrimitive.Content>
     </DropdownMenuPrimitive.Portal>
   );
 };

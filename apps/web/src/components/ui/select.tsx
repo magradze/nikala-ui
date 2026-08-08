@@ -2,6 +2,7 @@ import { splitProps, type JSX, type ValidComponent } from "solid-js";
 import * as SelectPrimitive from "@kobalte/core/select";
 import type { PolymorphicProps } from "@kobalte/core/polymorphic";
 import { createClickOutside } from "@nikala-ui/hooks";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import { cn } from "@/lib/cn";
 
 export type SelectRootProps<Option = any, OptGroup = any, T extends ValidComponent = "div"> =
@@ -109,12 +110,14 @@ export const SelectContent = <T extends ValidComponent = "div">(
           if (typeof (props as any).ref === "function") (props as any).ref(el);
         }}
         class={cn(
-          "relative z-50 min-w-8rem overflow-hidden rounded-md border border-border bg-popover text-popover-foreground shadow-md animate-in fade-in-80",
+          "relative z-50 min-w-8rem overflow-hidden rounded-md border border-border bg-popover text-popover-foreground shadow-md animate-in fade-in-80 max-h-60",
           local.class
         )}
         {...rest}
       >
-        <SelectPrimitive.Listbox class="p-1 outline-none" />
+        <ScrollArea class="max-h-60">
+          <SelectPrimitive.Listbox class="p-1 outline-none" />
+        </ScrollArea>
       </SelectPrimitive.Content>
     </SelectPrimitive.Portal>
   );
