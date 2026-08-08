@@ -10,13 +10,13 @@ import {
   type Accessor,
 } from "solid-js";
 import { createKeybindings } from "@nikala-ui/hooks";
-import { Dialog } from "@kobalte/core/dialog";
 import { Search, ArrowUp, ArrowDown, CornerDownLeft } from "lucide-solid";
 import { cn } from "@/lib/cn";
-import { Kbd, KbdGroup } from "../ui/kbd";
-import { InputGroup, InputGroupInput, InputGroupAddon } from "../ui/input-group";
-import { List, ListGroup, ListHeader, ListItem, type ListItemProps } from "../ui/list";
-import { ScrollArea } from "@/components/ui/scroll-area";
+import { Kbd, KbdGroup } from "./kbd";
+import { InputGroup, InputGroupInput, InputGroupAddon } from "./input-group";
+import { List, ListGroup, ListHeader, ListItem, type ListItemProps } from "./list";
+import { Dialog, DialogOverlay, DialogContent } from "./dialog";
+import { ScrollArea } from "./scroll-area";
 
 /* --- Command Context State --- */
 interface CommandContextValue {
@@ -39,7 +39,7 @@ export const useCommand = () => {
 };
 
 /* --- Command Root --- */
-export interface CommandProps extends JSX.HTMLAttributes<HTMLDivElement> {
+export interface CommandProps extends Omit<JSX.HTMLAttributes<HTMLDivElement>, "children"> {
   class?: string;
   children?: JSX.Element | ((ctx: CommandContextValue) => JSX.Element);
 }
@@ -115,52 +115,53 @@ export interface CommandDialogProps {
   open?: boolean;
   onOpenChange?: (open: boolean) => void;
   enableHotkey?: boolean;
-  hotkey?: string;
+  children?: JSX.Element | ((ctx: CommandContextValue) => JSX.Element);
   class?: string;
-  children?: JSX.Element;
 }
 
 export const CommandDialog: Component<CommandDialogProps> = (props) => {
   const [internalOpen, setInternalOpen] = createSignal(false);
-  const isControlled = () => props.open !== undefined;
-  const isOpen = () => (isControlled() ? (props.open as boolean) : internalOpen());
 
-  const handleToggle = (val: boolean) => {
-    if (!isControlled()) {
-      setInternalOpen(val);
-    }
-    props.onOpenChange?.(val);
+  const isOpen = () => (props.open !== undefined ? props.open : internalOpen());
+  const setOpen = (val: boolean) => {
+    if (props.open === undefined) setInternalOpen(val);
+    if (typeof props.onOpenChange === "function") props.onOpenChange(val);
   };
 
-  if (props.enableHotkey !== false) {
-    const key = props.hotkey || "mod+k";
-    createKeybindings({
-      [key]: (e) => {
-        e.preventDefault();
-        handleToggle(!isOpen());
+  /* Listen for global Ctrl+K / Cmd+K hotkeys */
+  createKeybindings(
+    [
+      {
+        key: ["meta+k", "ctrl+k"],
+        handler: () => setOpen(!isOpen()),
+        preventDefault: true,
       },
-    });
-  }
+    ],
+    {
+      enabled: () => props.enableHotkey !== false,
+    }
+  );
 
   return (
-    <Dialog.Root open={isOpen()} onOpenChange={handleToggle}>
-      <Dialog.Portal>
-        <Dialog.Overlay class="fixed inset-0 z-50 bg-black/80 backdrop-blur-xs transition-opacity animate-in fade-in-0" />
-        <Dialog.Content class="fixed left-1/2 top-1/2 z-50 w-full max-w-xl -translate-x-1/2 -translate-y-1/2 p-0 shadow-2xl border-0 bg-transparent outline-none">
+    <Dialog open={isOpen()} onOpenChange={setOpen}>
+      <DialogOverlay class="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs data-expanded:animate-in data-closed:animate-out data-[closed]:fade-out-0 data-[expanded]:fade-in-0" />
+      <div class="fixed inset-0 z-50 flex items-start justify-center pt-16 sm:pt-24 px-4">
+        <DialogContent class="w-full max-w-xl rounded-lg border border-border bg-popover text-popover-foreground shadow-2xl outline-none data-expanded:animate-in data-closed:animate-out data-[closed]:fade-out-0 data-[expanded]:fade-in-0 data-closed:zoom-out-95 data-expanded:zoom-in-95 p-0">
           <Command class={props.class}>{props.children}</Command>
-        </Dialog.Content>
-      </Dialog.Portal>
-    </Dialog.Root>
+        </DialogContent>
+      </div>
+    </Dialog>
   );
 };
 
-/* --- Command Search Input --- */
-export interface CommandInputProps extends JSX.InputHTMLAttributes<HTMLInputElement> {
+/* --- Command Input --- */
+export interface CommandInputProps
+  extends JSX.InputHTMLAttributes<HTMLInputElement> {
   class?: string;
 }
 
 export const CommandInput: Component<CommandInputProps> = (props) => {
-  const [local, rest] = splitProps(props, ["class", "onInput"]);
+  const [local, rest] = splitProps(props, ["class", "value", "onInput"]);
   const { search, setSearch } = useCommand();
 
   return (
@@ -204,58 +205,57 @@ export const CommandList: Component<CommandListProps> = (props) => {
   );
 };
 
-/* --- Command Empty State --- */
+/* --- Command Empty Block --- */
 export interface CommandEmptyProps extends JSX.HTMLAttributes<HTMLDivElement> {
   class?: string;
 }
 
 export const CommandEmpty: Component<CommandEmptyProps> = (props) => {
   const [local, rest] = splitProps(props, ["class", "children"]);
+  const { search } = useCommand();
 
   return (
-    <div
-      class={cn("py-6 text-center text-sm text-muted-foreground", local.class)}
-      {...rest}
-    >
-      {local.children || "No results found."}
-    </div>
+    <Show when={search().trim().length > 0}>
+      <div
+        class={cn(
+          "py-8 text-center text-sm text-muted-foreground font-medium select-none",
+          local.class
+        )}
+        {...rest}
+      >
+        {local.children || `No results found for "${search()}".`}
+      </div>
+    </Show>
   );
 };
 
-/* --- Command Group Container --- */
+/* --- Command Group --- */
 export interface CommandGroupProps {
-  heading?: JSX.Element;
-  class?: string;
+  heading: string;
   children?: JSX.Element;
+  class?: string;
 }
 
 export const CommandGroup: Component<CommandGroupProps> = (props) => {
-  const [local, rest] = splitProps(props, ["heading", "class", "children"]);
-
   return (
-    <ListGroup class={cn("px-1 py-1.5", local.class)} {...rest}>
-      <Show when={local.heading}>
-        <ListHeader class="px-2 py-1 text-xs font-semibold text-muted-foreground tracking-wider uppercase">
-          {local.heading}
-        </ListHeader>
-      </Show>
-      {local.children}
+    <ListGroup class={props.class}>
+      <ListHeader title={props.heading} />
+      {props.children}
     </ListGroup>
   );
 };
 
-/* --- Command Selectable Item --- */
+/* --- Command Item --- */
 export interface CommandItemProps extends ListItemProps {
-  value?: string;
   keywords?: string[];
-  disabled?: boolean;
   onSelect?: () => void;
-  class?: string;
 }
 
 export const CommandItem: Component<CommandItemProps> = (props) => {
+  let itemRef: HTMLDivElement | undefined;
   const [local, rest] = splitProps(props, [
-    "value",
+    "title",
+    "subtitle",
     "keywords",
     "disabled",
     "onSelect",
@@ -268,12 +268,21 @@ export const CommandItem: Component<CommandItemProps> = (props) => {
 
   const isActive = () => ctx.activeIndex() === index;
 
+  /* Automatic scroll into view when navigating with Arrow keys */
+  const scrollIntoViewIfNeeded = () => {
+    if (isActive() && itemRef) {
+      itemRef.scrollIntoView({ block: "nearest", behavior: "smooth" });
+    }
+  };
+
   const isVisible = () => {
     const query = ctx.search().toLowerCase().trim();
     if (!query) return true;
 
-    const valStr = (local.value || "").toLowerCase();
-    if (valStr.includes(query)) return true;
+    const titleStr = typeof local.title === "string" ? local.title.toLowerCase() : "";
+    const subStr = typeof local.subtitle === "string" ? local.subtitle.toLowerCase() : "";
+
+    if (titleStr.includes(query) || subStr.includes(query)) return true;
 
     if (local.keywords) {
       return local.keywords.some((k) => k.toLowerCase().includes(query));
@@ -290,6 +299,12 @@ export const CommandItem: Component<CommandItemProps> = (props) => {
   return (
     <Show when={isVisible()}>
       <ListItem
+        ref={(el) => {
+          itemRef = el;
+          scrollIntoViewIfNeeded();
+        }}
+        title={local.title}
+        subtitle={local.subtitle}
         data-command-active={isActive() ? "true" : "false"}
         class={cn(
           "relative flex cursor-pointer select-none items-center rounded-md px-2 py-1.5 text-sm outline-none transition-colors",

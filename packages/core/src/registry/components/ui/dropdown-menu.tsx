@@ -2,7 +2,7 @@ import { splitProps, type Component, type JSX, type ValidComponent } from "solid
 import * as DropdownMenuPrimitive from "@kobalte/core/dropdown-menu";
 import type { PolymorphicProps } from "@kobalte/core/polymorphic";
 import { createClickOutside } from "@nikala-ui/hooks";
-import { ScrollArea } from "@/components/ui/scroll-area";
+import { ScrollArea } from "./scroll-area";
 import { cn } from "@/lib/cn";
 
 export type DropdownMenuRootProps = Omit<

@@ -1,6 +1,6 @@
 import { splitProps, type JSX, type ValidComponent } from "solid-js";
 import { Check, ChevronDown, X } from "lucide-solid";
-import { ScrollArea } from "@/components/ui/scroll-area";
+import { ScrollArea } from "./scroll-area";
 import * as ComboboxPrimitive from "@kobalte/core/combobox";
 import { cn } from "@/lib/cn";
 
@@ -207,28 +207,28 @@ export const ComboboxItem = <T extends ValidComponent = "li">(
 };
 
 export type ComboboxGroupProps<T extends ValidComponent = "li"> =
-  ComboboxPrimitive.ComboboxGroupProps<T> & {
+  ComboboxPrimitive.ComboboxSectionProps<T> & {
     class?: string;
-    label?: JSX.Element;
     children?: JSX.Element;
+    label?: JSX.Element;
   };
 
 /**
- * Grouped category container with a group title header.
+ * Group container for organizing related options.
  */
 export const ComboboxGroup = <T extends ValidComponent = "li">(
   props: ComboboxGroupProps<T>
 ) => {
-  const [local, rest] = splitProps(props as ComboboxGroupProps, ["class", "label", "children"]);
+  const [local, rest] = splitProps(props as ComboboxGroupProps, ["class", "children", "label"]);
 
   return (
-    <ComboboxPrimitive.Group class={cn("overflow-hidden p-1 text-foreground", local.class)} {...(rest as any)}>
+    <ComboboxPrimitive.Section class={cn("px-1 py-1", local.class)} {...(rest as any)}>
       {local.label && (
-        <ComboboxPrimitive.GroupLabel class="px-2 py-1.5 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+        <span class="px-2 py-1.5 text-xs font-semibold text-muted-foreground uppercase tracking-wider block">
           {local.label}
-        </ComboboxPrimitive.GroupLabel>
+        </span>
       )}
       {local.children}
-    </ComboboxPrimitive.Group>
+    </ComboboxPrimitive.Section>
   );
 };

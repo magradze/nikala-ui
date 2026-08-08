@@ -2,9 +2,9 @@ import { splitProps, type Component, type JSX, type ValidComponent } from "solid
 import * as ContextMenuPrimitive from "@kobalte/core/context-menu";
 import type { PolymorphicProps } from "@kobalte/core/polymorphic";
 import { createClickOutside } from "@nikala-ui/hooks";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { Separator } from "@/components/ui/separator";
-import { Kbd } from "@/components/ui/kbd";
+import { ScrollArea } from "./scroll-area";
+import { Separator } from "./separator";
+import { Kbd } from "./kbd";
 import { cn } from "@/lib/cn";
 
 export type ContextMenuRootProps = ContextMenuPrimitive.ContextMenuRootProps;

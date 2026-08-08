@@ -3,7 +3,7 @@ import * as DialogPrimitive from "@kobalte/core/dialog";
 import type { PolymorphicProps } from "@kobalte/core/polymorphic";
 import { cva, type VariantProps } from "class-variance-authority";
 import { X } from "lucide-solid";
-import { ScrollArea } from "@/components/ui/scroll-area";
+import { ScrollArea } from "./scroll-area";
 import { cn } from "@/lib/cn";
 
 // Global CSS Keyframe Animations specifically designed for Kobalte animationend DOM events
@@ -44,7 +44,7 @@ export const sheetVariants = cva(
 
 export const Sheet = DialogPrimitive.Root;
 export const SheetTrigger = DialogPrimitive.Trigger;
-export const SheetClose = DialogPrimitive.Close;
+export const SheetClose = DialogPrimitive.CloseButton;
 export const SheetPortal = DialogPrimitive.Portal;
 
 export type SheetOverlayProps<T extends ValidComponent = "div"> =

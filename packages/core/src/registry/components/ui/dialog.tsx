@@ -1,7 +1,7 @@
 import { splitProps, type Component, type JSX, type ValidComponent, Show } from "solid-js";
 import * as DialogPrimitive from "@kobalte/core/dialog";
 import type { PolymorphicProps } from "@kobalte/core/polymorphic";
-import { ScrollArea } from "@/components/ui/scroll-area";
+import { ScrollArea } from "./scroll-area";
 import { cn } from "@/lib/cn";
 
 export type DialogRootProps = DialogPrimitive.DialogRootProps;
@@ -14,7 +14,7 @@ export const Dialog: Component<DialogRootProps> = (props) => {
 };
 
 export const DialogTrigger = DialogPrimitive.Trigger;
-export const DialogClose = DialogPrimitive.Close;
+export const DialogClose = DialogPrimitive.CloseButton;
 
 export type DialogOverlayProps<T extends ValidComponent = "div"> =
   DialogPrimitive.DialogOverlayProps<T> & {

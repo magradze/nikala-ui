@@ -1,9 +1,9 @@
 import { createSignal, onCleanup, splitProps, type Component, type JSX } from "solid-js";
 import { NumberField as KobalteNumberField } from "@kobalte/core/number-field";
 import { Plus, Minus } from "lucide-solid";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { createLongPress } from "@/hooks/create-long-press";
+import { Input } from "./input";
+import { Button } from "./button";
+import { createLongPress } from "@nikala-ui/hooks";
 import { cn } from "@/lib/cn";
 
 export interface NumberInputProps {
