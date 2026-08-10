@@ -145,6 +145,16 @@ export default function FormDocsPage() {
           <p class="text-sm text-muted-foreground">
             Form intentionally owns only semantic layout and submission state. Use <code class="rounded bg-muted px-1.5 py-0.5 text-xs font-mono">createForm</code> for values, validation, touched state, and submission, then compose it with <code class="rounded bg-muted px-1.5 py-0.5 text-xs font-mono">Field</code>, <code class="rounded bg-muted px-1.5 py-0.5 text-xs font-mono">Input</code>, and <code class="rounded bg-muted px-1.5 py-0.5 text-xs font-mono">Button</code>.
           </p>
+          <CodeBlock
+            code={`<Form onSubmit={form.handleSubmit} loading={form.isSubmitting()}>
+  <Field>
+    <FieldLabel for="email">Email address</FieldLabel>
+    <Input id="email" onInput={form.handleChange("email")} />
+    <FormMessage form={form} name="email" />
+  </Field>
+</Form>`}
+            lang="tsx"
+          />
         </div>
 
         <div class="space-y-8 pt-4">
@@ -211,6 +221,29 @@ export default function FormDocsPage() {
                 prop: "class",
                 type: "string",
                 description: "Additional classes for layout and visual styling.",
+              },
+            ]}
+          />
+          <DocApiTable
+            title="FormMessage"
+            items={[
+              {
+                prop: "form",
+                type: "CreateFormReturn<T>",
+                description: "The createForm return object used to read errors and touched state.",
+                required: true,
+              },
+              {
+                prop: "name",
+                type: "keyof T",
+                description: "The form field name whose validation message should be displayed.",
+                required: true,
+              },
+              {
+                prop: "showUntouched",
+                type: "boolean",
+                default: "false",
+                description: "Displays the message before the field has been touched.",
               },
             ]}
           />

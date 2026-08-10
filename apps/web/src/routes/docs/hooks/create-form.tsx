@@ -41,6 +41,39 @@ return (
   </form>
 );`;
 
+const validationModesCode = `const form = createForm({
+  initialValues: { email: "", marketing: false, topics: [] as string[] },
+  validateOn: "blur", // "change" | "blur" | "submit"
+  validate: (values) => ({
+    ...(!values.email.includes("@") && { email: "Enter a valid email." }),
+  }),
+});
+
+<Input
+  value={form.values().email}
+  onInput={form.handleChange("email")}
+  onBlur={form.handleBlur("email")}
+/>`;
+
+const controlsCode = `<input
+  type="checkbox"
+  checked={form.values().marketing}
+  onInput={form.handleChange("marketing")}
+/>`;
+
+const submitErrorCode = `const form = createForm({
+  initialValues: { email: "" },
+  onSubmit: async (values) => {
+    await saveProfile(values); // thrown errors become submitError()
+  },
+});
+
+<Show when={form.submitError()}>
+  <Alert variant="destructive">
+    We could not save your changes. Try again.
+  </Alert>
+</Show>`;
+
 export function FormDemo() {
   const [submittedData, setSubmittedData] = createSignal<string | null>(null);
 
@@ -140,8 +173,8 @@ export default function CreateFormDocPage() {
       </div>
 
       {/* Examples Section */}
-      <div class="space-y-8 pt-4">
-        <DocSectionHeader title="Examples" />
+        <div class="space-y-8 pt-4">
+          <DocSectionHeader title="Examples" />
 
         {/* Basic Usage */}
         <div class="space-y-3">
@@ -150,6 +183,34 @@ export default function CreateFormDocPage() {
             Pass initial values and validation rules to <code class="bg-muted px-1.5 py-0.5 rounded text-xs font-mono">createForm(&#123; initialValues, validate, onSubmit &#125;)</code>.
           </p>
           <CodeBlock code={basicUsageCode} lang="tsx" />
+        </div>
+
+        <div class="space-y-8 pt-4">
+          <DocSectionHeader title="Validation & Controls" />
+
+          <div class="space-y-3">
+            <h3 class="text-lg font-semibold tracking-tight">Validation Timing</h3>
+            <p class="text-sm text-muted-foreground">
+              Use <code class="rounded bg-muted px-1.5 py-0.5 text-xs font-mono">validateOn</code> to validate on every change, only after blur, or only on submit. The default is <code class="rounded bg-muted px-1.5 py-0.5 text-xs font-mono">change</code> for backwards compatibility.
+            </p>
+            <CodeBlock code={validationModesCode} lang="tsx" />
+          </div>
+
+          <div class="space-y-3">
+            <h3 class="text-lg font-semibold tracking-tight">Checkboxes and Selects</h3>
+            <p class="text-sm text-muted-foreground">
+              <code class="rounded bg-muted px-1.5 py-0.5 text-xs font-mono">handleChange</code> reads boolean values from checkbox/radio inputs and an array of values from multi-select controls.
+            </p>
+            <CodeBlock code={controlsCode} lang="tsx" />
+          </div>
+
+          <div class="space-y-3">
+            <h3 class="text-lg font-semibold tracking-tight">Submission Errors</h3>
+            <p class="text-sm text-muted-foreground">
+              Exceptions thrown by an async <code class="rounded bg-muted px-1.5 py-0.5 text-xs font-mono">onSubmit</code> handler are exposed through <code class="rounded bg-muted px-1.5 py-0.5 text-xs font-mono">submitError()</code>.
+            </p>
+            <CodeBlock code={submitErrorCode} lang="tsx" />
+          </div>
         </div>
       </div>
 
