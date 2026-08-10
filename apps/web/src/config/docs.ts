@@ -306,6 +306,7 @@ export const COMPONENTS_LIST: DocComponentItem[] = [
   { name: "separator", title: "Separator", description: "Visual or semantic horizontal/vertical line divider", href: "/docs/components/separator" },
   { name: "sheet", title: "Sheet", description: "Sliding panel component with slide-in animations", href: "/docs/components/sheet" },
   { name: "skeleton", title: "Skeleton", description: "Animated pulse loading placeholder", href: "/docs/components/skeleton" },
+  { name: "spinner", title: "Spinner", description: "Accessible animated loading indicator for asynchronous UI states", href: "/docs/components/spinner" },
   { name: "slider", title: "Slider", description: "Numeric range selection slider supporting single/dual thumbs, custom steps, and vertical orientation", href: "/docs/components/slider" },
   { name: "switch", title: "Switch", description: "Toggle switch control for boolean states", href: "/docs/components/switch" },
   { name: "tabs", title: "Tabs", description: "Layered content switcher supporting horizontal/vertical tabs", href: "/docs/components/tabs" },
@@ -375,6 +376,7 @@ export const COMPONENT_SECTIONS: NavSection[] = [
     items: [
       { title: "Alert", href: "/docs/components/alert" },
       { title: "Banner", href: "/docs/components/banner" },
+      { title: "Spinner", href: "/docs/components/spinner", addedAt: "2026-08-10" },
       { title: "Toast", href: "/docs/components/toast" },
       { title: "Tooltip", href: "/docs/components/tooltip" },
     ],
