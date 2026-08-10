@@ -7,6 +7,7 @@ import BadgeStage, { config as badgeConfig } from "@/components/playground/stage
 import BannerStage, { config as bannerConfig } from "@/components/playground/stages/banner";
 import BreadcrumbStage, { config as breadcrumbConfig } from "@/components/playground/stages/breadcrumb";
 import ButtonStage, { config as buttonConfig } from "@/components/playground/stages/button";
+import ButtonGroupStage, { config as buttonGroupConfig } from "@/components/playground/stages/button-group";
 import CardStage, { config as cardConfig } from "@/components/playground/stages/card";
 import CheckboxStage, { config as checkboxConfig } from "@/components/playground/stages/checkbox";
 import CommandStage, { config as commandConfig } from "@/components/playground/stages/command";
@@ -42,6 +43,7 @@ describe("Playground Stage Components & Configurations", () => {
     expect(typeof BannerStage).toBe("function");
     expect(typeof BreadcrumbStage).toBe("function");
     expect(typeof ButtonStage).toBe("function");
+    expect(typeof ButtonGroupStage).toBe("function");
     expect(typeof CardStage).toBe("function");
     expect(typeof CheckboxStage).toBe("function");
     expect(typeof CommandStage).toBe("function");
@@ -72,7 +74,7 @@ describe("Playground Stage Components & Configurations", () => {
   it("should define valid configs for each stage component", () => {
     const configs = [
       accordionConfig, alertConfig, avatarConfig, badgeConfig, bannerConfig,
-      breadcrumbConfig, buttonConfig, cardConfig, checkboxConfig, commandConfig,
+      breadcrumbConfig, buttonConfig, buttonGroupConfig, cardConfig, checkboxConfig, commandConfig,
       dialogConfig, dropdownConfig, emptyConfig, fieldConfig, formConfig, iconButtonConfig, inputGroupConfig, inputConfig, kbdConfig,
       labelConfig, listConfig, radioGroupConfig, selectConfig, separatorConfig,
       sheetConfig, skeletonConfig, spinnerConfig, statusConfig, switchConfig, tabsConfig, textareaConfig, themeManagerConfig
