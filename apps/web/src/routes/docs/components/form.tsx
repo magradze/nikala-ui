@@ -8,8 +8,9 @@ import { DocApiTable } from "@/components/docs/doc-api-table";
 import { ComponentPreview } from "@/components/component-preview";
 import { CodeBlock } from "@/components/code-block";
 import { Button } from "@/components/ui/button";
-import { Field, FieldDescription, FieldError, FieldLabel } from "@/components/ui/field";
+import { Field, FieldDescription, FieldLabel } from "@/components/ui/field";
 import { Form } from "@/components/ui/form";
+import { FormMessage } from "@/components/ui/form-message";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 
@@ -35,7 +36,7 @@ const usageCode = `const form = createForm({
       onInput={form.handleChange("email")}
       onBlur={form.handleBlur("email")}
     />
-    <FieldError>{form.errors().email}</FieldError>
+    <FormMessage form={form} name="email" />
   </Field>
   <Button type="submit" disabled={form.isSubmitting()}>Save</Button>
 </Form>`;
@@ -95,9 +96,7 @@ function FormDemo() {
             placeholder="nikala@pirosmani.ge"
           />
           <FieldDescription>We will only use this for account notifications.</FieldDescription>
-          <Show when={form.touched().email && form.errors().email}>
-            <FieldError>{form.errors().email}</FieldError>
-          </Show>
+          <FormMessage form={form} name="email" />
         </Field>
         <div class="flex items-center gap-2">
           <Button type="submit" disabled={form.isSubmitting()}>

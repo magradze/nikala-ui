@@ -11,7 +11,8 @@ import { CodeBlock } from "@/components/code-block";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
-const importCode = `import { createForm } from "@/hooks/create-form";`;
+const importCode = `import { createForm } from "@/hooks/create-form";
+import { FormMessage } from "@/components/ui/form-message";`;
 
 const basicUsageCode = `const form = createForm({
   initialValues: { username: "", email: "" },
@@ -34,9 +35,7 @@ return (
       onBlur={form.handleBlur("username")}
       placeholder="Username"
     />
-    {form.touched().username && form.errors().username && (
-      <p class="text-xs text-red-500">{form.errors().username}</p>
-    )}
+    <FormMessage form={form} name="username" />
 
     <Button type="submit" disabled={form.isSubmitting()}>Submit</Button>
   </form>
@@ -192,6 +191,18 @@ export default function CreateFormDocPage() {
               type: "Accessor<boolean>",
               default: "true",
               description: "Signal accessor indicating whether zero validation errors are present.",
+            },
+            {
+              prop: "validateOn",
+              type: '"change" | "blur" | "submit"',
+              default: '"change"',
+              description: "Controls which interaction triggers validation.",
+            },
+            {
+              prop: "submitError",
+              type: "Accessor<unknown>",
+              default: "undefined",
+              description: "Contains an exception thrown by onSubmit so the UI can display a submission error.",
             },
             {
               prop: "handleSubmit",
