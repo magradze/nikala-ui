@@ -14,6 +14,7 @@ import DialogStage, { config as dialogConfig } from "@/components/playground/sta
 import DropdownMenuStage, { config as dropdownConfig } from "@/components/playground/stages/dropdown-menu";
 import EmptyStage, { config as emptyConfig } from "@/components/playground/stages/empty";
 import FieldStage, { config as fieldConfig } from "@/components/playground/stages/field";
+import IconButtonStage, { config as iconButtonConfig } from "@/components/playground/stages/icon-button";
 import InputGroupStage, { config as inputGroupConfig } from "@/components/playground/stages/input-group";
 import InputStage, { config as inputConfig } from "@/components/playground/stages/input";
 import KbdStage, { config as kbdConfig } from "@/components/playground/stages/kbd";
@@ -47,6 +48,7 @@ describe("Playground Stage Components & Configurations", () => {
     expect(typeof DropdownMenuStage).toBe("function");
     expect(typeof EmptyStage).toBe("function");
     expect(typeof FieldStage).toBe("function");
+    expect(typeof IconButtonStage).toBe("function");
     expect(typeof InputGroupStage).toBe("function");
     expect(typeof InputStage).toBe("function");
     expect(typeof KbdStage).toBe("function");
@@ -69,7 +71,7 @@ describe("Playground Stage Components & Configurations", () => {
     const configs = [
       accordionConfig, alertConfig, avatarConfig, badgeConfig, bannerConfig,
       breadcrumbConfig, buttonConfig, cardConfig, checkboxConfig, commandConfig,
-      dialogConfig, dropdownConfig, emptyConfig, fieldConfig, inputGroupConfig, inputConfig, kbdConfig,
+      dialogConfig, dropdownConfig, emptyConfig, fieldConfig, iconButtonConfig, inputGroupConfig, inputConfig, kbdConfig,
       labelConfig, listConfig, radioGroupConfig, selectConfig, separatorConfig,
       sheetConfig, skeletonConfig, spinnerConfig, statusConfig, switchConfig, tabsConfig, textareaConfig, themeManagerConfig
     ];
