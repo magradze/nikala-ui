@@ -437,6 +437,17 @@
     ]
   },
   {
+    "name": "spinner",
+    "title": "Spinner",
+    "description": "An accessible animated loading indicator for asynchronous UI states.",
+    "type": "registry:ui",
+    "dependencies": [
+      "clsx",
+      "tailwind-merge",
+      "class-variance-authority"
+    ]
+  },
+  {
     "name": "switch",
     "title": "Switch",
     "description": "A control that allows the user to toggle between checked and unchecked states.",

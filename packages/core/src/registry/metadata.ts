@@ -20,6 +20,11 @@ export const COMPONENT_METADATA: Record<string, ComponentMeta> = {
     description: "A standard text input field with styling variants.",
     dependencies: ["clsx", "tailwind-merge"],
   },
+  spinner: {
+    title: "Spinner",
+    description: "An accessible animated loading indicator for asynchronous UI states.",
+    dependencies: ["clsx", "tailwind-merge", "class-variance-authority"],
+  },
   field: {
     title: "Field",
     description: "A consistent form field layout for labels, descriptions, and validation errors.",
