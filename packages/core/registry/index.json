@@ -83,6 +83,9 @@
       "clsx",
       "tailwind-merge",
       "class-variance-authority"
+    ],
+    "registryDependencies": [
+      "spinner"
     ]
   },
   {

@@ -14,6 +14,7 @@ export const COMPONENT_METADATA: Record<string, ComponentMeta> = {
     title: "Button",
     description: "An interactive button component with variant and size options.",
     dependencies: ["clsx", "tailwind-merge", "class-variance-authority"],
+    registryDependencies: ["spinner"],
   },
   input: {
     title: "Input",

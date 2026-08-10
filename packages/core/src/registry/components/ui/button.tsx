@@ -1,6 +1,7 @@
-import { splitProps, type Component, type JSX } from "solid-js";
+import { Show, splitProps, type Component, type JSX } from "solid-js";
 import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/cn";
+import { Spinner } from "./spinner";
 
 /**
  * Class variance authority configuration for button styling variants and sizes.
@@ -46,6 +47,8 @@ export const buttonVariants = cva(
 export interface ButtonProps
   extends JSX.ButtonHTMLAttributes<HTMLButtonElement>,
     VariantProps<typeof buttonVariants> {
+  /** Shows a loading spinner and prevents repeated clicks while active. */
+  loading?: boolean;
   class?: string;
 }
 
@@ -54,13 +57,25 @@ export interface ButtonProps
  */
 export const Button: Component<ButtonProps> = (props) => {
   // Use splitProps to preserve SolidJS reactivity for destructured props
-  const [local, rest] = splitProps(props, ["variant", "size", "class", "children"]);
+  const [local, rest] = splitProps(props, [
+    "variant",
+    "size",
+    "class",
+    "children",
+    "loading",
+    "disabled",
+  ]);
 
   return (
     <button
       class={cn(buttonVariants({ variant: local.variant, size: local.size }), local.class)}
+      disabled={local.disabled || local.loading}
+      aria-busy={local.loading ? "true" : undefined}
       {...rest}
     >
+      <Show when={local.loading}>
+        <Spinner size="sm" class="text-current" />
+      </Show>
       {local.children}
     </button>
   );
