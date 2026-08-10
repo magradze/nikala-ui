@@ -56,7 +56,7 @@ export const Hero: () => JSX.Element = () => {
               class="px-3 py-1 text-xs rounded-lg border-primary/30 bg-primary/5 hover:bg-primary/10 transition-colors cursor-pointer"
             >
               <span class="w-2 h-2 rounded-lg bg-primary animate-pulse mr-1" />
-              Nikala UI v0.9.12 is now live for Tailwind v4
+              Nikala UI v0.10.0 is now live for Tailwind v4
             </Badge>
           </A>
 

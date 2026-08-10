@@ -3,6 +3,7 @@
 > Nikala UI is a copy-paste component system and reactive primitives suite for SolidJS built natively for Tailwind CSS v4. Honoring Georgian painter Niko Pirosmani (Nikala).
 
 - Official Website: https://nikala.dev
+- Current Version: v0.10.0
 - GitHub Repository: https://github.com/nikala-ui/ui
 - Documentation Portal: https://nikala.dev/docs
 - Interactive Playground: https://nikala.dev/playground
@@ -108,7 +109,7 @@ When generating or editing SolidJS code using Nikala UI components and hooks, AI
 
 ---
 
-## 4. UI Components Registry (41 Components)
+## 4. UI Components Registry (48 Components)
 
 Below is the complete inventory of available Nikala UI components with exported JSX elements:
 
@@ -128,31 +129,38 @@ Below is the complete inventory of available Nikala UI components with exported 
 14. **Context Menu**: `ContextMenu`, `ContextMenuTrigger`, `ContextMenuContent`, `ContextMenuItem`, `ContextMenuCheckboxItem`, `ContextMenuRadioGroup`, `ContextMenuRadioItem`, `ContextMenuLabel`, `ContextMenuSeparator`, `ContextMenuShortcut`, `ContextMenuSub`, `ContextMenuSubTrigger`, `ContextMenuSubContent`
 15. **Dialog**: `Dialog`, `DialogTrigger`, `DialogOverlay`, `DialogContent`, `DialogHeader`, `DialogFooter`, `DialogTitle`, `DialogDescription`, `DialogClose`
 16. **Dropdown Menu**: `DropdownMenu`, `DropdownMenuTrigger`, `DropdownMenuContent`, `DropdownMenuItem`, `DropdownMenuLabel`, `DropdownMenuSeparator`, `DropdownMenuShortcut`, `DropdownMenuSub`, `DropdownMenuSubTrigger`, `DropdownMenuSubContent`, `DropdownMenuCheckboxItem`, `DropdownMenuRadioGroup`, `DropdownMenuRadioItem`
-17. **Hover Card**: `HoverCard`, `HoverCardTrigger`, `HoverCardContent`, `HoverCardArrow`
-18. **Input**: `Input`
-19. **Input Group**: `InputGroup`, `InputGroupInput`, `InputGroupAddon`
-20. **Kbd**: `Kbd`, `KbdGroup`
-21. **Label**: `Label`
-22. **List**: `List`, `ListGroup`, `ListHeader`, `ListItem`
-23. **Number Input**: `NumberInput`
-24. **Pin Input**: `PinInput`, `PinInputInput`, `PinInputLabel`
-25. **Popover**: `Popover`, `PopoverTrigger`, `PopoverContent`
-26. **Progress**: `Progress`, `ProgressIndicator`
-27. **Radio Group**: `RadioGroup`, `RadioGroupItem`, `RadioGroupItemLabel`
-28. **Resizable**: `ResizableGroup`, `ResizablePanel`, `ResizableHandle`
-29. **Scroll Area**: `ScrollArea`
-30. **Select**: `Select`, `SelectTrigger`, `SelectValue`, `SelectContent`, `SelectItem`
-31. **Separator**: `Separator`
-32. **Sheet / Drawer**: `Sheet`, `SheetTrigger`, `SheetOverlay`, `SheetContent`, `SheetHeader`, `SheetFooter`, `SheetTitle`, `SheetDescription`, `SheetClose`
-33. **Skeleton**: `Skeleton`
-34. **Slider**: `Slider`, `SliderTrack`, `SliderFill`, `SliderThumb`, `SliderLabel`, `SliderValueLabel`
-35. **Switch**: `Switch`
-36. **Tabs**: `Tabs`, `TabsList`, `TabsTrigger`, `TabsContent`
-37. **Textarea**: `Textarea`
-38. **Theme Manager**: `ThemeProvider`, `ThemeScript`, `ThemeToggle`, `useTheme`
-39. **Toast**: `Toast`, `ToastTitle`, `ToastDescription`, `ToastCloseButton`, `ToastRegion`, `ToastList`, `showToast`
-40. **Toggle**: `Toggle`, `ToggleGroup`
-41. **Tooltip**: `Tooltip`, `TooltipTrigger`, `TooltipContent`, `TooltipArrow`
+17. **Empty**: `Empty`, `EmptyIcon`, `EmptyTitle`, `EmptyDescription`, `EmptyAction`
+18. **Field**: `Field`, `FieldLabel`, `FieldDescription`, `FieldError`
+19. **Form**: `Form`
+20. **Form Message**: `FormMessage`
+21. **Hover Card**: `HoverCard`, `HoverCardTrigger`, `HoverCardContent`, `HoverCardArrow`
+22. **Icon Button**: `IconButton`
+23. **Input**: `Input`
+24. **Input Group**: `InputGroup`, `InputGroupInput`, `InputGroupAddon`
+25. **Kbd**: `Kbd`, `KbdGroup`
+26. **Label**: `Label`
+27. **List**: `List`, `ListGroup`, `ListHeader`, `ListItem`
+28. **Number Input**: `NumberInput`
+29. **Pin Input**: `PinInput`, `PinInputInput`, `PinInputLabel`
+30. **Popover**: `Popover`, `PopoverTrigger`, `PopoverContent`
+31. **Progress**: `Progress`, `ProgressIndicator`
+32. **Radio Group**: `RadioGroup`, `RadioGroupItem`, `RadioGroupItemLabel`
+33. **Resizable**: `ResizableGroup`, `ResizablePanel`, `ResizableHandle`
+34. **Scroll Area**: `ScrollArea`
+35. **Select**: `Select`, `SelectTrigger`, `SelectValue`, `SelectContent`, `SelectItem`
+36. **Separator**: `Separator`
+37. **Sheet / Drawer**: `Sheet`, `SheetTrigger`, `SheetOverlay`, `SheetContent`, `SheetHeader`, `SheetFooter`, `SheetTitle`, `SheetDescription`, `SheetClose`
+38. **Skeleton**: `Skeleton`
+39. **Slider**: `Slider`, `SliderTrack`, `SliderFill`, `SliderThumb`, `SliderLabel`, `SliderValueLabel`
+40. **Spinner**: `Spinner`
+41. **Status**: `Status`
+42. **Switch**: `Switch`
+43. **Tabs**: `Tabs`, `TabsList`, `TabsTrigger`, `TabsContent`
+44. **Textarea**: `Textarea`
+45. **Theme Manager**: `ThemeProvider`, `ThemeScript`, `ThemeToggle`, `useTheme`
+46. **Toast**: `Toast`, `ToastTitle`, `ToastDescription`, `ToastCloseButton`, `ToastRegion`, `ToastList`, `showToast`
+47. **Toggle**: `Toggle`, `ToggleGroup`
+48. **Tooltip**: `Tooltip`, `TooltipTrigger`, `TooltipContent`, `TooltipArrow`
 
 ---
 
@@ -212,7 +220,7 @@ Nikala UI primitives are written directly to `src/hooks/<hook-name>.ts`. Below i
 - Model Context Protocol (MCP): https://nikala.dev/docs/mcp
 - Live Interactive Playground: https://nikala.dev/playground
 
-### All Component Pages (34 Components)
+### All Component Pages (48 Components)
 - Accordion: https://nikala.dev/docs/components/accordion
 - Alert: https://nikala.dev/docs/components/alert
 - Avatar: https://nikala.dev/docs/components/avatar
@@ -226,7 +234,12 @@ Nikala UI primitives are written directly to `src/hooks/<hook-name>.ts`. Below i
 - Command: https://nikala.dev/docs/components/command
 - Dialog: https://nikala.dev/docs/components/dialog
 - Dropdown Menu: https://nikala.dev/docs/components/dropdown-menu
+- Empty: https://nikala.dev/docs/components/empty
+- Field: https://nikala.dev/docs/components/field
+- Form: https://nikala.dev/docs/components/form
+- Form Message: https://nikala.dev/docs/components/form-message
 - Hover Card: https://nikala.dev/docs/components/hover-card
+- Icon Button: https://nikala.dev/docs/components/icon-button
 - Input: https://nikala.dev/docs/components/input
 - Input Group: https://nikala.dev/docs/components/input-group
 - Kbd: https://nikala.dev/docs/components/kbd
@@ -236,17 +249,26 @@ Nikala UI primitives are written directly to `src/hooks/<hook-name>.ts`. Below i
 - Popover: https://nikala.dev/docs/components/popover
 - Progress: https://nikala.dev/docs/components/progress
 - Radio Group: https://nikala.dev/docs/components/radio-group
+- Resizable: https://nikala.dev/docs/components/resizable
+- Scroll Area: https://nikala.dev/docs/components/scroll-area
 - Select: https://nikala.dev/docs/components/select
 - Separator: https://nikala.dev/docs/components/separator
 - Sheet: https://nikala.dev/docs/components/sheet
 - Skeleton: https://nikala.dev/docs/components/skeleton
 - Slider: https://nikala.dev/docs/components/slider
+- Spinner: https://nikala.dev/docs/components/spinner
+- Status: https://nikala.dev/docs/components/status
 - Switch: https://nikala.dev/docs/components/switch
 - Tabs: https://nikala.dev/docs/components/tabs
 - Textarea: https://nikala.dev/docs/components/textarea
 - Theme Manager: https://nikala.dev/docs/components/theme-manager
 - Toast: https://nikala.dev/docs/components/toast
+- Toggle: https://nikala.dev/docs/components/toggle
 - Tooltip: https://nikala.dev/docs/components/tooltip
+- Aspect Ratio: https://nikala.dev/docs/components/aspect-ratio
+- Collapsible: https://nikala.dev/docs/components/collapsible
+- Context Menu: https://nikala.dev/docs/components/context-menu
+- Number Input: https://nikala.dev/docs/components/number-input
 
 ### All Reactive Hooks & Primitives (40 Hooks)
 - createActiveElement: https://nikala.dev/docs/hooks/create-active-element

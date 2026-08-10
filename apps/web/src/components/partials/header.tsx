@@ -48,7 +48,7 @@ export function Header() {
               <Logo class="w-7 h-7 rounded-md" />
               <span class="hidden md:block">Nikala UI</span>
               <Badge variant="outline" class="ml-1 text-[10px] px-1.5 py-0 border-primary/30 text-primary hidden md:block">
-                v0.9.12
+                v0.10.0
               </Badge>
             </A>
 
