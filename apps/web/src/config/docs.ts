@@ -288,6 +288,7 @@ export const COMPONENTS_LIST: DocComponentItem[] = [
   { name: "banner", title: "Banner", description: "Announcement banner with sticky positioning and dismissal", href: "/docs/components/banner" },
   { name: "breadcrumb", title: "Breadcrumb", description: "Accessible navigation trail hierarchy", href: "/docs/components/breadcrumb" },
   { name: "button", title: "Button", description: "Interactive button with variant and size options", href: "/docs/components/button" },
+  { name: "button-group", title: "Button Group", description: "Connected horizontal or vertical group of related buttons", href: "/docs/components/button-group" },
   { name: "card", title: "Card", description: "Compound card layout with header, title, and footer", href: "/docs/components/card" },
   { name: "checkbox", title: "Checkbox", description: "Checkable input box with custom checkmark indicator", href: "/docs/components/checkbox" },
   { name: "combobox", title: "Combobox", description: "Searchable autocomplete dropdown with single/multi-selection tags, avatars, and groups", href: "/docs/components/combobox" },
@@ -348,6 +349,7 @@ export const COMPONENT_SECTIONS: NavSection[] = [
     title: "Inputs & Forms",
     items: [
       { title: "Button", href: "/docs/components/button" },
+      { title: "Button Group", href: "/docs/components/button-group", addedAt: "2026-08-10" },
       { title: "Checkbox", href: "/docs/components/checkbox" },
       { title: "Field", href: "/docs/components/field", addedAt: "2026-08-10" },
       { title: "Form", href: "/docs/components/form", addedAt: "2026-08-10" },
