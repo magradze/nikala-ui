@@ -1,0 +1,20 @@
+{
+  "name": "icon-button",
+  "title": "Icon Button",
+  "description": "An accessible square button intended for a single icon action.",
+  "type": "registry:ui",
+  "dependencies": [
+    "clsx",
+    "tailwind-merge"
+  ],
+  "registryDependencies": [
+    "button"
+  ],
+  "files": [
+    {
+      "path": "ui/icon-button.tsx",
+      "content": "import { splitProps, type Component, type JSX } from \"solid-js\";\nimport { Button, type ButtonProps } from \"./button\";\nimport { cn } from \"@/lib/cn\";\n\nexport interface IconButtonProps\n  extends Omit<ButtonProps, \"size\" | \"children\"> {\n  /** Accessible label for the icon-only button. */\n  label: string;\n  size?: \"sm\" | \"default\" | \"lg\";\n  children?: JSX.Element;\n}\n\n/** An accessible square button intended for a single icon action. */\nexport const IconButton: Component<IconButtonProps> = (props) => {\n  const [local, rest] = splitProps(props, [\"label\", \"size\", \"class\", \"children\"]);\n\n  return (\n    <Button\n      size=\"icon\"\n      aria-label={local.label}\n      class={cn(\n        {\n          \"size-8\": local.size === \"sm\",\n          \"size-9\": !local.size || local.size === \"default\",\n          \"size-10\": local.size === \"lg\",\n        },\n        local.class\n      )}\n      {...rest}\n    >\n      {local.children}\n    </Button>\n  );\n};\n",
+      "type": "registry:ui"
+    }
+  ]
+}

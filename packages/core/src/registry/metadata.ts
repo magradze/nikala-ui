@@ -35,6 +35,12 @@ export const COMPONENT_METADATA: Record<string, ComponentMeta> = {
     description: "A compact semantic status indicator with a color dot and label.",
     dependencies: ["clsx", "tailwind-merge", "class-variance-authority"],
   },
+  "icon-button": {
+    title: "Icon Button",
+    description: "An accessible square button intended for a single icon action.",
+    dependencies: ["clsx", "tailwind-merge"],
+    registryDependencies: ["button"],
+  },
   field: {
     title: "Field",
     description: "A consistent form field layout for labels, descriptions, and validation errors.",

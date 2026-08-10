@@ -229,6 +229,19 @@
     ]
   },
   {
+    "name": "icon-button",
+    "title": "Icon Button",
+    "description": "An accessible square button intended for a single icon action.",
+    "type": "registry:ui",
+    "dependencies": [
+      "clsx",
+      "tailwind-merge"
+    ],
+    "registryDependencies": [
+      "button"
+    ]
+  },
+  {
     "name": "input-group",
     "title": "Input Group",
     "description": "Compound input wrapper for combining text inputs with prefix and suffix addons.",
