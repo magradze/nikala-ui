@@ -294,6 +294,7 @@ export const COMPONENTS_LIST: DocComponentItem[] = [
   { name: "command", title: "Command", description: "Fast, accessible command palette and search modal", href: "/docs/components/command" },
   { name: "dialog", title: "Dialog", description: "Accessible modal window overlaying main content", href: "/docs/components/dialog" },
   { name: "dropdown-menu", title: "Dropdown Menu", description: "Full-featured context menu with submenus and items", href: "/docs/components/dropdown-menu" },
+  { name: "field", title: "Field", description: "Consistent form layout for labels, descriptions, and validation errors", href: "/docs/components/field" },
   { name: "input", title: "Input", description: "Reactive text input field with modern focus states", href: "/docs/components/input" },
   { name: "input-group", title: "Input Group", description: "Compound input wrapper with prefix and suffix addons", href: "/docs/components/input-group" },
   { name: "hover-card", title: "Hover Card", description: "Profile and link preview popover triggered on hover", href: "/docs/components/hover-card" },
@@ -342,6 +343,7 @@ export const COMPONENT_SECTIONS: NavSection[] = [
     items: [
       { title: "Button", href: "/docs/components/button" },
       { title: "Checkbox", href: "/docs/components/checkbox" },
+      { title: "Field", href: "/docs/components/field", addedAt: "2026-08-10" },
       { title: "Input", href: "/docs/components/input" },
       { title: "Input Group", href: "/docs/components/input-group" },
       { title: "Label", href: "/docs/components/label" },
