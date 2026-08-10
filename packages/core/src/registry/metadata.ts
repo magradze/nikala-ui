@@ -16,6 +16,12 @@ export const COMPONENT_METADATA: Record<string, ComponentMeta> = {
     dependencies: ["clsx", "tailwind-merge", "class-variance-authority"],
     registryDependencies: ["spinner"],
   },
+  "button-group": {
+    title: "Button Group",
+    description: "Groups related buttons into a connected horizontal or vertical control.",
+    dependencies: ["clsx", "tailwind-merge"],
+    registryDependencies: ["button"],
+  },
   input: {
     title: "Input",
     description: "A standard text input field with styling variants.",

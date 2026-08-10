@@ -1,0 +1,20 @@
+{
+  "name": "button-group",
+  "title": "Button Group",
+  "description": "Groups related buttons into a connected horizontal or vertical control.",
+  "type": "registry:ui",
+  "dependencies": [
+    "clsx",
+    "tailwind-merge"
+  ],
+  "registryDependencies": [
+    "button"
+  ],
+  "files": [
+    {
+      "path": "ui/button-group.tsx",
+      "content": "import { splitProps, type Component, type JSX } from \"solid-js\";\nimport { cn } from \"@/lib/cn\";\n\nexport interface ButtonGroupProps extends JSX.HTMLAttributes<HTMLDivElement> {\n  /** Controls whether grouped buttons are arranged in a row or column. */\n  orientation?: \"horizontal\" | \"vertical\";\n  class?: string;\n}\n\n/**\n * Groups adjacent buttons into a connected control with shared borders and radii.\n *\n * ButtonGroup is intentionally presentational. Use Button for individual actions\n * and compose the group with the same reactive state as the surrounding feature.\n */\nexport const ButtonGroup: Component<ButtonGroupProps> = (props) => {\n  const [local, rest] = splitProps(props, [\n    \"orientation\",\n    \"class\",\n    \"children\",\n  ]);\n\n  const orientation = () => local.orientation ?? \"horizontal\";\n\n  return (\n    <div\n      role=\"group\"\n      data-orientation={orientation()}\n      class={cn(\n        \"isolate inline-flex\",\n        orientation() === \"horizontal\"\n          ? \"flex-row [&>button:not(:first-child)]:-ml-px [&>button:not(:first-child)]:rounded-l-none [&>button:not(:last-child)]:rounded-r-none\"\n          : \"flex-col [&>button:not(:first-child)]:-mt-px [&>button:not(:first-child)]:rounded-t-none [&>button:not(:last-child)]:rounded-b-none\",\n        \"[&>button:focus-visible]:z-10\",\n        local.class\n      )}\n      {...rest}\n    >\n      {local.children}\n    </div>\n  );\n};\n",
+      "type": "registry:ui"
+    }
+  ]
+}

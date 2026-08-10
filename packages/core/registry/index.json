@@ -75,6 +75,19 @@
     ]
   },
   {
+    "name": "button-group",
+    "title": "Button Group",
+    "description": "Groups related buttons into a connected horizontal or vertical control.",
+    "type": "registry:ui",
+    "dependencies": [
+      "clsx",
+      "tailwind-merge"
+    ],
+    "registryDependencies": [
+      "button"
+    ]
+  },
+  {
     "name": "button",
     "title": "Button",
     "description": "An interactive button component with variant and size options.",
