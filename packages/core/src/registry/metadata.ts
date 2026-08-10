@@ -30,6 +30,11 @@ export const COMPONENT_METADATA: Record<string, ComponentMeta> = {
     description: "A compound empty-state layout for collections, search results, and initial application states.",
     dependencies: ["clsx", "tailwind-merge"],
   },
+  status: {
+    title: "Status",
+    description: "A compact semantic status indicator with a color dot and label.",
+    dependencies: ["clsx", "tailwind-merge", "class-variance-authority"],
+  },
   field: {
     title: "Field",
     description: "A consistent form field layout for labels, descriptions, and validation errors.",

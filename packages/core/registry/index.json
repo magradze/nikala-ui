@@ -458,6 +458,17 @@
     ]
   },
   {
+    "name": "status",
+    "title": "Status",
+    "description": "A compact semantic status indicator with a color dot and label.",
+    "type": "registry:ui",
+    "dependencies": [
+      "clsx",
+      "tailwind-merge",
+      "class-variance-authority"
+    ]
+  },
+  {
     "name": "switch",
     "title": "Switch",
     "description": "A control that allows the user to toggle between checked and unchecked states.",
