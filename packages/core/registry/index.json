@@ -218,6 +218,15 @@
     ]
   },
   {
+    "name": "form-message",
+    "title": "Form Message",
+    "description": "Validation message helper connected to createForm errors and touched state.",
+    "type": "registry:ui",
+    "registryDependencies": [
+      "field"
+    ]
+  },
+  {
     "name": "form",
     "title": "Form",
     "description": "A semantic form layout wrapper designed to work with the createForm hook.",
