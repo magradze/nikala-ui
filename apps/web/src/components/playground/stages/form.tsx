@@ -1,8 +1,9 @@
 import { Show } from "solid-js";
 import { createForm } from "@nikala-ui/hooks";
 import { Button } from "@/components/ui/button";
-import { Field, FieldError, FieldLabel } from "@/components/ui/field";
+import { Field, FieldLabel } from "@/components/ui/field";
 import { Form } from "@/components/ui/form";
+import { FormMessage } from "@/components/ui/form-message";
 import { Input } from "@/components/ui/input";
 import type { ComponentSpec, StageProps } from "@/types";
 
@@ -53,8 +54,8 @@ export default function FormStage(props: StageProps) {
           aria-invalid={form.touched().email && Boolean(form.errors().email) ? "true" : undefined}
           placeholder={props.values.placeholder}
         />
-        <Show when={props.values.showError && form.touched().email && form.errors().email}>
-          <FieldError>{form.errors().email}</FieldError>
+        <Show when={props.values.showError}>
+          <FormMessage form={form} name="email" />
         </Show>
       </Field>
       <Button type="submit">{props.values.buttonText || "Save email"}</Button>
