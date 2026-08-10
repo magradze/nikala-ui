@@ -195,6 +195,19 @@
     ]
   },
   {
+    "name": "field",
+    "title": "Field",
+    "description": "A consistent form field layout for labels, descriptions, and validation errors.",
+    "type": "registry:ui",
+    "dependencies": [
+      "clsx",
+      "tailwind-merge"
+    ],
+    "registryDependencies": [
+      "label"
+    ]
+  },
+  {
     "name": "hover-card",
     "title": "Hover Card",
     "description": "Profile and link preview popover triggered on hover, built on Kobalte primitives.",

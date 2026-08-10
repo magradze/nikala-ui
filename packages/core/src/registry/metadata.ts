@@ -20,6 +20,12 @@ export const COMPONENT_METADATA: Record<string, ComponentMeta> = {
     description: "A standard text input field with styling variants.",
     dependencies: ["clsx", "tailwind-merge"],
   },
+  field: {
+    title: "Field",
+    description: "A consistent form field layout for labels, descriptions, and validation errors.",
+    dependencies: ["clsx", "tailwind-merge"],
+    registryDependencies: ["label"],
+  },
   card: {
     title: "Card",
     description: "A versatile container component with header, content, and footer sections.",
