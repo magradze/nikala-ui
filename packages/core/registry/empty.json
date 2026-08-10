@@ -1,0 +1,17 @@
+{
+  "name": "empty",
+  "title": "Empty",
+  "description": "A compound empty-state layout for collections, search results, and initial application states.",
+  "type": "registry:ui",
+  "dependencies": [
+    "clsx",
+    "tailwind-merge"
+  ],
+  "files": [
+    {
+      "path": "ui/empty.tsx",
+      "content": "import { splitProps, type Component, type JSX } from \"solid-js\";\nimport { cn } from \"@/lib/cn\";\n\nexport interface EmptyProps extends JSX.HTMLAttributes<HTMLDivElement> {\n  class?: string;\n}\n\n/** A centered layout for empty collections, search results, and initial states. */\nexport const Empty: Component<EmptyProps> = (props) => {\n  const [local, rest] = splitProps(props, [\"class\"]);\n\n  return (\n    <div\n      class={cn(\n        \"flex min-h-64 w-full flex-col items-center justify-center rounded-lg border border-dashed border-border bg-card/30 p-6 text-center\",\n        local.class\n      )}\n      {...rest}\n    />\n  );\n};\n\nexport interface EmptyIconProps extends JSX.HTMLAttributes<HTMLDivElement> {\n  class?: string;\n}\n\nexport const EmptyIcon: Component<EmptyIconProps> = (props) => {\n  const [local, rest] = splitProps(props, [\"class\"]);\n\n  return (\n    <div\n      aria-hidden=\"true\"\n      class={cn(\n        \"mb-4 flex size-12 items-center justify-center rounded-lg bg-muted text-muted-foreground [&_svg]:size-6\",\n        local.class\n      )}\n      {...rest}\n    />\n  );\n};\n\nexport interface EmptyTitleProps extends JSX.HTMLAttributes<HTMLHeadingElement> {\n  class?: string;\n}\n\nexport const EmptyTitle: Component<EmptyTitleProps> = (props) => {\n  const [local, rest] = splitProps(props, [\"class\"]);\n\n  return (\n    <h3\n      class={cn(\"text-lg font-semibold tracking-tight text-foreground\", local.class)}\n      {...rest}\n    />\n  );\n};\n\nexport interface EmptyDescriptionProps\n  extends JSX.HTMLAttributes<HTMLParagraphElement> {\n  class?: string;\n}\n\nexport const EmptyDescription: Component<EmptyDescriptionProps> = (props) => {\n  const [local, rest] = splitProps(props, [\"class\"]);\n\n  return (\n    <p\n      class={cn(\"mt-1 max-w-sm text-sm text-muted-foreground\", local.class)}\n      {...rest}\n    />\n  );\n};\n\nexport interface EmptyActionProps extends JSX.HTMLAttributes<HTMLDivElement> {\n  class?: string;\n}\n\nexport const EmptyAction: Component<EmptyActionProps> = (props) => {\n  const [local, rest] = splitProps(props, [\"class\"]);\n\n  return (\n    <div class={cn(\"mt-5 flex items-center gap-2\", local.class)} {...rest} />\n  );\n};\n",
+      "type": "registry:ui"
+    }
+  ]
+}

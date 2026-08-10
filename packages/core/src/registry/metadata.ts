@@ -25,6 +25,11 @@ export const COMPONENT_METADATA: Record<string, ComponentMeta> = {
     description: "An accessible animated loading indicator for asynchronous UI states.",
     dependencies: ["clsx", "tailwind-merge", "class-variance-authority"],
   },
+  empty: {
+    title: "Empty",
+    description: "A compound empty-state layout for collections, search results, and initial application states.",
+    dependencies: ["clsx", "tailwind-merge"],
+  },
   field: {
     title: "Field",
     description: "A consistent form field layout for labels, descriptions, and validation errors.",
