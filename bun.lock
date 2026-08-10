@@ -43,7 +43,7 @@
     },
     "packages/cli": {
       "name": "@nikala-ui/cli",
-      "version": "0.10.0",
+      "version": "0.10.1",
       "bin": {
         "nikala": "./dist/index.js",
       },
@@ -64,7 +64,7 @@
     },
     "packages/core": {
       "name": "@nikala-ui/core",
-      "version": "0.10.0",
+      "version": "0.10.1",
       "dependencies": {
         "@nikala-ui/hooks": "workspace:*",
         "lucide-solid": "^1.28.0",
@@ -83,7 +83,7 @@
     },
     "packages/hooks": {
       "name": "@nikala-ui/hooks",
-      "version": "0.10.0",
+      "version": "0.10.1",
       "devDependencies": {
         "@types/node": "^26.1.1",
         "typescript": "^5.7.2",
@@ -94,7 +94,7 @@
     },
     "packages/mcp": {
       "name": "@nikala-ui/mcp",
-      "version": "0.10.0",
+      "version": "0.10.1",
       "bin": {
         "nikala-mcp": "./dist/index.js",
       },
