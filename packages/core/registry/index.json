@@ -218,6 +218,16 @@
     ]
   },
   {
+    "name": "form",
+    "title": "Form",
+    "description": "A semantic form layout wrapper designed to work with the createForm hook.",
+    "type": "registry:ui",
+    "dependencies": [
+      "clsx",
+      "tailwind-merge"
+    ]
+  },
+  {
     "name": "hover-card",
     "title": "Hover Card",
     "description": "Profile and link preview popover triggered on hover, built on Kobalte primitives.",

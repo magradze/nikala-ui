@@ -41,6 +41,11 @@ export const COMPONENT_METADATA: Record<string, ComponentMeta> = {
     dependencies: ["clsx", "tailwind-merge"],
     registryDependencies: ["button"],
   },
+  form: {
+    title: "Form",
+    description: "A semantic form layout wrapper designed to work with the createForm hook.",
+    dependencies: ["clsx", "tailwind-merge"],
+  },
   field: {
     title: "Field",
     description: "A consistent form field layout for labels, descriptions, and validation errors.",

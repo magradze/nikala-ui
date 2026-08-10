@@ -1,0 +1,17 @@
+{
+  "name": "form",
+  "title": "Form",
+  "description": "A semantic form layout wrapper designed to work with the createForm hook.",
+  "type": "registry:ui",
+  "dependencies": [
+    "clsx",
+    "tailwind-merge"
+  ],
+  "files": [
+    {
+      "path": "ui/form.tsx",
+      "content": "import { splitProps, type Component, type JSX } from \"solid-js\";\nimport { cn } from \"@/lib/cn\";\n\nexport interface FormProps extends JSX.FormHTMLAttributes<HTMLFormElement> {\n  /** Indicates that the form is currently processing a submission. */\n  loading?: boolean;\n  class?: string;\n}\n\n/** A semantic form layout wrapper designed to work with the createForm hook. */\nexport const Form: Component<FormProps> = (props) => {\n  const [local, rest] = splitProps(props, [\"loading\", \"class\"]);\n\n  return (\n    <form\n      aria-busy={local.loading ? \"true\" : undefined}\n      class={cn(\"w-full space-y-5\", local.class)}\n      {...rest}\n    />\n  );\n};\n",
+      "type": "registry:ui"
+    }
+  ]
+}
