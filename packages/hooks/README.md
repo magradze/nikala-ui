@@ -80,6 +80,31 @@ const [value, setValue] = createControllableSignal({
 });
 ```
 
+### Form validation and submission
+
+`createForm` supports change-, blur-, and submit-time validation, typed checkbox/select event values, stale async validation protection, and submit error state:
+
+```tsx
+const form = createForm({
+  initialValues: { email: "", marketing: false },
+  validateOn: "blur",
+  validate: (values) => ({
+    ...(!values.email.includes("@") && { email: "Enter a valid email." }),
+  }),
+  onSubmit: async (values) => saveProfile(values),
+});
+
+<Form onSubmit={form.handleSubmit} loading={form.isSubmitting()}>
+  <Input
+    value={form.values().email}
+    onInput={form.handleChange("email")}
+    onBlur={form.handleBlur("email")}
+  />
+  <FormMessage form={form} name="email" />
+  {form.submitError() && <p>Could not save changes.</p>}
+</Form>
+```
+
 ---
 
 ## Documentation & Links

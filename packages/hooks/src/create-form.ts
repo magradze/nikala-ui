@@ -123,9 +123,13 @@ export function createForm<T extends Record<string, any>>(
       const target = e.currentTarget;
       let value: unknown = target.value;
 
-      if (target instanceof HTMLInputElement && (target.type === "checkbox" || target.type === "radio")) {
-        value = target.checked;
-      } else if (target instanceof HTMLSelectElement && target.multiple) {
+      if (
+        "checked" in target &&
+        ((target as HTMLInputElement).type === "checkbox" ||
+          (target as HTMLInputElement).type === "radio")
+      ) {
+        value = (target as HTMLInputElement).checked;
+      } else if ("selectedOptions" in target && target.multiple) {
         value = Array.from(target.selectedOptions, (option) => option.value);
       }
 
