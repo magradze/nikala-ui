@@ -23,6 +23,7 @@ import SelectStage, { config as selectConfig } from "@/components/playground/sta
 import SeparatorStage, { config as separatorConfig } from "@/components/playground/stages/separator";
 import SheetStage, { config as sheetConfig } from "@/components/playground/stages/sheet";
 import SkeletonStage, { config as skeletonConfig } from "@/components/playground/stages/skeleton";
+import SpinnerStage, { config as spinnerConfig } from "@/components/playground/stages/spinner";
 import SwitchStage, { config as switchConfig } from "@/components/playground/stages/switch";
 import TabsStage, { config as tabsConfig } from "@/components/playground/stages/tabs";
 import TextareaStage, { config as textareaConfig } from "@/components/playground/stages/textarea";
@@ -53,6 +54,7 @@ describe("Playground Stage Components & Configurations", () => {
     expect(typeof SeparatorStage).toBe("function");
     expect(typeof SheetStage).toBe("function");
     expect(typeof SkeletonStage).toBe("function");
+    expect(typeof SpinnerStage).toBe("function");
     expect(typeof SwitchStage).toBe("function");
     expect(typeof TabsStage).toBe("function");
     expect(typeof TextareaStage).toBe("function");
@@ -65,7 +67,7 @@ describe("Playground Stage Components & Configurations", () => {
       breadcrumbConfig, buttonConfig, cardConfig, checkboxConfig, commandConfig,
       dialogConfig, dropdownConfig, fieldConfig, inputGroupConfig, inputConfig, kbdConfig,
       labelConfig, listConfig, radioGroupConfig, selectConfig, separatorConfig,
-      sheetConfig, skeletonConfig, switchConfig, tabsConfig, textareaConfig, themeManagerConfig
+      sheetConfig, skeletonConfig, spinnerConfig, switchConfig, tabsConfig, textareaConfig, themeManagerConfig
     ];
 
     configs.forEach((cfg) => {
