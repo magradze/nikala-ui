@@ -3,7 +3,7 @@ import type { Prompt } from "@modelcontextprotocol/sdk/types.js";
 export const MCP_PROMPTS: Prompt[] = [
   {
     name: "create_form_page",
-    description: "Generate a fully accessible SolidJS form page using Nikala UI components (Input, Button, Label, Alert) and createForm primitive",
+    description: "Generate a fully accessible SolidJS form page using Nikala UI Form, Field, FormMessage, Input, Button, Alert, and createForm primitive",
     arguments: [
       {
         name: "form_name",
@@ -35,10 +35,14 @@ export function handleGetPrompt(name: string, args: Record<string, string> | und
           content: {
             type: "text" as const,
             text: `Please generate a ${formName} component in SolidJS using Nikala UI:
-1. Use Nikala UI components: \`Input\`, \`Label\`, \`Button\`, \`Alert\`, and \`Card\`.
+1. Use Nikala UI components: \`Form\`, \`Field\`, \`FieldLabel\`, \`FormMessage\`, \`Input\`, \`Button\`, \`Alert\`, and \`Card\`.
 2. Use the \`createForm\` reactive primitive imported from \`@/hooks/create-form\`.
-3. Follow SolidJS props splitting rules (\`splitProps\`).
-4. Apply Tailwind CSS v4 design tokens and limit border radius to \`rounded-lg\`.`,
+3. Configure validation deliberately with \`validateOn: "blur"\` or \`validateOn: "submit"\` when change-time validation is too noisy.
+4. Wire text inputs with \`form.handleChange\` and \`form.handleBlur\`; use \`setFieldValue\` for custom controls when needed.
+5. Render field errors with \`<FormMessage form={form} name="fieldName" />\` and display \`form.submitError()\` for failed async submissions.
+6. Disable submit actions while \`form.isSubmitting()\` is true.
+7. Follow SolidJS props splitting rules (\`splitProps\`).
+8. Apply Tailwind CSS v4 design tokens and limit border radius to \`rounded-lg\`.`,
           },
         },
       ],
