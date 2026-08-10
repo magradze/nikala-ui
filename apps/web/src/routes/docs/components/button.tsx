@@ -7,6 +7,7 @@ import { Seo } from "@/components/seo";
 import { DocSectionHeader } from "@/components/docs/doc-section-header";
 import { DocApiTable } from "@/components/docs/doc-api-table";
 import { DocNextSteps } from "@/components/docs/doc-next-steps";
+import { Plus } from "lucide-solid";
 
 /* --- Code Snippets for Syntax Highlighting --- */
 const importCode = `import { Button } from "@/components/ui/button";`;
@@ -23,23 +24,15 @@ const ghostCode = `<Button variant="ghost">Ghost</Button>`;
 
 const linkCode = `<Button variant="link">Link</Button>`;
 
-const iconCode = `<Button variant="outline" size="icon">
-  <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-  </svg>
+const iconCode = `<Button variant="outline" size="icon" aria-label="Add item">
+  <Plus />
 </Button>`;
 
 const sizesCode = `<Button size="sm">Small</Button>
 <Button size="default">Default</Button>
 <Button size="lg">Large</Button>`;
 
-const loadingCode = `<Button disabled>
-  <svg class="animate-spin mr-2 h-4 w-4" fill="none" viewBox="0 0 24 24">
-    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" />
-    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
-  </svg>
-  Please wait
-</Button>`;
+const loadingCode = `<Button loading>Saving changes...</Button>`;
 
 export default function ButtonDocsPage() {
   return (
@@ -128,12 +121,10 @@ export default function ButtonDocsPage() {
         {/* Icon Size Variant */}
         <div class="space-y-3">
           <h3 class="text-lg font-semibold tracking-tight">Icon</h3>
-          <p class="text-sm text-muted-foreground">Square button tailored specifically for SVG icons.</p>
+          <p class="text-sm text-muted-foreground">Use <code class="bg-muted px-1.5 py-0.5 rounded text-xs font-mono">size="icon"</code> with an accessible <code class="bg-muted px-1.5 py-0.5 rounded text-xs font-mono">aria-label</code>. For a reusable icon-only API with dedicated sizes, prefer <code class="bg-muted px-1.5 py-0.5 rounded text-xs font-mono">IconButton</code>.</p>
           <ComponentPreview name="button" code={iconCode}>
-            <Button variant="outline" size="icon">
-              <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-              </svg>
+            <Button variant="outline" size="icon" aria-label="Add item">
+              <Plus />
             </Button>
           </ComponentPreview>
         </div>
@@ -154,15 +145,9 @@ export default function ButtonDocsPage() {
         {/* Loading / Disabled State */}
         <div class="space-y-3">
           <h3 class="text-lg font-semibold tracking-tight">Loading</h3>
-          <p class="text-sm text-muted-foreground">Disabled state with animated spinner indicator.</p>
+          <p class="text-sm text-muted-foreground">Set <code class="bg-muted px-1.5 py-0.5 rounded text-xs font-mono">loading</code> to show a Spinner, set aria-busy, and prevent repeated clicks.</p>
           <ComponentPreview name="button" code={loadingCode}>
-            <Button disabled>
-              <svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-current" fill="none" viewBox="0 0 24 24">
-                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" />
-                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
-              </svg>
-              Please wait
-            </Button>
+            <Button loading>Saving changes...</Button>
           </ComponentPreview>
         </div>
       </div>
@@ -190,6 +175,12 @@ export default function ButtonDocsPage() {
                 type: "boolean",
                 default: "false",
                 description: "Disables interaction and reduces opacity.",
+              },
+              {
+                prop: "loading",
+                type: "boolean",
+                default: "false",
+                description: "Shows a Spinner, sets aria-busy, and prevents interaction while active.",
               },
             ]}
           />
