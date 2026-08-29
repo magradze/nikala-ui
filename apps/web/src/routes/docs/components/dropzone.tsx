@@ -16,9 +16,10 @@ import {
   DropzoneFileItem,
   DropzoneRejectedItem,
 } from "@/components/ui/dropzone";
-import { createDropZone } from "@nikala-ui/hooks";
 import { Button } from "@/components/ui/button";
-import { Image as ImageIcon, FileCode, Music } from "lucide-solid";
+import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
+import { createDropZone } from "@nikala-ui/hooks";
+import { Image as ImageIcon, FileCode, Music, User } from "lucide-solid";
 
 /* --- Code Snippets --- */
 const importCode = `import {
@@ -77,7 +78,11 @@ return (
   </div>
 );`;
 
-const avatarUploadCode = `const [avatarUrl, setAvatarUrl] = createSignal<string | null>(null);
+const avatarUploadCode = `import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
+import { Dropzone, DropzoneTitle, DropzoneDescription } from "@/components/ui/dropzone";
+import { createDropZone } from "@/hooks/create-drop-zone";
+
+const [avatarUrl, setAvatarUrl] = createSignal<string | null>(null);
 
 const avatarDrop = createDropZone({
   accept: "image/*",
@@ -100,21 +105,24 @@ return (
     <Show
       when={avatarUrl()}
       fallback={
-        <>
-          <DropzoneIcon />
+        <div class="flex flex-col items-center gap-2">
+          <Avatar class="size-16 border-2 border-dashed border-border mb-1">
+            <AvatarFallback>
+              <User class="size-7 text-muted-foreground" />
+            </AvatarFallback>
+          </Avatar>
           <DropzoneTitle>Upload Avatar</DropzoneTitle>
           <DropzoneDescription>PNG, JPG up to 2MB</DropzoneDescription>
-        </>
+        </div>
       }
     >
       {(url) => (
         <div class="flex flex-col items-center gap-2">
-          <img
-            src={url()}
-            alt="Avatar"
-            class="size-20 rounded-lg object-cover border-2 border-primary"
-          />
-          <p class="text-xs font-medium text-primary">Click to replace</p>
+          <Avatar class="size-20 border-2 border-primary shadow-sm">
+            <AvatarImage src={url()} alt="Avatar" />
+            <AvatarFallback>AV</AvatarFallback>
+          </Avatar>
+          <p class="text-xs font-medium text-primary">Click or drop to replace</p>
         </div>
       )}
     </Show>
@@ -230,21 +238,24 @@ export function AvatarDropDemo() {
         <Show
           when={avatarUrl()}
           fallback={
-            <>
-              <DropzoneIcon />
+            <div class="flex flex-col items-center gap-2">
+              <Avatar class="size-16 border-2 border-dashed border-border mb-1">
+                <AvatarFallback>
+                  <User class="size-7 text-muted-foreground" />
+                </AvatarFallback>
+              </Avatar>
               <DropzoneTitle>Upload Avatar</DropzoneTitle>
               <DropzoneDescription>PNG, JPG up to 2MB</DropzoneDescription>
-            </>
+            </div>
           }
         >
           {(url) => (
             <div class="flex flex-col items-center gap-2">
-              <img
-                src={url()}
-                alt="Avatar"
-                class="size-20 rounded-lg object-cover border-2 border-primary"
-              />
-              <p class="text-xs font-medium text-primary">Click to replace</p>
+              <Avatar class="size-20 border-2 border-primary shadow-sm">
+                <AvatarImage src={url()} alt="Avatar Preview" />
+                <AvatarFallback>AV</AvatarFallback>
+              </Avatar>
+              <p class="text-xs font-medium text-primary">Click or drop to replace</p>
             </div>
           )}
         </Show>
