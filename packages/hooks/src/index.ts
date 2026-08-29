@@ -38,3 +38,4 @@ export * from "./create-document-title";
 export * from "./create-favicon";
 export * from "./create-event-source";
 export * from "./create-scroll-into-view";
+export * from "./create-drop-zone";

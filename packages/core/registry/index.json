@@ -846,5 +846,11 @@
     "title": "createScrollIntoView",
     "description": "SolidJS reactive primitive for scrolling a target element into view smooth or auto behavior",
     "type": "registry:hook"
+  },
+  {
+    "name": "create-drop-zone",
+    "title": "createDropZone",
+    "description": "SolidJS reactive primitive for file drag & drop operations, validation, and file chooser dialogs",
+    "type": "registry:hook"
   }
 ]

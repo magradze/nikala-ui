@@ -448,4 +448,8 @@ export const HOOK_METADATA: Record<string, ComponentMeta> = {
     title: "createScrollIntoView",
     description: "SolidJS reactive primitive for scrolling a target element into view smooth or auto behavior",
   },
+  "create-drop-zone": {
+    title: "createDropZone",
+    description: "SolidJS reactive primitive for file drag & drop operations, validation, and file chooser dialogs",
+  },
 };

@@ -277,6 +277,12 @@ export const HOOKS_LIST: DocHookItem[] = [
     description: "SolidJS reactive primitive for scrolling a target element into view smooth or auto behavior",
     href: "/docs/hooks/create-scroll-into-view",
   },
+  {
+    name: "create-drop-zone",
+    title: "createDropZone",
+    description: "SolidJS reactive primitive for file drag & drop operations, validation, and file chooser dialogs",
+    href: "/docs/hooks/create-drop-zone",
+  },
 ];
 
 /* --- Component Library Registry List --- */
@@ -447,6 +453,7 @@ export const HOOK_SECTIONS: NavSection[] = [
       { title: "createClickOutside", href: "/docs/hooks/create-click-outside" },
       { title: "createClipboard", href: "/docs/hooks/create-clipboard" },
       { title: "createDebounce", href: "/docs/hooks/create-debounce" },
+      { title: "createDropZone", href: "/docs/hooks/create-drop-zone", addedAt: "2026-08-29" },
       { title: "createFocusTrap", href: "/docs/hooks/create-focus-trap" },
       { title: "createHover", href: "/docs/hooks/create-hover" },
       { title: "createInputMask", href: "/docs/hooks/create-input-mask" },
