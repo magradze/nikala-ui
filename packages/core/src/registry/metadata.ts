@@ -277,6 +277,11 @@ export const COMPONENT_METADATA: Record<string, ComponentMeta> = {
     description: "Profile and link preview popover triggered on hover, built on Kobalte primitives.",
     dependencies: ["clsx", "tailwind-merge", "@kobalte/core"],
   },
+  table: {
+    title: "Table",
+    description: "A responsive and accessible data table component with headers, rows, cells, and footer summaries.",
+    dependencies: ["clsx", "tailwind-merge"],
+  },
 };
 
 /**
