@@ -211,6 +211,20 @@
     ]
   },
   {
+    "name": "dropzone",
+    "title": "Dropzone",
+    "description": "A compound drag-and-drop file upload container with file list previews and validation feedback.",
+    "type": "registry:ui",
+    "dependencies": [
+      "clsx",
+      "tailwind-merge",
+      "lucide-solid"
+    ],
+    "registryDependencies": [
+      "create-drop-zone"
+    ]
+  },
+  {
     "name": "empty",
     "title": "Empty",
     "description": "A compound empty-state layout for collections, search results, and initial application states.",

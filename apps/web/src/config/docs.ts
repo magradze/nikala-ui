@@ -337,6 +337,7 @@ export const COMPONENTS_LIST: DocComponentItem[] = [
   { name: "resizable", title: "Resizable", description: "Accessible resizable panel layout component supporting drag-to-resize handles", href: "/docs/components/resizable" },
   { name: "scroll-area", title: "Scroll Area", description: "Augments native scroll functionality with custom styled scrollbars", href: "/docs/components/scroll-area" },
   { name: "table", title: "Table", description: "A responsive and accessible data table component with headers, rows, and footer summaries", href: "/docs/components/table" },
+  { name: "dropzone", title: "Dropzone", description: "A compound drag-and-drop file upload container with file list previews and validation", href: "/docs/components/dropzone" },
 ];
 
 /* --- Global Sidebar Navigation Config --- */
@@ -358,6 +359,7 @@ export const COMPONENT_SECTIONS: NavSection[] = [
       { title: "Button", href: "/docs/components/button" },
       { title: "Button Group", href: "/docs/components/button-group", addedAt: "2026-08-10" },
       { title: "Checkbox", href: "/docs/components/checkbox" },
+      { title: "Dropzone", href: "/docs/components/dropzone", addedAt: "2026-08-29" },
       { title: "Field", href: "/docs/components/field", addedAt: "2026-08-10" },
       { title: "Form", href: "/docs/components/form", addedAt: "2026-08-10" },
       { title: "Form Message", href: "/docs/components/form-message", addedAt: "2026-08-10" },

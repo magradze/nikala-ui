@@ -282,6 +282,12 @@ export const COMPONENT_METADATA: Record<string, ComponentMeta> = {
     description: "A responsive and accessible data table component with headers, rows, cells, and footer summaries.",
     dependencies: ["clsx", "tailwind-merge"],
   },
+  dropzone: {
+    title: "Dropzone",
+    description: "A compound drag-and-drop file upload container with file list previews and validation feedback.",
+    dependencies: ["clsx", "tailwind-merge", "lucide-solid"],
+    registryDependencies: ["create-drop-zone"],
+  },
 };
 
 /**
