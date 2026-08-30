@@ -15,9 +15,9 @@ import {
 } from "solid-js";
 import { cva, type VariantProps } from "class-variance-authority";
 import { PanelLeft, PanelRight } from "lucide-solid";
-import { Tooltip, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip";
-import { Skeleton } from "@/components/ui/skeleton";
-import { Separator } from "@/components/ui/separator";
+import { Tooltip, TooltipTrigger, TooltipContent } from "./tooltip";
+import { Skeleton } from "./skeleton";
+import { Separator } from "./separator";
 import { cn } from "@/lib/cn";
 
 /* --- Constants --- */
