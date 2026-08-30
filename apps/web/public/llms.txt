@@ -40,7 +40,7 @@ bunx @nikala-ui/cli rules
 
 ### Listing Catalog & Installed Items
 ```bash
-# List all 60 components and 43 hooks with installation status
+# List all 66 components and 43 hooks with installation status
 bunx @nikala-ui/cli list
 # Shortcut alias
 bunx @nikala-ui/cli ls
@@ -62,7 +62,7 @@ bunx @nikala-ui/cli list --json
 bunx @nikala-ui/cli add
 
 # Direct installation of specific UI components
-bunx @nikala-ui/cli add button input card dialog sidebar
+bunx @nikala-ui/cli add button input card dialog sidebar marquee review-card rating stat footer navbar
 
 # Add all available UI components
 bunx @nikala-ui/cli add --all
@@ -136,7 +136,7 @@ When generating or editing SolidJS code using Nikala UI components and hooks, AI
 
 ---
 
-## 4. UI Components Registry (60 Components)
+## 4. UI Components Registry (66 Components)
 
 Below is the complete inventory of available Nikala UI components with exported JSX elements:
 
@@ -161,45 +161,51 @@ Below is the complete inventory of available Nikala UI components with exported 
 19. **Dropzone**: `Dropzone`, `DropzoneTrigger`, `DropzoneZone`, `DropzoneContent`, `DropzonePreviewList`, `DropzonePreviewItem`
 20. **Empty**: `Empty`, `EmptyIcon`, `EmptyTitle`, `EmptyDescription`, `EmptyAction`
 21. **Field**: `Field`, `FieldLabel`, `FieldDescription`, `FieldError`
-22. **Form**: `Form`
-23. **Form Message**: `FormMessage`
-24. **Hover Card**: `HoverCard`, `HoverCardTrigger`, `HoverCardContent`, `HoverCardArrow`
-25. **Icon Button**: `IconButton`
-26. **Input**: `Input`
-27. **Input Group**: `InputGroup`, `InputGroupInput`, `InputGroupAddon`
-28. **Kbd**: `Kbd`, `KbdGroup`
-29. **Label**: `Label`
-30. **List**: `List`, `ListGroup`, `ListHeader`, `ListItem`
-31. **Logo**: `Logo`
-32. **Marker**: `Marker`, `MarkerBadge`, `MarkerTyping`
-33. **Message**: `Message`, `MessageAvatar`, `MessageContent`, `MessageHeader`, `MessageFooter`, `MessageAction`
-34. **Navigation Menu**: `NavigationMenu`, `NavigationMenuList`, `NavigationMenuItem`, `NavigationMenuTrigger`, `NavigationMenuContent`, `NavigationMenuLink`
-35. **Number Input**: `NumberInput`
-36. **Pagination**: `Pagination`, `PaginationContent`, `PaginationItem`, `PaginationLink`, `PaginationPrevious`, `PaginationNext`, `PaginationEllipsis`
-37. **Pin Input**: `PinInput`, `PinInputInput`, `PinInputLabel`
-38. **Popover**: `Popover`, `PopoverTrigger`, `PopoverContent`
-39. **Progress**: `Progress`, `ProgressIndicator`
-40. **Radio Group**: `RadioGroup`, `RadioGroupItem`, `RadioGroupItemLabel`
-41. **Resizable**: `ResizableGroup`, `ResizablePanel`, `ResizableHandle`
-42. **Scroll Area**: `ScrollArea`
-43. **Select**: `Select`, `SelectTrigger`, `SelectValue`, `SelectContent`, `SelectItem`
-44. **Separator**: `Separator`
-45. **Sheet / Drawer**: `Sheet`, `SheetTrigger`, `SheetOverlay`, `SheetContent`, `SheetHeader`, `SheetFooter`, `SheetTitle`, `SheetDescription`, `SheetClose`
-46. **Sidebar**: `SidebarProvider`, `Sidebar`, `SidebarTrigger`, `SidebarRail`, `SidebarInset`, `SidebarHeader`, `SidebarContent`, `SidebarFooter`, `SidebarSeparator`, `SidebarGroup`, `SidebarGroupLabel`, `SidebarGroupAction`, `SidebarGroupContent`, `SidebarMenu`, `SidebarMenuItem`, `SidebarMenuButton`, `SidebarMenuAction`, `SidebarMenuBadge`, `SidebarMenuSkeleton`, `SidebarMenuSub`, `SidebarMenuSubItem`, `SidebarMenuSubButton`, `useSidebar`
-47. **Skeleton**: `Skeleton`
-48. **Slider**: `Slider`, `SliderTrack`, `SliderFill`, `SliderThumb`, `SliderLabel`, `SliderValueLabel`
-49. **Spinner**: `Spinner`
-50. **Status**: `Status`
-51. **Switch**: `Switch`
-52. **Table**: `Table`, `TableHeader`, `TableBody`, `TableFooter`, `TableRow`, `TableHead`, `TableCell`, `TableCaption`
-53. **Tabs**: `Tabs`, `TabsList`, `TabsTrigger`, `TabsContent`
-54. **Textarea**: `Textarea`
-55. **Theme Manager**: `ThemeProvider`, `ThemeScript`, `ThemeToggle`, `useTheme`
-56. **Timeline**: `Timeline`, `TimelineItem`, `TimelineSeparator`, `TimelineIndicator`, `TimelineConnector`, `TimelineContent`, `TimelineHeader`, `TimelineTitle`, `TimelineDescription`, `TimelineTime`
-57. **Toast**: `Toast`, `ToastTitle`, `ToastDescription`, `ToastCloseButton`, `ToastRegion`, `ToastList`, `showToast`
-58. **Toggle**: `Toggle`
-59. **Toggle Group**: `ToggleGroup`, `ToggleGroupItem`
-60. **Tooltip**: `Tooltip`, `TooltipTrigger`, `TooltipContent`, `TooltipArrow`
+22. **Footer**: `Footer`, `FooterContainer`, `FooterContent`, `FooterColumn`, `FooterColumnTitle`, `FooterColumnList`, `FooterLink`, `FooterBrand`, `FooterBottom`, `FooterCopyright`, `FooterSocials`
+23. **Form**: `Form`
+24. **Form Message**: `FormMessage`
+25. **Hover Card**: `HoverCard`, `HoverCardTrigger`, `HoverCardContent`, `HoverCardArrow`
+26. **Icon Button**: `IconButton`
+27. **Input**: `Input`
+28. **Input Group**: `InputGroup`, `InputGroupInput`, `InputGroupAddon`
+29. **Kbd**: `Kbd`, `KbdGroup`
+30. **Label**: `Label`
+31. **List**: `List`, `ListGroup`, `ListHeader`, `ListItem`
+32. **Logo**: `Logo`
+33. **Marker**: `Marker`, `MarkerBadge`, `MarkerTyping`
+34. **Marquee**: `Marquee`
+35. **Message**: `Message`, `MessageAvatar`, `MessageContent`, `MessageHeader`, `MessageFooter`, `MessageAction`
+36. **Navbar**: `Navbar`, `NavbarContainer`, `NavbarBrand`, `NavbarContent`, `NavbarItem`, `NavbarLink`, `NavbarActions`, `NavbarMobileDrawer`
+37. **Navigation Menu**: `NavigationMenu`, `NavigationMenuList`, `NavigationMenuItem`, `NavigationMenuTrigger`, `NavigationMenuContent`, `NavigationMenuLink`
+38. **Number Input**: `NumberInput`
+39. **Pagination**: `Pagination`, `PaginationContent`, `PaginationItem`, `PaginationLink`, `PaginationPrevious`, `PaginationNext`, `PaginationEllipsis`
+40. **Pin Input**: `PinInput`, `PinInputInput`, `PinInputLabel`
+41. **Popover**: `Popover`, `PopoverTrigger`, `PopoverContent`
+42. **Progress**: `Progress`, `ProgressIndicator`
+43. **Radio Group**: `RadioGroup`, `RadioGroupItem`, `RadioGroupItemLabel`
+44. **Rating**: `Rating`
+45. **Resizable**: `ResizableGroup`, `ResizablePanel`, `ResizableHandle`
+46. **Review Card**: `ReviewCard`, `ReviewHeader`, `ReviewProfile`, `ReviewAvatar`, `ReviewAuthor`, `ReviewRating`, `ReviewBody`, `ReviewFooter`
+47. **Scroll Area**: `ScrollArea`
+48. **Select**: `Select`, `SelectTrigger`, `SelectValue`, `SelectContent`, `SelectItem`
+49. **Separator**: `Separator`
+50. **Sheet / Drawer**: `Sheet`, `SheetTrigger`, `SheetOverlay`, `SheetContent`, `SheetHeader`, `SheetFooter`, `SheetTitle`, `SheetDescription`, `SheetClose`
+51. **Sidebar**: `SidebarProvider`, `Sidebar`, `SidebarTrigger`, `SidebarRail`, `SidebarInset`, `SidebarHeader`, `SidebarContent`, `SidebarFooter`, `SidebarSeparator`, `SidebarGroup`, `SidebarGroupLabel`, `SidebarGroupAction`, `SidebarGroupContent`, `SidebarMenu`, `SidebarMenuItem`, `SidebarMenuButton`, `SidebarMenuAction`, `SidebarMenuBadge`, `SidebarMenuSkeleton`, `SidebarMenuSub`, `SidebarMenuSubItem`, `SidebarMenuSubButton`, `useSidebar`
+52. **Skeleton**: `Skeleton`
+53. **Slider**: `Slider`, `SliderTrack`, `SliderFill`, `SliderThumb`, `SliderLabel`, `SliderValueLabel`
+54. **Spinner**: `Spinner`
+55. **Stat**: `Stat`, `StatGroup`, `StatHeader`, `StatLabel`, `StatIcon`, `StatValue`, `StatUnit`, `StatTrend`, `StatHelpText`
+56. **Status**: `Status`
+57. **Switch**: `Switch`
+58. **Table**: `Table`, `TableHeader`, `TableBody`, `TableFooter`, `TableRow`, `TableHead`, `TableCell`, `TableCaption`
+59. **Tabs**: `Tabs`, `TabsList`, `TabsTrigger`, `TabsContent`
+60. **Textarea**: `Textarea`
+61. **Theme Manager**: `ThemeProvider`, `ThemeScript`, `ThemeToggle`, `useTheme`
+62. **Timeline**: `Timeline`, `TimelineItem`, `TimelineSeparator`, `TimelineIndicator`, `TimelineConnector`, `TimelineContent`, `TimelineHeader`, `TimelineTitle`, `TimelineDescription`, `TimelineTime`
+63. **Toast**: `Toast`, `ToastTitle`, `ToastDescription`, `ToastCloseButton`, `ToastRegion`, `ToastList`, `showToast`
+64. **Toggle**: `Toggle`
+65. **Toggle Group**: `ToggleGroup`, `ToggleGroupItem`
+66. **Tooltip**: `Tooltip`, `TooltipTrigger`, `TooltipContent`, `TooltipArrow`
 
 ---
 
@@ -262,7 +268,7 @@ Nikala UI primitives are written directly to `src/hooks/<hook-name>.ts`. Below i
 - Model Context Protocol (MCP): https://nikala.dev/docs/mcp
 - Live Interactive Playground: https://nikala.dev/playground
 
-### All Component Pages (60 Components)
+### All Component Pages (66 Components)
 - Accordion: https://nikala.dev/docs/components/accordion
 - Alert: https://nikala.dev/docs/components/alert
 - Aspect Ratio: https://nikala.dev/docs/components/aspect-ratio
@@ -284,6 +290,7 @@ Nikala UI primitives are written directly to `src/hooks/<hook-name>.ts`. Below i
 - Dropzone: https://nikala.dev/docs/components/dropzone
 - Empty: https://nikala.dev/docs/components/empty
 - Field: https://nikala.dev/docs/components/field
+- Footer: https://nikala.dev/docs/components/footer
 - Form Message: https://nikala.dev/docs/components/form-message
 - Form: https://nikala.dev/docs/components/form
 - Hover Card: https://nikala.dev/docs/components/hover-card
@@ -294,7 +301,9 @@ Nikala UI primitives are written directly to `src/hooks/<hook-name>.ts`. Below i
 - Label: https://nikala.dev/docs/components/label
 - List: https://nikala.dev/docs/components/list
 - Marker: https://nikala.dev/docs/components/marker
+- Marquee: https://nikala.dev/docs/components/marquee
 - Message: https://nikala.dev/docs/components/message
+- Navbar: https://nikala.dev/docs/components/navbar
 - Navigation Menu: https://nikala.dev/docs/components/navigation-menu
 - Number Input: https://nikala.dev/docs/components/number-input
 - Pagination: https://nikala.dev/docs/components/pagination
@@ -302,7 +311,9 @@ Nikala UI primitives are written directly to `src/hooks/<hook-name>.ts`. Below i
 - Popover: https://nikala.dev/docs/components/popover
 - Progress: https://nikala.dev/docs/components/progress
 - Radio Group: https://nikala.dev/docs/components/radio-group
+- Rating: https://nikala.dev/docs/components/rating
 - Resizable: https://nikala.dev/docs/components/resizable
+- Review Card: https://nikala.dev/docs/components/review-card
 - Scroll Area: https://nikala.dev/docs/components/scroll-area
 - Select: https://nikala.dev/docs/components/select
 - Separator: https://nikala.dev/docs/components/separator
@@ -311,6 +322,7 @@ Nikala UI primitives are written directly to `src/hooks/<hook-name>.ts`. Below i
 - Skeleton: https://nikala.dev/docs/components/skeleton
 - Slider: https://nikala.dev/docs/components/slider
 - Spinner: https://nikala.dev/docs/components/spinner
+- Stat: https://nikala.dev/docs/components/stat
 - Status: https://nikala.dev/docs/components/status
 - Switch: https://nikala.dev/docs/components/switch
 - Table: https://nikala.dev/docs/components/table
