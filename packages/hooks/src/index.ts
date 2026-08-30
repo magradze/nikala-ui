@@ -40,3 +40,4 @@ export * from "./create-event-source";
 export * from "./create-scroll-into-view";
 export * from "./create-drop-zone";
 export * from "./create-pagination";
+export * from "./create-chat-scroll";

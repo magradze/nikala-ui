@@ -75,6 +75,17 @@
     ]
   },
   {
+    "name": "bubble",
+    "title": "Bubble",
+    "description": "Chat message bubble container supporting variants, grouped consecutive bubbles, and emoji reactions.",
+    "type": "registry:ui",
+    "dependencies": [
+      "clsx",
+      "tailwind-merge",
+      "class-variance-authority"
+    ]
+  },
+  {
     "name": "button-group",
     "title": "Button Group",
     "description": "Groups related buttons into a connected horizontal or vertical control.",
@@ -353,6 +364,26 @@
     "name": "logo",
     "title": "Logo",
     "description": "logo component.",
+    "type": "registry:ui",
+    "dependencies": [
+      "clsx",
+      "tailwind-merge"
+    ]
+  },
+  {
+    "name": "marker",
+    "title": "Marker",
+    "description": "System chat events, date dividers, and live typing indicator badges.",
+    "type": "registry:ui",
+    "dependencies": [
+      "clsx",
+      "tailwind-merge"
+    ]
+  },
+  {
+    "name": "message",
+    "title": "Message",
+    "description": "A structured chat and conversation message layout with avatars, alignment, headers, footers, and actions.",
     "type": "registry:ui",
     "dependencies": [
       "clsx",
@@ -926,6 +957,12 @@
     "name": "create-pagination",
     "title": "createPagination",
     "description": "SolidJS reactive primitive for computing pagination state, dynamic page ranges with ellipses, and navigation controls",
+    "type": "registry:hook"
+  },
+  {
+    "name": "create-chat-scroll",
+    "title": "createChatScroll",
+    "description": "SolidJS reactive primitive for automated chat container scrolling with manual scroll-up detection",
     "type": "registry:hook"
   }
 ]

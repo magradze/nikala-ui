@@ -311,6 +311,21 @@ export const COMPONENT_METADATA: Record<string, ComponentMeta> = {
     dependencies: ["clsx", "tailwind-merge", "class-variance-authority", "lucide-solid"],
     registryDependencies: ["create-pagination"],
   },
+  message: {
+    title: "Message",
+    description: "A structured chat and conversation message layout with avatars, alignment, headers, footers, and actions.",
+    dependencies: ["clsx", "tailwind-merge"],
+  },
+  bubble: {
+    title: "Bubble",
+    description: "Chat message bubble container supporting variants, grouped consecutive bubbles, and emoji reactions.",
+    dependencies: ["clsx", "tailwind-merge", "class-variance-authority"],
+  },
+  marker: {
+    title: "Marker",
+    description: "System chat events, date dividers, and live typing indicator badges.",
+    dependencies: ["clsx", "tailwind-merge"],
+  },
 };
 
 /**
@@ -484,5 +499,9 @@ export const HOOK_METADATA: Record<string, ComponentMeta> = {
   "create-pagination": {
     title: "createPagination",
     description: "SolidJS reactive primitive for computing pagination state, dynamic page ranges with ellipses, and navigation controls",
+  },
+  "create-chat-scroll": {
+    title: "createChatScroll",
+    description: "SolidJS reactive primitive for automated chat container scrolling with manual scroll-up detection",
   },
 };

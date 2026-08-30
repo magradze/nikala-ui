@@ -289,6 +289,12 @@ export const HOOKS_LIST: DocHookItem[] = [
     description: "SolidJS reactive primitive for computing pagination state, dynamic page ranges with ellipses, and navigation controls",
     href: "/docs/hooks/create-pagination",
   },
+  {
+    name: "create-chat-scroll",
+    title: "createChatScroll",
+    description: "SolidJS reactive primitive for automated chat container scrolling with manual scroll-up detection",
+    href: "/docs/hooks/create-chat-scroll",
+  },
 ];
 
 /* --- Component Library Registry List --- */
@@ -348,6 +354,9 @@ export const COMPONENTS_LIST: DocComponentItem[] = [
   { name: "timeline", title: "Timeline", description: "A responsive chronological display for event streams, activity logs, and multi-step workflows", href: "/docs/components/timeline" },
   { name: "navigation-menu", title: "Navigation Menu", description: "A responsive and accessible top header navigation menu with mega-menu dropdowns and link previews", href: "/docs/components/navigation-menu" },
   { name: "pagination", title: "Pagination", description: "An accessible multi-page navigation bar with previous, next, page numbers, and ellipsis controls", href: "/docs/components/pagination" },
+  { name: "message", title: "Message", description: "A structured chat and conversation message layout with avatars, alignment, headers, footers, and actions", href: "/docs/components/message" },
+  { name: "bubble", title: "Bubble", description: "Chat message bubble container supporting variants, grouped consecutive bubbles, and emoji reactions", href: "/docs/components/bubble" },
+  { name: "marker", title: "Marker", description: "System chat events, date dividers, and live typing indicator badges", href: "/docs/components/marker" },
 ];
 
 /* --- Global Sidebar Navigation Config --- */
@@ -392,10 +401,13 @@ export const COMPONENT_SECTIONS: NavSection[] = [
     items: [
       { title: "Avatar", href: "/docs/components/avatar" },
       { title: "Badge", href: "/docs/components/badge" },
+      { title: "Bubble", href: "/docs/components/bubble", addedAt: "2026-08-30" },
       { title: "Card", href: "/docs/components/card" },
       { title: "Empty", href: "/docs/components/empty", addedAt: "2026-08-10" },
       { title: "Kbd", href: "/docs/components/kbd" },
       { title: "List", href: "/docs/components/list" },
+      { title: "Marker", href: "/docs/components/marker", addedAt: "2026-08-30" },
+      { title: "Message", href: "/docs/components/message", addedAt: "2026-08-30" },
       { title: "Progress", href: "/docs/components/progress" },
       { title: "Resizable", href: "/docs/components/resizable", addedAt: "2026-08-08" },
       { title: "Scroll Area", href: "/docs/components/scroll-area", addedAt: "2026-08-08" },
@@ -467,6 +479,7 @@ export const HOOK_SECTIONS: NavSection[] = [
     title: "DOM & Interactivity",
     items: [
       { title: "createActiveElement", href: "/docs/hooks/create-active-element" },
+      { title: "createChatScroll", href: "/docs/hooks/create-chat-scroll", addedAt: "2026-08-30" },
       { title: "createClickOutside", href: "/docs/hooks/create-click-outside" },
       { title: "createClipboard", href: "/docs/hooks/create-clipboard" },
       { title: "createDebounce", href: "/docs/hooks/create-debounce" },
