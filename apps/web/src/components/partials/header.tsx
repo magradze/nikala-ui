@@ -151,8 +151,7 @@ export function Header() {
               class="flex items-center gap-2 h-8 px-2.5 text-xs text-muted-foreground hover:text-foreground cursor-pointer"
             >
               <Search class="size-3.5" />
-              <span class="hidden sm:inline-block">Search docs...</span>
-              <span class="sm:hidden">Search</span>
+              <span>Search...</span>
               <Kbd size="sm" class="hidden sm:inline-flex">⌘K</Kbd>
             </Button>
 

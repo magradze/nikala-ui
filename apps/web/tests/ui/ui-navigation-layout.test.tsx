@@ -51,3 +51,51 @@ describe("UI Component - Avatar Suite", () => {
     expect(typeof AvatarFallback).toBe("function");
   });
 });
+
+describe("UI Component - NavigationMenu Suite", () => {
+  it("should define all NavigationMenu subcomponents", async () => {
+    const {
+      NavigationMenu,
+      NavigationMenuList,
+      NavigationMenuItem,
+      NavigationMenuTrigger,
+      NavigationMenuContent,
+      NavigationMenuLink,
+    } = await import("@/components/ui/navigation-menu");
+
+    expect(typeof NavigationMenu).toBe("function");
+    expect(typeof NavigationMenuList).toBe("function");
+    expect(typeof NavigationMenuItem).toBe("function");
+    expect(typeof NavigationMenuTrigger).toBe("function");
+    expect(typeof NavigationMenuContent).toBe("function");
+    expect(typeof NavigationMenuLink).toBe("function");
+  });
+});
+
+describe("UI Component - Pagination Suite", () => {
+  it("should define all Pagination subcomponents", async () => {
+    const {
+      Pagination,
+      PaginationContent,
+      PaginationItem,
+      PaginationLink,
+      PaginationPrevious,
+      PaginationNext,
+      PaginationFirst,
+      PaginationLast,
+      PaginationEllipsis,
+      PaginationSummary,
+    } = await import("@/components/ui/pagination");
+
+    expect(typeof Pagination).toBe("function");
+    expect(typeof PaginationContent).toBe("function");
+    expect(typeof PaginationItem).toBe("function");
+    expect(typeof PaginationLink).toBe("function");
+    expect(typeof PaginationPrevious).toBe("function");
+    expect(typeof PaginationNext).toBe("function");
+    expect(typeof PaginationFirst).toBe("function");
+    expect(typeof PaginationLast).toBe("function");
+    expect(typeof PaginationEllipsis).toBe("function");
+    expect(typeof PaginationSummary).toBe("function");
+  });
+});

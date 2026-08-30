@@ -283,6 +283,12 @@ export const HOOKS_LIST: DocHookItem[] = [
     description: "SolidJS reactive primitive for file drag & drop operations, validation, and file chooser dialogs",
     href: "/docs/hooks/create-drop-zone",
   },
+  {
+    name: "create-pagination",
+    title: "createPagination",
+    description: "SolidJS reactive primitive for computing pagination state, dynamic page ranges with ellipses, and navigation controls",
+    href: "/docs/hooks/create-pagination",
+  },
 ];
 
 /* --- Component Library Registry List --- */
@@ -341,6 +347,7 @@ export const COMPONENTS_LIST: DocComponentItem[] = [
   { name: "toggle-group", title: "Toggle Group", description: "A set of two-state buttons supporting single/multiple selection, size variants, and keyboard navigation", href: "/docs/components/toggle-group" },
   { name: "timeline", title: "Timeline", description: "A responsive chronological display for event streams, activity logs, and multi-step workflows", href: "/docs/components/timeline" },
   { name: "navigation-menu", title: "Navigation Menu", description: "A responsive and accessible top header navigation menu with mega-menu dropdowns and link previews", href: "/docs/components/navigation-menu" },
+  { name: "pagination", title: "Pagination", description: "An accessible multi-page navigation bar with previous, next, page numbers, and ellipsis controls", href: "/docs/components/pagination" },
 ];
 
 /* --- Global Sidebar Navigation Config --- */
@@ -429,6 +436,7 @@ export const COMPONENT_SECTIONS: NavSection[] = [
       { title: "Combobox", href: "/docs/components/combobox", addedAt: "2026-08-05" },
       { title: "Command", href: "/docs/components/command", addedAt: "2026-08-05" },
       { title: "Navigation Menu", href: "/docs/components/navigation-menu", addedAt: "2026-08-30" },
+      { title: "Pagination", href: "/docs/components/pagination", addedAt: "2026-08-30" },
       { title: "Separator", href: "/docs/components/separator" },
       { title: "Slider", href: "/docs/components/slider", addedAt: "2026-08-04" },
       { title: "Tabs", href: "/docs/components/tabs" },
@@ -450,6 +458,7 @@ export const HOOK_SECTIONS: NavSection[] = [
       { title: "createControllableSignal", href: "/docs/hooks/create-controllable-signal" },
       { title: "createDisclosure", href: "/docs/hooks/create-disclosure" },
       { title: "createForm", href: "/docs/hooks/create-form" },
+      { title: "createPagination", href: "/docs/hooks/create-pagination", addedAt: "2026-08-30" },
       { title: "createPrevious", href: "/docs/hooks/create-previous" },
       { title: "createUndoRedo", href: "/docs/hooks/create-undo-redo" },
     ],
