@@ -15,6 +15,7 @@ interface AddOptions {
   overwrite?: boolean;
   all?: boolean;
   hook?: boolean;
+  block?: boolean;
 }
 
 /**
@@ -36,9 +37,16 @@ export async function add(components: string[] = [], options: AddOptions = {}) {
   }
 
   const isHookMode = Boolean(options.hook);
-  const filteredRegistry = registryIndex.filter((item) =>
-    isHookMode ? item.type === "registry:hook" : item.type !== "registry:hook"
-  );
+  const isBlockMode = Boolean(options.block);
+
+  let filteredRegistry = registryIndex;
+  if (isHookMode) {
+    filteredRegistry = registryIndex.filter((item) => item.type === "registry:hook");
+  } else if (isBlockMode) {
+    filteredRegistry = registryIndex.filter((item) => item.type === "registry:block");
+  } else {
+    filteredRegistry = registryIndex.filter((item) => item.type !== "registry:hook");
+  }
 
   const isAllRequested = options.all || components.includes("all");
   let requestedComponents = components.filter((c) => c !== "all");
@@ -46,7 +54,7 @@ export async function add(components: string[] = [], options: AddOptions = {}) {
   if (isAllRequested) {
     requestedComponents = filteredRegistry.map((item) => item.name);
   } else if (requestedComponents.length === 0) {
-    const itemLabel = isHookMode ? "hooks" : "components";
+    const itemLabel = isHookMode ? "hooks" : isBlockMode ? "blocks" : "components";
     const response = await prompts({
       type: "autocompleteMultiselect",
       name: "selectedComponents",
@@ -67,10 +75,13 @@ export async function add(components: string[] = [], options: AddOptions = {}) {
     requestedComponents = response.selectedComponents;
   }
 
-  const resolvedTargets = await resolveRegistryDependencies(requestedComponents);
+  const resolvedTargets = await resolveRegistryDependencies(
+    requestedComponents,
+    config.registries
+  );
   const componentsDir = path.resolve(cwd, config.alias.components);
 
-  console.log(pc.cyan(`\n🎨 Adding components to project...\n`));
+  console.log(pc.cyan(`\n🎨 Adding items to project...\n`));
 
   const requiredNpmDeps = new Set<string>();
 
@@ -79,7 +90,7 @@ export async function add(components: string[] = [], options: AddOptions = {}) {
   }
 
   for (const target of resolvedTargets) {
-    const item = await getRegistryItem(target);
+    const item = await getRegistryItem(target, config.registries);
 
     if (!item) {
       const availableStr = registryIndex ? registryIndex.map((i) => i.name).join(", ") : "none";
@@ -98,28 +109,28 @@ export async function add(components: string[] = [], options: AddOptions = {}) {
 
   // Inspect user package.json and install missing NPM packages
   const userPkgPath = path.join(cwd, "package.json");
-  const missingNpmDeps: string[] = [];
-
   if (await fs.pathExists(userPkgPath)) {
     try {
       const userPkg = await fs.readJson(userPkgPath);
-      const installedDeps = { ...userPkg.dependencies, ...userPkg.devDependencies };
+      const installedDeps = {
+        ...userPkg.dependencies,
+        ...userPkg.devDependencies,
+      };
 
-      for (const dep of requiredNpmDeps) {
-        if (!installedDeps[dep]) {
-          missingNpmDeps.push(dep);
-        }
+      const missingDeps = Array.from(requiredNpmDeps).filter(
+        (dep) => !installedDeps[dep]
+      );
+
+      if (missingDeps.length > 0) {
+        console.log(
+          pc.cyan(`\n📦 Installing missing dependencies: ${missingDeps.join(", ")}...\n`)
+        );
+        await installDependencies(missingDeps, cwd);
       }
     } catch {
-      missingNpmDeps.push(...Array.from(requiredNpmDeps));
+      // Gracefully continue
     }
-  } else {
-    missingNpmDeps.push(...Array.from(requiredNpmDeps));
   }
 
-  if (missingNpmDeps.length > 0) {
-    await installDependencies(missingNpmDeps, cwd);
-  }
-
-  console.log(pc.cyan("\n✅ Components successfully added!"));
+  console.log(pc.green(`\n✨ Successfully added ${resolvedTargets.length} item(s)!`));
 }

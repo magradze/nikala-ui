@@ -4,7 +4,7 @@ import pc from "picocolors";
 import type { RegistryItem } from "../../types/registry.js";
 
 /**
- * Writes registry component files to target workspace directories (ui vs providers).
+ * Writes registry component files to target workspace directories (ui vs blocks vs hooks).
  *
  * @param cwd - Working directory path of the target project
  * @param item - Registry item manifest containing files
@@ -23,6 +23,13 @@ export async function writeComponentFiles(
     if (file.path.startsWith("ui/")) {
       const relativePath = file.path.replace(/^ui\//, "");
       targetFilePath = path.join(componentsDir, relativePath);
+    } else if (file.path.startsWith("blocks/") || file.type === "registry:block") {
+      const relativePath = file.path.startsWith("blocks/")
+        ? file.path.replace(/^blocks\//, "")
+        : file.path;
+      // Default blocks destination is src/components/blocks
+      const blocksDir = path.resolve(path.dirname(componentsDir), "blocks");
+      targetFilePath = path.join(blocksDir, relativePath);
     } else if (file.path.startsWith("hooks/")) {
       const relativePath = file.path.replace(/^hooks\//, "");
       const hooksDir = path.resolve(cwd, "src/hooks");

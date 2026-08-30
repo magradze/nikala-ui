@@ -8,11 +8,12 @@ interface ListOptions {
   installed?: boolean;
   hook?: boolean;
   component?: boolean;
+  block?: boolean;
   json?: boolean;
 }
 
 /**
- * Command handler to list all available and locally installed Nikala UI components and hooks.
+ * Command handler to list all available and locally installed Nikala UI components, blocks, and hooks.
  */
 export async function listCommand(options: ListOptions = {}) {
   const cwd = process.cwd();
@@ -25,13 +26,15 @@ export async function listCommand(options: ListOptions = {}) {
   }
 
   const componentsDir = config ? path.resolve(cwd, config.alias.components) : path.join(cwd, "src/components/ui");
+  const blocksDir = path.resolve(path.dirname(componentsDir), "blocks");
   const hooksDir = config && config.alias.hooks ? path.resolve(cwd, config.alias.hooks) : path.join(cwd, "src/hooks");
 
   // Inspect status for all items
   const items = await Promise.all(
     registryIndex.map(async (item) => {
       const isHook = item.type === "registry:hook";
-      const targetDir = isHook ? hooksDir : componentsDir;
+      const isBlock = item.type === "registry:block";
+      const targetDir = isHook ? hooksDir : isBlock ? blocksDir : componentsDir;
       const tsxPath = path.join(targetDir, `${item.name}.tsx`);
       const tsPath = path.join(targetDir, `${item.name}.ts`);
       const isInstalled = (await fs.pathExists(tsxPath)) || (await fs.pathExists(tsPath));
@@ -49,11 +52,14 @@ export async function listCommand(options: ListOptions = {}) {
   if (options.installed) {
     filtered = filtered.filter((i) => i.isInstalled);
   }
-  if (options.hook && !options.component) {
+  if (options.hook) {
     filtered = filtered.filter((i) => i.type === "registry:hook");
   }
-  if (options.component && !options.hook) {
-    filtered = filtered.filter((i) => i.type !== "registry:hook");
+  if (options.block) {
+    filtered = filtered.filter((i) => i.type === "registry:block");
+  }
+  if (options.component) {
+    filtered = filtered.filter((i) => i.type === "registry:ui");
   }
 
   // JSON Output mode
@@ -62,18 +68,21 @@ export async function listCommand(options: ListOptions = {}) {
     return;
   }
 
-  const components = filtered.filter((i) => i.type !== "registry:hook");
+  const uiComponents = filtered.filter((i) => i.type === "registry:ui");
+  const blocks = filtered.filter((i) => i.type === "registry:block");
   const hooks = filtered.filter((i) => i.type === "registry:hook");
 
   const installedCount = items.filter((i) => i.isInstalled).length;
-  const installedCompCount = components.filter((i) => i.isInstalled).length;
-  const installedHookCount = hooks.filter((i) => i.isInstalled).length;
+  const installedCompCount = items.filter((i) => i.isInstalled && i.type === "registry:ui").length;
+  const installedBlockCount = items.filter((i) => i.isInstalled && i.type === "registry:block").length;
+  const installedHookCount = items.filter((i) => i.isInstalled && i.type === "registry:hook").length;
 
   console.log(`\n📋 ${pc.bold("Nikala UI Registry Catalog")}\n`);
 
-  if (!options.hook && components.length > 0) {
-    console.log(pc.bold(pc.cyan(`📦 UI Components (${components.length}):`)));
-    for (const comp of components) {
+  // 1. UI Components section
+  if (!options.hook && !options.block && uiComponents.length > 0) {
+    console.log(pc.bold(pc.cyan(`📦 UI Components (${uiComponents.length}):`)));
+    for (const comp of uiComponents) {
       const status = comp.isInstalled
         ? pc.green("✓ Installed")
         : pc.dim("+ Available");
@@ -84,7 +93,22 @@ export async function listCommand(options: ListOptions = {}) {
     console.log("");
   }
 
-  if (!options.component && hooks.length > 0) {
+  // 2. Marketing & App Blocks section
+  if (!options.hook && !options.component && blocks.length > 0) {
+    console.log(pc.bold(pc.yellow(`🧱 Blocks (${blocks.length}):`)));
+    for (const block of blocks) {
+      const status = block.isInstalled
+        ? pc.green("✓ Installed")
+        : pc.dim("+ Available");
+      const name = block.isInstalled ? pc.bold(pc.white(block.name)) : pc.white(block.name);
+      const desc = block.description ? pc.dim(` — ${block.description}`) : "";
+      console.log(`  ${status}  ${name.padEnd(20)} ${desc}`);
+    }
+    console.log("");
+  }
+
+  // 3. Hooks section
+  if (!options.component && !options.block && hooks.length > 0) {
     console.log(pc.bold(pc.magenta(`⚡ Reactive Primitives / Hooks (${hooks.length}):`)));
     for (const hook of hooks) {
       const status = hook.isInstalled
@@ -104,13 +128,13 @@ export async function listCommand(options: ListOptions = {}) {
     )
   );
   console.log(
-    `Summary: ${pc.green(`${installedCount} installed`)} (${installedCompCount} components, ${installedHookCount} hooks) · ${pc.cyan(
+    `Summary: ${pc.green(`${installedCount} installed`)} (${installedCompCount} UI, ${installedBlockCount} blocks, ${installedHookCount} hooks) · ${pc.cyan(
       `${registryIndex.length} total in registry`
     )}`
   );
   if (!config) {
-    console.log(pc.yellow(`\n💡 Tip: Run \`nikala init\` in this directory to initialize Nikala UI configuration.`));
-  } else {
-    console.log(pc.dim(`\nInstall items with: \`nikala add <name>\` or \`nikala add -h <hook-name>\``));
+    console.log(
+      pc.yellow(`\n💡 Tip: Run \`nikala init\` in this directory to initialize Nikala UI configuration.`)
+    );
   }
 }

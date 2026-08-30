@@ -542,3 +542,16 @@ export const HOOK_METADATA: Record<string, ComponentMeta> = {
     description: "SolidJS reactive primitive for automated chat container scrolling with manual scroll-up detection",
   },
 };
+
+/**
+ * Static metadata configuration for ready-to-use application and marketing blocks.
+ */
+export const BLOCK_METADATA: Record<string, ComponentMeta> = {
+  "hero-01": {
+    title: "Hero 01 — Simple Centered with Actions",
+    description: "A clean centered hero section with badge pill, high-contrast headline, and dual CTA buttons.",
+    dependencies: ["clsx", "tailwind-merge", "lucide-solid"],
+    registryDependencies: ["button", "badge"],
+  },
+};
+

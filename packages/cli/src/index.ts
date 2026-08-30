@@ -38,9 +38,10 @@ program
 
 program
   .command("add [components...]")
-  .description("Add components or reactive hooks to your project")
+  .description("Add components, blocks, or reactive hooks to your project")
   .option("-o, --overwrite", "Overwrite existing files")
   .option("--all", "Add all available items")
+  .option("-b, --block", "Add marketing or app block section(s)")
   .option("-h, --hook", "Add reactive hook primitive(s) instead of UI components")
   .action(add);
 
@@ -91,9 +92,10 @@ program
 program
   .command("list")
   .alias("ls")
-  .description("List available and locally installed Nikala UI components and reactive hooks")
+  .description("List available and locally installed Nikala UI components, blocks, and reactive hooks")
   .option("-i, --installed", "Show only locally installed items")
   .option("-c, --component", "Show only UI components")
+  .option("-b, --block", "Show only blocks")
   .option("-h, --hook", "Show only reactive hooks")
   .option("--json", "Output results in JSON format")
   .action((options) => listCommand(options));

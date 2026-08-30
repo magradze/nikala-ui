@@ -13,20 +13,45 @@ export const OFFICIAL_REGISTRY_URL =
 function getLocalRegistryDirectory(): string {
   const __filename = fileURLToPath(import.meta.url);
   const __dirname = path.dirname(__filename);
+
+  // 1. Monorepo development path (packages/core/registry)
+  const monorepoCorePath = path.resolve(__dirname, "../../../core/registry");
+  if (fs.existsSync(monorepoCorePath)) {
+    return monorepoCorePath;
+  }
+
   return path.resolve(__dirname, "../../registry");
 }
 
 /**
  * Reads and parses the central registry index manifest.
- * Bypasses GitHub Raw CDN caching using timestamps and fetches fresh index files.
+ * Prioritizes local monorepo registry during development, and falls back to remote CDN for end-users.
  *
+ * @param customRegistryUrl - Optional custom registry base URL to fetch index from
  * @returns The list of available registry items or null if not found.
  */
-export async function getRegistryIndex(): Promise<RegistryIndex | null> {
-  // 1. Attempt fetching online manifest from GitHub Raw CDN with cache-busting
+export async function getRegistryIndex(customRegistryUrl?: string): Promise<RegistryIndex | null> {
+  const baseUrl = customRegistryUrl || OFFICIAL_REGISTRY_URL;
+
+  // 1. Prioritize local monorepo registry if present
+  if (!customRegistryUrl) {
+    const localDir = getLocalRegistryDirectory();
+    const indexPath = path.join(localDir, "index.json");
+
+    if (await fs.pathExists(indexPath)) {
+      try {
+        const content = await fs.readFile(indexPath, "utf-8");
+        return JSON.parse(content) as RegistryIndex;
+      } catch {
+        // Fallback to online CDN
+      }
+    }
+  }
+
+  // 2. Fetch online manifest from remote CDN with cache-busting
   try {
     const cacheBuster = Date.now();
-    const response = await fetch(`${OFFICIAL_REGISTRY_URL}/index.json?t=${cacheBuster}`, {
+    const response = await fetch(`${baseUrl}/index.json?t=${cacheBuster}`, {
       headers: { "Cache-Control": "no-cache, no-store" },
     });
     if (response.ok) {
@@ -35,19 +60,6 @@ export async function getRegistryIndex(): Promise<RegistryIndex | null> {
     }
   } catch {
     // Fallback to local files if offline or network error occurs
-  }
-
-  // 2. Local package fallback
-  const localDir = getLocalRegistryDirectory();
-  const indexPath = path.join(localDir, "index.json");
-
-  if (await fs.pathExists(indexPath)) {
-    try {
-      const content = await fs.readFile(indexPath, "utf-8");
-      return JSON.parse(content) as RegistryIndex;
-    } catch {
-      return null;
-    }
   }
 
   return null;
@@ -75,22 +87,35 @@ export async function fetchRemoteRegistryItem(url: string): Promise<RegistryItem
 }
 
 /**
- * Fetches the manifest for a component by name or remote URL.
- * Checks official remote GitHub registry first, then falls back to local package manifest if offline.
+ * Fetches the manifest for a component by name, namespace, or remote URL.
+ * Checks local package manifest first (for monorepo dev & offline), then custom registries from config, and finally official remote GitHub CDN.
  *
- * @param nameOrUrl - Component identifier or full HTTP(S) URL
+ * @param nameOrUrl - Component identifier (e.g. "button", "@acme/hero-01", "https://...")
+ * @param customRegistries - Optional dictionary of custom namespace registries from nikala.config.json
  */
-export async function getRegistryItem(nameOrUrl: string): Promise<RegistryItem | null> {
+export async function getRegistryItem(
+  nameOrUrl: string,
+  customRegistries?: Record<string, string>
+): Promise<RegistryItem | null> {
+  // 1. Direct HTTP(S) URL
   if (nameOrUrl.startsWith("http://") || nameOrUrl.startsWith("https://")) {
     return fetchRemoteRegistryItem(nameOrUrl);
   }
 
-  // 1. Attempt fetching online component manifest from official GitHub CDN
-  const remoteUrl = `${OFFICIAL_REGISTRY_URL}/${nameOrUrl}.json`;
-  const remoteItem = await fetchRemoteRegistryItem(remoteUrl);
-  if (remoteItem) return remoteItem;
+  // 2. Custom 3rd-party namespace registry (e.g. "@acme/hero-01")
+  if (nameOrUrl.startsWith("@") && nameOrUrl.includes("/")) {
+    const [namespace, ...rest] = nameOrUrl.split("/");
+    const itemName = rest.join("/");
+    const registryBaseUrl = customRegistries?.[namespace];
 
-  // 2. Fallback to local package files if offline or unreleased
+    if (registryBaseUrl) {
+      const cleanBase = registryBaseUrl.replace(/\/$/, "");
+      const remoteUrl = `${cleanBase}/${itemName}.json`;
+      return fetchRemoteRegistryItem(remoteUrl);
+    }
+  }
+
+  // 3. Local package / Monorepo registry file
   const localDir = getLocalRegistryDirectory();
   const itemPath = path.join(localDir, `${nameOrUrl}.json`);
 
@@ -99,17 +124,22 @@ export async function getRegistryItem(nameOrUrl: string): Promise<RegistryItem |
       const content = await fs.readFile(itemPath, "utf-8");
       return JSON.parse(content) as RegistryItem;
     } catch {
-      return null;
+      // Fallback to online CDN
     }
   }
 
-  return null;
+  // 4. Official GitHub CDN registry
+  const remoteUrl = `${OFFICIAL_REGISTRY_URL}/${nameOrUrl}.json`;
+  return fetchRemoteRegistryItem(remoteUrl);
 }
 
 /**
  * Recursively resolves all required internal registry dependencies for a set of component names or URLs.
  */
-export async function resolveRegistryDependencies(namesOrUrls: string[]): Promise<string[]> {
+export async function resolveRegistryDependencies(
+  namesOrUrls: string[],
+  customRegistries?: Record<string, string>
+): Promise<string[]> {
   const resolved = new Set<string>();
   const queue = [...namesOrUrls];
 
@@ -117,7 +147,7 @@ export async function resolveRegistryDependencies(namesOrUrls: string[]): Promis
     const current = queue.shift();
     if (!current || resolved.has(current)) continue;
 
-    const item = await getRegistryItem(current);
+    const item = await getRegistryItem(current, customRegistries);
     if (!item) continue;
 
     resolved.add(current);

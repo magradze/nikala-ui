@@ -798,6 +798,21 @@
     ]
   },
   {
+    "name": "hero-01",
+    "title": "Hero 01 — Simple Centered with Actions",
+    "description": "A clean centered hero section with badge pill, high-contrast headline, and dual CTA buttons.",
+    "type": "registry:block",
+    "dependencies": [
+      "clsx",
+      "tailwind-merge",
+      "lucide-solid"
+    ],
+    "registryDependencies": [
+      "button",
+      "badge"
+    ]
+  },
+  {
     "name": "create-controllable-signal",
     "title": "createControllableSignal",
     "description": "SolidJS reactive primitive supporting both controlled and uncontrolled state management",
