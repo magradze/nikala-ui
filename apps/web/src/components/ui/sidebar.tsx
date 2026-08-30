@@ -520,11 +520,11 @@ export const SidebarMenuButton: ParentComponent<SidebarMenuButtonProps> = (props
       when={local.tooltip && state() === "collapsed" && !isMobile()}
       fallback={buttonElement()}
     >
-      <Tooltip openDelay={100}>
+      <Tooltip placement="right" gutter={8} openDelay={100}>
         <TooltipTrigger as="div" class="w-full flex items-center justify-center">
           {buttonElement()}
         </TooltipTrigger>
-        <TooltipContent side="right" align="center">
+        <TooltipContent>
           {local.tooltip}
         </TooltipContent>
       </Tooltip>

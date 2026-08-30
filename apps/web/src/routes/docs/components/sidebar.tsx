@@ -57,6 +57,9 @@ import {
   Plus,
   Building2,
   Sparkles,
+  BadgeCheck,
+  Bell,
+  LogOut,
 } from "lucide-solid";
 import { createSignal, For, Show } from "solid-js";
 
@@ -85,7 +88,7 @@ const defaultCode = `<SidebarProvider class="w-full justify-center">
       <span class="text-xs text-muted-foreground font-mono">Toggle icon collapse</span>
     </div>
 
-    <Sidebar collapsible="icon" class="rounded-lg border border-border bg-card shadow-sm h-[480px]">
+    <Sidebar collapsible="icon" class="rounded-lg border border-border bg-card shadow-sm h-[490px]">
       {/* 1. Workspace / Team Switcher Header */}
       <SidebarHeader>
         <DropdownMenu placement="bottom-start">
@@ -200,17 +203,57 @@ const defaultCode = `<SidebarProvider class="w-full justify-center">
         </SidebarGroup>
       </SidebarContent>
 
-      {/* 3. User Profile Footer */}
+      {/* 3. User Profile Dropdown Footer */}
       <SidebarFooter>
-        <div class="flex items-center gap-2.5 p-1">
-          <Avatar class="size-7 shrink-0">
-            <AvatarFallback class="text-xs bg-primary/20 text-primary font-bold">GM</AvatarFallback>
-          </Avatar>
-          <div class="flex flex-col leading-none overflow-hidden group-data-[collapsible=icon]:hidden">
-            <span class="text-xs font-semibold truncate">Giorgi M.</span>
-            <span class="text-[10px] text-muted-foreground truncate">giorgi@nikala.dev</span>
-          </div>
-        </div>
+        <DropdownMenu placement="top-start">
+          <DropdownMenuTrigger class="w-full text-left">
+            <SidebarMenuButton size="lg" class="w-full justify-between" tooltip="Giorgi M.">
+              <div class="flex items-center gap-2.5 overflow-hidden">
+                <Avatar class="size-7 shrink-0">
+                  <AvatarFallback class="text-xs bg-primary/20 text-primary font-bold">GM</AvatarFallback>
+                </Avatar>
+                <div class="flex flex-col leading-none overflow-hidden group-data-[collapsible=icon]:hidden">
+                  <span class="text-xs font-semibold truncate">Giorgi M.</span>
+                  <span class="text-[10px] text-muted-foreground truncate">giorgi@nikala.dev</span>
+                </div>
+              </div>
+              <ChevronsUpDown class="ml-auto size-4 text-muted-foreground shrink-0 group-data-[collapsible=icon]:hidden" />
+            </SidebarMenuButton>
+          </DropdownMenuTrigger>
+
+          <DropdownMenuContent class="w-56">
+            <div class="flex items-center gap-2.5 p-2 border-b border-border/50">
+              <Avatar class="size-8 shrink-0">
+                <AvatarFallback class="text-xs bg-primary/20 text-primary font-bold">GM</AvatarFallback>
+              </Avatar>
+              <div class="flex flex-col leading-tight overflow-hidden">
+                <span class="text-xs font-semibold truncate">Giorgi Magradze</span>
+                <span class="text-[10px] text-muted-foreground truncate">giorgi@nikala.dev</span>
+              </div>
+            </div>
+            <DropdownMenuItem class="flex items-center gap-2 p-2 cursor-pointer">
+              <Sparkles class="size-3.5 text-primary" />
+              <span class="text-xs">Upgrade to Pro</span>
+            </DropdownMenuItem>
+            <DropdownMenuItem class="flex items-center gap-2 p-2 cursor-pointer">
+              <BadgeCheck class="size-3.5" />
+              <span class="text-xs">Account</span>
+            </DropdownMenuItem>
+            <DropdownMenuItem class="flex items-center gap-2 p-2 cursor-pointer">
+              <CreditCard class="size-3.5" />
+              <span class="text-xs">Billing</span>
+            </DropdownMenuItem>
+            <DropdownMenuItem class="flex items-center gap-2 p-2 cursor-pointer">
+              <Bell class="size-3.5" />
+              <span class="text-xs">Notifications</span>
+            </DropdownMenuItem>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem class="flex items-center gap-2 p-2 cursor-pointer text-destructive focus:text-destructive">
+              <LogOut class="size-3.5" />
+              <span class="text-xs">Log out</span>
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
       </SidebarFooter>
     </Sidebar>
   </div>
@@ -297,7 +340,7 @@ export default function SidebarDocPage() {
         <DocPageHeader
           title="Sidebar"
           badge="Compound Suite"
-          description="A composable, structured sidebar navigation suite with team switchers, grouped menus, badges, collapsible submenus, icon collapse mode, and footers."
+          description="A composable, structured sidebar navigation suite with team switchers, user profile dropdowns, grouped menus, badges, collapsible submenus, icon collapse mode, and footers."
         />
 
         {/* 2. Main Hero Preview */}
@@ -310,7 +353,7 @@ export default function SidebarDocPage() {
                   <span class="text-xs text-muted-foreground font-mono">Toggle icon collapse</span>
                 </div>
 
-                <Sidebar collapsible="icon" class="rounded-lg border border-border bg-card shadow-sm h-[480px]">
+                <Sidebar collapsible="icon" class="rounded-lg border border-border bg-card shadow-sm h-[490px]">
                   {/* 1. Workspace / Team Switcher Header */}
                   <SidebarHeader>
                     <DropdownMenu placement="bottom-start">
@@ -455,17 +498,57 @@ export default function SidebarDocPage() {
                     </SidebarGroup>
                   </SidebarContent>
 
-                  {/* 3. Footer */}
+                  {/* 3. User Profile Dropdown Footer */}
                   <SidebarFooter>
-                    <div class="flex items-center gap-2.5 p-1">
-                      <Avatar class="size-7 shrink-0">
-                        <AvatarFallback class="text-xs bg-primary/20 text-primary font-bold">GM</AvatarFallback>
-                      </Avatar>
-                      <div class="flex flex-col leading-none overflow-hidden group-data-[collapsible=icon]:hidden">
-                        <span class="text-xs font-semibold truncate">Giorgi M.</span>
-                        <span class="text-[10px] text-muted-foreground truncate">giorgi@nikala.dev</span>
-                      </div>
-                    </div>
+                    <DropdownMenu placement="top-start">
+                      <DropdownMenuTrigger class="w-full text-left">
+                        <SidebarMenuButton size="lg" class="w-full justify-between" tooltip="Giorgi M.">
+                          <div class="flex items-center gap-2.5 overflow-hidden">
+                            <Avatar class="size-7 shrink-0">
+                              <AvatarFallback class="text-xs bg-primary/20 text-primary font-bold">GM</AvatarFallback>
+                            </Avatar>
+                            <div class="flex flex-col leading-none overflow-hidden group-data-[collapsible=icon]:hidden">
+                              <span class="text-xs font-semibold truncate">Giorgi M.</span>
+                              <span class="text-[10px] text-muted-foreground truncate">giorgi@nikala.dev</span>
+                            </div>
+                          </div>
+                          <ChevronsUpDown class="ml-auto size-4 text-muted-foreground shrink-0 group-data-[collapsible=icon]:hidden" />
+                        </SidebarMenuButton>
+                      </DropdownMenuTrigger>
+
+                      <DropdownMenuContent class="w-56">
+                        <div class="flex items-center gap-2.5 p-2 border-b border-border/50">
+                          <Avatar class="size-8 shrink-0">
+                            <AvatarFallback class="text-xs bg-primary/20 text-primary font-bold">GM</AvatarFallback>
+                          </Avatar>
+                          <div class="flex flex-col leading-tight overflow-hidden">
+                            <span class="text-xs font-semibold truncate">Giorgi Magradze</span>
+                            <span class="text-[10px] text-muted-foreground truncate">giorgi@nikala.dev</span>
+                          </div>
+                        </div>
+                        <DropdownMenuItem class="flex items-center gap-2 p-2 cursor-pointer">
+                          <Sparkles class="size-3.5 text-primary" />
+                          <span class="text-xs">Upgrade to Pro</span>
+                        </DropdownMenuItem>
+                        <DropdownMenuItem class="flex items-center gap-2 p-2 cursor-pointer">
+                          <BadgeCheck class="size-3.5" />
+                          <span class="text-xs">Account</span>
+                        </DropdownMenuItem>
+                        <DropdownMenuItem class="flex items-center gap-2 p-2 cursor-pointer">
+                          <CreditCard class="size-3.5" />
+                          <span class="text-xs">Billing</span>
+                        </DropdownMenuItem>
+                        <DropdownMenuItem class="flex items-center gap-2 p-2 cursor-pointer">
+                          <Bell class="size-3.5" />
+                          <span class="text-xs">Notifications</span>
+                        </DropdownMenuItem>
+                        <DropdownMenuSeparator />
+                        <DropdownMenuItem class="flex items-center gap-2 p-2 cursor-pointer text-destructive focus:text-destructive">
+                          <LogOut class="size-3.5" />
+                          <span class="text-xs">Log out</span>
+                        </DropdownMenuItem>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
                   </SidebarFooter>
                 </Sidebar>
               </div>
