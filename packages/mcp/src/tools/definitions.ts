@@ -129,4 +129,52 @@ export const MCP_TOOLS: Tool[] = [
       },
     },
   },
+  {
+    name: "generate_ai_rules",
+    description: "Generate or update AI assistant engineering rules (.cursor/rules/nikala.mdc, .cursorrules, AGENTS.md) in the target workspace",
+    inputSchema: {
+      type: "object",
+      properties: {
+        workspace_dir: {
+          type: "string",
+          description: "Absolute or relative path to the target project workspace root",
+        },
+      },
+    },
+  },
+  {
+    name: "get_theme_css",
+    description: "Generate Tailwind CSS v4 @theme CSS configuration tokens for any primary accent color and base gray palette",
+    inputSchema: {
+      type: "object",
+      properties: {
+        primary_color: {
+          type: "string",
+          description: "Primary brand accent color (e.g. 'amber', 'wine', 'emerald', 'violet', 'rose', 'blue', 'cyan', 'zinc')",
+        },
+        base_palette: {
+          type: "string",
+          description: "Base gray palette (e.g. 'zinc', 'slate', 'gray', 'neutral', 'stone')",
+        },
+      },
+    },
+  },
+  {
+    name: "diff_component",
+    description: "Compare locally installed component or hook against the latest official registry manifest and view code diffs",
+    inputSchema: {
+      type: "object",
+      properties: {
+        name: {
+          type: "string",
+          description: "Unique component or hook name to compare (e.g. 'button', 'sidebar', 'dialog', 'create-clipboard')",
+        },
+        workspace_dir: {
+          type: "string",
+          description: "Absolute or relative path to the target project workspace root",
+        },
+      },
+      required: ["name"],
+    },
+  },
 ];

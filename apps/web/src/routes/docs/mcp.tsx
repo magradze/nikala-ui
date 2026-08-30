@@ -129,18 +129,18 @@ export default function McpDocsPage() {
             <tbody class="divide-y divide-border/40 font-mono text-xs">
               <tr>
                 <td class="px-4 py-3 font-semibold text-primary">list_components</td>
-                <td class="px-4 py-3 font-sans text-muted-foreground">Returns metadata list of all 27 available UI components</td>
+                <td class="px-4 py-3 font-sans text-muted-foreground">Returns metadata list of all 60 available UI components</td>
                 <td class="px-4 py-3 text-muted-foreground">{}</td>
               </tr>
               <tr>
                 <td class="px-4 py-3 font-semibold text-primary">list_hooks</td>
-                <td class="px-4 py-3 font-sans text-muted-foreground">Returns metadata list of all 40 reactive primitives</td>
+                <td class="px-4 py-3 font-sans text-muted-foreground">Returns metadata list of all 43 reactive primitives</td>
                 <td class="px-4 py-3 text-muted-foreground">{}</td>
               </tr>
               <tr>
                 <td class="px-4 py-3 font-semibold text-primary">get_component_code</td>
                 <td class="px-4 py-3 font-sans text-muted-foreground">Fetches complete TSX component source code manifest</td>
-                <td class="px-4 py-3 text-muted-foreground">{`{ "name": "dialog" }`}</td>
+                <td class="px-4 py-3 text-muted-foreground">{`{ "name": "sidebar" }`}</td>
               </tr>
               <tr>
                 <td class="px-4 py-3 font-semibold text-primary">get_hook_code</td>
@@ -171,6 +171,21 @@ export default function McpDocsPage() {
                 <td class="px-4 py-3 font-semibold text-primary">search_docs</td>
                 <td class="px-4 py-3 font-sans text-muted-foreground">Searches components, hooks, and guidelines (supports multi-word fuzzy search)</td>
                 <td class="px-4 py-3 text-muted-foreground">{`{ "query": "dialog modal" }`}</td>
+              </tr>
+              <tr>
+                <td class="px-4 py-3 font-semibold text-primary">generate_ai_rules</td>
+                <td class="px-4 py-3 font-sans text-muted-foreground">Generates or updates AI assistant rules (.cursor/rules/nikala.mdc, .cursorrules, AGENTS.md)</td>
+                <td class="px-4 py-3 text-muted-foreground">{`{ "workspace_dir": "..." }`}</td>
+              </tr>
+              <tr>
+                <td class="px-4 py-3 font-semibold text-primary">get_theme_css</td>
+                <td class="px-4 py-3 font-sans text-muted-foreground">Generates Tailwind CSS v4 @theme CSS configuration tokens for chosen colors</td>
+                <td class="px-4 py-3 text-muted-foreground">{`{ "primary_color": "wine", "base_palette": "zinc" }`}</td>
+              </tr>
+              <tr>
+                <td class="px-4 py-3 font-semibold text-primary">diff_component</td>
+                <td class="px-4 py-3 font-sans text-muted-foreground">Compares locally installed component/hook against latest official registry manifest</td>
+                <td class="px-4 py-3 text-muted-foreground">{`{ "name": "button", "workspace_dir": "..." }`}</td>
               </tr>
             </tbody>
           </table>
