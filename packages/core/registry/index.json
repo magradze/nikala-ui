@@ -392,6 +392,16 @@
     ]
   },
   {
+    "name": "marquee",
+    "title": "Marquee",
+    "description": "A smooth, GPU-accelerated infinite scrolling ticker component for logo clouds, testimonials, and live ribbons.",
+    "type": "registry:ui",
+    "dependencies": [
+      "clsx",
+      "tailwind-merge"
+    ]
+  },
+  {
     "name": "message",
     "title": "Message",
     "description": "A structured chat and conversation message layout with avatars, alignment, headers, footers, and actions.",
@@ -505,6 +515,18 @@
     ]
   },
   {
+    "name": "rating",
+    "title": "Rating",
+    "description": "An accessible star rating component supporting interactive inputs, hover preview states, and read-only score badges.",
+    "type": "registry:ui",
+    "dependencies": [
+      "clsx",
+      "tailwind-merge",
+      "class-variance-authority",
+      "lucide-solid"
+    ]
+  },
+  {
     "name": "resizable",
     "title": "Resizable",
     "description": "Accessible resizable panel layout component supporting drag-to-resize handles.",
@@ -516,6 +538,22 @@
     ],
     "registryDependencies": [
       "create-resize-observer"
+    ]
+  },
+  {
+    "name": "review-card",
+    "title": "Review Card",
+    "description": "A versatile, structured card component for customer testimonials, product ratings, verified buyer badges, and social proof.",
+    "type": "registry:ui",
+    "dependencies": [
+      "clsx",
+      "tailwind-merge",
+      "class-variance-authority",
+      "lucide-solid"
+    ],
+    "registryDependencies": [
+      "avatar",
+      "rating"
     ]
   },
   {

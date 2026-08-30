@@ -320,6 +320,22 @@ export const COMPONENT_METADATA: Record<string, ComponentMeta> = {
     description: "Display key performance indicators, statistics, financial data, and metrics with trends and icons.",
     dependencies: ["clsx", "tailwind-merge", "class-variance-authority", "lucide-solid"],
   },
+  marquee: {
+    title: "Marquee",
+    description: "A smooth, GPU-accelerated infinite scrolling ticker component for logo clouds, testimonials, and live ribbons.",
+    dependencies: ["clsx", "tailwind-merge"],
+  },
+  "review-card": {
+    title: "Review Card",
+    description: "A versatile, structured card component for customer testimonials, product ratings, verified buyer badges, and social proof.",
+    dependencies: ["clsx", "tailwind-merge", "class-variance-authority", "lucide-solid"],
+    registryDependencies: ["avatar", "rating"],
+  },
+  rating: {
+    title: "Rating",
+    description: "An accessible star rating component supporting interactive inputs, hover preview states, and read-only score badges.",
+    dependencies: ["clsx", "tailwind-merge", "class-variance-authority", "lucide-solid"],
+  },
   pagination: {
     title: "Pagination",
     description: "An accessible multi-page navigation bar with previous, next, page numbers, and ellipsis controls.",
