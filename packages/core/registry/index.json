@@ -798,6 +798,27 @@
     ]
   },
   {
+    "name": "forgot-password-01",
+    "title": "Forgot Password 01 — Account Recovery Flow",
+    "description": "A sleek password recovery block with email instructions submission and success confirmation states.",
+    "type": "registry:block",
+    "dependencies": [
+      "clsx",
+      "tailwind-merge",
+      "lucide-solid"
+    ],
+    "registryDependencies": [
+      "card",
+      "input",
+      "label",
+      "button",
+      "alert",
+      "form",
+      "field",
+      "form-message"
+    ]
+  },
+  {
     "name": "hero-01",
     "title": "Hero 01 — Simple Centered with Actions",
     "description": "A clean centered hero section with badge pill, high-contrast headline, and dual CTA buttons.",
@@ -834,30 +855,6 @@
     ]
   },
   {
-    "name": "register-01",
-    "title": "Register 01 — Sign-Up Card with Password Strength",
-    "description": "A comprehensive sign-up card featuring social logins, live password strength meter with validation checklist, and terms agreement.",
-    "type": "registry:block",
-    "dependencies": [
-      "clsx",
-      "tailwind-merge",
-      "lucide-solid"
-    ],
-    "registryDependencies": [
-      "card",
-      "input",
-      "label",
-      "button",
-      "checkbox",
-      "progress",
-      "badge",
-      "separator",
-      "form",
-      "field",
-      "form-message"
-    ]
-  },
-  {
     "name": "otp-verification-01",
     "title": "OTP Verification 01 — Two-Factor Security Code",
     "description": "A clean 2-Factor Authentication block with a 6-digit PIN input, countdown resend timer, and security notifications.",
@@ -877,9 +874,9 @@
     ]
   },
   {
-    "name": "forgot-password-01",
-    "title": "Forgot Password 01 — Account Recovery Flow",
-    "description": "A sleek password recovery block with email instructions submission and success confirmation states.",
+    "name": "register-01",
+    "title": "Register 01 — Sign-Up Card with Password Strength",
+    "description": "A comprehensive sign-up card featuring social logins, live password strength meter with validation checklist, and terms agreement.",
     "type": "registry:block",
     "dependencies": [
       "clsx",
@@ -891,7 +888,10 @@
       "input",
       "label",
       "button",
-      "alert",
+      "checkbox",
+      "progress",
+      "badge",
+      "separator",
       "form",
       "field",
       "form-message"

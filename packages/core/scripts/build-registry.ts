@@ -5,11 +5,13 @@ import type { RegistryIndex, RegistryItem } from "../src/registry/index.js";
 import { COMPONENT_METADATA, BLOCK_METADATA } from "../src/registry/metadata.js";
 
 /**
- * Recursively find all files in a directory matching an extension.
+ * Recursively find all files in a directory matching an extension, sorted alphabetically.
  */
 async function getFilesRecursively(dir: string, ext: string): Promise<string[]> {
   if (!(await fs.pathExists(dir))) return [];
-  const entries = await fs.readdir(dir, { withFileTypes: true });
+  const entries = (await fs.readdir(dir, { withFileTypes: true })).sort((a, b) =>
+    a.name.localeCompare(b.name)
+  );
   const files: string[] = [];
 
   for (const entry of entries) {
@@ -22,7 +24,7 @@ async function getFilesRecursively(dir: string, ext: string): Promise<string[]> 
     }
   }
 
-  return files;
+  return files.sort((a, b) => a.localeCompare(b));
 }
 
 /**
@@ -43,7 +45,7 @@ async function buildRegistry() {
 
   // 1. Build UI Components (type: "registry:ui")
   if (await fs.pathExists(sourceDir)) {
-    const files = await fs.readdir(sourceDir);
+    const files = (await fs.readdir(sourceDir)).sort((a, b) => a.localeCompare(b));
 
     for (const filename of files) {
       if (!filename.endsWith(".tsx")) continue;
@@ -135,7 +137,9 @@ async function buildRegistry() {
 
   // 2. Build Blocks (type: "registry:block")
   if (await fs.pathExists(blocksSourceDir)) {
-    const blockFilePaths = await getFilesRecursively(blocksSourceDir, ".tsx");
+    const blockFilePaths = (await getFilesRecursively(blocksSourceDir, ".tsx")).sort((a, b) =>
+      a.localeCompare(b)
+    );
 
     for (const filePath of blockFilePaths) {
       const relPath = path.relative(blocksSourceDir, filePath).replace(/\\/g, "/");
