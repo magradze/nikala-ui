@@ -57,7 +57,7 @@ export function Header() {
               <A href="/docs" class="hover:text-foreground transition-colors">Documentation</A>
               <A href="/docs/components/accordion" class="hover:text-foreground transition-colors">Components</A>
               <A href="/docs/hooks/create-controllable-signal" class="hover:text-foreground transition-colors">Hooks</A>
-              <A href="/docs/mcp" class="hover:text-foreground transition-colors">MCP Server</A>
+              <A href="/docs/mcp" class="hover:text-foreground transition-colors">MCP</A>
               <A href="/playground" class="hover:text-foreground transition-colors">Playground</A>
             </nav>
           </div>
