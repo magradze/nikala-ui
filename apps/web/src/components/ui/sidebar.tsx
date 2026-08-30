@@ -13,7 +13,7 @@ import {
   Show,
 } from "solid-js";
 import { cva, type VariantProps } from "class-variance-authority";
-import { PanelLeft, PanelRight } from "lucide-solid";
+import { PanelLeft } from "lucide-solid";
 import { Tooltip, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Separator } from "@/components/ui/separator";
@@ -21,9 +21,8 @@ import { cn } from "@/lib/cn";
 
 /* --- Constants --- */
 const SIDEBAR_COOKIE_NAME = "nikala_sidebar_state";
-const SIDEBAR_WIDTH = "16rem";
-const SIDEBAR_WIDTH_MOBILE = "18rem";
-const SIDEBAR_WIDTH_ICON = "3.25rem";
+const SIDEBAR_WIDTH = "17rem";
+const SIDEBAR_WIDTH_ICON = "3.5rem";
 const SIDEBAR_KEYBOARD_SHORTCUT = "b";
 
 /* --- 1. Context & Types --- */
@@ -41,12 +40,19 @@ export interface SidebarContextValue {
 
 const SidebarContext = createContext<SidebarContextValue>();
 
+const fallbackSidebarContext: SidebarContextValue = {
+  state: () => "expanded",
+  open: () => true,
+  setOpen: () => {},
+  openMobile: () => false,
+  setOpenMobile: () => {},
+  isMobile: () => false,
+  toggleSidebar: () => {},
+};
+
 export function useSidebar() {
   const context = useContext(SidebarContext);
-  if (!context) {
-    throw new Error("useSidebar must be used within a <SidebarProvider />");
-  }
-  return context;
+  return context ?? fallbackSidebarContext;
 }
 
 /* --- 2. SidebarProvider --- */
@@ -80,18 +86,13 @@ export const SidebarProvider: ParentComponent<SidebarProviderProps> = (props) =>
     }
     local.onOpenChange?.(value);
 
-    // Save preference to document cookie if in browser
     if (typeof document !== "undefined") {
       document.cookie = `${SIDEBAR_COOKIE_NAME}=${value}; path=/; max-age=${60 * 60 * 24 * 7}`;
     }
   };
 
   const toggleSidebar = () => {
-    if (isMobile()) {
-      setOpenMobile((prev) => !prev);
-    } else {
-      setOpen(!open());
-    }
+    setOpen(!open());
   };
 
   const state = createMemo<SidebarState>(() => (open() ? "expanded" : "collapsed"));
@@ -145,7 +146,7 @@ export const SidebarProvider: ParentComponent<SidebarProviderProps> = (props) =>
           ...(typeof local.style === "object" ? local.style : {}),
         } as JSX.CSSProperties}
         class={cn(
-          "group/sidebar-wrapper flex min-h-svh w-full has-[[data-variant=inset]]:bg-sidebar",
+          "group/sidebar-wrapper relative flex w-full max-w-full",
           local.class
         )}
         {...rest}
@@ -176,79 +177,34 @@ export const Sidebar: ParentComponent<SidebarProps> = (props) => {
   const sidebar = useSidebar();
   const side = () => local.side ?? "left";
   const variant = () => local.variant ?? "sidebar";
-  const collapsible = () => local.collapsible ?? "offcanvas";
+  const collapsible = () => local.collapsible ?? "icon";
 
   return (
-    <>
-      {/* Mobile Drawer Overlay */}
-      <Show when={sidebar.isMobile()}>
-        <Show when={sidebar.openMobile()}>
-          <div
-            class="fixed inset-0 z-50 bg-background/80 backdrop-blur-xs transition-opacity animate-in fade-in-0"
-            onClick={() => sidebar.setOpenMobile(false)}
-          />
-          <div
-            data-sidebar="sidebar"
-            data-mobile="true"
-            class={cn(
-              "fixed inset-y-0 z-50 flex h-full w-[--sidebar-width] flex-col bg-card border-border p-0 shadow-lg transition-transform duration-300 ease-in-out",
-              side() === "left"
-                ? "left-0 border-r animate-in slide-in-from-left"
-                : "right-0 border-l animate-in slide-in-from-right",
-              local.class
-            )}
-          >
-            <div class="flex h-full w-full flex-col">{local.children}</div>
-          </div>
-        </Show>
-      </Show>
-
-      {/* Desktop Persistent Sidebar */}
-      <Show when={!sidebar.isMobile()}>
-        <div
-          class={cn(
-            "group peer hidden md:block text-foreground",
-            collapsible() === "icon" && "transition-[width] duration-200 ease-linear",
-            sidebar.state() === "expanded"
-              ? "w-[--sidebar-width]"
-              : collapsible() === "icon"
-              ? "w-[--sidebar-width-icon]"
-              : "w-0"
-          )}
-        />
-        <div
-          data-state={sidebar.state()}
-          data-collapsible={sidebar.state() === "collapsed" ? collapsible() : ""}
-          data-variant={variant()}
-          data-side={side()}
-          class={cn(
-            "fixed inset-y-0 z-10 hidden h-svh md:flex flex-col bg-card border-border transition-[left,right,width] duration-200 ease-linear",
-            side() === "left"
-              ? "left-0 border-r"
-              : "right-0 border-l",
-            variant() === "floating" && "p-2",
-            // Width based on collapsible & state
-            sidebar.state() === "expanded"
-              ? "w-[--sidebar-width]"
-              : collapsible() === "icon"
-              ? "w-[--sidebar-width-icon]"
-              : "w-0 -translate-x-full",
-            local.class
-          )}
-          {...rest}
-        >
-          <div
-            data-sidebar="sidebar"
-            class={cn(
-              "flex h-full w-full flex-col bg-card",
-              variant() === "floating" && "rounded-lg border border-border bg-card shadow-sm"
-            )}
-          >
-            {local.children}
-          </div>
-        </div>
-      </Show>
-    </>
+    <div
+      data-state={sidebar.state()}
+      data-collapsible={sidebar.state() === "collapsed" ? collapsible() : ""}
+      data-variant={variant()}
+      data-side={side()}
+      class={cn(
+        "group relative flex flex-col bg-card text-card-foreground transition-[width] duration-200 ease-in-out shrink-0",
+        sidebar.state() === "expanded"
+          ? "w-[var(--sidebar-width,17rem)]"
+          : collapsible() === "icon"
+          ? "w-[var(--sidebar-width-icon,3.5rem)]"
+          : "w-0 overflow-hidden",
+        side() === "left" ? "border-r border-border" : "border-l border-border",
+        variant() === "floating" && "m-2 rounded-lg border shadow-sm",
+        local.class
+      )}
+      {...rest}
+    >
+      <div
+        data-sidebar="sidebar"
+        class="flex h-full w-full flex-col overflow-hidden"
+      >
+        {local.children}
+      </div>
+    </div>
   );
 };
 
@@ -259,7 +215,7 @@ export interface SidebarTriggerProps extends JSX.ButtonHTMLAttributes<HTMLButton
 
 export const SidebarTrigger: Component<SidebarTriggerProps> = (props) => {
   const [local, rest] = splitProps(props, ["class", "onClick"]);
-  const { toggleSidebar, state } = useSidebar();
+  const { toggleSidebar } = useSidebar();
 
   return (
     <button
@@ -320,7 +276,7 @@ export const SidebarInset: ParentComponent<SidebarInsetProps> = (props) => {
   return (
     <main
       class={cn(
-        "relative flex min-h-svh flex-1 flex-col bg-background peer-data-[variant=inset]:min-h-[calc(100svh-1rem)] md:peer-data-[variant=inset]:m-2 md:peer-data-[state=collapsed]:peer-data-[variant=inset]:ml-2 md:peer-data-[variant=inset]:ml-0 md:peer-data-[variant=inset]:rounded-lg md:peer-data-[variant=inset]:shadow-2xs",
+        "relative flex min-h-0 flex-1 flex-col bg-background",
         local.class
       )}
       {...rest}
@@ -341,7 +297,7 @@ export const SidebarHeader: ParentComponent<SidebarSectionProps> = (props) => {
   return (
     <div
       data-sidebar="header"
-      class={cn("flex flex-col gap-2 p-3 border-b border-border/40", local.class)}
+      class={cn("flex flex-col gap-2 p-3 border-b border-border/40 shrink-0", local.class)}
       {...rest}
     >
       {local.children}
@@ -355,7 +311,7 @@ export const SidebarFooter: ParentComponent<SidebarSectionProps> = (props) => {
   return (
     <div
       data-sidebar="footer"
-      class={cn("flex flex-col gap-2 p-3 mt-auto border-t border-border/40", local.class)}
+      class={cn("flex flex-col gap-2 p-3 mt-auto border-t border-border/40 shrink-0", local.class)}
       {...rest}
     >
       {local.children}
@@ -369,7 +325,7 @@ export const SidebarSeparator: Component<SidebarSectionProps> = (props) => {
   return (
     <Separator
       data-sidebar="separator"
-      class={cn("mx-2 w-auto bg-border/50", local.class)}
+      class={cn("mx-2 w-auto bg-border/50 my-1", local.class)}
       {...rest}
     />
   );
@@ -382,7 +338,7 @@ export const SidebarContent: ParentComponent<SidebarSectionProps> = (props) => {
     <div
       data-sidebar="content"
       class={cn(
-        "flex min-h-0 flex-1 flex-col gap-2 overflow-auto p-2 group-data-[collapsible=icon]:overflow-hidden",
+        "flex min-h-0 flex-1 flex-col gap-1 overflow-y-auto p-2 group-data-[collapsible=icon]:overflow-hidden",
         local.class
       )}
       {...rest}
@@ -399,7 +355,7 @@ export const SidebarGroup: ParentComponent<SidebarSectionProps> = (props) => {
   return (
     <div
       data-sidebar="group"
-      class={cn("relative flex w-full min-w-0 flex-col p-1.5", local.class)}
+      class={cn("relative flex w-full min-w-0 flex-col p-1", local.class)}
       {...rest}
     >
       {local.children}
@@ -418,7 +374,7 @@ export const SidebarGroupLabel: ParentComponent<SidebarGroupLabelProps> = (props
     <div
       data-sidebar="group-label"
       class={cn(
-        "flex h-8 shrink-0 items-center rounded-md px-2 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground outline-hidden transition-[margin,opa] duration-200 ease-linear group-data-[collapsible=icon]:-mt-8 group-data-[collapsible=icon]:opacity-0",
+        "flex h-7 shrink-0 items-center rounded-md px-2 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground outline-hidden transition-all duration-200 ease-linear group-data-[collapsible=icon]:hidden",
         local.class
       )}
       {...rest}
@@ -440,7 +396,7 @@ export const SidebarGroupAction: ParentComponent<SidebarGroupActionProps> = (pro
       type="button"
       data-sidebar="group-action"
       class={cn(
-        "absolute right-3 top-3.5 flex size-5 items-center justify-center rounded-md p-0 text-muted-foreground outline-hidden transition-transform hover:bg-muted hover:text-foreground cursor-pointer group-data-[collapsible=icon]:hidden",
+        "absolute right-3 top-3 flex size-5 items-center justify-center rounded-md p-0 text-muted-foreground outline-hidden transition-transform hover:bg-muted hover:text-foreground cursor-pointer group-data-[collapsible=icon]:hidden",
         local.class
       )}
       {...rest}
@@ -503,7 +459,7 @@ export const SidebarMenuItem: ParentComponent<SidebarMenuItemProps> = (props) =>
 
 /* --- 10. SidebarMenuButton --- */
 export const sidebarMenuButtonVariants = cva(
-  "peer/menu-button flex w-full items-center gap-2.5 overflow-hidden rounded-md p-2 text-left text-sm font-medium outline-hidden ring-sidebar-ring transition-colors hover:bg-muted hover:text-foreground focus-visible:ring-2 active:bg-muted disabled:pointer-events-none disabled:opacity-50 group-has-[[data-sidebar=menu-action]]/menu-item:pr-8 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:bg-muted data-[active=true]:font-semibold data-[active=true]:text-foreground group-data-[collapsible=icon]:size-8 group-data-[collapsible=icon]:p-2 cursor-pointer select-none",
+  "peer/menu-button flex w-full items-center gap-2.5 overflow-hidden rounded-md p-2 text-left text-sm font-medium outline-hidden ring-sidebar-ring transition-colors hover:bg-muted hover:text-foreground focus-visible:ring-2 active:bg-muted disabled:pointer-events-none disabled:opacity-50 group-has-[[data-sidebar=menu-action]]/menu-item:pr-8 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:bg-muted data-[active=true]:font-semibold data-[active=true]:text-foreground group-data-[collapsible=icon]:size-9 group-data-[collapsible=icon]:p-0 group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:[&>span]:hidden cursor-pointer select-none",
   {
     variants: {
       variant: {
@@ -513,7 +469,7 @@ export const sidebarMenuButtonVariants = cva(
       size: {
         default: "h-8 text-sm",
         sm: "h-7 text-xs",
-        lg: "h-11 text-sm group-data-[collapsible=icon]:p-0",
+        lg: "h-10 text-sm",
       },
     },
     defaultVariants: {
@@ -565,7 +521,7 @@ export const SidebarMenuButton: ParentComponent<SidebarMenuButtonProps> = (props
       fallback={buttonElement()}
     >
       <Tooltip openDelay={100}>
-        <TooltipTrigger as="div" class="w-full">
+        <TooltipTrigger as="div" class="w-full flex items-center justify-center">
           {buttonElement()}
         </TooltipTrigger>
         <TooltipContent side="right" align="center">

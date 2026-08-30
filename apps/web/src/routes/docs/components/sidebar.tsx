@@ -23,20 +23,27 @@ import {
   SidebarMenuSubItem,
   SidebarMenuSubButton,
   SidebarTrigger,
-  SidebarInset,
   SidebarSeparator,
 } from "@/components/ui/sidebar";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Badge } from "@/components/ui/badge";
+import {
+  Collapsible,
+  CollapsibleTrigger,
+  CollapsibleContent,
+} from "@/components/ui/collapsible";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import {
   LayoutDashboard,
   Inbox,
   FolderKanban,
   Settings,
   Users,
-  ChevronRight,
-  Sparkles,
   Command,
+  CreditCard,
+  ChevronRight,
+  Shield,
+  LifeBuoy,
+  Database,
+  Key,
 } from "lucide-solid";
 import { createSignal } from "solid-js";
 
@@ -55,107 +62,171 @@ const importCode = `import {
   SidebarMenuButton,
   SidebarMenuBadge,
   SidebarTrigger,
-  SidebarInset,
-  useSidebar,
+  SidebarSeparator,
 } from "@/components/ui/sidebar";`;
 
-const defaultCode = `<SidebarProvider>
-  <Sidebar collapsible="icon">
-    <SidebarHeader>
-      <div class="flex items-center gap-2 px-1 py-0.5">
-        <div class="flex size-7 items-center justify-center rounded-md bg-primary text-primary-foreground">
-          <Command class="size-4" />
-        </div>
-        <div class="flex flex-col gap-0.5 leading-none group-data-[collapsible=icon]:hidden">
-          <span class="font-bold text-xs">Acme Inc</span>
-          <span class="text-[10px] text-muted-foreground">Enterprise Plan</span>
-        </div>
-      </div>
-    </SidebarHeader>
-
-    <SidebarContent>
-      <SidebarGroup>
-        <SidebarGroupLabel>Platform</SidebarGroupLabel>
-        <SidebarGroupContent>
-          <SidebarMenu>
-            <SidebarMenuItem>
-              <SidebarMenuButton isActive tooltip="Dashboard">
-                <LayoutDashboard class="size-4" />
-                <span>Dashboard</span>
-              </SidebarMenuButton>
-            </SidebarMenuItem>
-
-            <SidebarMenuItem>
-              <SidebarMenuButton tooltip="Inbox">
-                <Inbox class="size-4" />
-                <span>Inbox</span>
-                <SidebarMenuBadge>12</SidebarMenuBadge>
-              </SidebarMenuButton>
-            </SidebarMenuItem>
-
-            <SidebarMenuItem>
-              <SidebarMenuButton tooltip="Projects">
-                <FolderKanban class="size-4" />
-                <span>Projects</span>
-              </SidebarMenuButton>
-            </SidebarMenuItem>
-          </SidebarMenu>
-        </SidebarGroupContent>
-      </SidebarGroup>
-    </SidebarContent>
-
-    <SidebarFooter>
-      <div class="flex items-center gap-2 p-1">
-        <Avatar class="size-7">
-          <AvatarFallback class="text-xs bg-primary/20 text-primary">GM</AvatarFallback>
-        </Avatar>
-        <div class="flex flex-col leading-none group-data-[collapsible=icon]:hidden">
-          <span class="text-xs font-medium">Giorgi M.</span>
-          <span class="text-[10px] text-muted-foreground">admin@acme.dev</span>
-        </div>
-      </div>
-    </SidebarFooter>
-  </Sidebar>
-
-  <SidebarInset>
-    <header class="flex h-12 items-center gap-2 border-b border-border px-4">
+const defaultCode = `<SidebarProvider class="min-h-0 w-auto">
+  <div class="flex flex-col items-start gap-3">
+    <div class="flex items-center gap-2">
       <SidebarTrigger />
-      <span class="text-xs text-muted-foreground font-mono">Press ⌘B to toggle</span>
-    </header>
-    <div class="flex-1 p-6">
-      <h2 class="text-lg font-bold">Dashboard Overview</h2>
+      <span class="text-xs text-muted-foreground font-mono">Toggle icon collapse</span>
     </div>
-  </SidebarInset>
+
+    <Sidebar collapsible="icon" class="rounded-lg border border-border bg-card shadow-sm h-[430px]">
+      <SidebarHeader>
+        <div class="flex items-center gap-2.5 px-1 py-0.5">
+          <div class="flex size-7 shrink-0 items-center justify-center rounded-md bg-primary text-primary-foreground font-bold text-xs shadow-2xs">
+            <Command class="size-4" />
+          </div>
+          <div class="flex flex-col gap-0.5 leading-none overflow-hidden group-data-[collapsible=icon]:hidden">
+            <span class="font-bold text-xs truncate">Nikala Studio</span>
+            <span class="text-[10px] text-muted-foreground truncate">Pro Workspace</span>
+          </div>
+        </div>
+      </SidebarHeader>
+
+      <SidebarContent>
+        <SidebarGroup>
+          <SidebarGroupLabel>Platform</SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              <SidebarMenuItem>
+                <SidebarMenuButton isActive tooltip="Dashboard">
+                  <LayoutDashboard class="size-4" />
+                  <span>Dashboard</span>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+
+              <SidebarMenuItem>
+                <SidebarMenuButton tooltip="Inbox">
+                  <Inbox class="size-4" />
+                  <span>Inbox</span>
+                  <SidebarMenuBadge>12</SidebarMenuBadge>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+
+              <SidebarMenuItem>
+                <SidebarMenuButton tooltip="Projects">
+                  <FolderKanban class="size-4" />
+                  <span>Projects</span>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+
+              <SidebarMenuItem>
+                <SidebarMenuButton tooltip="Team">
+                  <Users class="size-4" />
+                  <span>Team Members</span>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+
+        <SidebarSeparator />
+
+        <SidebarGroup>
+          <SidebarGroupLabel>Settings</SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              <SidebarMenuItem>
+                <SidebarMenuButton tooltip="Preferences">
+                  <Settings class="size-4" />
+                  <span>Preferences</span>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+
+              <SidebarMenuItem>
+                <SidebarMenuButton tooltip="Billing">
+                  <CreditCard class="size-4" />
+                  <span>Billing & Plans</span>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+      </SidebarContent>
+
+      <SidebarFooter>
+        <div class="flex items-center gap-2.5 p-1">
+          <Avatar class="size-7 shrink-0">
+            <AvatarFallback class="text-xs bg-primary/20 text-primary font-bold">GM</AvatarFallback>
+          </Avatar>
+          <div class="flex flex-col leading-none overflow-hidden group-data-[collapsible=icon]:hidden">
+            <span class="text-xs font-semibold truncate">Giorgi M.</span>
+            <span class="text-[10px] text-muted-foreground truncate">giorgi@nikala.dev</span>
+          </div>
+        </div>
+      </SidebarFooter>
+    </Sidebar>
+  </div>
 </SidebarProvider>`;
 
-const nestedSubmenuCode = `<SidebarMenu>
-  <SidebarMenuItem>
-    <SidebarMenuButton tooltip="Settings">
-      <Settings class="size-4" />
-      <span>Settings</span>
-    </SidebarMenuButton>
-    <SidebarMenuSub>
-      <SidebarMenuSubItem>
-        <SidebarMenuSubButton isActive>General</SidebarMenuSubButton>
-      </SidebarMenuSubItem>
-      <SidebarMenuSubItem>
-        <SidebarMenuSubButton>Billing & Plans</SidebarMenuSubButton>
-      </SidebarMenuSubItem>
-      <SidebarMenuSubItem>
-        <SidebarMenuSubButton>API Keys</SidebarMenuSubButton>
-      </SidebarMenuSubItem>
-    </SidebarMenuSub>
-  </SidebarMenuItem>
-</SidebarMenu>`;
+const collapsibleCode = `import {
+  Collapsible,
+  CollapsibleTrigger,
+  CollapsibleContent,
+} from "@/components/ui/collapsible";
+import { ChevronRight, Settings, Database, Key } from "lucide-solid";
+
+return (
+  <div class="w-72 rounded-lg border border-border bg-card p-2 shadow-2xs">
+    <SidebarProvider class="min-h-0 w-full">
+      <SidebarMenu>
+        {/* Collapsible Submenu Group */}
+        <SidebarMenuItem>
+          <Collapsible defaultOpen class="group/collapsible w-full">
+            <CollapsibleTrigger class="w-full text-left">
+              <SidebarMenuButton class="w-full justify-between">
+                <div class="flex items-center gap-2">
+                  <Settings class="size-4" />
+                  <span>Configuration</span>
+                </div>
+                <ChevronRight class="size-3.5 text-muted-foreground transition-transform duration-200 group-data-[expanded]/collapsible:rotate-90" />
+              </SidebarMenuButton>
+            </CollapsibleTrigger>
+            <CollapsibleContent>
+              <SidebarMenuSub>
+                <SidebarMenuSubItem>
+                  <SidebarMenuSubButton isActive>General Settings</SidebarMenuSubButton>
+                </SidebarMenuSubItem>
+                <SidebarMenuSubItem>
+                  <SidebarMenuSubButton>Billing & Invoices</SidebarMenuSubButton>
+                </SidebarMenuSubItem>
+                <SidebarMenuSubItem>
+                  <SidebarMenuSubButton>API Credentials</SidebarMenuSubButton>
+                </SidebarMenuSubItem>
+              </SidebarMenuSub>
+            </CollapsibleContent>
+          </Collapsible>
+        </SidebarMenuItem>
+
+        {/* Regular Items */}
+        <SidebarMenuItem>
+          <SidebarMenuButton>
+            <Database class="size-4" />
+            <span>Database Storage</span>
+          </SidebarMenuButton>
+        </SidebarMenuItem>
+
+        <SidebarMenuItem>
+          <SidebarMenuButton>
+            <Key class="size-4" />
+            <span>Access Tokens</span>
+          </SidebarMenuButton>
+        </SidebarMenuItem>
+      </SidebarMenu>
+    </SidebarProvider>
+  </div>
+);`;
 
 export default function SidebarDocPage() {
-  const [activeTab, setActiveTab] = createSignal("dashboard");
+  const [activeItem, setActiveItem] = createSignal("dashboard");
 
   return (
     <>
       <Seo
         title="Sidebar Component"
-        description="A composable, collapsible, and accessible application sidebar navigation suite with icon mode, mobile drawer, and keyboard shortcuts for SolidJS."
+        description="A composable, collapsible, and accessible application sidebar navigation suite for SolidJS."
         path="/docs/components/sidebar"
       />
 
@@ -164,29 +235,34 @@ export default function SidebarDocPage() {
         <DocPageHeader
           title="Sidebar"
           badge="Compound Suite"
-          description="A composable, collapsible, and responsive application sidebar navigation suite with icon mode, mobile drawer overlays, and keyboard shortcuts."
+          description="A composable, structured sidebar navigation suite with headers, grouped menus, badges, submenus, icon collapse mode, and footers."
         />
 
         {/* 2. Main Hero Preview */}
         <ComponentPreview name="sidebar" code={defaultCode}>
-          <div class="flex items-center justify-center p-2 sm:p-6 w-full">
-            <div class="w-full h-[420px] rounded-lg border border-border bg-background overflow-hidden relative shadow-sm">
-              <SidebarProvider class="h-full min-h-0">
-                <Sidebar collapsible="icon" class="h-full">
-                  {/* Header */}
+          <div class="flex items-center justify-center p-6 sm:p-10 w-full">
+            <SidebarProvider class="min-h-0 w-auto">
+              <div class="flex flex-col items-start gap-3">
+                <div class="flex items-center gap-2">
+                  <SidebarTrigger />
+                  <span class="text-xs text-muted-foreground font-mono">Toggle icon collapse</span>
+                </div>
+
+                <Sidebar collapsible="icon" class="rounded-lg border border-border bg-card shadow-sm h-[430px]">
+                  {/* 1. Header */}
                   <SidebarHeader>
-                    <div class="flex items-center gap-2 px-1 py-0.5">
+                    <div class="flex items-center gap-2.5 px-1 py-0.5">
                       <div class="flex size-7 shrink-0 items-center justify-center rounded-md bg-primary text-primary-foreground font-bold text-xs shadow-2xs">
                         <Command class="size-4" />
                       </div>
                       <div class="flex flex-col gap-0.5 leading-none overflow-hidden group-data-[collapsible=icon]:hidden">
-                        <span class="font-bold text-xs truncate">Acme Inc</span>
-                        <span class="text-[10px] text-muted-foreground truncate">Enterprise Plan</span>
+                        <span class="font-bold text-xs truncate">Nikala Studio</span>
+                        <span class="text-[10px] text-muted-foreground truncate">Pro Workspace</span>
                       </div>
                     </div>
                   </SidebarHeader>
 
-                  {/* Content */}
+                  {/* 2. Navigation Content */}
                   <SidebarContent>
                     <SidebarGroup>
                       <SidebarGroupLabel>Platform</SidebarGroupLabel>
@@ -194,8 +270,8 @@ export default function SidebarDocPage() {
                         <SidebarMenu>
                           <SidebarMenuItem>
                             <SidebarMenuButton
-                              isActive={activeTab() === "dashboard"}
-                              onClick={() => setActiveTab("dashboard")}
+                              isActive={activeItem() === "dashboard"}
+                              onClick={() => setActiveItem("dashboard")}
                               tooltip="Dashboard"
                             >
                               <LayoutDashboard class="size-4" />
@@ -205,8 +281,8 @@ export default function SidebarDocPage() {
 
                           <SidebarMenuItem>
                             <SidebarMenuButton
-                              isActive={activeTab() === "inbox"}
-                              onClick={() => setActiveTab("inbox")}
+                              isActive={activeItem() === "inbox"}
+                              onClick={() => setActiveItem("inbox")}
                               tooltip="Inbox"
                             >
                               <Inbox class="size-4" />
@@ -217,8 +293,8 @@ export default function SidebarDocPage() {
 
                           <SidebarMenuItem>
                             <SidebarMenuButton
-                              isActive={activeTab() === "projects"}
-                              onClick={() => setActiveTab("projects")}
+                              isActive={activeItem() === "projects"}
+                              onClick={() => setActiveItem("projects")}
                               tooltip="Projects"
                             >
                               <FolderKanban class="size-4" />
@@ -228,8 +304,8 @@ export default function SidebarDocPage() {
 
                           <SidebarMenuItem>
                             <SidebarMenuButton
-                              isActive={activeTab() === "users"}
-                              onClick={() => setActiveTab("users")}
+                              isActive={activeItem() === "users"}
+                              onClick={() => setActiveItem("users")}
                               tooltip="Team"
                             >
                               <Users class="size-4" />
@@ -243,17 +319,28 @@ export default function SidebarDocPage() {
                     <SidebarSeparator />
 
                     <SidebarGroup>
-                      <SidebarGroupLabel>Preferences</SidebarGroupLabel>
+                      <SidebarGroupLabel>Settings</SidebarGroupLabel>
                       <SidebarGroupContent>
                         <SidebarMenu>
                           <SidebarMenuItem>
                             <SidebarMenuButton
-                              isActive={activeTab() === "settings"}
-                              onClick={() => setActiveTab("settings")}
-                              tooltip="Settings"
+                              isActive={activeItem() === "settings"}
+                              onClick={() => setActiveItem("settings")}
+                              tooltip="Preferences"
                             >
                               <Settings class="size-4" />
-                              <span>Settings</span>
+                              <span>Preferences</span>
+                            </SidebarMenuButton>
+                          </SidebarMenuItem>
+
+                          <SidebarMenuItem>
+                            <SidebarMenuButton
+                              isActive={activeItem() === "billing"}
+                              onClick={() => setActiveItem("billing")}
+                              tooltip="Billing"
+                            >
+                              <CreditCard class="size-4" />
+                              <span>Billing & Plans</span>
                             </SidebarMenuButton>
                           </SidebarMenuItem>
                         </SidebarMenu>
@@ -261,55 +348,21 @@ export default function SidebarDocPage() {
                     </SidebarGroup>
                   </SidebarContent>
 
-                  {/* Footer */}
+                  {/* 3. Footer */}
                   <SidebarFooter>
-                    <div class="flex items-center gap-2 p-1">
+                    <div class="flex items-center gap-2.5 p-1">
                       <Avatar class="size-7 shrink-0">
                         <AvatarFallback class="text-xs bg-primary/20 text-primary font-bold">GM</AvatarFallback>
                       </Avatar>
                       <div class="flex flex-col leading-none overflow-hidden group-data-[collapsible=icon]:hidden">
                         <span class="text-xs font-semibold truncate">Giorgi M.</span>
-                        <span class="text-[10px] text-muted-foreground truncate">admin@acme.dev</span>
+                        <span class="text-[10px] text-muted-foreground truncate">giorgi@nikala.dev</span>
                       </div>
                     </div>
                   </SidebarFooter>
                 </Sidebar>
-
-                {/* Main Content Viewport */}
-                <SidebarInset class="h-full overflow-y-auto">
-                  <header class="flex h-12 shrink-0 items-center justify-between gap-2 border-b border-border px-4 bg-card/60 backdrop-blur-xs">
-                    <div class="flex items-center gap-2">
-                      <SidebarTrigger />
-                      <div class="h-4 w-px bg-border" />
-                      <span class="text-xs font-medium capitalize text-foreground">{activeTab()}</span>
-                    </div>
-                    <Badge variant="outline" class="text-[10px] font-mono">
-                      ⌘B to Toggle
-                    </Badge>
-                  </header>
-
-                  <div class="p-6 space-y-4">
-                    <div class="space-y-1">
-                      <h3 class="text-base font-bold tracking-tight">Active Viewport: {activeTab().toUpperCase()}</h3>
-                      <p class="text-xs text-muted-foreground">
-                        Click the trigger button in the header or press <kbd class="px-1 py-0.5 rounded bg-muted text-[10px] font-mono">⌘B</kbd> to collapse to Icon Mode.
-                      </p>
-                    </div>
-
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
-                      <div class="p-4 rounded-lg border border-border bg-card space-y-1 shadow-2xs">
-                        <span class="text-xs text-muted-foreground">Monthly Active Users</span>
-                        <p class="text-xl font-bold">24,592</p>
-                      </div>
-                      <div class="p-4 rounded-lg border border-border bg-card space-y-1 shadow-2xs">
-                        <span class="text-xs text-muted-foreground">API Requests / sec</span>
-                        <p class="text-xl font-bold">1,840 req/s</p>
-                      </div>
-                    </div>
-                  </div>
-                </SidebarInset>
-              </SidebarProvider>
-            </div>
+              </div>
+            </SidebarProvider>
           </div>
         </ComponentPreview>
 
@@ -323,34 +376,59 @@ export default function SidebarDocPage() {
         <div class="space-y-8 pt-4">
           <DocSectionHeader title="Examples" />
 
-          {/* Nested Submenu Tree */}
+          {/* Collapsible Submenu with Kobalte Primitive */}
           <div class="space-y-3">
-            <h3 class="text-lg font-semibold tracking-tight">Nested Submenu Tree</h3>
+            <h3 class="text-lg font-semibold tracking-tight">Collapsible Tree Menu</h3>
             <p class="text-sm text-muted-foreground">
-              Use <code class="bg-muted px-1.5 py-0.5 rounded text-xs font-mono">SidebarMenuSub</code> and <code class="bg-muted px-1.5 py-0.5 rounded text-xs font-mono">SidebarMenuSubButton</code> for deep hierarchical navigation.
+              Integrate <code class="bg-muted px-1.5 py-0.5 rounded text-xs font-mono">Collapsible</code> with <code class="bg-muted px-1.5 py-0.5 rounded text-xs font-mono">SidebarMenuSub</code> for animated expand/collapse dropdown navigation.
             </p>
-            <ComponentPreview name="sidebar" code={nestedSubmenuCode}>
-              <div class="flex items-center justify-center p-6 w-full max-w-xs mx-auto">
-                <div class="w-full p-3 rounded-lg border border-border bg-card shadow-2xs">
-                  <SidebarMenu>
-                    <SidebarMenuItem>
-                      <SidebarMenuButton>
-                        <Settings class="size-4" />
-                        <span>Settings</span>
-                      </SidebarMenuButton>
-                      <SidebarMenuSub>
-                        <SidebarMenuSubItem>
-                          <SidebarMenuSubButton isActive>General</SidebarMenuSubButton>
-                        </SidebarMenuSubItem>
-                        <SidebarMenuSubItem>
-                          <SidebarMenuSubButton>Billing & Plans</SidebarMenuSubButton>
-                        </SidebarMenuSubItem>
-                        <SidebarMenuSubItem>
-                          <SidebarMenuSubButton>API Keys</SidebarMenuSubButton>
-                        </SidebarMenuSubItem>
-                      </SidebarMenuSub>
-                    </SidebarMenuItem>
-                  </SidebarMenu>
+            <ComponentPreview name="sidebar" code={collapsibleCode}>
+              <div class="flex items-center justify-center p-6 w-full">
+                <div class="w-72 rounded-lg border border-border bg-card p-2 shadow-2xs">
+                  <SidebarProvider class="min-h-0 w-full">
+                    <SidebarMenu>
+                      <SidebarMenuItem>
+                        <Collapsible defaultOpen class="group/collapsible w-full">
+                          <CollapsibleTrigger class="w-full text-left">
+                            <SidebarMenuButton class="w-full justify-between">
+                              <div class="flex items-center gap-2">
+                                <Settings class="size-4" />
+                                <span>Configuration</span>
+                              </div>
+                              <ChevronRight class="size-3.5 text-muted-foreground transition-transform duration-200 group-data-[expanded]/collapsible:rotate-90" />
+                            </SidebarMenuButton>
+                          </CollapsibleTrigger>
+                          <CollapsibleContent>
+                            <SidebarMenuSub>
+                              <SidebarMenuSubItem>
+                                <SidebarMenuSubButton isActive>General Settings</SidebarMenuSubButton>
+                              </SidebarMenuSubItem>
+                              <SidebarMenuSubItem>
+                                <SidebarMenuSubButton>Billing & Invoices</SidebarMenuSubButton>
+                              </SidebarMenuSubItem>
+                              <SidebarMenuSubItem>
+                                <SidebarMenuSubButton>API Credentials</SidebarMenuSubButton>
+                              </SidebarMenuSubItem>
+                            </SidebarMenuSub>
+                          </CollapsibleContent>
+                        </Collapsible>
+                      </SidebarMenuItem>
+
+                      <SidebarMenuItem>
+                        <SidebarMenuButton>
+                          <Database class="size-4" />
+                          <span>Database Storage</span>
+                        </SidebarMenuButton>
+                      </SidebarMenuItem>
+
+                      <SidebarMenuItem>
+                        <SidebarMenuButton>
+                          <Key class="size-4" />
+                          <span>Access Tokens</span>
+                        </SidebarMenuButton>
+                      </SidebarMenuItem>
+                    </SidebarMenu>
+                  </SidebarProvider>
                 </div>
               </div>
             </ComponentPreview>
@@ -390,21 +468,15 @@ export default function SidebarDocPage() {
             items={[
               {
                 prop: "collapsible",
-                type: '"offcanvas" | "icon" | "none"',
-                default: '"offcanvas"',
-                description: 'How the sidebar collapses. "icon" collapses to a narrow icon bar, "offcanvas" hides completely.',
+                type: '"icon" | "offcanvas" | "none"',
+                default: '"icon"',
+                description: 'Collapse behavior. "icon" collapses into narrow icon bar with tooltips.',
               },
               {
                 prop: "variant",
                 type: '"sidebar" | "floating" | "inset"',
                 default: '"sidebar"',
-                description: "Visual appearance style of the sidebar container.",
-              },
-              {
-                prop: "side",
-                type: '"left" | "right"',
-                default: '"left"',
-                description: "Which edge of the viewport the sidebar docks to.",
+                description: "Visual styling variant of the sidebar container.",
               },
             ]}
           />
