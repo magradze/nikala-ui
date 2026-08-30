@@ -621,6 +621,18 @@
     ]
   },
   {
+    "name": "stat",
+    "title": "Stat",
+    "description": "Display key performance indicators, statistics, financial data, and metrics with trends and icons.",
+    "type": "registry:ui",
+    "dependencies": [
+      "clsx",
+      "tailwind-merge",
+      "class-variance-authority",
+      "lucide-solid"
+    ]
+  },
+  {
     "name": "status",
     "title": "Status",
     "description": "A compact semantic status indicator with a color dot and label.",

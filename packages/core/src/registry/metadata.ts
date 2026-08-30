@@ -315,6 +315,11 @@ export const COMPONENT_METADATA: Record<string, ComponentMeta> = {
     description: "A responsive, accessible, and structured bottom navigation layout suite supporting multi-column link directories, brand sections, and newsletter inputs.",
     dependencies: ["clsx", "tailwind-merge", "class-variance-authority"],
   },
+  stat: {
+    title: "Stat",
+    description: "Display key performance indicators, statistics, financial data, and metrics with trends and icons.",
+    dependencies: ["clsx", "tailwind-merge", "class-variance-authority", "lucide-solid"],
+  },
   pagination: {
     title: "Pagination",
     description: "An accessible multi-page navigation bar with previous, next, page numbers, and ellipsis controls.",

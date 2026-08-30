@@ -222,7 +222,7 @@ export const NavbarItem: ParentComponent<NavbarItemProps> = (props) => {
     >
       {local.children}
       <Show when={local.isActive}>
-        <div class="absolute -bottom-px left-0 right-0 h-0.5 bg-primary rounded-full z-10" />
+        <div class="absolute -bottom-px left-0 right-0 h-0.5 bg-primary rounded-lg z-10" />
       </Show>
     </div>
   );

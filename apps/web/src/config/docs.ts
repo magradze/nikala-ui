@@ -359,6 +359,7 @@ export const COMPONENTS_LIST: DocComponentItem[] = [
   { name: "message", title: "Message", description: "A structured chat and conversation message layout with avatars, alignment, headers, footers, and actions", href: "/docs/components/message" },
   { name: "bubble", title: "Bubble", description: "Chat message bubble container supporting variants, grouped consecutive bubbles, and emoji reactions", href: "/docs/components/bubble" },
   { name: "marker", title: "Marker", description: "System chat events, date dividers, and live typing indicator badges", href: "/docs/components/marker" },
+  { name: "stat", title: "Stat", description: "Display key performance indicators, statistics, financial data, and metrics with trends and icons", href: "/docs/components/stat" },
   { name: "sidebar", title: "Sidebar", description: "A composable, collapsible, and accessible application sidebar navigation suite with icon mode and keyboard shortcuts", href: "/docs/components/sidebar" },
 ];
 
@@ -415,6 +416,7 @@ export const COMPONENT_SECTIONS: NavSection[] = [
       { title: "Resizable", href: "/docs/components/resizable", addedAt: "2026-08-08" },
       { title: "Scroll Area", href: "/docs/components/scroll-area", addedAt: "2026-08-08" },
       { title: "Skeleton", href: "/docs/components/skeleton" },
+      { title: "Stat", href: "/docs/components/stat", addedAt: "2026-08-30" },
       { title: "Table", href: "/docs/components/table", addedAt: "2026-08-29" },
       { title: "Timeline", href: "/docs/components/timeline", addedAt: "2026-08-30" },
     ],
