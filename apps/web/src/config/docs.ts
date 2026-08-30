@@ -340,6 +340,7 @@ export const COMPONENTS_LIST: DocComponentItem[] = [
   { name: "dropzone", title: "Dropzone", description: "A compound drag-and-drop file upload container with file list previews and validation", href: "/docs/components/dropzone" },
   { name: "toggle-group", title: "Toggle Group", description: "A set of two-state buttons supporting single/multiple selection, size variants, and keyboard navigation", href: "/docs/components/toggle-group" },
   { name: "timeline", title: "Timeline", description: "A responsive chronological display for event streams, activity logs, and multi-step workflows", href: "/docs/components/timeline" },
+  { name: "navigation-menu", title: "Navigation Menu", description: "A responsive and accessible top header navigation menu with mega-menu dropdowns and link previews", href: "/docs/components/navigation-menu" },
 ];
 
 /* --- Global Sidebar Navigation Config --- */
@@ -427,6 +428,7 @@ export const COMPONENT_SECTIONS: NavSection[] = [
       { title: "Collapsible", href: "/docs/components/collapsible", addedAt: "2026-08-06" },
       { title: "Combobox", href: "/docs/components/combobox", addedAt: "2026-08-05" },
       { title: "Command", href: "/docs/components/command", addedAt: "2026-08-05" },
+      { title: "Navigation Menu", href: "/docs/components/navigation-menu", addedAt: "2026-08-30" },
       { title: "Separator", href: "/docs/components/separator" },
       { title: "Slider", href: "/docs/components/slider", addedAt: "2026-08-04" },
       { title: "Tabs", href: "/docs/components/tabs" },
