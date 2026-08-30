@@ -288,6 +288,12 @@ export const COMPONENT_METADATA: Record<string, ComponentMeta> = {
     dependencies: ["clsx", "tailwind-merge", "lucide-solid"],
     registryDependencies: ["create-drop-zone"],
   },
+  "toggle-group": {
+    title: "Toggle Group",
+    description: "A set of two-state buttons that can be toggled on or off with single or multiple selection modes.",
+    dependencies: ["clsx", "tailwind-merge", "class-variance-authority"],
+    registryDependencies: ["create-controllable-signal"],
+  },
 };
 
 /**

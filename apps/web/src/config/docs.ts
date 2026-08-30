@@ -338,6 +338,7 @@ export const COMPONENTS_LIST: DocComponentItem[] = [
   { name: "scroll-area", title: "Scroll Area", description: "Augments native scroll functionality with custom styled scrollbars", href: "/docs/components/scroll-area" },
   { name: "table", title: "Table", description: "A responsive and accessible data table component with headers, rows, and footer summaries", href: "/docs/components/table" },
   { name: "dropzone", title: "Dropzone", description: "A compound drag-and-drop file upload container with file list previews and validation", href: "/docs/components/dropzone" },
+  { name: "toggle-group", title: "Toggle Group", description: "A set of two-state buttons supporting single/multiple selection, size variants, and keyboard navigation", href: "/docs/components/toggle-group" },
 ];
 
 /* --- Global Sidebar Navigation Config --- */
@@ -374,6 +375,7 @@ export const COMPONENT_SECTIONS: NavSection[] = [
       { title: "Switch", href: "/docs/components/switch" },
       { title: "Textarea", href: "/docs/components/textarea" },
       { title: "Toggle", href: "/docs/components/toggle", addedAt: "2026-08-08" },
+      { title: "Toggle Group", href: "/docs/components/toggle-group", addedAt: "2026-08-30" },
     ],
   },
   {

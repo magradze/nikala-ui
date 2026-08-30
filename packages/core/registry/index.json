@@ -600,6 +600,20 @@
     ]
   },
   {
+    "name": "toggle-group",
+    "title": "Toggle Group",
+    "description": "A set of two-state buttons that can be toggled on or off with single or multiple selection modes.",
+    "type": "registry:ui",
+    "dependencies": [
+      "clsx",
+      "tailwind-merge",
+      "class-variance-authority"
+    ],
+    "registryDependencies": [
+      "create-controllable-signal"
+    ]
+  },
+  {
     "name": "toggle",
     "title": "Toggle",
     "description": "A two-state interactive button component built on Kobalte primitives.",
