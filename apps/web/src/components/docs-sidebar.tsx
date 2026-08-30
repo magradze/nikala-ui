@@ -96,8 +96,8 @@ export const DocsSidebar: Component = () => {
                             <span>{item.title}</span>
                             <Show when={isNew}>
                               <span class="relative flex h-2 w-2">
-                                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
-                                <span class="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
+                                <span class="animate-ping absolute inline-flex h-full w-full rounded-lg bg-primary opacity-75"></span>
+                                <span class="relative inline-flex rounded-lg h-2 w-2 bg-primary"></span>
                               </span>
                             </Show>
                           </A>
@@ -116,8 +116,8 @@ export const DocsSidebar: Component = () => {
                     <span>{section.title}</span>
                     <Show when={!isOpen() && sectionHasNewItem()}>
                       <span class="relative flex h-1.5 w-1.5">
-                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
-                        <span class="relative inline-flex rounded-full h-1.5 w-1.5 bg-primary"></span>
+                        <span class="animate-ping absolute inline-flex h-full w-full rounded-lg bg-primary opacity-75"></span>
+                        <span class="relative inline-flex rounded-lg h-1.5 w-1.5 bg-primary"></span>
                       </span>
                     </Show>
                   </div>
@@ -145,8 +145,8 @@ export const DocsSidebar: Component = () => {
                           <span>{item.title}</span>
                           <Show when={isNew}>
                             <span class="relative flex h-2 w-2">
-                              <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
-                              <span class="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
+                              <span class="animate-ping absolute inline-flex h-full w-full rounded-lg bg-primary opacity-75"></span>
+                              <span class="relative inline-flex rounded-lg h-2 w-2 bg-primary"></span>
                             </span>
                           </Show>
                         </A>

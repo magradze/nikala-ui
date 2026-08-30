@@ -17,7 +17,7 @@ export const config: ComponentSpec = {
   <Skeleton class="h-3.5 w-full" />
   <Skeleton class="h-3.5 w-2/3" />
 </div>`;
-    return `<Skeleton class="h-14 w-14 rounded-full" />`;
+    return `<Skeleton class="h-14 w-14 rounded-lg" />`;
   },
 };
 
@@ -25,7 +25,7 @@ export default function SkeletonStage(props: StageProps) {
   return (
     <>
       <Show when={props.values.shape === "avatar"}>
-        <Skeleton class="h-14 w-14 rounded-full" />
+        <Skeleton class="h-14 w-14 rounded-lg" />
       </Show>
 
       <Show when={props.values.shape === "card"}>

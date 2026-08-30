@@ -136,7 +136,7 @@ export const TimelineSeparator: Component<TimelineSeparatorProps> = (props) => {
 
 /* --- Timeline Point / Dot --- */
 export const timelinePointVariants = cva(
-  "relative z-10 flex shrink-0 items-center justify-center rounded-full font-medium transition-all shadow-xs",
+  "relative z-10 flex shrink-0 items-center justify-center rounded-lg font-medium transition-all shadow-xs",
   {
     variants: {
       variant: {

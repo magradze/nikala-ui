@@ -191,7 +191,7 @@ export const ScrollArea: Component<ScrollAreaProps> = (props) => {
           )}
         >
           <div
-            class="w-1.5 rounded-full bg-border hover:bg-muted-foreground/50 transition-colors cursor-pointer pointer-events-auto"
+            class="w-1.5 rounded-lg bg-border hover:bg-muted-foreground/50 transition-colors cursor-pointer pointer-events-auto"
             style={{
               height: `${thumbHeight()}px`,
               transform: `translateY(${thumbTop()}px)`,
@@ -213,7 +213,7 @@ export const ScrollArea: Component<ScrollAreaProps> = (props) => {
           )}
         >
           <div
-            class="h-1.5 rounded-full bg-border hover:bg-muted-foreground/50 transition-colors cursor-pointer pointer-events-auto"
+            class="h-1.5 rounded-lg bg-border hover:bg-muted-foreground/50 transition-colors cursor-pointer pointer-events-auto"
             style={{
               width: `${thumbWidth()}px`,
               transform: `translateX(${thumbLeft()}px)`,

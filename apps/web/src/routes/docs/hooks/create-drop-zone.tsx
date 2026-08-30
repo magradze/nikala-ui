@@ -78,7 +78,7 @@ export function DropZoneDemo() {
         }`}
         onClick={dropZone.openFileDialog}
       >
-        <div class="p-3 mb-3 rounded-full bg-primary/10 text-primary">
+        <div class="p-3 mb-3 rounded-lg bg-primary/10 text-primary">
           <UploadCloud class="w-6 h-6 animate-pulse" />
         </div>
         <div class="space-y-1">

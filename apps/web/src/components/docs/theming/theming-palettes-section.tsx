@@ -43,7 +43,7 @@ export function ThemingPalettesSection() {
         <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
           {accentColors.map((item) => (
             <div class="flex items-center gap-2.5 p-2.5 rounded-lg border border-border bg-card shadow-sm hover:border-primary/50 transition-colors">
-              <span class={`w-5 h-5 rounded-full shrink-0 shadow-inner ${item.bg}`} />
+              <span class={`w-5 h-5 rounded-lg shrink-0 shadow-inner ${item.bg}`} />
               <div class="flex flex-col text-xs font-mono">
                 <span class="font-bold capitalize">{item.name}</span>
                 <span class="text-muted-foreground text-[10px]">{item.hex}</span>

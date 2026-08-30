@@ -212,7 +212,7 @@ export const DropdownMenuRadioItem = <T extends ValidComponent = "div">(
     >
       <span class="absolute left-2 flex h-3.5 w-3.5 items-center justify-center">
         <DropdownMenuPrimitive.ItemIndicator>
-          <span class="h-2 w-2 rounded-full bg-current" />
+          <span class="h-2 w-2 rounded-lg bg-current" />
         </DropdownMenuPrimitive.ItemIndicator>
       </span>
       {local.children}

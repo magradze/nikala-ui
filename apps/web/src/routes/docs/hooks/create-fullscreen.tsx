@@ -36,7 +36,7 @@ export function FullscreenDemo() {
       }`}
     >
       <div class="space-y-4 text-center">
-        <div class="text-xs font-mono px-3 py-1 rounded-full border border-border inline-block bg-muted">
+        <div class="text-xs font-mono px-3 py-1 rounded-lg border border-border inline-block bg-muted">
           Status: {isFullscreen() ? "FULLSCREEN ACTIVE" : "NORMAL VIEW"}
         </div>
         <div class="flex items-center justify-center gap-2">

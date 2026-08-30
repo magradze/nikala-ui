@@ -23,7 +23,7 @@ export default function AvatarStage(props: StageProps) {
     }
   };
 
-  const shapeClass = () => (props.values.shape === "rounded" ? "rounded-lg" : "rounded-full");
+  const shapeClass = () => (props.values.shape === "rounded" ? "rounded-lg" : "rounded-lg");
 
   return (
     <Avatar class={cn(sizeClass(), shapeClass())}>

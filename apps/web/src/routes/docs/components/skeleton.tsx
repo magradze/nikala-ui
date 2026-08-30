@@ -12,7 +12,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 const importCode = `import { Skeleton } from "@/components/ui/skeleton";`;
 
 const defaultCode = `<div class="flex items-center space-x-4">
-  <Skeleton class="h-12 w-12 rounded-full" />
+  <Skeleton class="h-12 w-12 rounded-lg" />
   <div class="space-y-2">
     <Skeleton class="h-4 w-50" />
     <Skeleton class="h-4 w-37.5" />
@@ -93,7 +93,7 @@ export default function SkeletonDocsPage() {
               {
                 prop: "class",
                 type: "string",
-                description: "Tailwind CSS dimension and shape classes (e.g. h-12 w-12 rounded-full).",
+                description: "Tailwind CSS dimension and shape classes (e.g. h-12 w-12 rounded-lg).",
               },
             ]}
           />

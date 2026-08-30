@@ -85,7 +85,7 @@ When contributing code or modifying components/hooks in Nikala UI, AI assistants
 ### B. Styling & Design Token Constraints
 
 1. **Border Radius Constraint**:
-   - NEVER use `rounded-xl`, `rounded-2xl`, `rounded-3xl`, or `rounded-full` for main container cards or dialog boxes. **The maximum allowed border radius across Nikala UI is `rounded-lg`**.
+   - NEVER use `rounded-xl`, `rounded-2xl`, `rounded-3xl`, or `rounded-lg` for main container cards or dialog boxes. **The maximum allowed border radius across Nikala UI is `rounded-lg`**.
 2. **Tailwind CSS v4 Native Setup**:
    - All components must use semantic design tokens defined in modern `@import "tailwindcss";` setups (`bg-background`, `text-foreground`, `bg-card`, `border-border`, `bg-primary`, etc.). Avoid hardcoded arbitrary color values.
 3. **UI Component Reusability in Docs**:

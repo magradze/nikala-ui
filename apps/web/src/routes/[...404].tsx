@@ -24,7 +24,7 @@ export default function NotFoundPage() {
         {/* 404 Main Centered Content */}
         <main class="flex-1 container max-w-7xl mx-auto px-4 flex flex-col items-center justify-center py-20 md:py-32 text-center">
           {/* Background Ambient Glow */}
-          <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 -z-10 w-125 h-75 bg-primary/10 blur-[100px] rounded-full pointer-events-none" />
+          <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 -z-10 w-125 h-75 bg-primary/10 blur-[100px] rounded-lg pointer-events-none" />
 
           <div class="space-y-6 max-w-md">
             {/* Status Badge */}

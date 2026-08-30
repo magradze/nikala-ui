@@ -33,7 +33,7 @@ const ratio4x3Code = `<div class="w-full max-w-sm">
 const ratio1x1Code = `<div class="w-72">
   <AspectRatio ratio={1 / 1} class="bg-muted rounded-lg border border-border flex items-center justify-center p-4">
     <div class="flex flex-col items-center justify-center text-center space-y-2">
-      <div class="h-12 w-12 rounded-full bg-primary/20 text-primary flex items-center justify-center font-bold text-lg">
+      <div class="h-12 w-12 rounded-lg bg-primary/20 text-primary flex items-center justify-center font-bold text-lg">
         1:1
       </div>
       <span class="text-sm font-semibold">Square Aspect Ratio</span>
@@ -111,7 +111,7 @@ export default function AspectRatioDocsPage() {
               <div class="w-72">
                 <AspectRatio ratio={1 / 1} class="bg-muted rounded-lg border border-border flex items-center justify-center p-4">
                   <div class="flex flex-col items-center justify-center text-center space-y-2">
-                    <div class="h-12 w-12 rounded-full bg-primary/20 text-primary flex items-center justify-center font-bold text-lg">
+                    <div class="h-12 w-12 rounded-lg bg-primary/20 text-primary flex items-center justify-center font-bold text-lg">
                       1:1
                     </div>
                     <span class="text-sm font-semibold">Square Aspect Ratio</span>
