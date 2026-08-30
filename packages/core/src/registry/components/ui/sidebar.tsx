@@ -2,6 +2,7 @@ import {
   createContext,
   createSignal,
   createMemo,
+  createEffect,
   useContext,
   splitProps,
   onMount,
@@ -13,7 +14,7 @@ import {
   Show,
 } from "solid-js";
 import { cva, type VariantProps } from "class-variance-authority";
-import { PanelLeft } from "lucide-solid";
+import { PanelLeft, PanelRight } from "lucide-solid";
 import { Tooltip, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Separator } from "@/components/ui/separator";
@@ -27,6 +28,7 @@ const SIDEBAR_KEYBOARD_SHORTCUT = "b";
 
 /* --- 1. Context & Types --- */
 export type SidebarState = "expanded" | "collapsed";
+export type SidebarSide = "left" | "right";
 
 export interface SidebarContextValue {
   state: Accessor<SidebarState>;
@@ -36,6 +38,8 @@ export interface SidebarContextValue {
   setOpenMobile: (open: boolean) => void;
   isMobile: Accessor<boolean>;
   toggleSidebar: () => void;
+  side: Accessor<SidebarSide>;
+  setSide: (side: SidebarSide) => void;
 }
 
 const SidebarContext = createContext<SidebarContextValue>();
@@ -48,6 +52,8 @@ const fallbackSidebarContext: SidebarContextValue = {
   setOpenMobile: () => {},
   isMobile: () => false,
   toggleSidebar: () => {},
+  side: () => "left",
+  setSide: () => {},
 };
 
 export function useSidebar() {
@@ -60,6 +66,7 @@ export interface SidebarProviderProps extends JSX.HTMLAttributes<HTMLDivElement>
   defaultOpen?: boolean;
   open?: Accessor<boolean>;
   onOpenChange?: (open: boolean) => void;
+  side?: SidebarSide;
   class?: string;
   style?: JSX.CSSProperties;
 }
@@ -69,6 +76,7 @@ export const SidebarProvider: ParentComponent<SidebarProviderProps> = (props) =>
     "defaultOpen",
     "open",
     "onOpenChange",
+    "side",
     "class",
     "style",
     "children",
@@ -77,6 +85,13 @@ export const SidebarProvider: ParentComponent<SidebarProviderProps> = (props) =>
   const [internalOpen, setInternalOpen] = createSignal<boolean>(local.defaultOpen ?? true);
   const [openMobile, setOpenMobile] = createSignal<boolean>(false);
   const [isMobile, setIsMobile] = createSignal<boolean>(false);
+  const [side, setSide] = createSignal<SidebarSide>(local.side ?? "left");
+
+  createEffect(() => {
+    if (local.side) {
+      setSide(local.side);
+    }
+  });
 
   const open = () => (local.open !== undefined ? local.open() : internalOpen());
 
@@ -135,6 +150,8 @@ export const SidebarProvider: ParentComponent<SidebarProviderProps> = (props) =>
     setOpenMobile,
     isMobile,
     toggleSidebar,
+    side,
+    setSide,
   };
 
   return (
@@ -159,7 +176,7 @@ export const SidebarProvider: ParentComponent<SidebarProviderProps> = (props) =>
 
 /* --- 3. Sidebar Root --- */
 export interface SidebarProps extends JSX.HTMLAttributes<HTMLDivElement> {
-  side?: "left" | "right";
+  side?: SidebarSide;
   variant?: "sidebar" | "floating" | "inset";
   collapsible?: "offcanvas" | "icon" | "none";
   class?: string;
@@ -175,25 +192,37 @@ export const Sidebar: ParentComponent<SidebarProps> = (props) => {
   ]);
 
   const sidebar = useSidebar();
-  const side = () => local.side ?? "left";
+  const side = () => local.side ?? sidebar.side();
   const variant = () => local.variant ?? "sidebar";
   const collapsible = () => local.collapsible ?? "icon";
 
+  createEffect(() => {
+    if (local.side) {
+      sidebar.setSide(local.side);
+    }
+  });
+
+  const isCollapsed = () => sidebar.state() === "collapsed" && collapsible() !== "none";
+
   return (
     <div
-      data-state={sidebar.state()}
-      data-collapsible={sidebar.state() === "collapsed" ? collapsible() : ""}
+      data-state={isCollapsed() ? "collapsed" : "expanded"}
+      data-collapsible={isCollapsed() ? collapsible() : ""}
       data-variant={variant()}
       data-side={side()}
       class={cn(
-        "group relative flex flex-col bg-card text-card-foreground transition-[width] duration-200 ease-in-out shrink-0",
-        sidebar.state() === "expanded"
+        "group relative flex flex-col bg-card text-card-foreground transition-all duration-200 ease-in-out shrink-0",
+        !isCollapsed()
           ? "w-[var(--sidebar-width,17rem)]"
           : collapsible() === "icon"
           ? "w-[var(--sidebar-width-icon,3.5rem)]"
-          : "w-0 overflow-hidden",
-        side() === "left" ? "border-r border-border" : "border-l border-border",
-        variant() === "floating" && "m-2 rounded-lg border shadow-sm",
+          : "w-0 overflow-hidden opacity-0 border-none",
+        // Side borders
+        variant() === "sidebar" && (side() === "left" ? "border-r border-border" : "border-l border-border"),
+        // Floating variant
+        variant() === "floating" && "m-2 rounded-lg border border-border shadow-md",
+        // Inset variant
+        variant() === "inset" && "m-2 rounded-lg border border-border/80 bg-card shadow-2xs",
         local.class
       )}
       {...rest}
@@ -215,7 +244,7 @@ export interface SidebarTriggerProps extends JSX.ButtonHTMLAttributes<HTMLButton
 
 export const SidebarTrigger: Component<SidebarTriggerProps> = (props) => {
   const [local, rest] = splitProps(props, ["class", "onClick"]);
-  const { toggleSidebar } = useSidebar();
+  const { toggleSidebar, side } = useSidebar();
 
   return (
     <button
@@ -233,7 +262,9 @@ export const SidebarTrigger: Component<SidebarTriggerProps> = (props) => {
       )}
       {...rest}
     >
-      <PanelLeft class="size-4" />
+      <Show when={side() === "right"} fallback={<PanelLeft class="size-4" />}>
+        <PanelRight class="size-4" />
+      </Show>
       <span class="sr-only">Toggle Sidebar</span>
     </button>
   );
@@ -297,7 +328,7 @@ export const SidebarHeader: ParentComponent<SidebarSectionProps> = (props) => {
   return (
     <div
       data-sidebar="header"
-      class={cn("flex flex-col gap-2 p-3 border-b border-border/40 shrink-0", local.class)}
+      class={cn("flex flex-col gap-2 p-3 border-b border-border/40 shrink-0 group-data-[collapsible=icon]:p-2 group-data-[collapsible=icon]:items-center", local.class)}
       {...rest}
     >
       {local.children}
@@ -311,7 +342,7 @@ export const SidebarFooter: ParentComponent<SidebarSectionProps> = (props) => {
   return (
     <div
       data-sidebar="footer"
-      class={cn("flex flex-col gap-2 p-3 mt-auto border-t border-border/40 shrink-0", local.class)}
+      class={cn("flex flex-col gap-2 p-3 mt-auto border-t border-border/40 shrink-0 group-data-[collapsible=icon]:p-2 group-data-[collapsible=icon]:items-center", local.class)}
       {...rest}
     >
       {local.children}
@@ -325,7 +356,7 @@ export const SidebarSeparator: Component<SidebarSectionProps> = (props) => {
   return (
     <Separator
       data-sidebar="separator"
-      class={cn("mx-2 w-auto bg-border/50 my-1", local.class)}
+      class={cn("mx-2 w-auto bg-border/50 my-1 group-data-[collapsible=icon]:mx-1", local.class)}
       {...rest}
     />
   );
@@ -338,7 +369,7 @@ export const SidebarContent: ParentComponent<SidebarSectionProps> = (props) => {
     <div
       data-sidebar="content"
       class={cn(
-        "flex min-h-0 flex-1 flex-col gap-1 overflow-y-auto p-2 group-data-[collapsible=icon]:overflow-hidden",
+        "flex min-h-0 flex-1 flex-col gap-1 overflow-y-auto p-2 group-data-[collapsible=icon]:p-1 group-data-[collapsible=icon]:overflow-hidden group-data-[collapsible=icon]:items-center",
         local.class
       )}
       {...rest}
@@ -355,7 +386,7 @@ export const SidebarGroup: ParentComponent<SidebarSectionProps> = (props) => {
   return (
     <div
       data-sidebar="group"
-      class={cn("relative flex w-full min-w-0 flex-col p-1", local.class)}
+      class={cn("relative flex w-full min-w-0 flex-col p-1 group-data-[collapsible=icon]:p-0 group-data-[collapsible=icon]:items-center", local.class)}
       {...rest}
     >
       {local.children}
@@ -431,7 +462,7 @@ export const SidebarMenu: ParentComponent<SidebarMenuProps> = (props) => {
   return (
     <ul
       data-sidebar="menu"
-      class={cn("flex w-full min-w-0 flex-col gap-1 list-none p-0 m-0", local.class)}
+      class={cn("flex w-full min-w-0 flex-col gap-1 list-none p-0 m-0 group-data-[collapsible=icon]:items-center", local.class)}
       {...rest}
     >
       {local.children}
@@ -449,7 +480,7 @@ export const SidebarMenuItem: ParentComponent<SidebarMenuItemProps> = (props) =>
   return (
     <li
       data-sidebar="menu-item"
-      class={cn("group/menu-item relative", local.class)}
+      class={cn("group/menu-item relative flex w-full justify-center", local.class)}
       {...rest}
     >
       {local.children}
@@ -497,7 +528,9 @@ export const SidebarMenuButton: ParentComponent<SidebarMenuButtonProps> = (props
     "children",
   ]);
 
-  const { isMobile, state } = useSidebar();
+  const sidebar = useSidebar();
+  const isCollapsed = () => sidebar.state() === "collapsed";
+  const tooltipPlacement = () => (sidebar.side() === "right" ? "left" : "right");
 
   const buttonElement = () => (
     <button
@@ -517,10 +550,10 @@ export const SidebarMenuButton: ParentComponent<SidebarMenuButtonProps> = (props
 
   return (
     <Show
-      when={local.tooltip && state() === "collapsed" && !isMobile()}
+      when={local.tooltip && isCollapsed() && !sidebar.isMobile()}
       fallback={buttonElement()}
     >
-      <Tooltip placement="right" gutter={8} openDelay={100}>
+      <Tooltip placement={tooltipPlacement()} gutter={8} openDelay={100}>
         <TooltipTrigger as="div" class="w-full flex items-center justify-center">
           {buttonElement()}
         </TooltipTrigger>
@@ -589,13 +622,13 @@ export const SidebarMenuSkeleton: Component<SidebarMenuSkeletonProps> = (props) 
   return (
     <div
       data-sidebar="menu-skeleton"
-      class={cn("flex h-8 items-center gap-2 rounded-md px-2", local.class)}
+      class={cn("flex h-8 items-center gap-2 rounded-md px-2 group-data-[collapsible=icon]:p-0 group-data-[collapsible=icon]:justify-center", local.class)}
       {...rest}
     >
       <Show when={local.showIcon ?? true}>
-        <Skeleton class="size-4 rounded-md" />
+        <Skeleton class="size-4 rounded-md shrink-0" />
       </Show>
-      <Skeleton class="h-4 flex-1 max-w-[80%]" />
+      <Skeleton class="h-4 flex-1 max-w-[80%] group-data-[collapsible=icon]:hidden" />
     </div>
   );
 };

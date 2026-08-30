@@ -149,30 +149,30 @@ const defaultCode = `<SidebarProvider class="w-full justify-center">
             <SidebarMenu>
               <SidebarMenuItem>
                 <SidebarMenuButton isActive tooltip="Dashboard">
-                  <LayoutDashboard class="size-4" />
-                  <span>Dashboard</span>
+                  <LayoutDashboard class="size-4 shrink-0" />
+                  <span class="truncate group-data-[state=collapsed]/sidebar:hidden">Dashboard</span>
                 </SidebarMenuButton>
               </SidebarMenuItem>
 
               <SidebarMenuItem>
                 <SidebarMenuButton tooltip="Inbox">
-                  <Inbox class="size-4" />
-                  <span>Inbox</span>
+                  <Inbox class="size-4 shrink-0" />
+                  <span class="truncate group-data-[state=collapsed]/sidebar:hidden">Inbox</span>
                   <SidebarMenuBadge>12</SidebarMenuBadge>
                 </SidebarMenuButton>
               </SidebarMenuItem>
 
               <SidebarMenuItem>
                 <SidebarMenuButton tooltip="Projects">
-                  <FolderKanban class="size-4" />
-                  <span>Projects</span>
+                  <FolderKanban class="size-4 shrink-0" />
+                  <span class="truncate group-data-[state=collapsed]/sidebar:hidden">Projects</span>
                 </SidebarMenuButton>
               </SidebarMenuItem>
 
               <SidebarMenuItem>
                 <SidebarMenuButton tooltip="Team">
-                  <Users class="size-4" />
-                  <span>Team Members</span>
+                  <Users class="size-4 shrink-0" />
+                  <span class="truncate group-data-[state=collapsed]/sidebar:hidden">Team Members</span>
                 </SidebarMenuButton>
               </SidebarMenuItem>
             </SidebarMenu>
@@ -187,15 +187,15 @@ const defaultCode = `<SidebarProvider class="w-full justify-center">
             <SidebarMenu>
               <SidebarMenuItem>
                 <SidebarMenuButton tooltip="Preferences">
-                  <Settings class="size-4" />
-                  <span>Preferences</span>
+                  <Settings class="size-4 shrink-0" />
+                  <span class="truncate group-data-[state=collapsed]/sidebar:hidden">Preferences</span>
                 </SidebarMenuButton>
               </SidebarMenuItem>
 
               <SidebarMenuItem>
                 <SidebarMenuButton tooltip="Billing">
-                  <CreditCard class="size-4" />
-                  <span>Billing & Plans</span>
+                  <CreditCard class="size-4 shrink-0" />
+                  <span class="truncate group-data-[state=collapsed]/sidebar:hidden">Billing & Plans</span>
                 </SidebarMenuButton>
               </SidebarMenuItem>
             </SidebarMenu>
@@ -212,12 +212,12 @@ const defaultCode = `<SidebarProvider class="w-full justify-center">
                 <Avatar class="size-7 shrink-0">
                   <AvatarFallback class="text-xs bg-primary/20 text-primary font-bold">GM</AvatarFallback>
                 </Avatar>
-                <div class="flex flex-col leading-none overflow-hidden group-data-[collapsible=icon]:hidden">
+                <div class="flex flex-col leading-none overflow-hidden group-data-[state=collapsed]/sidebar:hidden">
                   <span class="text-xs font-semibold truncate">Giorgi M.</span>
                   <span class="text-[10px] text-muted-foreground truncate">giorgi@nikala.dev</span>
                 </div>
               </div>
-              <ChevronsUpDown class="ml-auto size-4 text-muted-foreground shrink-0 group-data-[collapsible=icon]:hidden" />
+              <ChevronsUpDown class="ml-auto size-4 text-muted-foreground shrink-0 group-data-[state=collapsed]/sidebar:hidden" />
             </SidebarMenuButton>
           </DropdownMenuTrigger>
 
@@ -357,7 +357,7 @@ export default function SidebarDocPage() {
                   {/* 1. Workspace / Team Switcher Header */}
                   <SidebarHeader>
                     <DropdownMenu placement="bottom-start">
-                      <DropdownMenuTrigger class="w-full text-left">
+                      <DropdownMenuTrigger as="div" class="w-full text-left cursor-pointer">
                         <SidebarMenuButton size="lg" class="w-full justify-between">
                           <div class="flex items-center gap-2.5 overflow-hidden">
                             <div class="flex size-7 shrink-0 items-center justify-center rounded-md bg-primary text-primary-foreground font-bold text-xs shadow-2xs">
@@ -501,7 +501,7 @@ export default function SidebarDocPage() {
                   {/* 3. User Profile Dropdown Footer */}
                   <SidebarFooter>
                     <DropdownMenu placement="top-start">
-                      <DropdownMenuTrigger class="w-full text-left">
+                      <DropdownMenuTrigger as="div" class="w-full text-left cursor-pointer">
                         <SidebarMenuButton size="lg" class="w-full justify-between" tooltip="Giorgi M.">
                           <div class="flex items-center gap-2.5 overflow-hidden">
                             <Avatar class="size-7 shrink-0">
@@ -579,10 +579,10 @@ export default function SidebarDocPage() {
                     <SidebarMenu>
                       <SidebarMenuItem>
                         <Collapsible defaultOpen class="group/collapsible w-full">
-                          <CollapsibleTrigger class="w-full text-left">
+                          <CollapsibleTrigger as="div" class="w-full">
                             <SidebarMenuButton class="w-full justify-between">
                               <div class="flex items-center gap-2">
-                                <Settings class="size-4" />
+                                <Settings class="size-4 shrink-0" />
                                 <span>Configuration</span>
                               </div>
                               <ChevronRight class="size-3.5 text-muted-foreground transition-transform duration-200 group-data-[expanded]/collapsible:rotate-90" />
