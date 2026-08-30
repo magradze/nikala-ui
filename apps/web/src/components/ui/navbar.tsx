@@ -166,7 +166,7 @@ export const NavbarBrand: ParentComponent<NavbarBrandProps> = (props) => {
 };
 
 /* --- Navbar Content / Section --- */
-export const navbarContentVariants = cva("flex items-center gap-1 sm:gap-2", {
+export const navbarContentVariants = cva("flex items-center gap-1 sm:gap-2 h-full", {
   variants: {
     justify: {
       start: "justify-start flex-1",
@@ -222,7 +222,7 @@ export const NavbarItem: ParentComponent<NavbarItemProps> = (props) => {
     >
       {local.children}
       <Show when={local.isActive}>
-        <div class="absolute -bottom-3 md:-bottom-[19px] left-0 right-0 h-0.5 bg-primary rounded-full" />
+        <div class="absolute -bottom-px left-0 right-0 h-0.5 bg-primary rounded-full z-10" />
       </Show>
     </div>
   );
