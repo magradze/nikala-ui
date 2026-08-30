@@ -1,25 +1,46 @@
 import { createSignal, Show, type Component } from "solid-js";
+import { createForm } from "@nikala-ui/hooks";
+import { Form } from "../components/ui/form";
+import { Field, FieldLabel } from "../components/ui/field";
+import { FormMessage } from "../components/ui/form-message";
 import { Button } from "../components/ui/button";
 import { Input } from "../components/ui/input";
-import { Label } from "../components/ui/label";
 import { Checkbox } from "../components/ui/checkbox";
+import { Label } from "../components/ui/label";
 import { Separator } from "../components/ui/separator";
 import { Eye, EyeOff, Sparkles, ArrowRight } from "lucide-solid";
 
 export const Login01: Component = () => {
   const [showPassword, setShowPassword] = createSignal(false);
-  const [email, setEmail] = createSignal("");
-  const [password, setPassword] = createSignal("");
-  const [rememberMe, setRememberMe] = createSignal(true);
-  const [loading, setLoading] = createSignal(false);
 
-  const handleSubmit = (e: Event) => {
-    e.preventDefault();
-    setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-    }, 1200);
-  };
+  const form = createForm({
+    initialValues: {
+      email: "",
+      password: "",
+      rememberMe: true,
+    },
+    validate: (values) => {
+      const errors: Record<string, string> = {};
+      if (!values.email) {
+        errors.email = "Email is required";
+      } else if (!values.email.includes("@")) {
+        errors.email = "Please enter a valid email address";
+      }
+      if (!values.password) {
+        errors.password = "Password is required";
+      }
+      return errors;
+    },
+    onSubmit: async (values) => {
+      // Simulate API request
+      await new Promise((resolve) => setTimeout(resolve, 1200));
+    },
+  });
+
+  const isFormValid = () =>
+    form.values().email.trim() !== "" &&
+    form.values().email.includes("@") &&
+    form.values().password.trim() !== "";
 
   return (
     <div class="@container w-full min-h-[560px] @5xl:min-h-[700px] grid grid-cols-1 @5xl:grid-cols-2 bg-background text-foreground rounded-lg border border-border overflow-hidden shadow-xs">
@@ -86,26 +107,27 @@ export const Login01: Component = () => {
             </div>
           </div>
 
-          {/* Form */}
-          <form onSubmit={handleSubmit} class="space-y-4">
-            <div class="space-y-1.5">
-              <Label for="email" class="text-xs @md:text-sm font-medium">Email address</Label>
+          {/* Form with Nikala UI Form & Field ecosystem */}
+          <Form onSubmit={form.handleSubmit} loading={form.isSubmitting()} class="space-y-4">
+            <Field>
+              <FieldLabel for="login-email" class="text-xs @md:text-sm">Email address</FieldLabel>
               <Input
-                id="email"
+                id="login-email"
                 type="email"
                 placeholder="name@company.com"
-                value={email()}
-                onInput={(e) => setEmail(e.currentTarget.value)}
-                required
+                value={form.values().email}
+                onInput={form.handleChange("email")}
+                onBlur={form.handleBlur("email")}
                 autocomplete="email"
               />
-            </div>
+              <FormMessage form={form} name="email" />
+            </Field>
 
-            <div class="space-y-1.5">
+            <Field>
               <div class="flex items-center justify-between">
-                <Label for="password" class="text-xs @md:text-sm font-medium">Password</Label>
+                <FieldLabel for="login-password" class="text-xs @md:text-sm">Password</FieldLabel>
                 <a
-                  href="#forgot"
+                  href="/blocks/forgot-password-01"
                   class="text-[11px] @md:text-xs text-primary font-medium hover:underline"
                 >
                   Forgot password?
@@ -113,36 +135,34 @@ export const Login01: Component = () => {
               </div>
               <div class="relative">
                 <Input
-                  id="password"
+                  id="login-password"
                   type={showPassword() ? "text" : "password"}
                   placeholder="••••••••"
-                  value={password()}
-                  onInput={(e) => setPassword(e.currentTarget.value)}
-                  required
+                  value={form.values().password}
+                  onInput={form.handleChange("password")}
+                  onBlur={form.handleBlur("password")}
                   autocomplete="current-password"
                   class="pr-10"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword())}
-                  class="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors p-1"
+                  class="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors p-1 cursor-pointer"
                   aria-label={showPassword() ? "Hide password" : "Show password"}
                 >
-                  <Show
-                    when={showPassword()}
-                    fallback={<Eye class="size-4" />}
-                  >
+                  <Show when={showPassword()} fallback={<Eye class="size-4" />}>
                     <EyeOff class="size-4" />
                   </Show>
                 </button>
               </div>
-            </div>
+              <FormMessage form={form} name="password" />
+            </Field>
 
             <div class="flex items-center space-x-2 pt-1">
               <Checkbox
                 id="remember"
-                checked={rememberMe()}
-                onChange={(checked) => setRememberMe(checked)}
+                checked={form.values().rememberMe}
+                onChange={(checked) => form.setFieldValue("rememberMe", checked)}
               />
               <Label
                 for="remember"
@@ -155,17 +175,17 @@ export const Login01: Component = () => {
             <Button
               type="submit"
               class="w-full mt-2 font-medium"
-              disabled={loading()}
+              disabled={form.isSubmitting() || !isFormValid()}
             >
-              <Show when={loading()} fallback={<>Sign In <ArrowRight class="ml-2 size-4" /></>}>
+              <Show when={form.isSubmitting()} fallback={<>Sign In <ArrowRight class="ml-2 size-4" /></>}>
                 Signing in...
               </Show>
             </Button>
-          </form>
+          </Form>
 
           <p class="text-center text-xs text-muted-foreground mt-6">
             Don't have an account?{" "}
-            <a href="#signup" class="text-primary font-semibold hover:underline">
+            <a href="/blocks/register-01" class="text-primary font-semibold hover:underline">
               Sign up
             </a>
           </p>
@@ -180,7 +200,7 @@ export const Login01: Component = () => {
         </div>
       </div>
 
-      {/* Right Column: Hero Visual & Art / Testimonial Showcase (Desktop only @5xl+) */}
+      {/* Right Column: Hero Visual & Art / Testimonial Showcase */}
       <div class="hidden @5xl:flex relative flex-col justify-between p-10 bg-muted/40 border-l border-border overflow-hidden">
         <div class="absolute inset-0 bg-gradient-to-tr from-primary/10 via-transparent to-primary/5 pointer-events-none" />
 
