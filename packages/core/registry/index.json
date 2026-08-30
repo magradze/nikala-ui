@@ -360,6 +360,21 @@
     ]
   },
   {
+    "name": "navigation-menu",
+    "title": "Navigation Menu",
+    "description": "A responsive and accessible top header navigation menu with mega-menu dropdowns and link previews.",
+    "type": "registry:ui",
+    "dependencies": [
+      "clsx",
+      "tailwind-merge",
+      "class-variance-authority",
+      "lucide-solid"
+    ],
+    "registryDependencies": [
+      "create-click-outside"
+    ]
+  },
+  {
     "name": "number-input",
     "title": "Number Input",
     "description": "A numeric stepper input component supporting min, max, step, negative values, and long-press auto-repeat, built on Kobalte primitives.",
@@ -374,6 +389,21 @@
       "input",
       "button",
       "create-long-press"
+    ]
+  },
+  {
+    "name": "pagination",
+    "title": "Pagination",
+    "description": "An accessible multi-page navigation bar with previous, next, page numbers, and ellipsis controls.",
+    "type": "registry:ui",
+    "dependencies": [
+      "clsx",
+      "tailwind-merge",
+      "class-variance-authority",
+      "lucide-solid"
+    ],
+    "registryDependencies": [
+      "create-pagination"
     ]
   },
   {
@@ -890,6 +920,12 @@
     "name": "create-drop-zone",
     "title": "createDropZone",
     "description": "SolidJS reactive primitive for file drag & drop operations, validation, and file chooser dialogs",
+    "type": "registry:hook"
+  },
+  {
+    "name": "create-pagination",
+    "title": "createPagination",
+    "description": "SolidJS reactive primitive for computing pagination state, dynamic page ranges with ellipses, and navigation controls",
     "type": "registry:hook"
   }
 ]

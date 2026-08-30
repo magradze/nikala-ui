@@ -299,6 +299,18 @@ export const COMPONENT_METADATA: Record<string, ComponentMeta> = {
     description: "A responsive chronological display for event streams, activity logs, order tracking, and multi-step workflows.",
     dependencies: ["clsx", "tailwind-merge", "class-variance-authority"],
   },
+  "navigation-menu": {
+    title: "Navigation Menu",
+    description: "A responsive and accessible top header navigation menu with mega-menu dropdowns and link previews.",
+    dependencies: ["clsx", "tailwind-merge", "class-variance-authority", "lucide-solid"],
+    registryDependencies: ["create-click-outside"],
+  },
+  pagination: {
+    title: "Pagination",
+    description: "An accessible multi-page navigation bar with previous, next, page numbers, and ellipsis controls.",
+    dependencies: ["clsx", "tailwind-merge", "class-variance-authority", "lucide-solid"],
+    registryDependencies: ["create-pagination"],
+  },
 };
 
 /**
@@ -468,5 +480,9 @@ export const HOOK_METADATA: Record<string, ComponentMeta> = {
   "create-drop-zone": {
     title: "createDropZone",
     description: "SolidJS reactive primitive for file drag & drop operations, validation, and file chooser dialogs",
+  },
+  "create-pagination": {
+    title: "createPagination",
+    description: "SolidJS reactive primitive for computing pagination state, dynamic page ranges with ellipses, and navigation controls",
   },
 };
