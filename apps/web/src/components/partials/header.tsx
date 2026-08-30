@@ -22,6 +22,7 @@ import { GithubButton } from "@/components/partials/github-button";
 
 export function Header() {
   const [open, setOpen] = createSignal(false);
+
   return (
     <>
       {/* Global Announcement Banner */}
