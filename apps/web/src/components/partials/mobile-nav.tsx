@@ -8,6 +8,7 @@ import {
   Bot,
   Sparkles,
   Boxes,
+  Layers,
   Zap,
   ChevronRight,
 } from "lucide-solid";
@@ -29,6 +30,7 @@ import {
 import {
   COMPONENTS_SIDEBAR_NAVIGATION,
   HOOKS_SIDEBAR_NAVIGATION,
+  BLOCKS_SIDEBAR_NAVIGATION,
   COMPONENT_SECTIONS,
   COMPONENTS_LIST,
   HOOKS_LIST,
@@ -49,13 +51,15 @@ export function MobileNav() {
     }
   };
 
-  const [activeContext, setActiveContext] = createSignal<"components" | "hooks" | "playground">("components");
+  const [activeContext, setActiveContext] = createSignal<"components" | "hooks" | "playground" | "blocks">("components");
 
   createEffect(() => {
     if (location.pathname.startsWith("/playground")) {
       setActiveContext("playground");
     } else if (location.pathname.startsWith("/docs/hooks")) {
       setActiveContext("hooks");
+    } else if (location.pathname.startsWith("/blocks")) {
+      setActiveContext("blocks");
     } else if (location.pathname.startsWith("/docs/components")) {
       setActiveContext("components");
     }
@@ -78,6 +82,17 @@ export function MobileNav() {
       isActive: () => activeContext() === "components" && location.pathname.startsWith("/docs/components"),
       onClick: () => {
         setActiveContext("components");
+        closeNav();
+      },
+    },
+    {
+      title: "Blocks",
+      href: "/blocks",
+      icon: Layers,
+      badge: "New",
+      isActive: () => activeContext() === "blocks" && location.pathname.startsWith("/blocks"),
+      onClick: () => {
+        setActiveContext("blocks");
         closeNav();
       },
     },
@@ -208,17 +223,29 @@ export function MobileNav() {
               <div class="space-y-2">
                 <div class="flex items-center justify-between px-2">
                   <span class="text-[11px] font-bold text-muted-foreground tracking-wider uppercase">
-                    {activeContext() === "hooks" ? "Reactive Hooks" : "UI Components"}
+                    {activeContext() === "hooks"
+                      ? "Reactive Hooks"
+                      : activeContext() === "blocks"
+                      ? "Blocks"
+                      : "UI Components"}
                   </span>
                   <Badge variant="secondary" class="text-[10px] px-1.5 py-0 font-mono">
-                    {activeContext() === "hooks" ? HOOKS_LIST.length : COMPONENTS_LIST.length}
+                    {activeContext() === "hooks"
+                      ? HOOKS_LIST.length
+                      : activeContext() === "blocks"
+                      ? 2
+                      : COMPONENTS_LIST.length}
                   </Badge>
                 </div>
 
                 <div class="space-y-1">
                   <For
-                    each={(activeContext() === "hooks" ? HOOKS_SIDEBAR_NAVIGATION : COMPONENTS_SIDEBAR_NAVIGATION).filter(
-                      (s) => s.title !== "Getting Started"
+                    each={(
+                      activeContext() === "hooks"
+                        ? HOOKS_SIDEBAR_NAVIGATION.filter((s) => s.title !== "Getting Started")
+                        : activeContext() === "blocks"
+                        ? BLOCKS_SIDEBAR_NAVIGATION
+                        : COMPONENTS_SIDEBAR_NAVIGATION.filter((s) => s.title !== "Getting Started")
                     )}
                   >
                     {(section) => {

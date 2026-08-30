@@ -813,6 +813,24 @@
     ]
   },
   {
+    "name": "login-01",
+    "title": "Login 01 — Split Screen with Social Auth & Testimonial",
+    "description": "A modern split-screen authentication page block with OAuth providers, email sign-in form, and brand testimonial visual.",
+    "type": "registry:block",
+    "dependencies": [
+      "clsx",
+      "tailwind-merge",
+      "lucide-solid"
+    ],
+    "registryDependencies": [
+      "button",
+      "input",
+      "label",
+      "checkbox",
+      "separator"
+    ]
+  },
+  {
     "name": "create-controllable-signal",
     "title": "createControllableSignal",
     "description": "SolidJS reactive primitive supporting both controlled and uncontrolled state management",

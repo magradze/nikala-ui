@@ -4,6 +4,7 @@ import { createScrollIntoView } from "@nikala-ui/hooks";
 import {
   HOOKS_SIDEBAR_NAVIGATION,
   COMPONENTS_SIDEBAR_NAVIGATION,
+  BLOCKS_SIDEBAR_NAVIGATION,
 } from "@/config/docs";
 import {
   Sidebar,
@@ -35,12 +36,14 @@ export function isItemNew(addedAt?: string): boolean {
 
 export const DocsSidebar: Component = () => {
   const location = useLocation();
-  const [activeContext, setActiveContext] = createSignal<"hooks" | "components">("components");
+  const [activeContext, setActiveContext] = createSignal<"hooks" | "components" | "blocks">("components");
   const [activeElement, setActiveElement] = createSignal<HTMLElement | null>(null);
 
   createEffect(() => {
     if (location.pathname.startsWith("/docs/hooks")) {
       setActiveContext("hooks");
+    } else if (location.pathname.startsWith("/blocks")) {
+      setActiveContext("blocks");
     } else if (location.pathname.startsWith("/docs/components")) {
       setActiveContext("components");
     }
@@ -56,6 +59,9 @@ export const DocsSidebar: Component = () => {
   const navigation = () => {
     if (activeContext() === "hooks") {
       return HOOKS_SIDEBAR_NAVIGATION;
+    }
+    if (activeContext() === "blocks") {
+      return BLOCKS_SIDEBAR_NAVIGATION;
     }
     return COMPONENTS_SIDEBAR_NAVIGATION;
   };

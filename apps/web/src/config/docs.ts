@@ -543,6 +543,23 @@ export const HOOK_SECTIONS: NavSection[] = [
   },
 ];
 
+export const BLOCK_SECTIONS: NavSection[] = [
+  {
+    title: "Authentication",
+    items: [
+      { title: "Login 01", href: "/blocks/login-01", addedAt: "2026-08-30" },
+    ],
+  },
+  {
+    title: "Hero Sections",
+    items: [
+      { title: "Hero 01", href: "/blocks/hero-01", addedAt: "2026-08-30" },
+    ],
+  },
+];
+
+export const BLOCKS_SIDEBAR_NAVIGATION: NavSection[] = BLOCK_SECTIONS;
+
 export const COMPONENTS_SIDEBAR_NAVIGATION: NavSection[] = [
   GETTING_STARTED_SECTION,
   ...COMPONENT_SECTIONS,
@@ -554,3 +571,4 @@ export const HOOKS_SIDEBAR_NAVIGATION: NavSection[] = [
 ];
 
 export const DOCS_SIDEBAR_NAVIGATION: NavSection[] = COMPONENTS_SIDEBAR_NAVIGATION;
+

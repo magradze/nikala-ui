@@ -46,6 +46,7 @@ export function Header() {
 
   const isComponentsActive = () => location.pathname.startsWith("/docs/components");
   const isHooksActive = () => location.pathname.startsWith("/docs/hooks");
+  const isBlocksActive = () => location.pathname.startsWith("/blocks");
   const isMcpActive = () => location.pathname.startsWith("/docs/mcp");
   const isPlaygroundActive = () => location.pathname.startsWith("/playground");
 
@@ -104,6 +105,16 @@ export function Header() {
                 isActive={isComponentsActive()}
               >
                 Components
+              </NavbarLink>
+            </NavbarItem>
+
+            <NavbarItem isActive={isBlocksActive()}>
+              <NavbarLink
+                href="/blocks"
+                isActive={isBlocksActive()}
+                class="flex items-center gap-1.5"
+              >
+                Blocks
               </NavbarLink>
             </NavbarItem>
 

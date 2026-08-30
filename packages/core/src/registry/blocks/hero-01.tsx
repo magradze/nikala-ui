@@ -1,6 +1,6 @@
 import { Component } from "solid-js";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
+import { Button } from "../components/ui/button";
+import { Badge } from "../components/ui/badge";
 import { ArrowRight } from "lucide-solid";
 
 export default function Hero01() {

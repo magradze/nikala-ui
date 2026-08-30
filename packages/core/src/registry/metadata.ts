@@ -553,5 +553,11 @@ export const BLOCK_METADATA: Record<string, ComponentMeta> = {
     dependencies: ["clsx", "tailwind-merge", "lucide-solid"],
     registryDependencies: ["button", "badge"],
   },
+  "login-01": {
+    title: "Login 01 — Split Screen with Social Auth & Testimonial",
+    description: "A modern split-screen authentication page block with OAuth providers, email sign-in form, and brand testimonial visual.",
+    dependencies: ["clsx", "tailwind-merge", "lucide-solid"],
+    registryDependencies: ["button", "input", "label", "checkbox", "separator"],
+  },
 };
 
