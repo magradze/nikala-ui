@@ -357,6 +357,7 @@ export const COMPONENTS_LIST: DocComponentItem[] = [
   { name: "message", title: "Message", description: "A structured chat and conversation message layout with avatars, alignment, headers, footers, and actions", href: "/docs/components/message" },
   { name: "bubble", title: "Bubble", description: "Chat message bubble container supporting variants, grouped consecutive bubbles, and emoji reactions", href: "/docs/components/bubble" },
   { name: "marker", title: "Marker", description: "System chat events, date dividers, and live typing indicator badges", href: "/docs/components/marker" },
+  { name: "sidebar", title: "Sidebar", description: "A composable, collapsible, and accessible application sidebar navigation suite with icon mode and keyboard shortcuts", href: "/docs/components/sidebar" },
 ];
 
 /* --- Global Sidebar Navigation Config --- */
@@ -450,6 +451,7 @@ export const COMPONENT_SECTIONS: NavSection[] = [
       { title: "Navigation Menu", href: "/docs/components/navigation-menu", addedAt: "2026-08-30" },
       { title: "Pagination", href: "/docs/components/pagination", addedAt: "2026-08-30" },
       { title: "Separator", href: "/docs/components/separator" },
+      { title: "Sidebar", href: "/docs/components/sidebar", addedAt: "2026-08-30" },
       { title: "Slider", href: "/docs/components/slider", addedAt: "2026-08-04" },
       { title: "Tabs", href: "/docs/components/tabs" },
     ],
