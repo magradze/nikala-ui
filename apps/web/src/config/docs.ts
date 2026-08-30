@@ -339,6 +339,7 @@ export const COMPONENTS_LIST: DocComponentItem[] = [
   { name: "table", title: "Table", description: "A responsive and accessible data table component with headers, rows, and footer summaries", href: "/docs/components/table" },
   { name: "dropzone", title: "Dropzone", description: "A compound drag-and-drop file upload container with file list previews and validation", href: "/docs/components/dropzone" },
   { name: "toggle-group", title: "Toggle Group", description: "A set of two-state buttons supporting single/multiple selection, size variants, and keyboard navigation", href: "/docs/components/toggle-group" },
+  { name: "timeline", title: "Timeline", description: "A responsive chronological display for event streams, activity logs, and multi-step workflows", href: "/docs/components/timeline" },
 ];
 
 /* --- Global Sidebar Navigation Config --- */
@@ -392,6 +393,7 @@ export const COMPONENT_SECTIONS: NavSection[] = [
       { title: "Scroll Area", href: "/docs/components/scroll-area", addedAt: "2026-08-08" },
       { title: "Skeleton", href: "/docs/components/skeleton" },
       { title: "Table", href: "/docs/components/table", addedAt: "2026-08-29" },
+      { title: "Timeline", href: "/docs/components/timeline", addedAt: "2026-08-30" },
     ],
   },
   {

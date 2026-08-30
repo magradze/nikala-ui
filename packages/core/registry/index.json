@@ -587,6 +587,17 @@
     ]
   },
   {
+    "name": "timeline",
+    "title": "Timeline",
+    "description": "A responsive chronological display for event streams, activity logs, order tracking, and multi-step workflows.",
+    "type": "registry:ui",
+    "dependencies": [
+      "clsx",
+      "tailwind-merge",
+      "class-variance-authority"
+    ]
+  },
+  {
     "name": "toast",
     "title": "Toast / Sonner",
     "description": "A succinct message displayed temporarily in a toast region, built on Kobalte primitives.",

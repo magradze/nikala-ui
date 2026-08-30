@@ -294,6 +294,11 @@ export const COMPONENT_METADATA: Record<string, ComponentMeta> = {
     dependencies: ["clsx", "tailwind-merge", "class-variance-authority"],
     registryDependencies: ["create-controllable-signal"],
   },
+  timeline: {
+    title: "Timeline",
+    description: "A responsive chronological display for event streams, activity logs, order tracking, and multi-step workflows.",
+    dependencies: ["clsx", "tailwind-merge", "class-variance-authority"],
+  },
 };
 
 /**
