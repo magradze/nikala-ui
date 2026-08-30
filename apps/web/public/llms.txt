@@ -38,7 +38,7 @@ bunx @nikala-ui/cli init
 bunx @nikala-ui/cli add
 
 # Direct installation of specific UI components
-bunx @nikala-ui/cli add button input card dialog
+bunx @nikala-ui/cli add button input card dialog sidebar
 
 # Add all available UI components
 bunx @nikala-ui/cli add --all
@@ -53,7 +53,7 @@ bunx @nikala-ui/cli add button --overwrite
 bunx @nikala-ui/cli upgrade
 
 # Alias command to update specific items or all
-bunx @nikala-ui/cli update button dialog create-clipboard
+bunx @nikala-ui/cli update button dialog sidebar create-clipboard
 bunx @nikala-ui/cli update --all
 ```
 
@@ -63,7 +63,7 @@ bunx @nikala-ui/cli update --all
 bunx @nikala-ui/cli remove
 
 # Direct uninstall of specific components or hooks
-bunx @nikala-ui/cli uninstall button dialog
+bunx @nikala-ui/cli uninstall button dialog sidebar
 bunx @nikala-ui/cli remove -h create-clipboard
 ```
 
@@ -73,10 +73,10 @@ bunx @nikala-ui/cli remove -h create-clipboard
 bunx @nikala-ui/cli add --hook
 
 # Direct copy-paste installation of specific hooks to src/hooks/
-bunx @nikala-ui/cli add --hook create-audio create-fetch create-clipboard
+bunx @nikala-ui/cli add --hook create-audio create-fetch create-clipboard create-chat-scroll
 
 # Shortcut option (-h)
-bunx @nikala-ui/cli add -h create-websocket
+bunx @nikala-ui/cli add -h create-websocket create-drop-zone
 ```
 
 ### Theme Management & Diagnostics
@@ -101,15 +101,18 @@ When generating or editing SolidJS code using Nikala UI components and hooks, AI
 2. **Children Inspection & Tab Hydration**:
    - ALWAYS use `const resolved = children(() => props.children);` when inspecting or conditionally rendering JSX children inside tab containers or dynamic branches.
 
-3. **SSR Anti-FOUC Theme Script**:
+3. **Border Radius Constraint**:
+   - The maximum allowed container border radius across Nikala UI is `rounded-lg`. Never use `rounded-xl`, `rounded-2xl`, or `rounded-3xl` for main cards or modals.
+
+4. **SSR Anti-FOUC Theme Script**:
    - When using `ThemeProvider`, ALWAYS place `<ThemeScript storageKey="nikala-theme" />` synchronously inside `<head>` or root HTML before `<ThemeProvider>` to eliminate flash of unstyled content during SSR.
 
-4. **Hook Imports**:
+5. **Hook Imports**:
    - Import copy-pasted hooks locally from project alias: `import { createClipboard } from "@/hooks/create-clipboard";`
 
 ---
 
-## 4. UI Components Registry (48 Components)
+## 4. UI Components Registry (60 Components)
 
 Below is the complete inventory of available Nikala UI components with exported JSX elements:
 
@@ -120,94 +123,109 @@ Below is the complete inventory of available Nikala UI components with exported 
 5. **Badge**: `Badge`
 6. **Banner**: `Banner`
 7. **Breadcrumb**: `Breadcrumb`, `BreadcrumbList`, `BreadcrumbItem`, `BreadcrumbLink`, `BreadcrumbPage`, `BreadcrumbSeparator`, `BreadcrumbEllipsis`
-8. **Button**: `Button`
-9. **Card**: `Card`, `CardHeader`, `CardTitle`, `CardDescription`, `CardContent`, `CardFooter`
-10. **Checkbox**: `Checkbox`
-11. **Collapsible**: `Collapsible`, `CollapsibleTrigger`, `CollapsibleContent`
-12. **Combobox**: `Combobox`, `ComboboxControl`, `ComboboxInput`, `ComboboxTrigger`, `ComboboxContent`, `ComboboxItem`, `ComboboxGroup`
-13. **Command**: `Command`, `CommandDialog`, `CommandInput`, `CommandList`, `CommandEmpty`, `CommandGroup`, `CommandItem`, `CommandFooter`
-14. **Context Menu**: `ContextMenu`, `ContextMenuTrigger`, `ContextMenuContent`, `ContextMenuItem`, `ContextMenuCheckboxItem`, `ContextMenuRadioGroup`, `ContextMenuRadioItem`, `ContextMenuLabel`, `ContextMenuSeparator`, `ContextMenuShortcut`, `ContextMenuSub`, `ContextMenuSubTrigger`, `ContextMenuSubContent`
-15. **Dialog**: `Dialog`, `DialogTrigger`, `DialogOverlay`, `DialogContent`, `DialogHeader`, `DialogFooter`, `DialogTitle`, `DialogDescription`, `DialogClose`
-16. **Dropdown Menu**: `DropdownMenu`, `DropdownMenuTrigger`, `DropdownMenuContent`, `DropdownMenuItem`, `DropdownMenuLabel`, `DropdownMenuSeparator`, `DropdownMenuShortcut`, `DropdownMenuSub`, `DropdownMenuSubTrigger`, `DropdownMenuSubContent`, `DropdownMenuCheckboxItem`, `DropdownMenuRadioGroup`, `DropdownMenuRadioItem`
-17. **Empty**: `Empty`, `EmptyIcon`, `EmptyTitle`, `EmptyDescription`, `EmptyAction`
-18. **Field**: `Field`, `FieldLabel`, `FieldDescription`, `FieldError`
-19. **Form**: `Form`
-20. **Form Message**: `FormMessage`
-21. **Hover Card**: `HoverCard`, `HoverCardTrigger`, `HoverCardContent`, `HoverCardArrow`
-22. **Icon Button**: `IconButton`
-23. **Input**: `Input`
-24. **Input Group**: `InputGroup`, `InputGroupInput`, `InputGroupAddon`
-25. **Kbd**: `Kbd`, `KbdGroup`
-26. **Label**: `Label`
-27. **List**: `List`, `ListGroup`, `ListHeader`, `ListItem`
-28. **Number Input**: `NumberInput`
-29. **Pin Input**: `PinInput`, `PinInputInput`, `PinInputLabel`
-30. **Popover**: `Popover`, `PopoverTrigger`, `PopoverContent`
-31. **Progress**: `Progress`, `ProgressIndicator`
-32. **Radio Group**: `RadioGroup`, `RadioGroupItem`, `RadioGroupItemLabel`
-33. **Resizable**: `ResizableGroup`, `ResizablePanel`, `ResizableHandle`
-34. **Scroll Area**: `ScrollArea`
-35. **Select**: `Select`, `SelectTrigger`, `SelectValue`, `SelectContent`, `SelectItem`
-36. **Separator**: `Separator`
-37. **Sheet / Drawer**: `Sheet`, `SheetTrigger`, `SheetOverlay`, `SheetContent`, `SheetHeader`, `SheetFooter`, `SheetTitle`, `SheetDescription`, `SheetClose`
-38. **Skeleton**: `Skeleton`
-39. **Slider**: `Slider`, `SliderTrack`, `SliderFill`, `SliderThumb`, `SliderLabel`, `SliderValueLabel`
-40. **Spinner**: `Spinner`
-41. **Status**: `Status`
-42. **Switch**: `Switch`
-43. **Tabs**: `Tabs`, `TabsList`, `TabsTrigger`, `TabsContent`
-44. **Textarea**: `Textarea`
-45. **Theme Manager**: `ThemeProvider`, `ThemeScript`, `ThemeToggle`, `useTheme`
-46. **Toast**: `Toast`, `ToastTitle`, `ToastDescription`, `ToastCloseButton`, `ToastRegion`, `ToastList`, `showToast`
-47. **Toggle**: `Toggle`, `ToggleGroup`
-48. **Tooltip**: `Tooltip`, `TooltipTrigger`, `TooltipContent`, `TooltipArrow`
+8. **Bubble**: `Bubble`
+9. **Button**: `Button`
+10. **Button Group**: `ButtonGroup`
+11. **Card**: `Card`, `CardHeader`, `CardTitle`, `CardDescription`, `CardContent`, `CardFooter`
+12. **Checkbox**: `Checkbox`
+13. **Collapsible**: `Collapsible`, `CollapsibleTrigger`, `CollapsibleContent`
+14. **Combobox**: `Combobox`, `ComboboxControl`, `ComboboxInput`, `ComboboxTrigger`, `ComboboxContent`, `ComboboxItem`, `ComboboxGroup`
+15. **Command**: `Command`, `CommandDialog`, `CommandInput`, `CommandList`, `CommandEmpty`, `CommandGroup`, `CommandItem`, `CommandFooter`
+16. **Context Menu**: `ContextMenu`, `ContextMenuTrigger`, `ContextMenuContent`, `ContextMenuItem`, `ContextMenuCheckboxItem`, `ContextMenuRadioGroup`, `ContextMenuRadioItem`, `ContextMenuLabel`, `ContextMenuSeparator`, `ContextMenuShortcut`, `ContextMenuSub`, `ContextMenuSubTrigger`, `ContextMenuSubContent`
+17. **Dialog**: `Dialog`, `DialogTrigger`, `DialogOverlay`, `DialogContent`, `DialogHeader`, `DialogFooter`, `DialogTitle`, `DialogDescription`, `DialogClose`
+18. **Dropdown Menu**: `DropdownMenu`, `DropdownMenuTrigger`, `DropdownMenuContent`, `DropdownMenuItem`, `DropdownMenuLabel`, `DropdownMenuSeparator`, `DropdownMenuShortcut`, `DropdownMenuSub`, `DropdownMenuSubTrigger`, `DropdownMenuSubContent`, `DropdownMenuCheckboxItem`, `DropdownMenuRadioGroup`, `DropdownMenuRadioItem`
+19. **Dropzone**: `Dropzone`, `DropzoneTrigger`, `DropzoneZone`, `DropzoneContent`, `DropzonePreviewList`, `DropzonePreviewItem`
+20. **Empty**: `Empty`, `EmptyIcon`, `EmptyTitle`, `EmptyDescription`, `EmptyAction`
+21. **Field**: `Field`, `FieldLabel`, `FieldDescription`, `FieldError`
+22. **Form**: `Form`
+23. **Form Message**: `FormMessage`
+24. **Hover Card**: `HoverCard`, `HoverCardTrigger`, `HoverCardContent`, `HoverCardArrow`
+25. **Icon Button**: `IconButton`
+26. **Input**: `Input`
+27. **Input Group**: `InputGroup`, `InputGroupInput`, `InputGroupAddon`
+28. **Kbd**: `Kbd`, `KbdGroup`
+29. **Label**: `Label`
+30. **List**: `List`, `ListGroup`, `ListHeader`, `ListItem`
+31. **Logo**: `Logo`
+32. **Marker**: `Marker`, `MarkerBadge`, `MarkerTyping`
+33. **Message**: `Message`, `MessageAvatar`, `MessageContent`, `MessageHeader`, `MessageFooter`, `MessageAction`
+34. **Navigation Menu**: `NavigationMenu`, `NavigationMenuList`, `NavigationMenuItem`, `NavigationMenuTrigger`, `NavigationMenuContent`, `NavigationMenuLink`
+35. **Number Input**: `NumberInput`
+36. **Pagination**: `Pagination`, `PaginationContent`, `PaginationItem`, `PaginationLink`, `PaginationPrevious`, `PaginationNext`, `PaginationEllipsis`
+37. **Pin Input**: `PinInput`, `PinInputInput`, `PinInputLabel`
+38. **Popover**: `Popover`, `PopoverTrigger`, `PopoverContent`
+39. **Progress**: `Progress`, `ProgressIndicator`
+40. **Radio Group**: `RadioGroup`, `RadioGroupItem`, `RadioGroupItemLabel`
+41. **Resizable**: `ResizableGroup`, `ResizablePanel`, `ResizableHandle`
+42. **Scroll Area**: `ScrollArea`
+43. **Select**: `Select`, `SelectTrigger`, `SelectValue`, `SelectContent`, `SelectItem`
+44. **Separator**: `Separator`
+45. **Sheet / Drawer**: `Sheet`, `SheetTrigger`, `SheetOverlay`, `SheetContent`, `SheetHeader`, `SheetFooter`, `SheetTitle`, `SheetDescription`, `SheetClose`
+46. **Sidebar**: `SidebarProvider`, `Sidebar`, `SidebarTrigger`, `SidebarRail`, `SidebarInset`, `SidebarHeader`, `SidebarContent`, `SidebarFooter`, `SidebarSeparator`, `SidebarGroup`, `SidebarGroupLabel`, `SidebarGroupAction`, `SidebarGroupContent`, `SidebarMenu`, `SidebarMenuItem`, `SidebarMenuButton`, `SidebarMenuAction`, `SidebarMenuBadge`, `SidebarMenuSkeleton`, `SidebarMenuSub`, `SidebarMenuSubItem`, `SidebarMenuSubButton`, `useSidebar`
+47. **Skeleton**: `Skeleton`
+48. **Slider**: `Slider`, `SliderTrack`, `SliderFill`, `SliderThumb`, `SliderLabel`, `SliderValueLabel`
+49. **Spinner**: `Spinner`
+50. **Status**: `Status`
+51. **Switch**: `Switch`
+52. **Table**: `Table`, `TableHeader`, `TableBody`, `TableFooter`, `TableRow`, `TableHead`, `TableCell`, `TableCaption`
+53. **Tabs**: `Tabs`, `TabsList`, `TabsTrigger`, `TabsContent`
+54. **Textarea**: `Textarea`
+55. **Theme Manager**: `ThemeProvider`, `ThemeScript`, `ThemeToggle`, `useTheme`
+56. **Timeline**: `Timeline`, `TimelineItem`, `TimelineSeparator`, `TimelineIndicator`, `TimelineConnector`, `TimelineContent`, `TimelineHeader`, `TimelineTitle`, `TimelineDescription`, `TimelineTime`
+57. **Toast**: `Toast`, `ToastTitle`, `ToastDescription`, `ToastCloseButton`, `ToastRegion`, `ToastList`, `showToast`
+58. **Toggle**: `Toggle`
+59. **Toggle Group**: `ToggleGroup`, `ToggleGroupItem`
+60. **Tooltip**: `Tooltip`, `TooltipTrigger`, `TooltipContent`, `TooltipArrow`
 
 ---
 
-## 5. Reactive Primitives / Hooks Registry (40 Hooks)
+## 5. Reactive Primitives / Hooks Registry (43 Hooks)
 
 Nikala UI primitives are written directly to `src/hooks/<hook-name>.ts`. Below is the complete catalog:
 
 1. **`createActiveElement`** — Tracks currently focused DOM element (`activeElement()`, `hasFocus()`).
 2. **`createAudio` / `createVideo`** — Controls media playback (`isPlaying()`, `duration()`, `currentTime()`, `toggle()`, `seek()`, `setVolume()`).
 3. **`createBattery`** — Observes device battery level, charging status, and time metrics.
-4. **`createClickOutside`** — Detects clicks outside target element refs (`createClickOutside(targetRef, handler)`).
-5. **`createClipboard`** — Copies text to clipboard with auto-reset status (`copied()`, `copy(text)`, `error()`).
-6. **`createColorMode`** — Manages dark/light theme signals and system preference detection.
-7. **`createControllableSignal`** — Primitive supporting both controlled and uncontrolled state patterns.
-8. **`createDebounce` / `createThrottle`** — Rate-limits function executions and reactive signal updates.
-9. **`createDisclosure`** — Manages boolean open/close disclosure state (`isOpen()`, `open()`, `close()`, `toggle()`).
-10. **`createDocumentTitle`** — Dynamically updates browser tab title with restore on unmount.
-11. **`createEventSource`** — Subscribes to Server-Sent Events (SSE) streams (`data()`, `status()`, `close()`).
-12. **`createFavicon`** — Updates browser tab favicon dynamically from URLs or SVG data URIs.
-13. **`createFetch`** — Handles HTTP REST API requests (`data()`, `loading()`, `error()`, `refetch()`).
-14. **`createFocusTrap`** — Traps keyboard focus inside modal containers for accessibility.
-15. **`createForm`** — Handles form field state, dynamic validation rules, errors, and submission.
-16. **`createFullscreen`** — Requests and monitors element or document fullscreen state (`isFullscreen()`, `toggle()`).
-17. **`createGeolocation`** — Tracks real-time GPS coordinates, accuracy, speed, and heading.
-18. **`createHover`** — Tracks element mouse hover state with enter/exit delay configurations.
-19. **`createIdle`** — Detects user inactivity after customizable timeout threshold (`isIdle()`).
-20. **`createInfiniteScroll`** — Manages infinite scroll pagination and auto-fetching next page triggers.
-21. **`createInputMask`** — Applies formatting masks (phone numbers, credit cards, dates) to text inputs.
-22. **`createIntersectionObserver`** — Observes element visibility and viewport intersection ratios.
-23. **`createKeybindings`** — Listens to keyboard shortcuts, key combinations, and Escape key presses.
-24. **`createLockScroll`** — Locks body or scrollable container scrolling when overlays are active.
-25. **`createLongPress`** — Detects long press / touch hold interactions with custom duration.
-26. **`createMediaQuery`** — Tracks CSS media queries and responsive Tailwind breakpoints.
-27. **`createMousePosition`** — Tracks global window and element-relative cursor coordinates.
-28. **`createNetworkStatus`** — Tracks browser online/offline status and network connection type.
-29. **`createOrientation`** — Monitors screen orientation (`portrait` / `landscape`) and rotation angle.
-30. **`createPermission`** — Queries and observes browser permission states (`granted`, `denied`, `prompt`).
-31. **`createPrevious`** — Accesses previous value of a reactive signal accessor.
-32. **`createResizeObserver`** — Observes element width, height, and content box bounding rects.
-33. **`createScrollIntoView`** — Smoothly scrolls target element or ref into container viewport.
-34. **`createScrollPosition`** — Tracks container scroll offset (X, Y), scroll direction, and boundaries.
-35. **`createStorage`** — Reactive `createLocalStorage` and `createSessionStorage` with cross-tab sync.
-36. **`createTimer`** — Provides interval timers, stopwatch counters, and formatted countdowns.
-37. **`createUndoRedo`** — Manages undo/redo state history stacks and pointer state resets.
-38. **`createWebNotification`** — Sends native browser desktop notifications and handles permission requests.
-39. **`createWebSocket`** — WebSocket client connection manager with auto-reconnect and message parsing.
-40. **`createWindowSize`** — Tracks window inner width and inner height reactively.
+4. **`createChatScroll`** — Automated conversation container scrolling with manual user scroll-up detection.
+5. **`createClickOutside`** — Detects clicks outside target element refs (`createClickOutside(targetRef, handler)`).
+6. **`createClipboard`** — Copies text to clipboard with auto-reset status (`copied()`, `copy(text)`, `error()`).
+7. **`createColorMode`** — Manages dark/light theme signals and system preference detection.
+8. **`createControllableSignal`** — Primitive supporting both controlled and uncontrolled state patterns.
+9. **`createDebounce` / `createThrottle`** — Rate-limits function executions and reactive signal updates.
+10. **`createDisclosure`** — Manages boolean open/close disclosure state (`isOpen()`, `open()`, `close()`, `toggle()`).
+11. **`createDocumentTitle`** — Dynamically updates browser tab title with restore on unmount.
+12. **`createDropZone`** — Drag-and-drop file upload operations, file validation, and native file chooser trigger.
+13. **`createEventSource`** — Subscribes to Server-Sent Events (SSE) streams (`data()`, `status()`, `close()`).
+14. **`createFavicon`** — Updates browser tab favicon dynamically from URLs or SVG data URIs.
+15. **`createFetch`** — Handles HTTP REST API requests (`data()`, `loading()`, `error()`, `refetch()`).
+16. **`createFocusTrap`** — Traps keyboard focus inside modal containers for accessibility.
+17. **`createForm`** — Handles form field state, dynamic validation rules, errors, and submission.
+18. **`createFullscreen`** — Requests and monitors element or document fullscreen state (`isFullscreen()`, `toggle()`).
+19. **`createGeolocation`** — Tracks real-time GPS coordinates, accuracy, speed, and heading.
+20. **`createHover`** — Tracks element mouse hover state with enter/exit delay configurations.
+21. **`createIdle`** — Detects user inactivity after customizable timeout threshold (`isIdle()`).
+22. **`createInfiniteScroll`** — Manages infinite scroll pagination and auto-fetching next page triggers.
+23. **`createInputMask`** — Applies formatting masks (phone numbers, credit cards, dates) to text inputs.
+24. **`createIntersectionObserver`** — Observes element visibility and viewport intersection ratios.
+25. **`createKeybindings`** — Listens to keyboard shortcuts, key combinations, and Escape key presses.
+26. **`createLockScroll`** — Locks body or scrollable container scrolling when overlays are active.
+27. **`createLongPress`** — Detects long press / touch hold interactions with custom duration.
+28. **`createMediaQuery`** — Tracks CSS media queries and responsive Tailwind breakpoints.
+29. **`createMousePosition`** — Tracks global window and element-relative cursor coordinates.
+30. **`createNetworkStatus`** — Tracks browser online/offline status and network connection type.
+31. **`createOrientation`** — Monitors screen orientation (`portrait` / `landscape`) and rotation angle.
+32. **`createPagination`** — Calculates pagination state, page ranges with ellipses, and jump actions.
+33. **`createPermission`** — Queries and observes browser permission states (`granted`, `denied`, `prompt`).
+34. **`createPrevious`** — Accesses previous value of a reactive signal accessor.
+35. **`createResizeObserver`** — Observes element width, height, and content box bounding rects.
+36. **`createScrollIntoView`** — Smoothly scrolls target element or ref into container viewport.
+37. **`createScrollPosition`** — Tracks container scroll offset (X, Y), scroll direction, and boundaries.
+38. **`createStorage`** — Reactive `createLocalStorage` and `createSessionStorage` with cross-tab sync.
+39. **`createTimer`** — Provides interval timers, stopwatch counters, and formatted countdowns.
+40. **`createUndoRedo`** — Manages undo/redo state history stacks and pointer state resets.
+41. **`createWebNotification`** — Sends native browser desktop notifications and handles permission requests.
+42. **`createWebSocket`** — WebSocket client connection manager with auto-reconnect and message parsing.
+43. **`createWindowSize`** — Tracks window inner width and inner height reactively.
 
 ---
 
@@ -220,31 +238,42 @@ Nikala UI primitives are written directly to `src/hooks/<hook-name>.ts`. Below i
 - Model Context Protocol (MCP): https://nikala.dev/docs/mcp
 - Live Interactive Playground: https://nikala.dev/playground
 
-### All Component Pages (48 Components)
+### All Component Pages (60 Components)
 - Accordion: https://nikala.dev/docs/components/accordion
 - Alert: https://nikala.dev/docs/components/alert
+- Aspect Ratio: https://nikala.dev/docs/components/aspect-ratio
 - Avatar: https://nikala.dev/docs/components/avatar
 - Badge: https://nikala.dev/docs/components/badge
 - Banner: https://nikala.dev/docs/components/banner
 - Breadcrumb: https://nikala.dev/docs/components/breadcrumb
+- Bubble: https://nikala.dev/docs/components/bubble
+- Button Group: https://nikala.dev/docs/components/button-group
 - Button: https://nikala.dev/docs/components/button
 - Card: https://nikala.dev/docs/components/card
 - Checkbox: https://nikala.dev/docs/components/checkbox
+- Collapsible: https://nikala.dev/docs/components/collapsible
 - Combobox: https://nikala.dev/docs/components/combobox
 - Command: https://nikala.dev/docs/components/command
+- Context Menu: https://nikala.dev/docs/components/context-menu
 - Dialog: https://nikala.dev/docs/components/dialog
 - Dropdown Menu: https://nikala.dev/docs/components/dropdown-menu
+- Dropzone: https://nikala.dev/docs/components/dropzone
 - Empty: https://nikala.dev/docs/components/empty
 - Field: https://nikala.dev/docs/components/field
-- Form: https://nikala.dev/docs/components/form
 - Form Message: https://nikala.dev/docs/components/form-message
+- Form: https://nikala.dev/docs/components/form
 - Hover Card: https://nikala.dev/docs/components/hover-card
 - Icon Button: https://nikala.dev/docs/components/icon-button
-- Input: https://nikala.dev/docs/components/input
 - Input Group: https://nikala.dev/docs/components/input-group
+- Input: https://nikala.dev/docs/components/input
 - Kbd: https://nikala.dev/docs/components/kbd
 - Label: https://nikala.dev/docs/components/label
 - List: https://nikala.dev/docs/components/list
+- Marker: https://nikala.dev/docs/components/marker
+- Message: https://nikala.dev/docs/components/message
+- Navigation Menu: https://nikala.dev/docs/components/navigation-menu
+- Number Input: https://nikala.dev/docs/components/number-input
+- Pagination: https://nikala.dev/docs/components/pagination
 - Pin Input: https://nikala.dev/docs/components/pin-input
 - Popover: https://nikala.dev/docs/components/popover
 - Progress: https://nikala.dev/docs/components/progress
@@ -254,26 +283,27 @@ Nikala UI primitives are written directly to `src/hooks/<hook-name>.ts`. Below i
 - Select: https://nikala.dev/docs/components/select
 - Separator: https://nikala.dev/docs/components/separator
 - Sheet: https://nikala.dev/docs/components/sheet
+- Sidebar: https://nikala.dev/docs/components/sidebar
 - Skeleton: https://nikala.dev/docs/components/skeleton
 - Slider: https://nikala.dev/docs/components/slider
 - Spinner: https://nikala.dev/docs/components/spinner
 - Status: https://nikala.dev/docs/components/status
 - Switch: https://nikala.dev/docs/components/switch
+- Table: https://nikala.dev/docs/components/table
 - Tabs: https://nikala.dev/docs/components/tabs
 - Textarea: https://nikala.dev/docs/components/textarea
 - Theme Manager: https://nikala.dev/docs/components/theme-manager
+- Timeline: https://nikala.dev/docs/components/timeline
 - Toast: https://nikala.dev/docs/components/toast
+- Toggle Group: https://nikala.dev/docs/components/toggle-group
 - Toggle: https://nikala.dev/docs/components/toggle
 - Tooltip: https://nikala.dev/docs/components/tooltip
-- Aspect Ratio: https://nikala.dev/docs/components/aspect-ratio
-- Collapsible: https://nikala.dev/docs/components/collapsible
-- Context Menu: https://nikala.dev/docs/components/context-menu
-- Number Input: https://nikala.dev/docs/components/number-input
 
-### All Reactive Hooks & Primitives (40 Hooks)
+### All Reactive Hooks & Primitives (43 Hooks)
 - createActiveElement: https://nikala.dev/docs/hooks/create-active-element
 - createAudio: https://nikala.dev/docs/hooks/create-audio
 - createBattery: https://nikala.dev/docs/hooks/create-battery
+- createChatScroll: https://nikala.dev/docs/hooks/create-chat-scroll
 - createClickOutside: https://nikala.dev/docs/hooks/create-click-outside
 - createClipboard: https://nikala.dev/docs/hooks/create-clipboard
 - createColorMode: https://nikala.dev/docs/hooks/create-color-mode
@@ -281,6 +311,7 @@ Nikala UI primitives are written directly to `src/hooks/<hook-name>.ts`. Below i
 - createDebounce: https://nikala.dev/docs/hooks/create-debounce
 - createDisclosure: https://nikala.dev/docs/hooks/create-disclosure
 - createDocumentTitle: https://nikala.dev/docs/hooks/create-document-title
+- createDropZone: https://nikala.dev/docs/hooks/create-drop-zone
 - createEventSource: https://nikala.dev/docs/hooks/create-event-source
 - createFavicon: https://nikala.dev/docs/hooks/create-favicon
 - createFetch: https://nikala.dev/docs/hooks/create-fetch
@@ -300,6 +331,7 @@ Nikala UI primitives are written directly to `src/hooks/<hook-name>.ts`. Below i
 - createMousePosition: https://nikala.dev/docs/hooks/create-mouse-position
 - createNetworkStatus: https://nikala.dev/docs/hooks/create-network-status
 - createOrientation: https://nikala.dev/docs/hooks/create-orientation
+- createPagination: https://nikala.dev/docs/hooks/create-pagination
 - createPermission: https://nikala.dev/docs/hooks/create-permission
 - createPrevious: https://nikala.dev/docs/hooks/create-previous
 - createResizeObserver: https://nikala.dev/docs/hooks/create-resize-observer
