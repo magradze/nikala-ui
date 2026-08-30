@@ -30,6 +30,14 @@ import {
   CollapsibleTrigger,
   CollapsibleContent,
 } from "@/components/ui/collapsible";
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+} from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import {
   LayoutDashboard,
@@ -44,8 +52,13 @@ import {
   LifeBuoy,
   Database,
   Key,
+  ChevronsUpDown,
+  Check,
+  Plus,
+  Building2,
+  Sparkles,
 } from "lucide-solid";
-import { createSignal } from "solid-js";
+import { createSignal, For, Show } from "solid-js";
 
 /* --- Code Snippets --- */
 const importCode = `import {
@@ -65,26 +78,67 @@ const importCode = `import {
   SidebarSeparator,
 } from "@/components/ui/sidebar";`;
 
-const defaultCode = `<SidebarProvider class="min-h-0 w-auto">
+const defaultCode = `<SidebarProvider class="w-full justify-center">
   <div class="flex flex-col items-start gap-3">
     <div class="flex items-center gap-2">
       <SidebarTrigger />
       <span class="text-xs text-muted-foreground font-mono">Toggle icon collapse</span>
     </div>
 
-    <Sidebar collapsible="icon" class="rounded-lg border border-border bg-card shadow-sm h-[430px]">
+    <Sidebar collapsible="icon" class="rounded-lg border border-border bg-card shadow-sm h-[480px]">
+      {/* 1. Workspace / Team Switcher Header */}
       <SidebarHeader>
-        <div class="flex items-center gap-2.5 px-1 py-0.5">
-          <div class="flex size-7 shrink-0 items-center justify-center rounded-md bg-primary text-primary-foreground font-bold text-xs shadow-2xs">
-            <Command class="size-4" />
-          </div>
-          <div class="flex flex-col gap-0.5 leading-none overflow-hidden group-data-[collapsible=icon]:hidden">
-            <span class="font-bold text-xs truncate">Nikala Studio</span>
-            <span class="text-[10px] text-muted-foreground truncate">Pro Workspace</span>
-          </div>
-        </div>
+        <DropdownMenu placement="bottom-start">
+          <DropdownMenuTrigger class="w-full text-left">
+            <SidebarMenuButton size="lg" class="w-full justify-between">
+              <div class="flex items-center gap-2.5 overflow-hidden">
+                <div class="flex size-7 shrink-0 items-center justify-center rounded-md bg-primary text-primary-foreground font-bold text-xs shadow-2xs">
+                  <Command class="size-4" />
+                </div>
+                <div class="flex flex-col gap-0.5 leading-none overflow-hidden group-data-[collapsible=icon]:hidden">
+                  <span class="font-bold text-xs truncate">Nikala Studio</span>
+                  <span class="text-[10px] text-muted-foreground truncate">Pro Workspace</span>
+                </div>
+              </div>
+              <ChevronsUpDown class="ml-auto size-4 text-muted-foreground shrink-0 group-data-[collapsible=icon]:hidden" />
+            </SidebarMenuButton>
+          </DropdownMenuTrigger>
+
+          <DropdownMenuContent class="w-60">
+            <DropdownMenuLabel class="text-[11px] font-semibold uppercase text-muted-foreground">
+              Workspaces
+            </DropdownMenuLabel>
+            <DropdownMenuItem class="flex items-center gap-2.5 p-2 cursor-pointer">
+              <div class="flex size-6 items-center justify-center rounded-md border border-border bg-background">
+                <Command class="size-3.5" />
+              </div>
+              <div class="flex flex-col leading-tight flex-1">
+                <span class="text-xs font-semibold">Nikala Studio</span>
+                <span class="text-[10px] text-muted-foreground">Pro Workspace</span>
+              </div>
+              <Check class="size-3.5 text-primary ml-auto" />
+            </DropdownMenuItem>
+            <DropdownMenuItem class="flex items-center gap-2.5 p-2 cursor-pointer">
+              <div class="flex size-6 items-center justify-center rounded-md border border-border bg-background">
+                <Building2 class="size-3.5" />
+              </div>
+              <div class="flex flex-col leading-tight flex-1">
+                <span class="text-xs font-semibold">Acme Enterprise</span>
+                <span class="text-[10px] text-muted-foreground">Scale Tier</span>
+              </div>
+            </DropdownMenuItem>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem class="flex items-center gap-2.5 p-2 cursor-pointer text-muted-foreground hover:text-foreground">
+              <div class="flex size-6 items-center justify-center rounded-md border border-dashed border-border bg-background">
+                <Plus class="size-3.5" />
+              </div>
+              <span class="text-xs font-medium">Create New Workspace</span>
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
       </SidebarHeader>
 
+      {/* 2. Scrollable Navigation Menu */}
       <SidebarContent>
         <SidebarGroup>
           <SidebarGroupLabel>Platform</SidebarGroupLabel>
@@ -146,6 +200,7 @@ const defaultCode = `<SidebarProvider class="min-h-0 w-auto">
         </SidebarGroup>
       </SidebarContent>
 
+      {/* 3. User Profile Footer */}
       <SidebarFooter>
         <div class="flex items-center gap-2.5 p-1">
           <Avatar class="size-7 shrink-0">
@@ -169,10 +224,10 @@ const collapsibleCode = `import {
 import { ChevronRight, Settings, Database, Key } from "lucide-solid";
 
 return (
-  <div class="w-72 rounded-lg border border-border bg-card p-2 shadow-2xs">
-    <SidebarProvider class="min-h-0 w-full">
+  <SidebarProvider class="w-full justify-center">
+    <div class="w-72 rounded-lg border border-border bg-card p-2 shadow-sm">
       <SidebarMenu>
-        {/* Collapsible Submenu Group */}
+        {/* Collapsible Submenu */}
         <SidebarMenuItem>
           <Collapsible defaultOpen class="group/collapsible w-full">
             <CollapsibleTrigger class="w-full text-left">
@@ -200,7 +255,6 @@ return (
           </Collapsible>
         </SidebarMenuItem>
 
-        {/* Regular Items */}
         <SidebarMenuItem>
           <SidebarMenuButton>
             <Database class="size-4" />
@@ -215,12 +269,20 @@ return (
           </SidebarMenuButton>
         </SidebarMenuItem>
       </SidebarMenu>
-    </SidebarProvider>
-  </div>
+    </div>
+  </SidebarProvider>
 );`;
 
 export default function SidebarDocPage() {
   const [activeItem, setActiveItem] = createSignal("dashboard");
+
+  const teams = [
+    { name: "Nikala Studio", plan: "Pro Workspace", icon: Command },
+    { name: "Acme Enterprise", plan: "Scale Tier", icon: Building2 },
+    { name: "Personal Lab", plan: "Free Tier", icon: Sparkles },
+  ];
+
+  const [activeTeam, setActiveTeam] = createSignal(teams[0]);
 
   return (
     <>
@@ -235,31 +297,76 @@ export default function SidebarDocPage() {
         <DocPageHeader
           title="Sidebar"
           badge="Compound Suite"
-          description="A composable, structured sidebar navigation suite with headers, grouped menus, badges, submenus, icon collapse mode, and footers."
+          description="A composable, structured sidebar navigation suite with team switchers, grouped menus, badges, collapsible submenus, icon collapse mode, and footers."
         />
 
         {/* 2. Main Hero Preview */}
         <ComponentPreview name="sidebar" code={defaultCode}>
           <div class="flex items-center justify-center p-6 sm:p-10 w-full">
-            <SidebarProvider class="min-h-0 w-auto">
+            <SidebarProvider class="w-full justify-center">
               <div class="flex flex-col items-start gap-3">
                 <div class="flex items-center gap-2">
                   <SidebarTrigger />
                   <span class="text-xs text-muted-foreground font-mono">Toggle icon collapse</span>
                 </div>
 
-                <Sidebar collapsible="icon" class="rounded-lg border border-border bg-card shadow-sm h-[430px]">
-                  {/* 1. Header */}
+                <Sidebar collapsible="icon" class="rounded-lg border border-border bg-card shadow-sm h-[480px]">
+                  {/* 1. Workspace / Team Switcher Header */}
                   <SidebarHeader>
-                    <div class="flex items-center gap-2.5 px-1 py-0.5">
-                      <div class="flex size-7 shrink-0 items-center justify-center rounded-md bg-primary text-primary-foreground font-bold text-xs shadow-2xs">
-                        <Command class="size-4" />
-                      </div>
-                      <div class="flex flex-col gap-0.5 leading-none overflow-hidden group-data-[collapsible=icon]:hidden">
-                        <span class="font-bold text-xs truncate">Nikala Studio</span>
-                        <span class="text-[10px] text-muted-foreground truncate">Pro Workspace</span>
-                      </div>
-                    </div>
+                    <DropdownMenu placement="bottom-start">
+                      <DropdownMenuTrigger class="w-full text-left">
+                        <SidebarMenuButton size="lg" class="w-full justify-between">
+                          <div class="flex items-center gap-2.5 overflow-hidden">
+                            <div class="flex size-7 shrink-0 items-center justify-center rounded-md bg-primary text-primary-foreground font-bold text-xs shadow-2xs">
+                              {(() => {
+                                const IconComp = activeTeam().icon;
+                                return <IconComp class="size-4" />;
+                              })()}
+                            </div>
+                            <div class="flex flex-col gap-0.5 leading-none overflow-hidden group-data-[collapsible=icon]:hidden">
+                              <span class="font-bold text-xs truncate">{activeTeam().name}</span>
+                              <span class="text-[10px] text-muted-foreground truncate">{activeTeam().plan}</span>
+                            </div>
+                          </div>
+                          <ChevronsUpDown class="ml-auto size-4 text-muted-foreground shrink-0 group-data-[collapsible=icon]:hidden" />
+                        </SidebarMenuButton>
+                      </DropdownMenuTrigger>
+
+                      <DropdownMenuContent class="w-60">
+                        <DropdownMenuLabel class="text-[11px] font-semibold uppercase text-muted-foreground">
+                          Workspaces
+                        </DropdownMenuLabel>
+                        <For each={teams}>
+                          {(team) => (
+                            <DropdownMenuItem
+                              onClick={() => setActiveTeam(team)}
+                              class="flex items-center gap-2.5 p-2 cursor-pointer"
+                            >
+                              <div class="flex size-6 items-center justify-center rounded-md border border-border bg-background">
+                                {(() => {
+                                  const IconComp = team.icon;
+                                  return <IconComp class="size-3.5 text-foreground" />;
+                                })()}
+                              </div>
+                              <div class="flex flex-col leading-tight flex-1">
+                                <span class="text-xs font-semibold">{team.name}</span>
+                                <span class="text-[10px] text-muted-foreground">{team.plan}</span>
+                              </div>
+                              <Show when={activeTeam().name === team.name}>
+                                <Check class="size-3.5 text-primary ml-auto" />
+                              </Show>
+                            </DropdownMenuItem>
+                          )}
+                        </For>
+                        <DropdownMenuSeparator />
+                        <DropdownMenuItem class="flex items-center gap-2.5 p-2 cursor-pointer text-muted-foreground hover:text-foreground">
+                          <div class="flex size-6 items-center justify-center rounded-md border border-dashed border-border bg-background">
+                            <Plus class="size-3.5" />
+                          </div>
+                          <span class="text-xs font-medium">Create New Workspace</span>
+                        </DropdownMenuItem>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
                   </SidebarHeader>
 
                   {/* 2. Navigation Content */}
@@ -376,7 +483,7 @@ export default function SidebarDocPage() {
         <div class="space-y-8 pt-4">
           <DocSectionHeader title="Examples" />
 
-          {/* Collapsible Submenu with Kobalte Primitive */}
+          {/* Example: Collapsible Submenu with Kobalte Primitive */}
           <div class="space-y-3">
             <h3 class="text-lg font-semibold tracking-tight">Collapsible Tree Menu</h3>
             <p class="text-sm text-muted-foreground">
@@ -384,8 +491,8 @@ export default function SidebarDocPage() {
             </p>
             <ComponentPreview name="sidebar" code={collapsibleCode}>
               <div class="flex items-center justify-center p-6 w-full">
-                <div class="w-72 rounded-lg border border-border bg-card p-2 shadow-2xs">
-                  <SidebarProvider class="min-h-0 w-full">
+                <SidebarProvider class="w-full justify-center">
+                  <div class="w-72 rounded-lg border border-border bg-card p-2 shadow-sm">
                     <SidebarMenu>
                       <SidebarMenuItem>
                         <Collapsible defaultOpen class="group/collapsible w-full">
@@ -428,8 +535,8 @@ export default function SidebarDocPage() {
                         </SidebarMenuButton>
                       </SidebarMenuItem>
                     </SidebarMenu>
-                  </SidebarProvider>
-                </div>
+                  </div>
+                </SidebarProvider>
               </div>
             </ComponentPreview>
           </div>
