@@ -1,4 +1,5 @@
 import { createSignal, createEffect } from "solid-js";
+import { useSearchParams } from "@solidjs/router";
 import { Seo } from "@/components/seo";
 import { Header } from "@/components/partials/header";
 import { Footer } from "@/components/partials/footer";
@@ -11,8 +12,31 @@ import { PlaygroundCodeViewer } from "@/components/playground/playground-code-vi
 import { PLAYGROUND_COMPONENTS } from "@/config/playground";
 
 export default function PlaygroundPage() {
-  const [selectedId, setSelectedId] = createSignal(PLAYGROUND_COMPONENTS[0].id);
+  const [searchParams, setSearchParams] = useSearchParams<{ c?: string }>();
+
+  const initialId = () => {
+    if (searchParams.c && PLAYGROUND_COMPONENTS.some((c) => c.id === searchParams.c)) {
+      return searchParams.c;
+    }
+    return PLAYGROUND_COMPONENTS[0].id;
+  };
+
+  const [selectedId, setSelectedId] = createSignal(initialId());
   const [propValues, setPropValues] = createSignal<Record<string, any>>({});
+
+  // Sync selectedId when searchParams.c changes (e.g. from MobileNav or URL)
+  createEffect(() => {
+    if (searchParams.c && searchParams.c !== selectedId()) {
+      if (PLAYGROUND_COMPONENTS.some((c) => c.id === searchParams.c)) {
+        setSelectedId(searchParams.c);
+      }
+    }
+  });
+
+  const handleSelect = (id: string) => {
+    setSelectedId(id);
+    setSearchParams({ c: id });
+  };
 
   const currentSpec = () =>
     PLAYGROUND_COMPONENTS.find((c) => c.id === selectedId()) || PLAYGROUND_COMPONENTS[0];
@@ -77,10 +101,10 @@ export default function PlaygroundPage() {
         <div class="container max-w-screen-2xl flex-1 items-start md:grid md:grid-cols-[220px_minmax(0,1fr)] lg:grid-cols-[240px_minmax(0,1fr)] gap-0 px-4 md:px-0">
           <PlaygroundSidebar
             selectedId={selectedId()}
-            onSelect={setSelectedId}
+            onSelect={handleSelect}
           />
 
-          <main class="relative py-6 lg:py-8 min-w-0 px-0 md:px-4 lg:px-6">
+          <main class="relative py-6 lg:py-8 min-w-0 px-0 md:px-4 lg:px-6 space-y-6 sm:space-y-8">
             <DocPageHeader
               title={`${currentSpec().name} Playground`}
               badge="Interactive"
@@ -101,10 +125,7 @@ export default function PlaygroundPage() {
               setValue={updatePropValue}
             />
 
-            <div class="space-y-3">
-              <DocSectionHeader title="Generated Code" />
-              <PlaygroundCodeViewer code={generatedCode()} />
-            </div>
+            <PlaygroundCodeViewer code={generatedCode()} />
           </main>
         </div>
 

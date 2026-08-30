@@ -59,8 +59,8 @@ export const ComponentPreview: Component<ComponentPreviewProps> = (props) => {
         </div>
 
         {/* Live Preview Tab */}
-        <TabsContent value="preview" class="relative rounded-lg bg-card/50 border border-border p-10 backdrop-blur-xs">
-          <div class={`flex min-h-250px w-full ${alignmentClass()}`}>
+        <TabsContent value="preview" class="relative rounded-lg bg-card/50 border border-border p-4 sm:p-6 md:p-10 backdrop-blur-xs overflow-x-auto max-w-full">
+          <div class={`flex min-h-[180px] sm:min-h-[240px] w-full max-w-full overflow-x-auto ${alignmentClass()}`}>
             {resolvedChildren()}
           </div>
         </TabsContent>

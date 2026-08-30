@@ -117,8 +117,8 @@ export default function McpDocsPage() {
           description="Callable tools registered on the Nikala UI MCP server"
         />
 
-        <div class="border rounded-lg overflow-hidden border-border/60">
-          <table class="w-full text-left text-sm">
+        <div class="w-full overflow-x-auto rounded-lg border border-border/60 bg-card/50 shadow-2xs">
+          <table class="w-full min-w-[620px] text-left text-sm">
             <thead class="bg-muted/40 border-b border-border/60 text-xs font-semibold uppercase text-muted-foreground">
               <tr>
                 <th class="px-4 py-3">Tool Name</th>
