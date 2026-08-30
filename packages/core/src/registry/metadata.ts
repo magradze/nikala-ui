@@ -326,6 +326,12 @@ export const COMPONENT_METADATA: Record<string, ComponentMeta> = {
     description: "System chat events, date dividers, and live typing indicator badges.",
     dependencies: ["clsx", "tailwind-merge"],
   },
+  sidebar: {
+    title: "Sidebar",
+    description: "A composable, collapsible, and accessible application sidebar navigation suite with icon mode, mobile drawer, and keyboard shortcuts.",
+    dependencies: ["clsx", "tailwind-merge", "class-variance-authority", "lucide-solid"],
+    registryDependencies: ["tooltip", "skeleton", "separator"],
+  },
 };
 
 /**

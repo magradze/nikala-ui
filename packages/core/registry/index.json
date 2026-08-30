@@ -549,6 +549,23 @@
     ]
   },
   {
+    "name": "sidebar",
+    "title": "Sidebar",
+    "description": "A composable, collapsible, and accessible application sidebar navigation suite with icon mode, mobile drawer, and keyboard shortcuts.",
+    "type": "registry:ui",
+    "dependencies": [
+      "clsx",
+      "tailwind-merge",
+      "class-variance-authority",
+      "lucide-solid"
+    ],
+    "registryDependencies": [
+      "tooltip",
+      "skeleton",
+      "separator"
+    ]
+  },
+  {
     "name": "skeleton",
     "title": "Skeleton",
     "description": "Renders an animated pulse loading placeholder for content loading states.",
