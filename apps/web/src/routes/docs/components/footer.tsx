@@ -27,9 +27,6 @@ import {
   ArrowRight,
   Globe,
   Send,
-  Heart,
-  Github,
-  Twitter,
 } from "lucide-solid";
 
 /* Code Snippets for Previews */
@@ -604,7 +601,7 @@ export default function FooterDocPage() {
 
         {/* Next Steps */}
         <DocNextSteps
-          previous={{
+          prev={{
             title: "Navbar",
             href: "/docs/components/navbar",
           }}
