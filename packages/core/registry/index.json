@@ -259,6 +259,17 @@
     ]
   },
   {
+    "name": "footer",
+    "title": "Footer",
+    "description": "A responsive, accessible, and structured bottom navigation layout suite supporting multi-column link directories, brand sections, and newsletter inputs.",
+    "type": "registry:ui",
+    "dependencies": [
+      "clsx",
+      "tailwind-merge",
+      "class-variance-authority"
+    ]
+  },
+  {
     "name": "form-message",
     "title": "Form Message",
     "description": "Validation message helper connected to createForm errors and touched state.",
