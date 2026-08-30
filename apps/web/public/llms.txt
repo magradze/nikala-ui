@@ -38,6 +38,24 @@ bunx @nikala-ui/cli init --ai
 bunx @nikala-ui/cli rules
 ```
 
+### Listing Catalog & Installed Items
+```bash
+# List all 60 components and 43 hooks with installation status
+bunx @nikala-ui/cli list
+# Shortcut alias
+bunx @nikala-ui/cli ls
+
+# Filter by locally installed items
+bunx @nikala-ui/cli list --installed
+
+# Filter by type
+bunx @nikala-ui/cli list --component
+bunx @nikala-ui/cli list --hook
+
+# Output as JSON
+bunx @nikala-ui/cli list --json
+```
+
 ### Adding UI Components
 ```bash
 # Interactive autocomplete multiselect menu for UI components

@@ -8,6 +8,7 @@ import { validateCommand } from "./commands/validate.js";
 import { diffCommand } from "./commands/diff.js";
 import { upgradeCommand } from "./commands/upgrade.js";
 import { removeCommand } from "./commands/remove.js";
+import { listCommand } from "./commands/list.js";
 
 import { setupAiRules } from "./utils/init/setup-ai-rules.js";
 
@@ -85,5 +86,16 @@ program
   .command("diff [component]")
   .description("Compare local component files against latest registry manifests and view differences")
   .action((component) => diffCommand(component));
+
+// List / Catalog command
+program
+  .command("list")
+  .alias("ls")
+  .description("List available and locally installed Nikala UI components and reactive hooks")
+  .option("-i, --installed", "Show only locally installed items")
+  .option("-c, --component", "Show only UI components")
+  .option("-h, --hook", "Show only reactive hooks")
+  .option("--json", "Output results in JSON format")
+  .action((options) => listCommand(options));
 
 program.parse();

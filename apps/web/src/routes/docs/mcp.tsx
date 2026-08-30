@@ -234,7 +234,7 @@ export default function McpDocsPage() {
               Tailwind v4 Design Tokens
             </h4>
             <p class="text-xs text-muted-foreground">
-              Enforces native Tailwind v4 CSS theme variables, anti-FOUC ThemeScript placement, and maximum <code class="text-primary font-mono">rounded-lg</code> container radius.
+              Enforces native Tailwind v4 CSS theme variables and anti-FOUC ThemeScript placement.
             </p>
           </div>
         </div>
