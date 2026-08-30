@@ -7,9 +7,11 @@ import { writeConfig } from "../utils/file.js";
 import { installDependencies } from "../utils/pkg.js";
 import { configureAliases } from "../utils/init/configure-alias.js";
 import { setupCssTheme } from "../utils/init/setup-css.js";
+import { setupAiRules } from "../utils/init/setup-ai-rules.js";
 
 interface InitOptions {
   defaults?: boolean;
+  ai?: boolean;
 }
 
 /**
@@ -136,6 +138,11 @@ export async function init(options: InitOptions) {
     },
   });
   console.log(pc.green("✓ Created nikala.config.json"));
+
+  // 6. Setup AI assistant rules if --ai flag is passed
+  if (options.ai) {
+    await setupAiRules(cwd);
+  }
 
   console.log(pc.green("\n✅ Nikala UI initialized successfully with custom theme!"));
 }

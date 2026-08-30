@@ -99,4 +99,11 @@ replaceInFile(
   `badge="v${version}"`
 );
 
+// 7. Update Web public/llms.txt
+replaceInFile(
+  "apps/web/public/llms.txt",
+  /Current Version:\s*v\d+\.\d+\.\d+/g,
+  `Current Version: v${version}`
+);
+
 console.log(`\n🎉 Nikala UI successfully bumped to v${version}!`);

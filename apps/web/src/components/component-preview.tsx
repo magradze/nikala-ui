@@ -1,6 +1,7 @@
 // src/components/component-preview.tsx
 import { createSignal, JSX, children, splitProps, type Component } from "solid-js";
 import { createClipboard } from "@nikala-ui/hooks";
+import { Sparkles } from "lucide-solid";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { CodeBlock } from "@/components/code-block";
 import { Button } from "@/components/ui/button";
@@ -18,6 +19,7 @@ interface ComponentPreviewProps {
 export const ComponentPreview: Component<ComponentPreviewProps> = (props) => {
   const [local] = splitProps(props, ["name", "code", "align", "children", "isHook"]);
   const { copied, copy } = createClipboard({ timeout: 2000 });
+  const { copied: aiCopied, copy: copyAi } = createClipboard({ timeout: 2000 });
   const { formatCommand } = usePackageManager();
 
   const cliCommand = () =>
@@ -26,6 +28,14 @@ export const ComponentPreview: Component<ComponentPreviewProps> = (props) => {
 
   const copyCli = () => {
     copy(cliCommand());
+  };
+
+  const copyForAi = () => {
+    const prompt = `// Nikala UI SolidJS ${local.isHook ? "Hook" : "Component"}: ${local.name}
+// Installation: ${cliCommand()}
+// Usage code:
+${local.code}`;
+    copyAi(prompt);
   };
 
   const alignmentClass = () => {
@@ -43,8 +53,19 @@ export const ComponentPreview: Component<ComponentPreviewProps> = (props) => {
             <TabsTrigger value="code">Code</TabsTrigger>
           </TabsList>
 
-          {/* CLI Copy Button & Reusable PM Runner Selector */}
-          <div class="flex flex-col-reverse items-end md:flex-row md:items-center md:justify-center gap-2">
+          {/* Action buttons */}
+          <div class="flex flex-wrap items-center justify-end gap-2">
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={copyForAi}
+              title="Copy code context formatted for AI assistants (Cursor, Claude, Copilot)"
+              class="h-7 px-2 text-xs text-muted-foreground hover:text-foreground border border-border/50 rounded-md cursor-pointer flex items-center gap-1.5"
+            >
+              <Sparkles class="size-3" />
+              <span>{aiCopied() ? "Copied for AI!" : "Copy for AI"}</span>
+            </Button>
+
             <Button
               variant="ghost"
               size="sm"

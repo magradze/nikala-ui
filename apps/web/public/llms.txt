@@ -3,7 +3,7 @@
 > Nikala UI is a copy-paste component system and reactive primitives suite for SolidJS built natively for Tailwind CSS v4. Honoring Georgian painter Niko Pirosmani (Nikala).
 
 - Official Website: https://nikala.dev
-- Current Version: v0.10.1
+- Current Version: v0.11.0
 - GitHub Repository: https://github.com/nikala-ui/ui
 - Documentation Portal: https://nikala.dev/docs
 - Interactive Playground: https://nikala.dev/playground
@@ -30,6 +30,12 @@ Nikala UI rejects heavy `node_modules` UI dependencies for component structures 
 ```bash
 # Initialize Nikala UI configuration, cn helper, path aliases, and theme CSS
 bunx @nikala-ui/cli init
+
+# Initialize with AI assistant rules (.cursor/rules/nikala.mdc, .cursorrules, AGENTS.md)
+bunx @nikala-ui/cli init --ai
+
+# Generate or update AI assistant rules in an existing workspace
+bunx @nikala-ui/cli rules
 ```
 
 ### Adding UI Components
@@ -95,14 +101,14 @@ bunx @nikala-ui/cli validate
 When generating or editing SolidJS code using Nikala UI components and hooks, AI models MUST follow these strict rules:
 
 1. **NEVER Destructure Props Directly**:
-   - `const { variant, class: className } = props;` -> **FORBIDDEN** (breaks SolidJS signal tracking).
+   - `const { variant, class: className } = props;` -> **FORBIDDEN** (breaks SolidJS fine-grained signal tracking).
    - `const [local, others] = splitProps(props, ["variant", "class"]);` -> **REQUIRED**.
 
 2. **Children Inspection & Tab Hydration**:
-   - ALWAYS use `const resolved = children(() => props.children);` when inspecting or conditionally rendering JSX children inside tab containers or dynamic branches.
+   - ALWAYS use `const resolved = children(() => props.children);` when inspecting, iterating, or conditionally rendering JSX children inside tab containers or dynamic branches.
 
-3. **Border Radius Constraint**:
-   - The maximum allowed container border radius across Nikala UI is `rounded-lg`. Never use `rounded-xl`, `rounded-2xl`, or `rounded-3xl` for main cards or modals.
+3. **Tailwind CSS v4 Semantic Design Tokens**:
+   - All components must use semantic design tokens defined in modern `@import "tailwindcss";` setups (`bg-background`, `text-foreground`, `bg-card`, `border-border`, `bg-primary`, etc.). Avoid hardcoded arbitrary color values.
 
 4. **SSR Anti-FOUC Theme Script**:
    - When using `ThemeProvider`, ALWAYS place `<ThemeScript storageKey="nikala-theme" />` synchronously inside `<head>` or root HTML before `<ThemeProvider>` to eliminate flash of unstyled content during SSR.
