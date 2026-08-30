@@ -15,6 +15,10 @@ test.describe("4. Interactive Playground", () => {
 
   test("should select different component from sidebar", async ({ page }) => {
     const sidebar = page.locator("aside");
+    const feedbackTrigger = sidebar.getByRole("button", { name: /Feedback & Status/i });
+    if (await feedbackTrigger.isVisible()) {
+      await feedbackTrigger.click();
+    }
     const alertBtn = sidebar.locator("button:has-text('Alert')").first();
 
     await alertBtn.scrollIntoViewIfNeeded();
@@ -24,6 +28,10 @@ test.describe("4. Interactive Playground", () => {
 
   test("should update prop controls and reflect in generated code", async ({ page }) => {
     const sidebar = page.locator("aside");
+    const feedbackTrigger = sidebar.getByRole("button", { name: /Feedback & Status/i });
+    if (await feedbackTrigger.isVisible()) {
+      await feedbackTrigger.click();
+    }
     const alertBtn = sidebar.locator("button:has-text('Alert')").first();
 
     await alertBtn.scrollIntoViewIfNeeded();
