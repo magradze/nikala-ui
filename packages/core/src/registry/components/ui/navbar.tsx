@@ -32,12 +32,12 @@ export function useNavbar() {
 
 /* --- Root Navbar --- */
 export const navbarVariants = cva(
-  "relative w-full transition-all duration-200 z-40",
+  "w-full transition-all duration-200 z-40",
   {
     variants: {
       variant: {
-        default: "bg-background/80 backdrop-blur-md border-b border-border/60",
-        floating: "max-w-6xl mx-auto my-3 rounded-lg border border-border/80 bg-background/90 backdrop-blur-md shadow-sm",
+        default: "border-b border-border/60 bg-background/80 backdrop-blur-md",
+        floating: "my-3 rounded-lg border border-border/80 bg-background/90 backdrop-blur-md shadow-sm",
         bordered: "border-b border-border bg-background",
         transparent: "bg-transparent border-transparent",
       },
@@ -110,11 +110,12 @@ export const Navbar: ParentComponent<NavbarProps> = (props) => {
             variant: local.variant,
             isSticky: local.isSticky,
           }),
+          local.variant === "floating" && cn("mx-auto", maxWidthClass()),
           local.class
         )}
         {...rest}
       >
-        <div class={cn("mx-auto w-full", maxWidthClass())}>
+        <div class={cn("w-full", local.variant !== "floating" && cn("mx-auto", maxWidthClass()))}>
           {local.children}
         </div>
       </header>
@@ -133,7 +134,7 @@ export const NavbarContainer: ParentComponent<NavbarContainerProps> = (props) =>
   return (
     <div
       class={cn(
-        "flex h-14 md:h-16 items-center justify-between px-4 sm:px-6 lg:px-8 gap-3",
+        "flex h-14 md:h-16 items-center justify-between px-4 sm:px-6 lg:px-8 gap-3 w-full",
         local.class
       )}
       {...rest}
@@ -221,7 +222,7 @@ export const NavbarItem: ParentComponent<NavbarItemProps> = (props) => {
     >
       {local.children}
       <Show when={local.isActive}>
-        <div class="absolute -bottom-3 md:-bottom-[19px] left-0 right-0 h-0.5 bg-primary rounded-lg" />
+        <div class="absolute -bottom-3 md:-bottom-[19px] left-0 right-0 h-0.5 bg-primary rounded-full" />
       </Show>
     </div>
   );
