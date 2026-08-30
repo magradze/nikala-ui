@@ -548,6 +548,9 @@ export const BLOCK_SECTIONS: NavSection[] = [
     title: "Authentication",
     items: [
       { title: "Login 01", href: "/blocks/login-01", addedAt: "2026-08-30" },
+      { title: "Register 01", href: "/blocks/register-01", addedAt: "2026-08-30" },
+      { title: "OTP Verification 01", href: "/blocks/otp-verification-01", addedAt: "2026-08-30" },
+      { title: "Forgot Password 01", href: "/blocks/forgot-password-01", addedAt: "2026-08-30" },
     ],
   },
   {

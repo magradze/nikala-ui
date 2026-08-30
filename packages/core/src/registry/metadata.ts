@@ -557,7 +557,25 @@ export const BLOCK_METADATA: Record<string, ComponentMeta> = {
     title: "Login 01 — Split Screen with Social Auth & Testimonial",
     description: "A modern split-screen authentication page block with OAuth providers, email sign-in form, and brand testimonial visual.",
     dependencies: ["clsx", "tailwind-merge", "lucide-solid"],
-    registryDependencies: ["button", "input", "label", "checkbox", "separator"],
+    registryDependencies: ["button", "input", "label", "checkbox", "separator", "form", "field", "form-message"],
+  },
+  "register-01": {
+    title: "Register 01 — Sign-Up Card with Password Strength",
+    description: "A comprehensive sign-up card featuring social logins, live password strength meter with validation checklist, and terms agreement.",
+    dependencies: ["clsx", "tailwind-merge", "lucide-solid"],
+    registryDependencies: ["card", "input", "label", "button", "checkbox", "progress", "badge", "separator", "form", "field", "form-message"],
+  },
+  "otp-verification-01": {
+    title: "OTP Verification 01 — Two-Factor Security Code",
+    description: "A clean 2-Factor Authentication block with a 6-digit PIN input, countdown resend timer, and security notifications.",
+    dependencies: ["clsx", "tailwind-merge", "lucide-solid"],
+    registryDependencies: ["card", "pin-input", "button", "alert", "badge", "form"],
+  },
+  "forgot-password-01": {
+    title: "Forgot Password 01 — Account Recovery Flow",
+    description: "A sleek password recovery block with email instructions submission and success confirmation states.",
+    dependencies: ["clsx", "tailwind-merge", "lucide-solid"],
+    registryDependencies: ["card", "input", "label", "button", "alert", "form", "field", "form-message"],
   },
 };
 

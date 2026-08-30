@@ -32,12 +32,12 @@ const CATEGORIES: BlockCategoryCard[] = [
   {
     id: "authentication",
     title: "Authentication",
-    description: "Split-screen login forms, registration cards, social OAuth buttons, and password recovery layouts.",
+    description: "Split-screen login forms, registration cards with password strength, 2FA verification, and recovery layouts.",
     href: "/blocks/login-01",
-    count: 1,
+    count: 4,
     icon: Lock,
     isAvailable: true,
-    featured: "Login 01",
+    featured: "Login 01, Register 01, OTP, Reset",
   },
   {
     id: "hero",
