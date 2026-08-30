@@ -128,7 +128,7 @@ export function NetworkStatusLiveDemo() {
         variant="outline"
         class="border-emerald-500/30 text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 text-xs gap-1.5 py-1 px-2.5 shrink-0"
       >
-        <span class="size-1.5 rounded-full bg-emerald-500 animate-pulse" />
+        <span class="size-1.5 rounded-lg bg-emerald-500 animate-pulse" />
         {network.isOnline() ? "Online" : "Offline"}
       </Badge>
     </div>

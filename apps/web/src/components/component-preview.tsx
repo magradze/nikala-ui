@@ -14,10 +14,11 @@ interface ComponentPreviewProps {
   children: JSX.Element;
   align?: "center" | "start" | "end";
   isHook?: boolean;
+  allowOverflow?: boolean;
 }
 
 export const ComponentPreview: Component<ComponentPreviewProps> = (props) => {
-  const [local] = splitProps(props, ["name", "code", "align", "children", "isHook"]);
+  const [local] = splitProps(props, ["name", "code", "align", "children", "isHook", "allowOverflow"]);
   const { copied, copy } = createClipboard({ timeout: 2000 });
   const { copied: aiCopied, copy: copyAi } = createClipboard({ timeout: 2000 });
   const { formatCommand } = usePackageManager();
@@ -80,8 +81,17 @@ ${local.code}`;
         </div>
 
         {/* Live Preview Tab */}
-        <TabsContent value="preview" class="relative rounded-lg bg-card/50 border border-border p-4 sm:p-6 md:p-10 backdrop-blur-xs overflow-x-auto max-w-full">
-          <div class={`flex min-h-[180px] sm:min-h-[240px] w-full max-w-full overflow-x-auto ${alignmentClass()}`}>
+        <TabsContent
+          value="preview"
+          class={`relative rounded-lg bg-card/50 border border-border p-4 sm:p-6 md:p-10 backdrop-blur-xs max-w-full ${
+            local.allowOverflow ? "overflow-visible" : "overflow-x-auto"
+          }`}
+        >
+          <div
+            class={`flex min-h-[180px] sm:min-h-[240px] w-full max-w-full ${
+              local.allowOverflow ? "overflow-visible" : "overflow-x-auto"
+            } ${alignmentClass()}`}
+          >
             {resolvedChildren()}
           </div>
         </TabsContent>

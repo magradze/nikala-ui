@@ -136,7 +136,7 @@ export default function NavigationMenuDocPage() {
         />
 
         {/* 2. Main Hero Preview */}
-        <ComponentPreview name="navigation-menu" code={defaultCode}>
+        <ComponentPreview name="navigation-menu" code={defaultCode} allowOverflow={true}>
           <div class="flex items-center justify-center p-8 w-full min-h-[360px]">
             <NavigationMenu class="z-20">
               <NavigationMenuList>

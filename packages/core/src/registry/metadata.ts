@@ -305,6 +305,11 @@ export const COMPONENT_METADATA: Record<string, ComponentMeta> = {
     dependencies: ["clsx", "tailwind-merge", "class-variance-authority", "lucide-solid"],
     registryDependencies: ["create-click-outside"],
   },
+  navbar: {
+    title: "Navbar",
+    description: "A responsive, accessible, and composable top navigation header suite supporting nested dropdown flyouts, floating card containers, and mobile navigation drawers.",
+    dependencies: ["clsx", "tailwind-merge", "class-variance-authority", "lucide-solid"],
+  },
   pagination: {
     title: "Pagination",
     description: "An accessible multi-page navigation bar with previous, next, page numbers, and ellipsis controls.",

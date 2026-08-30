@@ -298,7 +298,7 @@ export function HeroBentoGrid() {
           <div class="flex items-center justify-between p-1.5 rounded-md border border-emerald-500/20 bg-emerald-500/5 text-[10px]">
             <span class="font-medium text-foreground">Status</span>
             <div class="flex items-center gap-1 text-emerald-600 dark:text-emerald-400 font-semibold text-[9px]">
-              <span class="size-1.5 rounded-full bg-emerald-500 animate-pulse" />
+              <span class="size-1.5 rounded-lg bg-emerald-500 animate-pulse" />
               <span>Online</span>
             </div>
           </div>

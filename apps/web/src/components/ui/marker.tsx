@@ -93,9 +93,9 @@ export const MarkerTyping: Component<MarkerTypingProps> = (props) => {
 
       {/* 3 Animated Bouncing Dots */}
       <span class="inline-flex items-center gap-1 px-2 py-1 rounded-md bg-muted/60 border border-border/40">
-        <span class="size-1.5 rounded-full bg-foreground/60 animate-bounce [animation-delay:-0.3s]" />
-        <span class="size-1.5 rounded-full bg-foreground/60 animate-bounce [animation-delay:-0.15s]" />
-        <span class="size-1.5 rounded-full bg-foreground/60 animate-bounce" />
+        <span class="size-1.5 rounded-lg bg-foreground/60 animate-bounce [animation-delay:-0.3s]" />
+        <span class="size-1.5 rounded-lg bg-foreground/60 animate-bounce [animation-delay:-0.15s]" />
+        <span class="size-1.5 rounded-lg bg-foreground/60 animate-bounce" />
       </span>
     </div>
   );

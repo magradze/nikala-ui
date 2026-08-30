@@ -391,6 +391,18 @@
     ]
   },
   {
+    "name": "navbar",
+    "title": "Navbar",
+    "description": "A responsive, accessible, and composable top navigation header suite supporting nested dropdown flyouts, floating card containers, and mobile navigation drawers.",
+    "type": "registry:ui",
+    "dependencies": [
+      "clsx",
+      "tailwind-merge",
+      "class-variance-authority",
+      "lucide-solid"
+    ]
+  },
+  {
     "name": "navigation-menu",
     "title": "Navigation Menu",
     "description": "A responsive and accessible top header navigation menu with mega-menu dropdowns and link previews.",

@@ -11,7 +11,7 @@ export function CtaBanner() {
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center text-left">
       {/* Left Column: Headline & Value Proposition */}
       <div class="lg:col-span-7 space-y-4">
-        <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full border border-primary/30 bg-primary/5 text-primary text-xs font-semibold">
+        <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg border border-primary/30 bg-primary/5 text-primary text-xs font-semibold">
           <Sparkles class="size-3.5" />
           <span>Get Started in Under 60 Seconds</span>
         </div>
