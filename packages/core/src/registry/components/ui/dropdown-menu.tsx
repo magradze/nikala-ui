@@ -1,9 +1,11 @@
-import { splitProps, type Component, type JSX, type ValidComponent } from "solid-js";
+import { splitProps, type Component, type JSX, type ValidComponent, createContext, useContext } from "solid-js";
 import * as DropdownMenuPrimitive from "@kobalte/core/dropdown-menu";
 import type { PolymorphicProps } from "@kobalte/core/polymorphic";
 import { createClickOutside } from "@/hooks/create-click-outside";
 import { ScrollArea } from "./scroll-area";
 import { cn } from "@/lib/cn";
+
+const DropdownGroupContext = createContext<boolean>(false);
 
 export type DropdownMenuRootProps = Omit<
   DropdownMenuPrimitive.DropdownMenuRootProps,
@@ -29,7 +31,15 @@ export const DropdownMenu: Component<DropdownMenuRootProps> = (props) => {
 };
 
 export const DropdownMenuTrigger = DropdownMenuPrimitive.Trigger;
-export const DropdownMenuGroup = DropdownMenuPrimitive.Group;
+
+export const DropdownMenuGroup: Component<DropdownMenuPrimitive.DropdownMenuGroupProps> = (props) => {
+  return (
+    <DropdownGroupContext.Provider value={true}>
+      <DropdownMenuPrimitive.Group {...props} />
+    </DropdownGroupContext.Provider>
+  );
+};
+
 export const DropdownMenuSub = DropdownMenuPrimitive.Sub;
 export const DropdownMenuRadioGroup = DropdownMenuPrimitive.RadioGroup;
 
@@ -217,7 +227,9 @@ export const DropdownMenuRadioItem = <T extends ValidComponent = "div">(
   );
 };
 
-export interface DropdownMenuLabelProps {
+export const DropdownMenuGroupLabel = DropdownMenuPrimitive.GroupLabel;
+
+export interface DropdownMenuLabelProps extends JSX.HTMLAttributes<HTMLDivElement> {
   class?: string;
   inset?: boolean;
   children?: JSX.Element;
@@ -225,14 +237,27 @@ export interface DropdownMenuLabelProps {
 
 export const DropdownMenuLabel: Component<DropdownMenuLabelProps> = (props) => {
   const [local, rest] = splitProps(props, ["class", "inset", "children"]);
+  const isInsideGroup = useContext(DropdownGroupContext);
+
+  const classes = () =>
+    cn(
+      "px-2 py-1.5 text-sm font-semibold text-foreground",
+      local.inset && "pl-8",
+      local.class
+    );
 
   return (
-    <DropdownMenuPrimitive.GroupLabel
-      class={cn("px-2 py-1.5 text-sm font-semibold text-foreground", local.inset && "pl-8", local.class)}
-      {...rest}
-    >
-      {local.children}
-    </DropdownMenuPrimitive.GroupLabel>
+    <>
+      {isInsideGroup ? (
+        <DropdownMenuPrimitive.GroupLabel class={classes()} {...(rest as any)}>
+          {local.children}
+        </DropdownMenuPrimitive.GroupLabel>
+      ) : (
+        <div class={classes()} {...rest}>
+          {local.children}
+        </div>
+      )}
+    </>
   );
 };
 
