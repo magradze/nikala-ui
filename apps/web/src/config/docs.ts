@@ -307,6 +307,12 @@ export const HOOKS_LIST: DocHookItem[] = [
     description: "SolidJS reactive primitive for registering native OS global hotkeys with automatic web keyboard fallback",
     href: "/docs/desktop/create-global-shortcut",
   },
+  {
+    name: "create-app-updater",
+    title: "createAppUpdater",
+    description: "SolidJS reactive primitive for controlling and observing Tauri v2 application updates and download streams",
+    href: "/docs/desktop/create-app-updater",
+  },
 ];
 
 /* --- Component Library Registry List --- */
@@ -376,6 +382,8 @@ export const COMPONENTS_LIST: DocComponentItem[] = [
   { name: "review-card", title: "Review Card", description: "A versatile, structured card component for customer testimonials, product ratings, and social proof", href: "/docs/components/review-card" },
   { name: "rating", title: "Rating", description: "An accessible star rating component supporting interactive inputs, hover preview states, and read-only score badges", href: "/docs/components/rating" },
   { name: "sidebar", title: "Sidebar", description: "A composable, collapsible, and accessible application sidebar navigation suite with icon mode and keyboard shortcuts", href: "/docs/components/sidebar" },
+  { name: "titlebar", title: "Titlebar", description: "A native-feeling custom titlebar for frameless desktop windows supporting macOS Traffic Lights and Windows 11 controls", href: "/docs/desktop/titlebar" },
+  { name: "updater-modal", title: "Updater Modal", description: "An automated application auto-updater dialog for Tauri v2 with release notes preview and progress bar", href: "/docs/desktop/updater-dialog" },
 ];
 
 /* --- Global Sidebar Navigation Config --- */
@@ -599,6 +607,7 @@ export const DESKTOP_SECTIONS: NavSection[] = [
     items: [
       { title: "createTauriWindow", href: "/docs/desktop/create-tauri-window", addedAt: "2026-08-31" },
       { title: "createGlobalShortcut", href: "/docs/desktop/create-global-shortcut", addedAt: "2026-08-31" },
+      { title: "createAppUpdater", href: "/docs/desktop/create-app-updater", addedAt: "2026-08-31" },
     ],
   },
 ];

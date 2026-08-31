@@ -43,3 +43,4 @@ export * from "./create-pagination";
 export * from "./create-chat-scroll";
 export * from "./create-tauri-window";
 export * from "./create-global-shortcut";
+export * from "./create-app-updater";
