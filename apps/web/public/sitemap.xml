@@ -491,4 +491,88 @@
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
+
+  <!-- Desktop Suite -->
+  <url>
+    <lastmod>2026-08-31</lastmod>
+    <loc>https://nikala.dev/docs/desktop</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <lastmod>2026-08-31</lastmod>
+    <loc>https://nikala.dev/docs/desktop/setup</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <lastmod>2026-08-31</lastmod>
+    <loc>https://nikala.dev/docs/desktop/titlebar</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <lastmod>2026-08-31</lastmod>
+    <loc>https://nikala.dev/docs/desktop/titlebar-tabs</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <lastmod>2026-08-31</lastmod>
+    <loc>https://nikala.dev/docs/desktop/updater-dialog</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <lastmod>2026-08-31</lastmod>
+    <loc>https://nikala.dev/docs/desktop/create-tauri-window</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <lastmod>2026-08-31</lastmod>
+    <loc>https://nikala.dev/docs/desktop/create-document-tabs</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <lastmod>2026-08-31</lastmod>
+    <loc>https://nikala.dev/docs/desktop/create-app-updater</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <lastmod>2026-08-31</lastmod>
+    <loc>https://nikala.dev/docs/desktop/create-global-shortcut</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- Additional Reactive Hooks -->
+  <url>
+    <lastmod>2026-08-31</lastmod>
+    <loc>https://nikala.dev/docs/hooks/create-chat-scroll</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <lastmod>2026-08-31</lastmod>
+    <loc>https://nikala.dev/docs/hooks/create-drop-zone</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <lastmod>2026-08-31</lastmod>
+    <loc>https://nikala.dev/docs/hooks/create-pagination</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- Blocks -->
+  <url>
+    <lastmod>2026-08-31</lastmod>
+    <loc>https://nikala.dev/blocks</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
 </urlset>

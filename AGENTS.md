@@ -104,12 +104,12 @@ Nikala UI implements a 100% **Pure Copy-Paste Ownership** model for both compone
 
 ---
 
-## 5. Complete Catalog of Components (27) & Primitives (40)
+## 5. Complete Catalog of Components (69) & Primitives (47)
 
-### UI Components (`@nikala-ui/core`)
+### UI & Desktop Components (`@nikala-ui/core`)
 
-`accordion`, `alert`, `avatar`, `badge`, `banner`, `breadcrumb`, `button`, `card`, `checkbox`, `command`, `dialog`, `dropdown-menu`, `input`, `input-group`, `kbd`, `label`, `list`, `popover`, `progress`, `radio-group`, `select`, `separator`, `sheet`, `skeleton`, `switch`, `tabs`, `textarea`, `theme-manager`.
+`accordion`, `alert`, `aspect-ratio`, `avatar`, `badge`, `banner`, `breadcrumb`, `bubble`, `button`, `button-group`, `card`, `checkbox`, `collapsible`, `combobox`, `command`, `context-menu`, `dialog`, `dropdown-menu`, `dropzone`, `empty`, `field`, `footer`, `form`, `form-message`, `hover-card`, `icon-button`, `input`, `input-group`, `kbd`, `label`, `list`, `logo`, `marker`, `marquee`, `message`, `navbar`, `navigation-menu`, `number-input`, `pagination`, `pin-input`, `popover`, `progress`, `radio-group`, `rating`, `resizable`, `review-card`, `scroll-area`, `select`, `separator`, `sheet`, `sidebar`, `skeleton`, `slider`, `spinner`, `stat`, `status`, `switch`, `table`, `tabs`, `textarea`, `theme-manager`, `timeline`, `titlebar`, `titlebar-tabs`, `toast`, `toggle`, `toggle-group`, `tooltip`, `updater-modal`.
 
 ### Reactive Primitives / Hooks (`@nikala-ui/hooks`)
 
-`createActiveElement`, `createAudio` / `createVideo`, `createBattery`, `createClickOutside`, `createClipboard`, `createColorMode`, `createControllableSignal`, `createDebounce`, `createDisclosure`, `createDocumentTitle`, `createEventSource`, `createFavicon`, `createFetch`, `createFocusTrap`, `createForm`, `createFullscreen`, `createGeolocation`, `createHover`, `createIdle`, `createInfiniteScroll`, `createInputMask`, `createIntersectionObserver`, `createKeybindings`, `createLockScroll`, `createLongPress`, `createMediaQuery`, `createMousePosition`, `createNetworkStatus`, `createOrientation`, `createPermission`, `createPrevious`, `createResizeObserver`, `createScrollIntoView`, `createScrollPosition`, `createStorage` (`createLocalStorage`, `createSessionStorage`), `createTimer`, `createUndoRedo`, `createWebNotification`, `createWebSocket`, `createWindowSize`.
+`createActiveElement`, `createAppUpdater`, `createAudio` / `createVideo`, `createBattery`, `createChatScroll`, `createClickOutside`, `createClipboard`, `createColorMode`, `createControllableSignal`, `createDebounce`, `createDisclosure`, `createDocumentTabs`, `createDocumentTitle`, `createDropZone`, `createEventSource`, `createFavicon`, `createFetch`, `createFocusTrap`, `createForm`, `createFullscreen`, `createGeolocation`, `createGlobalShortcut`, `createHover`, `createIdle`, `createInfiniteScroll`, `createInputMask`, `createIntersectionObserver`, `createKeybindings`, `createLockScroll`, `createLongPress`, `createMediaQuery`, `createMousePosition`, `createNetworkStatus`, `createOrientation`, `createPagination`, `createPermission`, `createPrevious`, `createResizeObserver`, `createScrollIntoView`, `createScrollPosition`, `createStorage` (`createLocalStorage`, `createSessionStorage`), `createTauriWindow`, `createTimer`, `createUndoRedo`, `createWebNotification`, `createWebSocket`, `createWindowSize`.
