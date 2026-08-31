@@ -106,7 +106,7 @@ export default function TitlebarDocsPage() {
             <Titlebar
               platform={platform()}
               isMaximized={isSimulatedMax()}
-              onToggleMaximize={() => setIsSimulatedMax(!isSimulatedMax())}
+              onToggleMaximize={() => { setIsSimulatedMax(!isSimulatedMax()); }}
               class="border-b border-border/60"
             >
               {platform() === "macos" ? (
@@ -126,7 +126,6 @@ export default function TitlebarDocsPage() {
                 </>
               ) : (
                 <>
-                  <TitlebarControls />
                   <div class="flex items-center gap-1.5 flex-1 pl-2">
                     <TitlebarIcon>
                       <Logo class="size-3.5 rounded-xs" />
@@ -140,6 +139,7 @@ export default function TitlebarDocsPage() {
                       <Sparkles class="size-3 text-primary" />
                     </Button>
                   </TitlebarActions>
+                  <TitlebarControls />
                 </>
               )}
             </Titlebar>

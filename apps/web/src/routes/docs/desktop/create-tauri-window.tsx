@@ -28,6 +28,9 @@ import {
 const importCode = `import { createTauriWindow } from "@nikala-ui/hooks";`;
 
 const usageCode = `import { createTauriWindow } from "@/hooks/create-tauri-window";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Card } from "@/components/ui/card";
 
 function WindowManager() {
   const {
@@ -43,22 +46,24 @@ function WindowManager() {
   } = createTauriWindow();
 
   return (
-    <div class="space-y-4">
-      <div class="flex gap-2">
-        <button onClick={minimize}>
+    <Card class="p-4 space-y-4">
+      <div class="flex items-center gap-2">
+        <Button variant="outline" size="sm" onClick={minimize}>
           {isMinimized() ? "Restore" : "Minimize"}
-        </button>
-        <button onClick={toggleMaximize}>
+        </Button>
+        <Button variant="outline" size="sm" onClick={toggleMaximize}>
           {isMaximized() ? "Restore" : "Maximize"}
-        </button>
-        <button onClick={() => setFullscreen(!isFullscreen())}>
+        </Button>
+        <Button variant="default" size="sm" onClick={() => setFullscreen(!isFullscreen())}>
           Toggle Fullscreen
-        </button>
+        </Button>
       </div>
 
-      <p>Platform: {platform()}</p>
-      <p>Tauri Native: {isTauri() ? "Yes" : "No (Web Fallback)"}</p>
-    </div>
+      <div class="text-xs space-y-1 text-muted-foreground">
+        <p>Platform: <Badge variant="secondary" class="font-mono">{platform()}</Badge></p>
+        <p>Tauri Native: <Badge variant="outline">{isTauri() ? "Yes" : "No (Web Fallback)"}</Badge></p>
+      </div>
+    </Card>
   );
 }`;
 

@@ -13,6 +13,8 @@ const importCode = `import { createGlobalShortcut } from "@nikala-ui/hooks";`;
 
 const usageCode = `import { createSignal } from "solid-js";
 import { createGlobalShortcut } from "@/hooks/create-global-shortcut";
+import { Card } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 
 function AppShortcutListener() {
   const [lastTriggered, setLastTriggered] = createSignal("");
@@ -26,10 +28,14 @@ function AppShortcutListener() {
   });
 
   return (
-    <div>
-      <p>Press Ctrl+Shift+K or Alt+Space anywhere on your system.</p>
-      {lastTriggered() && <p>Last shortcut: {lastTriggered()}</p>}
-    </div>
+    <Card class="p-4 space-y-2">
+      <p class="text-xs text-muted-foreground">Press Ctrl+Shift+K or Alt+Space anywhere on your system.</p>
+      {lastTriggered() && (
+        <p class="text-xs">
+          Last shortcut: <Badge variant="default" class="font-mono">{lastTriggered()}</Badge>
+        </p>
+      )}
+    </Card>
   );
 }`;
 

@@ -19,9 +19,9 @@ export type TitlebarPlatform = "macos" | "windows" | "auto";
 interface TitlebarContextValue {
   platform: Accessor<"macos" | "windows">;
   isMaximized: Accessor<boolean>;
-  minimize: () => Promise<void>;
-  toggleMaximize: () => Promise<void>;
-  close: () => Promise<void>;
+  minimize: () => Promise<void> | void;
+  toggleMaximize: () => Promise<void> | void;
+  close: () => Promise<void> | void;
 }
 
 const TitlebarContext = createContext<TitlebarContextValue>();
@@ -64,6 +64,14 @@ export interface TitlebarProps
     VariantProps<typeof titlebarVariants> {
   /** Explicit platform style, or 'auto' to detect host OS. */
   platform?: TitlebarPlatform;
+  /** Optional controlled maximize state override. */
+  isMaximized?: boolean;
+  /** Optional minimize callback override. */
+  onMinimize?: () => void | Promise<void>;
+  /** Optional maximize callback override. */
+  onToggleMaximize?: () => void | Promise<void>;
+  /** Optional close callback override. */
+  onClose?: () => void | Promise<void>;
   /** Whether double-clicking the titlebar toggles window maximize state. Defaults to true. */
   doubleClickToMaximize?: boolean;
 }
@@ -71,6 +79,10 @@ export interface TitlebarProps
 export const Titlebar: ParentComponent<TitlebarProps> = (props) => {
   const [local, rest] = splitProps(props, [
     "platform",
+    "isMaximized",
+    "onMinimize",
+    "onToggleMaximize",
+    "onClose",
     "variant",
     "size",
     "class",
@@ -89,12 +101,20 @@ export const Titlebar: ParentComponent<TitlebarProps> = (props) => {
     return detected === "macos" ? "macos" : "windows";
   });
 
+  const isMaximized = () =>
+    local.isMaximized !== undefined ? local.isMaximized : windowCtrl.isMaximized();
+
+  const minimize = () => (local.onMinimize ? local.onMinimize() : windowCtrl.minimize());
+  const toggleMaximize = () =>
+    local.onToggleMaximize ? local.onToggleMaximize() : windowCtrl.toggleMaximize();
+  const close = () => (local.onClose ? local.onClose() : windowCtrl.close());
+
   const handleDoubleClick: JSX.EventHandlerUnion<HTMLElement, MouseEvent> = (e) => {
     if (local.doubleClickToMaximize !== false) {
       // Don't maximize if user double-clicked an interactive button
       const target = e.target as HTMLElement;
       if (!target.closest("button") && !target.closest("[data-no-drag]")) {
-        windowCtrl.toggleMaximize();
+        toggleMaximize();
       }
     }
     if (typeof local.onDblClick === "function") {
@@ -104,10 +124,10 @@ export const Titlebar: ParentComponent<TitlebarProps> = (props) => {
 
   const contextValue: TitlebarContextValue = {
     platform: resolvedPlatform,
-    isMaximized: windowCtrl.isMaximized,
-    minimize: windowCtrl.minimize,
-    toggleMaximize: windowCtrl.toggleMaximize,
-    close: windowCtrl.close,
+    isMaximized,
+    minimize,
+    toggleMaximize,
+    close,
   };
 
   return (
@@ -148,7 +168,7 @@ export const TitlebarControls: Component<TitlebarControlsProps> = (props) => {
       data-no-drag
       class={cn(
         "flex items-center z-10",
-        activePlatform() === "macos" ? "gap-2" : "gap-0 -mr-3",
+        activePlatform() === "macos" ? "gap-2" : "gap-0 -mr-3 h-full ml-auto",
         local.class
       )}
       {...rest}
@@ -330,3 +350,6 @@ export const TitlebarActions: ParentComponent<JSX.HTMLAttributes<HTMLDivElement>
     </div>
   );
 };
+
+/* --- 6. Re-export TitlebarTabs Suite --- */
+export * from "./titlebar-tabs";

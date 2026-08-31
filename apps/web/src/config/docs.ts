@@ -313,6 +313,12 @@ export const HOOKS_LIST: DocHookItem[] = [
     description: "SolidJS reactive primitive for controlling and observing Tauri v2 application updates and download streams",
     href: "/docs/desktop/create-app-updater",
   },
+  {
+    name: "create-document-tabs",
+    title: "createDocumentTabs",
+    description: "SolidJS reactive primitive for managing multi-document tabs, editor buffers, and browser tab stacks with adjacent activation and pinned state",
+    href: "/docs/desktop/create-document-tabs",
+  },
 ];
 
 /* --- Component Library Registry List --- */
@@ -599,6 +605,7 @@ export const DESKTOP_SECTIONS: NavSection[] = [
     title: "Window & Chrome",
     items: [
       { title: "Titlebar", href: "/docs/desktop/titlebar", addedAt: "2026-08-31" },
+      { title: "TitlebarTabs", href: "/docs/desktop/titlebar-tabs", addedAt: "2026-08-31" },
       { title: "UpdaterDialog", href: "/docs/desktop/updater-dialog", addedAt: "2026-08-31" },
     ],
   },
@@ -608,6 +615,7 @@ export const DESKTOP_SECTIONS: NavSection[] = [
       { title: "createTauriWindow", href: "/docs/desktop/create-tauri-window", addedAt: "2026-08-31" },
       { title: "createGlobalShortcut", href: "/docs/desktop/create-global-shortcut", addedAt: "2026-08-31" },
       { title: "createAppUpdater", href: "/docs/desktop/create-app-updater", addedAt: "2026-08-31" },
+      { title: "createDocumentTabs", href: "/docs/desktop/create-document-tabs", addedAt: "2026-08-31" },
     ],
   },
 ];

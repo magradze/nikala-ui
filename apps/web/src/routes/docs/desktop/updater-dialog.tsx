@@ -24,6 +24,7 @@ import { createAppUpdater } from "@/hooks/create-app-updater";`;
 const usageCode = `import { createSignal } from "solid-js";
 import { UpdaterModal } from "@/components/ui/updater-modal";
 import { createAppUpdater } from "@/hooks/create-app-updater";
+import { Button } from "@/components/ui/button";
 
 function DesktopApp() {
   const [isOpen, setIsOpen] = createSignal(false);
@@ -37,10 +38,13 @@ function DesktopApp() {
   });
 
   return (
-    <>
-      <button onClick={() => updater.checkForUpdates()}>
+    <div class="p-4">
+      <Button
+        variant="default"
+        onClick={() => updater.checkForUpdates()}
+      >
         Check for Updates
-      </button>
+      </Button>
 
       <UpdaterModal
         open={isOpen()}
@@ -48,7 +52,7 @@ function DesktopApp() {
         updater={updater}
         appName="Nikala Studio"
       />
-    </>
+    </div>
   );
 }`;
 

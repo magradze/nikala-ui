@@ -23,7 +23,10 @@ import {
 const importCode = `import { createAppUpdater } from "@/hooks/create-app-updater";`;
 
 const basicUsageCode = `import { createAppUpdater } from "@/hooks/create-app-updater";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import { Show } from "solid-js";
+import { Download, RotateCcw } from "lucide-solid";
 
 function AppHeader() {
   const updater = createAppUpdater({
@@ -35,34 +38,40 @@ function AppHeader() {
   });
 
   return (
-    <div class="flex items-center gap-3">
+    <div class="flex items-center gap-3 p-3 rounded-lg border bg-card">
       {/* 1. Status Pill */}
-      <span class="text-xs font-mono">
-        Status: <strong>{updater.status()}</strong>
+      <span class="text-xs text-muted-foreground">
+        Status: <Badge variant="secondary" class="font-mono text-xs">{updater.status()}</Badge>
       </span>
 
       {/* 2. Download Action */}
       <Show when={updater.status() === "available"}>
-        <button
+        <Button
+          variant="default"
+          size="sm"
           onClick={() => updater.downloadAndInstall()}
-          class="px-3 py-1 text-xs bg-primary text-primary-foreground rounded-md"
+          class="h-7 text-xs gap-1.5"
         >
-          Download {updater.updateInfo()?.version}
-        </button>
+          <Download class="size-3.5" />
+          <span>Download {updater.updateInfo()?.version}</span>
+        </Button>
       </Show>
 
       {/* 3. Restart Action */}
       <Show when={updater.status() === "downloaded"}>
-        <button
+        <Button
+          variant="default"
+          size="sm"
           onClick={() => updater.relaunch()}
-          class="px-3 py-1 text-xs bg-emerald-600 text-white rounded-md"
+          class="h-7 text-xs gap-1.5 bg-emerald-600 hover:bg-emerald-700 text-white"
         >
-          Restart to Apply
-        </button>
+          <RotateCcw class="size-3.5" />
+          <span>Restart to Apply</span>
+        </Button>
       </Show>
     </div>
   );
-}`;
+};`;
 
 function formatBytes(bytes: number): string {
   if (!bytes || bytes === 0) return "0 MB";

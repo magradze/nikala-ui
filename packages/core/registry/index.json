@@ -749,6 +749,23 @@
     ]
   },
   {
+    "name": "titlebar-tabs",
+    "title": "Titlebar Tabs",
+    "description": "Native draggable tab bar integrated directly inside desktop titlebars for multi-document applications.",
+    "type": "registry:ui",
+    "dependencies": [
+      "clsx",
+      "tailwind-merge",
+      "class-variance-authority",
+      "lucide-solid"
+    ],
+    "registryDependencies": [
+      "button",
+      "tooltip",
+      "create-document-tabs"
+    ]
+  },
+  {
     "name": "titlebar",
     "title": "Titlebar",
     "description": "A native-feeling custom titlebar for frameless desktop windows supporting macOS Traffic Lights and Windows 11 controls.",
@@ -756,10 +773,14 @@
     "dependencies": [
       "clsx",
       "tailwind-merge",
-      "class-variance-authority"
+      "class-variance-authority",
+      "lucide-solid"
     ],
     "registryDependencies": [
-      "create-tauri-window"
+      "button",
+      "tooltip",
+      "create-tauri-window",
+      "create-document-tabs"
     ]
   },
   {
@@ -1204,6 +1225,12 @@
     "name": "create-app-updater",
     "title": "createAppUpdater",
     "description": "SolidJS reactive primitive for controlling and observing Tauri v2 application updates",
+    "type": "registry:hook"
+  },
+  {
+    "name": "create-document-tabs",
+    "title": "createDocumentTabs",
+    "description": "SolidJS reactive primitive for managing multi-document tabs, editor buffers, and browser tab stacks with adjacent activation and pinned state",
     "type": "registry:hook"
   }
 ]

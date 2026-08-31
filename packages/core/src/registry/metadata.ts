@@ -366,8 +366,14 @@ export const COMPONENT_METADATA: Record<string, ComponentMeta> = {
   titlebar: {
     title: "Titlebar",
     description: "A native-feeling custom titlebar for frameless desktop windows supporting macOS Traffic Lights and Windows 11 controls.",
-    dependencies: ["clsx", "tailwind-merge", "class-variance-authority"],
-    registryDependencies: ["create-tauri-window"],
+    dependencies: ["clsx", "tailwind-merge", "class-variance-authority", "lucide-solid"],
+    registryDependencies: ["button", "tooltip", "create-tauri-window", "create-document-tabs"],
+  },
+  "titlebar-tabs": {
+    title: "Titlebar Tabs",
+    description: "Native draggable tab bar integrated directly inside desktop titlebars for multi-document applications.",
+    dependencies: ["clsx", "tailwind-merge", "class-variance-authority", "lucide-solid"],
+    registryDependencies: ["button", "tooltip", "create-document-tabs"],
   },
   "updater-modal": {
     title: "Updater Modal",
@@ -564,6 +570,10 @@ export const HOOK_METADATA: Record<string, ComponentMeta> = {
   "create-app-updater": {
     title: "createAppUpdater",
     description: "SolidJS reactive primitive for controlling and observing Tauri v2 application updates",
+  },
+  "create-document-tabs": {
+    title: "createDocumentTabs",
+    description: "SolidJS reactive primitive for managing multi-document tabs, editor buffers, and browser tab stacks with adjacent activation and pinned state",
   },
 };
 

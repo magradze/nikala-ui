@@ -19,9 +19,9 @@ export type TitlebarPlatform = "macos" | "windows" | "auto";
 interface TitlebarContextValue {
   platform: Accessor<"macos" | "windows">;
   isMaximized: Accessor<boolean>;
-  minimize: () => Promise<void>;
-  toggleMaximize: () => Promise<void>;
-  close: () => Promise<void>;
+  minimize: () => Promise<void> | void;
+  toggleMaximize: () => Promise<void> | void;
+  close: () => Promise<void> | void;
 }
 
 const TitlebarContext = createContext<TitlebarContextValue>();
@@ -58,90 +58,86 @@ export const titlebarVariants = cva(
   }
 );
 
-/* --- 3. Titlebar Root Component --- */
+/* --- 3. Root Titlebar Component --- */
 export interface TitlebarProps
   extends JSX.HTMLAttributes<HTMLElement>,
     VariantProps<typeof titlebarVariants> {
+  /** Explicit platform style, or 'auto' to detect host OS. */
   platform?: TitlebarPlatform;
+  /** Optional controlled maximize state override. */
   isMaximized?: boolean;
-  onMinimize?: () => void;
-  onToggleMaximize?: () => void;
-  onClose?: () => void;
-  class?: string;
+  /** Optional minimize callback override. */
+  onMinimize?: () => void | Promise<void>;
+  /** Optional maximize callback override. */
+  onToggleMaximize?: () => void | Promise<void>;
+  /** Optional close callback override. */
+  onClose?: () => void | Promise<void>;
+  /** Whether double-clicking the titlebar toggles window maximize state. Defaults to true. */
+  doubleClickToMaximize?: boolean;
 }
 
 export const Titlebar: ParentComponent<TitlebarProps> = (props) => {
   const [local, rest] = splitProps(props, [
     "platform",
-    "variant",
-    "size",
     "isMaximized",
     "onMinimize",
     "onToggleMaximize",
     "onClose",
+    "variant",
+    "size",
     "class",
     "children",
+    "doubleClickToMaximize",
+    "onDblClick",
   ]);
 
-  const tauriWin = createTauriWindow({ listenEvents: true });
+  const windowCtrl = createTauriWindow();
 
   const resolvedPlatform = createMemo<"macos" | "windows">(() => {
-    if (local.platform === "macos") return "macos";
-    if (local.platform === "windows") return "windows";
+    if (local.platform && local.platform !== "auto") {
+      return local.platform;
+    }
     const detected = detectPlatform();
     return detected === "macos" ? "macos" : "windows";
   });
 
-  const isMax = () =>
-    local.isMaximized !== undefined ? local.isMaximized : tauriWin.isMaximized();
+  const isMaximized = () =>
+    local.isMaximized !== undefined ? local.isMaximized : windowCtrl.isMaximized();
 
-  const handleMinimize = async () => {
-    if (local.onMinimize) local.onMinimize();
-    else await tauriWin.minimize();
-  };
-
-  const handleToggleMaximize = async () => {
-    if (local.onToggleMaximize) local.onToggleMaximize();
-    else await tauriWin.toggleMaximize();
-  };
-
-  const handleClose = async () => {
-    if (local.onClose) local.onClose();
-    else await tauriWin.close();
-  };
+  const minimize = () => (local.onMinimize ? local.onMinimize() : windowCtrl.minimize());
+  const toggleMaximize = () =>
+    local.onToggleMaximize ? local.onToggleMaximize() : windowCtrl.toggleMaximize();
+  const close = () => (local.onClose ? local.onClose() : windowCtrl.close());
 
   const handleDoubleClick: JSX.EventHandlerUnion<HTMLElement, MouseEvent> = (e) => {
-    handleToggleMaximize();
-  };
-
-  const handleMouseDown = (e: MouseEvent) => {
-    if (e.target === e.currentTarget || (e.target as HTMLElement).getAttribute?.("data-tauri-drag-region") !== null) {
-      tauriWin.startDragging(e);
+    if (local.doubleClickToMaximize !== false) {
+      // Don't maximize if user double-clicked an interactive button
+      const target = e.target as HTMLElement;
+      if (!target.closest("button") && !target.closest("[data-no-drag]")) {
+        toggleMaximize();
+      }
     }
-  };
-
-  const handleDblClick = () => {
-    handleToggleMaximize();
+    if (typeof local.onDblClick === "function") {
+      (local.onDblClick as any)(e);
+    }
   };
 
   const contextValue: TitlebarContextValue = {
     platform: resolvedPlatform,
-    isMaximized: isMax,
-    minimize: handleMinimize,
-    toggleMaximize: handleToggleMaximize,
-    close: handleClose,
+    isMaximized,
+    minimize,
+    toggleMaximize,
+    close,
   };
 
   return (
     <TitlebarContext.Provider value={contextValue}>
       <header
-        data-tauri-drag-region=""
-        data-platform={resolvedPlatform()}
-        onMouseDown={handleMouseDown}
-        onDblClick={handleDblClick}
+        data-tauri-drag-region
+        onDblClick={handleDoubleClick}
         class={cn(
           titlebarVariants({ variant: local.variant, size: local.size }),
-          resolvedPlatform() === "macos" ? "flex-row" : "flex-row-reverse",
+          "select-none cursor-default",
           local.class
         )}
         {...rest}
@@ -152,154 +148,168 @@ export const Titlebar: ParentComponent<TitlebarProps> = (props) => {
   );
 };
 
-/* --- 4. TitlebarControls (macOS & Windows Window Buttons) --- */
+/* --- 4. Subcomponents --- */
+
+/**
+ * Traffic light buttons for macOS or Fluent control buttons for Windows.
+ */
 export interface TitlebarControlsProps extends JSX.HTMLAttributes<HTMLDivElement> {
-  platform?: TitlebarPlatform;
-  class?: string;
+  /** Optional override platform style. Defaults to Titlebar context. */
+  platform?: "macos" | "windows";
 }
 
 export const TitlebarControls: Component<TitlebarControlsProps> = (props) => {
   const [local, rest] = splitProps(props, ["platform", "class"]);
-  const { platform, isMaximized, minimize, toggleMaximize, close } = useTitlebar();
+  const ctx = useTitlebar();
+  const activePlatform = () => local.platform || ctx.platform();
 
-  const currentPlatform = () => {
-    if (local.platform === "macos") return "macos";
-    if (local.platform === "windows") return "windows";
-    return platform();
+  return (
+    <div
+      data-no-drag
+      class={cn(
+        "flex items-center z-10",
+        activePlatform() === "macos" ? "gap-2" : "gap-0 -mr-3 h-full ml-auto",
+        local.class
+      )}
+      {...rest}
+    >
+      <Show
+        when={activePlatform() === "macos"}
+        fallback={
+          /* Windows 11 Fluent Window Controls */
+          <div class="flex items-center h-full">
+            {/* Minimize */}
+            <button
+              type="button"
+              onClick={() => ctx.minimize()}
+              class="inline-flex h-9 w-11 items-center justify-center text-muted-foreground hover:bg-muted hover:text-foreground transition-colors cursor-pointer"
+              aria-label="Minimize Window"
+            >
+              <svg class="h-3 w-3" fill="none" viewBox="0 0 12 12">
+                <path stroke="currentColor" stroke-width="1" d="M1.5 6h9" />
+              </svg>
+            </button>
+
+            {/* Maximize / Restore */}
+            <button
+              type="button"
+              onClick={() => ctx.toggleMaximize()}
+              class="inline-flex h-9 w-11 items-center justify-center text-muted-foreground hover:bg-muted hover:text-foreground transition-colors cursor-pointer"
+              aria-label={ctx.isMaximized() ? "Restore Window" : "Maximize Window"}
+            >
+              <Show
+                when={ctx.isMaximized()}
+                fallback={
+                  <svg class="h-3 w-3" fill="none" viewBox="0 0 12 12">
+                    <rect width="8" height="8" x="2" y="2" stroke="currentColor" stroke-width="1" rx="0.5" />
+                  </svg>
+                }
+              >
+                <svg class="h-3 w-3" fill="none" viewBox="0 0 12 12">
+                  <path stroke="currentColor" stroke-width="1" d="M3.5 3.5v-1.5h6v6h-1.5M2 4.5h6v6h-6z" />
+                </svg>
+              </Show>
+            </button>
+
+            {/* Close */}
+            <button
+              type="button"
+              onClick={() => ctx.close()}
+              class="inline-flex h-9 w-11 items-center justify-center text-muted-foreground hover:bg-destructive hover:text-destructive-foreground transition-colors cursor-pointer"
+              aria-label="Close Window"
+            >
+              <svg class="h-3 w-3" fill="none" viewBox="0 0 12 12">
+                <path stroke="currentColor" stroke-width="1" d="M2.5 2.5l7 7M9.5 2.5l-7 7" />
+              </svg>
+            </button>
+          </div>
+        }
+      >
+        {/* macOS Traffic Lights */}
+        <div class="group/traffic flex items-center gap-2">
+          {/* Close */}
+          <button
+            type="button"
+            onClick={() => ctx.close()}
+            class="relative inline-flex size-3 items-center justify-center rounded-full bg-[#ff5f56] border border-[#e0443e] active:brightness-90 transition-all cursor-pointer"
+            aria-label="Close Window"
+          >
+            <svg
+              class="size-1.5 text-[#4c0000] opacity-0 group-hover/traffic:opacity-100 transition-opacity"
+              viewBox="0 0 6 6"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.2"
+            >
+              <path d="M1 1l4 4M5 1L1 5" />
+            </svg>
+          </button>
+
+          {/* Minimize */}
+          <button
+            type="button"
+            onClick={() => ctx.minimize()}
+            class="relative inline-flex size-3 items-center justify-center rounded-full bg-[#ffbd2e] border border-[#dea123] active:brightness-90 transition-all cursor-pointer"
+            aria-label="Minimize Window"
+          >
+            <svg
+              class="size-1.5 text-[#543b00] opacity-0 group-hover/traffic:opacity-100 transition-opacity"
+              viewBox="0 0 6 6"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.2"
+            >
+              <path d="M0.5 3h5" />
+            </svg>
+          </button>
+
+          {/* Maximize / Fullscreen */}
+          <button
+            type="button"
+            onClick={() => ctx.toggleMaximize()}
+            class="relative inline-flex size-3 items-center justify-center rounded-full bg-[#27c93f] border border-[#1aab29] active:brightness-90 transition-all cursor-pointer"
+            aria-label="Maximize Window"
+          >
+            <svg
+              class="size-1.5 text-[#003d07] opacity-0 group-hover/traffic:opacity-100 transition-opacity"
+              viewBox="0 0 6 6"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1"
+            >
+              <path d="M1 4.5l3.5-3.5M4.5 1h-3M4.5 1v3" />
+            </svg>
+          </button>
+        </div>
+      </Show>
+    </div>
+  );
+};
+
+/**
+ * Centered or aligned title text container.
+ */
+export interface TitlebarTitleProps extends JSX.HTMLAttributes<HTMLDivElement> {
+  align?: "center" | "start";
+}
+
+export const TitlebarTitle: ParentComponent<TitlebarTitleProps> = (props) => {
+  const [local, rest] = splitProps(props, ["align", "class", "children"]);
+  const ctx = useTitlebar();
+
+  const alignmentClass = () => {
+    if (local.align) {
+      return local.align === "center" ? "justify-center text-center" : "justify-start text-left";
+    }
+    return ctx.platform() === "macos" ? "justify-center text-center" : "justify-start text-left";
   };
 
   return (
     <div
-      data-tauri-drag-region={false}
+      data-tauri-drag-region
       class={cn(
-        "flex items-center shrink-0 z-10",
-        currentPlatform() === "macos" ? "gap-2 pr-2" : "gap-0 -mr-3 h-full",
-        local.class
-      )}
-      {...rest}
-    >
-      {/* --- macOS Traffic Lights --- */}
-      <Show when={currentPlatform() === "macos"}>
-        {/* Close button (Red) */}
-        <button
-          type="button"
-          aria-label="Close Window"
-          onClick={(e) => {
-            e.stopPropagation();
-            close();
-          }}
-          class="group/btn relative size-3 rounded-full bg-[#ff5f56] border border-[#e0443e] flex items-center justify-center cursor-pointer transition-transform active:scale-95"
-        >
-          <svg class="size-2 opacity-0 group-hover/btn:opacity-100 text-[#4c0002] transition-opacity" viewBox="0 0 6 6" fill="currentColor">
-            <path d="M0.85 0.15L3 2.3 5.15 0.15a.5.5 0 01.7.7L3.7 3l2.15 2.15a.5.5 0 01-.7.7L3 3.7 0.85 5.85a.5.5 0 01-.7-.7L2.3 3 0.15 0.85a.5.5 0 01.7-.7z" />
-          </svg>
-        </button>
-
-        {/* Minimize button (Amber) */}
-        <button
-          type="button"
-          aria-label="Minimize Window"
-          onClick={(e) => {
-            e.stopPropagation();
-            minimize();
-          }}
-          class="group/btn relative size-3 rounded-full bg-[#ffbd2e] border border-[#dea123] flex items-center justify-center cursor-pointer transition-transform active:scale-95"
-        >
-          <svg class="size-2 opacity-0 group-hover/btn:opacity-100 text-[#543b00] transition-opacity" viewBox="0 0 6 6" fill="currentColor">
-            <path d="M0.5 2.5h5a.5.5 0 010 1h-5a.5.5 0 010-1z" />
-          </svg>
-        </button>
-
-        {/* Maximize / Fullscreen button (Green) */}
-        <button
-          type="button"
-          aria-label="Maximize Window"
-          onClick={(e) => {
-            e.stopPropagation();
-            toggleMaximize();
-          }}
-          class="group/btn relative size-3 rounded-full bg-[#27c93f] border border-[#1aab29] flex items-center justify-center cursor-pointer transition-transform active:scale-95"
-        >
-          <svg class="size-2 opacity-0 group-hover/btn:opacity-100 text-[#004d0b] transition-opacity" viewBox="0 0 6 6" fill="currentColor">
-            <path d="M0.5 0.5h2v1H1.5v1h-1v-2zm5 5h-2v-1h1v-1h1v2z" />
-          </svg>
-        </button>
-      </Show>
-
-      {/* --- Windows 11 Fluent Controls --- */}
-      <Show when={currentPlatform() === "windows"}>
-        {/* Minimize Button */}
-        <button
-          type="button"
-          aria-label="Minimize"
-          onClick={(e) => {
-            e.stopPropagation();
-            minimize();
-          }}
-          class="inline-flex h-full w-11 items-center justify-center text-muted-foreground hover:bg-muted/80 hover:text-foreground transition-colors cursor-pointer"
-        >
-          <svg class="size-3" viewBox="0 0 10 1" fill="currentColor">
-            <rect width="10" height="1" />
-          </svg>
-        </button>
-
-        {/* Maximize / Restore Button */}
-        <button
-          type="button"
-          aria-label="Maximize"
-          onClick={(e) => {
-            e.stopPropagation();
-            toggleMaximize();
-          }}
-          class="inline-flex h-full w-11 items-center justify-center text-muted-foreground hover:bg-muted/80 hover:text-foreground transition-colors cursor-pointer"
-        >
-          <Show
-            when={isMaximized()}
-            fallback={
-              <svg class="size-2.5" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1">
-                <rect x="0.5" y="0.5" width="9" height="9" />
-              </svg>
-            }
-          >
-            <svg class="size-2.5" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1">
-              <path d="M2.5 0.5h7v7h-1v-6h-6v-1z" />
-              <rect x="0.5" y="2.5" width="7" height="7" />
-            </svg>
-          </Show>
-        </button>
-
-        {/* Close Button (Hover red) */}
-        <button
-          type="button"
-          aria-label="Close"
-          onClick={(e) => {
-            e.stopPropagation();
-            close();
-          }}
-          class="inline-flex h-full w-11 items-center justify-center text-muted-foreground hover:bg-[#e81123] hover:text-white transition-colors cursor-pointer"
-        >
-          <svg class="size-3" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1">
-            <path d="M1 1l8 8M9 1L1 9" />
-          </svg>
-        </button>
-      </Show>
-    </div>
-  );
-};
-
-/* --- 5. TitlebarTitle --- */
-export interface TitlebarTitleProps extends JSX.HTMLAttributes<HTMLDivElement> {
-  class?: string;
-}
-
-export const TitlebarTitle: ParentComponent<TitlebarTitleProps> = (props) => {
-  const [local, rest] = splitProps(props, ["class", "children"]);
-
-  return (
-    <div
-      data-tauri-drag-region=""
-      class={cn(
-        "flex flex-1 items-center gap-2 overflow-hidden px-2 font-medium tracking-tight truncate pointer-events-none",
+        "flex flex-1 items-center gap-2 font-medium truncate pointer-events-none",
+        alignmentClass(),
         local.class
       )}
       {...rest}
@@ -309,18 +319,15 @@ export const TitlebarTitle: ParentComponent<TitlebarTitleProps> = (props) => {
   );
 };
 
-/* --- 6. TitlebarIcon --- */
-export interface TitlebarIconProps extends JSX.HTMLAttributes<HTMLDivElement> {
-  class?: string;
-}
-
-export const TitlebarIcon: ParentComponent<TitlebarIconProps> = (props) => {
+/**
+ * App icon slot within Titlebar.
+ */
+export const TitlebarIcon: ParentComponent<JSX.HTMLAttributes<HTMLDivElement>> = (props) => {
   const [local, rest] = splitProps(props, ["class", "children"]);
-
   return (
     <div
-      data-tauri-drag-region=""
-      class={cn("flex size-4 items-center justify-center shrink-0 mr-1.5", local.class)}
+      data-no-drag
+      class={cn("flex shrink-0 items-center justify-center size-4 text-muted-foreground", local.class)}
       {...rest}
     >
       {local.children}
@@ -328,21 +335,21 @@ export const TitlebarIcon: ParentComponent<TitlebarIconProps> = (props) => {
   );
 };
 
-/* --- 7. TitlebarActions --- */
-export interface TitlebarActionsProps extends JSX.HTMLAttributes<HTMLDivElement> {
-  class?: string;
-}
-
-export const TitlebarActions: ParentComponent<TitlebarActionsProps> = (props) => {
+/**
+ * Action buttons container (Search, Settings, Menu) placed in the titlebar.
+ */
+export const TitlebarActions: ParentComponent<JSX.HTMLAttributes<HTMLDivElement>> = (props) => {
   const [local, rest] = splitProps(props, ["class", "children"]);
-
   return (
     <div
-      data-tauri-drag-region={false}
-      class={cn("flex items-center gap-1.5 shrink-0 z-10", local.class)}
+      data-no-drag
+      class={cn("flex items-center gap-1 shrink-0 z-10", local.class)}
       {...rest}
     >
       {local.children}
     </div>
   );
 };
+
+/* --- 6. Re-export TitlebarTabs Suite --- */
+export * from "./titlebar-tabs";
