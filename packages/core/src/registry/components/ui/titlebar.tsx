@@ -10,7 +10,7 @@ import {
   type Accessor,
 } from "solid-js";
 import { cva, type VariantProps } from "class-variance-authority";
-import { createTauriWindow, type TauriPlatform, detectPlatform } from "@/hooks/create-tauri-window";
+import { createTauriWindow, type TauriPlatform, detectPlatform } from "@nikala-ui/hooks";
 import { cn } from "@/lib/cn";
 
 /* --- 1. Context & Types --- */

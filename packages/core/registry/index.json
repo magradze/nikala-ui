@@ -757,7 +757,8 @@
       "clsx",
       "tailwind-merge",
       "class-variance-authority",
-      "lucide-solid"
+      "lucide-solid",
+      "@nikala-ui/hooks"
     ],
     "registryDependencies": [
       "button",
@@ -774,7 +775,8 @@
       "clsx",
       "tailwind-merge",
       "class-variance-authority",
-      "lucide-solid"
+      "lucide-solid",
+      "@nikala-ui/hooks"
     ],
     "registryDependencies": [
       "titlebar-tabs",
@@ -841,7 +843,8 @@
     "dependencies": [
       "clsx",
       "tailwind-merge",
-      "lucide-solid"
+      "lucide-solid",
+      "@nikala-ui/hooks"
     ],
     "registryDependencies": [
       "dialog",

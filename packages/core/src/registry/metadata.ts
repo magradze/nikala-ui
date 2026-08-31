@@ -366,19 +366,19 @@ export const COMPONENT_METADATA: Record<string, ComponentMeta> = {
   titlebar: {
     title: "Titlebar",
     description: "A native-feeling custom titlebar for frameless desktop windows supporting macOS Traffic Lights and Windows 11 controls.",
-    dependencies: ["clsx", "tailwind-merge", "class-variance-authority", "lucide-solid"],
+    dependencies: ["clsx", "tailwind-merge", "class-variance-authority", "lucide-solid", "@nikala-ui/hooks"],
     registryDependencies: ["titlebar-tabs", "button", "tooltip", "create-tauri-window", "create-document-tabs"],
   },
   "titlebar-tabs": {
     title: "Titlebar Tabs",
     description: "Native draggable tab bar integrated directly inside desktop titlebars for multi-document applications.",
-    dependencies: ["clsx", "tailwind-merge", "class-variance-authority", "lucide-solid"],
+    dependencies: ["clsx", "tailwind-merge", "class-variance-authority", "lucide-solid", "@nikala-ui/hooks"],
     registryDependencies: ["button", "tooltip", "create-document-tabs"],
   },
   "updater-modal": {
     title: "Updater Modal",
     description: "An automated application auto-updater dialog for Tauri v2 with release notes preview, download progress bar, and relaunch actions.",
-    dependencies: ["clsx", "tailwind-merge", "lucide-solid"],
+    dependencies: ["clsx", "tailwind-merge", "lucide-solid", "@nikala-ui/hooks"],
     registryDependencies: ["dialog", "button", "badge", "progress", "alert", "create-app-updater"],
   },
 };
