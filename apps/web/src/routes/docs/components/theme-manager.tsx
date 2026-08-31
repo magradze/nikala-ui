@@ -249,6 +249,19 @@ export default function ThemeManagerDocsPage() {
                 </div>
               </div>
             </ComponentPreview>
+
+            <Alert variant="warning" class="border-border/60 bg-muted/30">
+              <Info class="size-4 text-primary" />
+              <AlertTitle>Platform & Engine Compatibility</AlertTitle>
+              <AlertDescription class="space-y-1.5 text-xs text-muted-foreground">
+                <p>
+                  • <strong>Web & Desktop (Windows & macOS)</strong>: Full native support in Chromium browsers, Microsoft Edge WebView2 (Tauri on Windows), and Apple WKWebView (Tauri on macOS / Safari 18+).
+                </p>
+                <p>
+                  • <strong>Desktop (Linux WebKitGTK)</strong>: In Tauri Linux environments, View Transitions automatically degrade to safe instant mode (<code class="bg-muted px-1 py-0.5 rounded font-mono">effect="none"</code>) to prevent WebKitGTK hardware layer faults.
+                </p>
+              </AlertDescription>
+            </Alert>
           </div>
 
           {/* Programmatic Access */}
