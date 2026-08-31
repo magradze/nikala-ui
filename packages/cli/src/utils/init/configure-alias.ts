@@ -15,32 +15,39 @@ export async function configureAliases(cwd: string): Promise<void> {
     let configContent = await fs.readFile(targetConfigPath, "utf-8");
     let modified = false;
 
+    // 1. Inject Tailwind CSS v4 Vite plugin if missing
     if (!configContent.includes("@tailwindcss/vite")) {
       configContent = `import tailwindcss from "@tailwindcss/vite";\n${configContent}`;
 
       if (configContent.includes("plugins: [")) {
         configContent = configContent.replace("plugins: [", "plugins: [\n    tailwindcss(), ");
-      } else if (configContent.includes("defineConfig({")) {
-        configContent = configContent.replace(
-          "defineConfig({",
-          "defineConfig({\n  plugins: [tailwindcss()],"
-        );
+        modified = true;
+      } else {
+        const defineConfigRegex = /(defineConfig\s*\(\s*(?:async\s*)?(?:\([^)]*\)\s*=>\s*)?\{)/;
+        if (defineConfigRegex.test(configContent)) {
+          configContent = configContent.replace(
+            defineConfigRegex,
+            "$1\n  plugins: [tailwindcss()],"
+          );
+          modified = true;
+        }
       }
-      modified = true;
     }
 
+    // 2. Inject path alias (@ -> ./src)
     if (!configContent.includes('"@"') && !configContent.includes("'@'")) {
       if (!configContent.includes('import path from "node:path"') && !configContent.includes('import path from "path"')) {
         configContent = `import path from "node:path";\n${configContent}`;
       }
 
-      if (configContent.includes("defineConfig({")) {
+      const defineConfigRegex = /(defineConfig\s*\(\s*(?:async\s*)?(?:\([^)]*\)\s*=>\s*)?\{)/;
+      if (defineConfigRegex.test(configContent)) {
         configContent = configContent.replace(
-          "defineConfig({",
-          `defineConfig({\n  resolve: {\n    alias: {\n      "@": path.resolve(__dirname, "./src"),\n    },\n  },`
+          defineConfigRegex,
+          `$1\n  resolve: {\n    alias: {\n      "@": path.resolve(process.cwd(), "./src"),\n    },\n  },`
         );
+        modified = true;
       }
-      modified = true;
     }
 
     if (modified) {
@@ -49,6 +56,7 @@ export async function configureAliases(cwd: string): Promise<void> {
     }
   }
 
+  // 3. Configure tsconfig.json path mappings (@/* -> ./src/*)
   const tsconfigPath = path.join(cwd, "tsconfig.json");
   if (await fs.pathExists(tsconfigPath)) {
     const tsconfig = await readTsConfig(cwd);

@@ -367,7 +367,7 @@ export const COMPONENT_METADATA: Record<string, ComponentMeta> = {
     title: "Titlebar",
     description: "A native-feeling custom titlebar for frameless desktop windows supporting macOS Traffic Lights and Windows 11 controls.",
     dependencies: ["clsx", "tailwind-merge", "class-variance-authority", "lucide-solid"],
-    registryDependencies: ["button", "tooltip", "create-tauri-window", "create-document-tabs"],
+    registryDependencies: ["titlebar-tabs", "button", "tooltip", "create-tauri-window", "create-document-tabs"],
   },
   "titlebar-tabs": {
     title: "Titlebar Tabs",

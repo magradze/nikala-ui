@@ -777,6 +777,7 @@
       "lucide-solid"
     ],
     "registryDependencies": [
+      "titlebar-tabs",
       "button",
       "tooltip",
       "create-tauri-window",

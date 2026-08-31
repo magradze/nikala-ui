@@ -20,7 +20,7 @@ Nikala UI rejects heavy `node_modules` UI dependencies for component structures 
 - **Native SolidJS Reactivity**: Fine-grained reactive signals, props splitting (`splitProps`), and explicit memoization (`children(() => props.children)`).
 - **Tailwind CSS v4 Native**: Built on modern `@import "tailwindcss";` setups, CSS-first `@theme` variables, and semantic color design tokens without legacy JS configs.
 - **Full Source Ownership**: The CLI writes components to `src/components/ui/` and primitive hooks directly to `src/hooks/`. Developers own, inspect, and customize all generated source files.
-- **Tauri v2 Desktop Native**: First-class support for cross-platform desktop applications (macOS, Windows 11, Linux) with custom frameless window chrome, drag regions, and native OS hotkey primitives.
+- **Tauri v2 Desktop Native**: First-class support for cross-platform desktop applications (macOS, Windows 11, Linux) with custom frameless window chrome, drag regions, auto-updaters, and native OS hotkey primitives.
 - **Zero Lock-In**: Decoupled `@nikala-ui/cli` client, `@nikala-ui/core` registry, and `@nikala-ui/mcp` server for remote HTTP(S) manifest installs and direct AI IDE integration.
 - **Model Context Protocol (MCP)**: Native `@nikala-ui/mcp` integration supporting Stdio local execution (`npx @nikala-ui/mcp`) and remote HTTP/SSE streaming (`https://nikala.dev/api/mcp/sse`) with callable tools, pre-built AI prompts, and SolidJS engineering resources.
 
@@ -42,7 +42,7 @@ bunx @nikala-ui/cli rules
 
 ### Listing Catalog & Installed Items
 ```bash
-# List all 67 components and 45 hooks with installation status
+# List all components and hooks with installation status
 bunx @nikala-ui/cli list
 # Shortcut alias
 bunx @nikala-ui/cli ls
@@ -64,7 +64,7 @@ bunx @nikala-ui/cli list --json
 bunx @nikala-ui/cli add
 
 # Direct installation of specific UI and Desktop components
-bunx @nikala-ui/cli add button input card dialog sidebar titlebar
+bunx @nikala-ui/cli add button input card dialog sidebar titlebar updater-modal
 
 # Add all available UI components
 bunx @nikala-ui/cli add --all
@@ -99,10 +99,10 @@ bunx @nikala-ui/cli remove -h create-clipboard
 bunx @nikala-ui/cli add --hook
 
 # Direct copy-paste installation of specific hooks to src/hooks/
-bunx @nikala-ui/cli add --hook create-audio create-fetch create-clipboard create-tauri-window
+bunx @nikala-ui/cli add --hook create-audio create-fetch create-clipboard create-tauri-window create-document-tabs
 
 # Shortcut option (-h)
-bunx @nikala-ui/cli add -h create-global-shortcut create-websocket create-drop-zone
+bunx @nikala-ui/cli add -h create-global-shortcut create-app-updater create-websocket create-drop-zone
 ```
 
 ### Theme Management & Diagnostics
@@ -136,10 +136,11 @@ When generating or editing SolidJS code using Nikala UI components and hooks, AI
 5. **Hook Imports**:
    - Import copy-pasted hooks locally from project alias: `import { createClipboard } from "@/hooks/create-clipboard";`
    - Import desktop hooks locally: `import { createTauriWindow } from "@/hooks/create-tauri-window";`
+   - Import document tabs: `import { createDocumentTabs } from "@/hooks/create-document-tabs";`
 
 ---
 
-## 4. UI Components Registry (67 Components)
+## 4. UI & Desktop Components Registry (69 Components)
 
 Below is the complete inventory of available Nikala UI components with exported JSX elements:
 
@@ -206,62 +207,66 @@ Below is the complete inventory of available Nikala UI components with exported 
 61. **Theme Manager**: `ThemeProvider`, `ThemeScript`, `ThemeToggle`, `useTheme`
 62. **Timeline**: `Timeline`, `TimelineItem`, `TimelineSeparator`, `TimelineIndicator`, `TimelineConnector`, `TimelineContent`, `TimelineHeader`, `TimelineTitle`, `TimelineDescription`, `TimelineTime`
 63. **Titlebar**: `Titlebar`, `TitlebarControls`, `TitlebarTitle`, `TitlebarIcon`, `TitlebarActions`, `useTitlebar`
-64. **Toast**: `Toast`, `ToastTitle`, `ToastDescription`, `ToastCloseButton`, `ToastRegion`, `ToastList`, `showToast`
-65. **Toggle**: `Toggle`
-66. **Toggle Group**: `ToggleGroup`, `ToggleGroupItem`
-67. **Tooltip**: `Tooltip`, `TooltipTrigger`, `TooltipContent`, `TooltipArrow`
+64. **TitlebarTabs**: `TitlebarTabs`, `TitlebarTabList`, `TitlebarTab`, `TitlebarTabAddButton`, `useTitlebarTabs`
+65. **Toast**: `Toast`, `ToastTitle`, `ToastDescription`, `ToastCloseButton`, `ToastRegion`, `ToastList`, `showToast`
+66. **Toggle**: `Toggle`
+67. **Toggle Group**: `ToggleGroup`, `ToggleGroupItem`
+68. **Tooltip**: `Tooltip`, `TooltipTrigger`, `TooltipContent`, `TooltipArrow`
+69. **UpdaterModal / UpdaterDialog**: `UpdaterModal`
 
 ---
 
-## 5. Reactive Primitives / Hooks Registry (45 Hooks)
+## 5. Reactive Primitives / Hooks Registry (47 Hooks)
 
 Nikala UI primitives are written directly to `src/hooks/<hook-name>.ts`. Below is the complete catalog:
 
 1. **`createActiveElement`** — Tracks currently focused DOM element (`activeElement()`, `hasFocus()`).
-2. **`createAudio` / `createVideo`** — Controls media playback (`isPlaying()`, `duration()`, `currentTime()`, `toggle()`, `seek()`, `setVolume()`).
-3. **`createBattery`** — Observes device battery level, charging status, and time metrics.
-4. **`createChatScroll`** — Automated conversation container scrolling with manual user scroll-up detection.
-5. **`createClickOutside`** — Detects clicks outside target element refs (`createClickOutside(targetRef, handler)`).
-6. **`createClipboard`** — Copies text to clipboard with auto-reset status (`copied()`, `copy(text)`, `error()`).
-7. **`createColorMode`** — Manages dark/light theme signals and system preference detection.
-8. **`createControllableSignal`** — Primitive supporting both controlled and uncontrolled state patterns.
-9. **`createDebounce` / `createThrottle`** — Rate-limits function executions and reactive signal updates.
-10. **`createDisclosure`** — Manages boolean open/close disclosure state (`isOpen()`, `open()`, `close()`, `toggle()`).
-11. **`createDocumentTitle`** — Dynamically updates browser tab title with restore on unmount.
-12. **`createDropZone`** — Drag-and-drop file upload operations, file validation, and native file chooser trigger.
-13. **`createEventSource`** — Subscribes to Server-Sent Events (SSE) streams (`data()`, `status()`, `close()`).
-14. **`createFavicon`** — Updates browser tab favicon dynamically from URLs or SVG data URIs.
-15. **`createFetch`** — Handles HTTP REST API requests (`data()`, `loading()`, `error()`, `refetch()`).
-16. **`createFocusTrap`** — Traps keyboard focus inside modal containers for accessibility.
-17. **`createForm`** — Handles form field state, dynamic validation rules, errors, and submission.
-18. **`createFullscreen`** — Requests and monitors element or document fullscreen state (`isFullscreen()`, `toggle()`).
-19. **`createGeolocation`** — Tracks real-time GPS coordinates, accuracy, speed, and heading.
-20. **`createGlobalShortcut`** — Registers native system-wide OS global hotkeys via Tauri v2 plugin with web keyboard fallback (`register()`, `unregister()`, `isRegistered()`).
-21. **`createHover`** — Tracks element mouse hover state with enter/exit delay configurations.
-22. **`createIdle`** — Detects user inactivity after customizable timeout threshold (`isIdle()`).
-23. **`createInfiniteScroll`** — Manages infinite scroll pagination and auto-fetching next page triggers.
-24. **`createInputMask`** — Applies formatting masks (phone numbers, credit cards, dates) to text inputs.
-25. **`createIntersectionObserver`** — Observes element visibility and viewport intersection ratios.
-26. **`createKeybindings`** — Listens to keyboard shortcuts, key combinations, and Escape key presses.
-27. **`createLockScroll`** — Locks body or scrollable container scrolling when overlays are active.
-28. **`createLongPress`** — Detects long press / touch hold interactions with custom duration.
-29. **`createMediaQuery`** — Tracks CSS media queries and responsive Tailwind breakpoints.
-30. **`createMousePosition`** — Tracks global window and element-relative cursor coordinates.
-31. **`createNetworkStatus`** — Tracks browser online/offline status and network connection type.
-32. **`createOrientation`** — Monitors screen orientation (`portrait` / `landscape`) and rotation angle.
-33. **`createPagination`** — Calculates pagination state, page ranges with ellipses, and jump actions.
-34. **`createPermission`** — Queries and observes browser permission states (`granted`, `denied`, `prompt`).
-35. **`createPrevious`** — Accesses previous value of a reactive signal accessor.
-36. **`createResizeObserver`** — Observes element width, height, and content box bounding rects.
-37. **`createScrollIntoView`** — Smoothly scrolls target element or ref into container viewport.
-38. **`createScrollPosition`** — Tracks container scroll offset (X, Y), scroll direction, and boundaries.
-39. **`createStorage`** — Reactive `createLocalStorage` and `createSessionStorage` with cross-tab sync.
-40. **`createTauriWindow`** — Fine-grained reactive signals and actions for Tauri desktop windows (`isMaximized()`, `isMinimized()`, `isFullscreen()`, `isFocused()`, `minimize()`, `maximize()`, `toggleMaximize()`, `close()`, `startDragging()`).
-41. **`createTimer`** — Provides interval timers, stopwatch counters, and formatted countdowns.
-42. **`createUndoRedo`** — Manages undo/redo state history stacks and pointer state resets.
-43. **`createWebNotification`** — Sends native browser desktop notifications and handles permission requests.
-44. **`createWebSocket`** — WebSocket client connection manager with auto-reconnect and message parsing.
-45. **`createWindowSize`** — Tracks window inner width and inner height reactively.
+2. **`createAppUpdater`** — Controls and observes Tauri v2 application updates, download progress stream, and app relaunch (`status()`, `progress()`, `updateInfo()`, `checkForUpdates()`, `downloadAndInstall()`, `relaunch()`).
+3. **`createAudio` / `createVideo`** — Controls media playback (`isPlaying()`, `duration()`, `currentTime()`, `toggle()`, `seek()`, `setVolume()`).
+4. **`createBattery`** — Observes device battery level, charging status, and time metrics.
+5. **`createChatScroll`** — Automated conversation container scrolling with manual user scroll-up detection.
+6. **`createClickOutside`** — Detects clicks outside target element refs (`createClickOutside(targetRef, handler)`).
+7. **`createClipboard`** — Copies text to clipboard with auto-reset status (`copied()`, `copy(text)`, `error()`).
+8. **`createColorMode`** — Manages dark/light theme signals and system preference detection.
+9. **`createControllableSignal`** — Primitive supporting both controlled and uncontrolled state patterns.
+10. **`createDebounce` / `createThrottle`** — Rate-limits function executions and reactive signal updates.
+11. **`createDisclosure`** — Manages boolean open/close disclosure state (`isOpen()`, `open()`, `close()`, `toggle()`).
+12. **`createDocumentTabs`** — Fine-grained reactive management for multi-document tabs, editor buffers, and browser tab stacks with mouse wheel scrolling, pinned tabs, unsaved dirty state, and adjacent activation on close (`tabs()`, `activeTabId()`, `addTab()`, `closeTab()`, `markDirty()`, `togglePin()`, `closeOthers()`).
+13. **`createDocumentTitle`** — Dynamically updates browser tab title with restore on unmount.
+14. **`createDropZone`** — Drag-and-drop file upload operations, file validation, and native file chooser trigger.
+15. **`createEventSource`** — Subscribes to Server-Sent Events (SSE) streams (`data()`, `status()`, `close()`).
+16. **`createFavicon`** — Updates browser tab favicon dynamically from URLs or SVG data URIs.
+17. **`createFetch`** — Handles HTTP REST API requests (`data()`, `loading()`, `error()`, `refetch()`).
+18. **`createFocusTrap`** — Traps keyboard focus inside modal containers for accessibility.
+19. **`createForm`** — Handles form field state, dynamic validation rules, errors, and submission.
+20. **`createFullscreen`** — Requests and monitors element or document fullscreen state (`isFullscreen()`, `toggle()`).
+21. **`createGeolocation`** — Tracks real-time GPS coordinates, accuracy, speed, and heading.
+22. **`createGlobalShortcut`** — Registers native system-wide OS global hotkeys via Tauri v2 plugin with web keyboard fallback (`register()`, `unregister()`, `isRegistered()`).
+23. **`createHover`** — Tracks element mouse hover state with enter/exit delay configurations.
+24. **`createIdle`** — Detects user inactivity after customizable timeout threshold (`isIdle()`).
+25. **`createInfiniteScroll`** — Manages infinite scroll pagination and auto-fetching next page triggers.
+26. **`createInputMask`** — Applies formatting masks (phone numbers, credit cards, dates) to text inputs.
+27. **`createIntersectionObserver`** — Observes element visibility and viewport intersection ratios.
+28. **`createKeybindings`** — Listens to keyboard shortcuts, key combinations, and Escape key presses.
+29. **`createLockScroll`** — Locks body or scrollable container scrolling when overlays are active.
+30. **`createLongPress`** — Detects long press / touch hold interactions with custom duration.
+31. **`createMediaQuery`** — Tracks CSS media queries and responsive Tailwind breakpoints.
+32. **`createMousePosition`** — Tracks global window and element-relative cursor coordinates.
+33. **`createNetworkStatus`** — Tracks browser online/offline status and network connection type.
+34. **`createOrientation`** — Monitors screen orientation (`portrait` / `landscape`) and rotation angle.
+35. **`createPagination`** — Calculates pagination state, page ranges with ellipses, and jump actions.
+36. **`createPermission`** — Queries and observes browser permission states (`granted`, `denied`, `prompt`).
+37. **`createPrevious`** — Accesses previous value of a reactive signal accessor.
+38. **`createResizeObserver`** — Observes element width, height, and content box bounding rects.
+39. **`createScrollIntoView`** — Smoothly scrolls target element or ref into container viewport.
+40. **`createScrollPosition`** — Tracks container scroll offset (X, Y), scroll direction, and boundaries.
+41. **`createStorage`** — Reactive `createLocalStorage` and `createSessionStorage` with cross-tab sync.
+42. **`createTauriWindow`** — Fine-grained reactive signals and actions for Tauri desktop windows (`isMaximized()`, `isMinimized()`, `isFullscreen()`, `isFocused()`, `minimize()`, `maximize()`, `toggleMaximize()`, `close()`, `startDragging()`).
+43. **`createTimer`** — Provides interval timers, stopwatch counters, and formatted countdowns.
+44. **`createUndoRedo`** — Manages undo/redo state history stacks and pointer state resets.
+45. **`createWebNotification`** — Sends native browser desktop notifications and handles permission requests.
+46. **`createWebSocket`** — WebSocket client connection manager with auto-reconnect and message parsing.
+47. **`createWindowSize`** — Tracks window inner width and inner height reactively.
 
 ---
 
@@ -269,53 +274,74 @@ Nikala UI primitives are written directly to `src/hooks/<hook-name>.ts`. Below i
 
 Nikala UI provides a complete desktop-first UI system tailored for **Tauri v2** and **SolidJS**.
 
-### Frameless Window Chrome (`Titlebar`)
+### Frameless Window Chrome & Tabs (`Titlebar` + `TitlebarTabs`)
 ```tsx
 import {
   Titlebar,
   TitlebarControls,
-  TitlebarTitle,
-  TitlebarIcon,
-  TitlebarActions,
+  TitlebarTabs,
 } from "@/components/ui/titlebar";
-import { Button } from "@/components/ui/button";
+import { createDocumentTabs } from "@/hooks/create-document-tabs";
+import { FileCode, Terminal } from "lucide-solid";
 
-export function AppHeader() {
+export function DesktopEditorHeader() {
+  const tabs = createDocumentTabs({
+    initialTabs: [
+      { id: "main.rs", title: "main.rs", icon: Terminal, isPinned: true },
+      { id: "app.tsx", title: "App.tsx", icon: FileCode, isDirty: true },
+    ],
+    enableKeybindings: true, // Enables Ctrl+W / Cmd+W to close active tab
+  });
+
+  const handleAddTab = () => {
+    const id = `doc-${tabs.count() + 1}.ts`;
+    tabs.addTab({ id, title: id, icon: FileCode });
+  };
+
   return (
-    <Titlebar platform="macos">
-      <TitlebarControls />
-      <TitlebarTitle>My Desktop App</TitlebarTitle>
-      <TitlebarActions>
-        <Button variant="ghost" size="sm">Settings</Button>
-      </TitlebarActions>
+    <Titlebar platform="macos" class="h-10 bg-card border-b">
+      <TitlebarControls platform="macos" class="mr-2" />
+
+      {/* 1-Liner Declarative Tabs with Mouse Wheel Scrolling & Anchored Add Button */}
+      <TitlebarTabs
+        manager={tabs}
+        variant="editor"
+        onAddTab={handleAddTab}
+      />
     </Titlebar>
   );
 }
 ```
 
-### Tauri Reactive Window Management (`createTauriWindow`)
+### Tauri Auto-Updater Modal (`UpdaterModal` + `createAppUpdater`)
 ```tsx
-import { createTauriWindow } from "@/hooks/create-tauri-window";
+import { createSignal } from "solid-js";
+import { UpdaterModal } from "@/components/ui/updater-modal";
+import { createAppUpdater } from "@/hooks/create-app-updater";
+import { Button } from "@/components/ui/button";
 
-export function WindowControls() {
-  const {
-    isTauri,
-    platform,
-    isMaximized,
-    isMinimized,
-    minimize,
-    toggleMaximize,
-    close,
-  } = createTauriWindow();
+export function AppUpdater() {
+  const [isOpen, setIsOpen] = createSignal(false);
+
+  const updater = createAppUpdater({
+    autoCheck: true,
+    currentVersion: "v1.0.0",
+    onUpdateAvailable: () => setIsOpen(true),
+  });
 
   return (
-    <div class="flex items-center gap-2">
-      <button onClick={minimize}>Minimize</button>
-      <button onClick={toggleMaximize}>
-        {isMaximized() ? "Restore" : "Maximize"}
-      </button>
-      <button onClick={close}>Close</button>
-    </div>
+    <>
+      <Button onClick={() => updater.checkForUpdates()}>
+        Check for Updates
+      </Button>
+
+      <UpdaterModal
+        open={isOpen()}
+        onOpenChange={setIsOpen}
+        updater={updater}
+        appName="Nikala Studio"
+      />
+    </>
   );
 }
 ```
@@ -345,7 +371,7 @@ createGlobalShortcut({
 - Tauri v2 Setup Guide: https://nikala.dev/docs/desktop/setup
 - Live Interactive Playground: https://nikala.dev/playground
 
-### All Component Pages (67 Components)
+### All Component Pages (69 Components)
 - Accordion: https://nikala.dev/docs/components/accordion
 - Alert: https://nikala.dev/docs/components/alert
 - Aspect Ratio: https://nikala.dev/docs/components/aspect-ratio
@@ -408,13 +434,16 @@ createGlobalShortcut({
 - Theme Manager: https://nikala.dev/docs/components/theme-manager
 - Timeline: https://nikala.dev/docs/components/timeline
 - Titlebar: https://nikala.dev/docs/desktop/titlebar
+- TitlebarTabs: https://nikala.dev/docs/desktop/titlebar-tabs
 - Toast: https://nikala.dev/docs/components/toast
 - Toggle Group: https://nikala.dev/docs/components/toggle-group
 - Toggle: https://nikala.dev/docs/components/toggle
 - Tooltip: https://nikala.dev/docs/components/tooltip
+- UpdaterModal / UpdaterDialog: https://nikala.dev/docs/desktop/updater-dialog
 
-### All Reactive Hooks & Primitives (45 Hooks)
+### All Reactive Hooks & Primitives (47 Hooks)
 - createActiveElement: https://nikala.dev/docs/hooks/create-active-element
+- createAppUpdater: https://nikala.dev/docs/desktop/create-app-updater
 - createAudio: https://nikala.dev/docs/hooks/create-audio
 - createBattery: https://nikala.dev/docs/hooks/create-battery
 - createChatScroll: https://nikala.dev/docs/hooks/create-chat-scroll
@@ -424,6 +453,7 @@ createGlobalShortcut({
 - createControllableSignal: https://nikala.dev/docs/hooks/create-controllable-signal
 - createDebounce: https://nikala.dev/docs/hooks/create-debounce
 - createDisclosure: https://nikala.dev/docs/hooks/create-disclosure
+- createDocumentTabs: https://nikala.dev/docs/desktop/create-document-tabs
 - createDocumentTitle: https://nikala.dev/docs/hooks/create-document-title
 - createDropZone: https://nikala.dev/docs/hooks/create-drop-zone
 - createEventSource: https://nikala.dev/docs/hooks/create-event-source

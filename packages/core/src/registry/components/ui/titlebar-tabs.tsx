@@ -20,7 +20,7 @@ import { Tooltip, TooltipTrigger, TooltipContent } from "./tooltip";
 import {
   type CreateDocumentTabsReturn,
   type TabItem,
-} from "@nikala-ui/hooks";
+} from "@/hooks/create-document-tabs";
 import { cn } from "@/lib/cn";
 
 /* --- 1. Context & Variants --- */
