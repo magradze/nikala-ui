@@ -64,7 +64,7 @@ export function MobileNav() {
       setActiveContext("hooks");
     } else if (location.pathname.startsWith("/blocks")) {
       setActiveContext("blocks");
-    } else if (location.pathname.startsWith("/docs/components")) {
+    } else {
       setActiveContext("components");
     }
   });

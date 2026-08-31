@@ -573,7 +573,10 @@ export const BLOCK_SECTIONS: NavSection[] = [
   },
 ];
 
-export const BLOCKS_SIDEBAR_NAVIGATION: NavSection[] = BLOCK_SECTIONS;
+export const BLOCKS_SIDEBAR_NAVIGATION: NavSection[] = [
+  GETTING_STARTED_SECTION,
+  ...BLOCK_SECTIONS,
+];
 
 /* --- Desktop & Tauri Suite Sections --- */
 export const DESKTOP_SECTIONS: NavSection[] = [
@@ -588,6 +591,7 @@ export const DESKTOP_SECTIONS: NavSection[] = [
     title: "Window & Chrome",
     items: [
       { title: "Titlebar", href: "/docs/desktop/titlebar", addedAt: "2026-08-31" },
+      { title: "UpdaterDialog", href: "/docs/desktop/updater-dialog", addedAt: "2026-08-31" },
     ],
   },
   {
@@ -599,7 +603,10 @@ export const DESKTOP_SECTIONS: NavSection[] = [
   },
 ];
 
-export const DESKTOP_SIDEBAR_NAVIGATION: NavSection[] = DESKTOP_SECTIONS;
+export const DESKTOP_SIDEBAR_NAVIGATION: NavSection[] = [
+  GETTING_STARTED_SECTION,
+  ...DESKTOP_SECTIONS,
+];
 
 export const COMPONENTS_SIDEBAR_NAVIGATION: NavSection[] = [
   GETTING_STARTED_SECTION,

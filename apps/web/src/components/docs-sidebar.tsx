@@ -37,19 +37,14 @@ export function isItemNew(addedAt?: string): boolean {
 
 export const DocsSidebar: Component = () => {
   const location = useLocation();
-  const [activeContext, setActiveContext] = createSignal<"hooks" | "components" | "blocks" | "desktop">("components");
 
-  createEffect(() => {
-    if (location.pathname.startsWith("/docs/desktop")) {
-      setActiveContext("desktop");
-    } else if (location.pathname.startsWith("/docs/hooks")) {
-      setActiveContext("hooks");
-    } else if (location.pathname.startsWith("/blocks")) {
-      setActiveContext("blocks");
-    } else if (location.pathname.startsWith("/docs/components")) {
-      setActiveContext("components");
-    }
-  });
+  const activeContext = () => {
+    const p = location.pathname;
+    if (p.startsWith("/docs/desktop")) return "desktop";
+    if (p.startsWith("/docs/hooks")) return "hooks";
+    if (p.startsWith("/blocks")) return "blocks";
+    return "components";
+  };
 
   // Only scroll active page item into view ONCE on initial mount / navigation
   onMount(() => {
