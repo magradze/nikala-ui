@@ -110,6 +110,10 @@ export const Titlebar: ParentComponent<TitlebarProps> = (props) => {
     else await tauriWin.close();
   };
 
+  const handleDoubleClick: JSX.EventHandlerUnion<HTMLElement, MouseEvent> = (e) => {
+    handleToggleMaximize();
+  };
+
   const handleMouseDown = (e: MouseEvent) => {
     if (e.target === e.currentTarget || (e.target as HTMLElement).getAttribute?.("data-tauri-drag-region") !== null) {
       tauriWin.startDragging(e);

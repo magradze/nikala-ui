@@ -363,6 +363,18 @@ export const COMPONENT_METADATA: Record<string, ComponentMeta> = {
     dependencies: ["clsx", "tailwind-merge", "class-variance-authority", "lucide-solid"],
     registryDependencies: ["tooltip", "skeleton", "separator"],
   },
+  titlebar: {
+    title: "Titlebar",
+    description: "A native-feeling custom titlebar for frameless desktop windows supporting macOS Traffic Lights and Windows 11 controls.",
+    dependencies: ["clsx", "tailwind-merge", "class-variance-authority"],
+    registryDependencies: ["create-tauri-window"],
+  },
+  "updater-modal": {
+    title: "Updater Modal",
+    description: "An automated application auto-updater dialog for Tauri v2 with release notes preview, download progress bar, and relaunch actions.",
+    dependencies: ["clsx", "tailwind-merge", "lucide-solid"],
+    registryDependencies: ["dialog", "button", "badge", "progress", "alert", "create-app-updater"],
+  },
 };
 
 /**
@@ -540,6 +552,18 @@ export const HOOK_METADATA: Record<string, ComponentMeta> = {
   "create-chat-scroll": {
     title: "createChatScroll",
     description: "SolidJS reactive primitive for automated chat container scrolling with manual scroll-up detection",
+  },
+  "create-tauri-window": {
+    title: "createTauriWindow",
+    description: "SolidJS reactive primitive for interacting with and controlling Tauri v2 application window states",
+  },
+  "create-global-shortcut": {
+    title: "createGlobalShortcut",
+    description: "SolidJS reactive primitive for registering OS-level global keyboard shortcuts via Tauri v2 plugin",
+  },
+  "create-app-updater": {
+    title: "createAppUpdater",
+    description: "SolidJS reactive primitive for controlling and observing Tauri v2 application updates",
   },
 };
 

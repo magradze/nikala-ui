@@ -749,6 +749,20 @@
     ]
   },
   {
+    "name": "titlebar",
+    "title": "Titlebar",
+    "description": "A native-feeling custom titlebar for frameless desktop windows supporting macOS Traffic Lights and Windows 11 controls.",
+    "type": "registry:ui",
+    "dependencies": [
+      "clsx",
+      "tailwind-merge",
+      "class-variance-authority"
+    ],
+    "registryDependencies": [
+      "create-tauri-window"
+    ]
+  },
+  {
     "name": "toast",
     "title": "Toast / Sonner",
     "description": "A succinct message displayed temporarily in a toast region, built on Kobalte primitives.",
@@ -795,6 +809,25 @@
       "clsx",
       "tailwind-merge",
       "@kobalte/core"
+    ]
+  },
+  {
+    "name": "updater-modal",
+    "title": "Updater Modal",
+    "description": "An automated application auto-updater dialog for Tauri v2 with release notes preview, download progress bar, and relaunch actions.",
+    "type": "registry:ui",
+    "dependencies": [
+      "clsx",
+      "tailwind-merge",
+      "lucide-solid"
+    ],
+    "registryDependencies": [
+      "dialog",
+      "button",
+      "badge",
+      "progress",
+      "alert",
+      "create-app-updater"
     ]
   },
   {
@@ -1153,6 +1186,24 @@
     "name": "create-chat-scroll",
     "title": "createChatScroll",
     "description": "SolidJS reactive primitive for automated chat container scrolling with manual scroll-up detection",
+    "type": "registry:hook"
+  },
+  {
+    "name": "create-tauri-window",
+    "title": "createTauriWindow",
+    "description": "SolidJS reactive primitive for interacting with and controlling Tauri v2 application window states",
+    "type": "registry:hook"
+  },
+  {
+    "name": "create-global-shortcut",
+    "title": "createGlobalShortcut",
+    "description": "SolidJS reactive primitive for registering OS-level global keyboard shortcuts via Tauri v2 plugin",
+    "type": "registry:hook"
+  },
+  {
+    "name": "create-app-updater",
+    "title": "createAppUpdater",
+    "description": "SolidJS reactive primitive for controlling and observing Tauri v2 application updates",
     "type": "registry:hook"
   }
 ]
