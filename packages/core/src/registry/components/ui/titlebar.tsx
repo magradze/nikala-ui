@@ -112,7 +112,7 @@ export const Titlebar: ParentComponent<TitlebarProps> = (props) => {
   const handleMouseDown: JSX.EventHandlerUnion<HTMLElement, MouseEvent> = (e) => {
     if (e.button === 0) {
       const target = e.target as HTMLElement;
-      if (!target.closest("button, a, input, select, textarea, [data-no-drag]")) {
+      if (!target.closest("button, a, input, select, textarea, [data-no-drag], [data-tauri-drag-region='false']")) {
         windowCtrl.startDragging(e);
       }
     }
@@ -125,7 +125,7 @@ export const Titlebar: ParentComponent<TitlebarProps> = (props) => {
     if (local.doubleClickToMaximize !== false) {
       // Don't maximize if user double-clicked an interactive button
       const target = e.target as HTMLElement;
-      if (!target.closest("button") && !target.closest("[data-no-drag]")) {
+      if (!target.closest("button, [data-no-drag], [data-tauri-drag-region='false']")) {
         toggleMaximize();
       }
     }
@@ -172,15 +172,17 @@ export interface TitlebarControlsProps extends JSX.HTMLAttributes<HTMLDivElement
 }
 
 export const TitlebarControls: Component<TitlebarControlsProps> = (props) => {
-  const [local, rest] = splitProps(props, ["platform", "class"]);
+  const [local, rest] = splitProps(props, ["platform", "class", "style"]);
   const ctx = useTitlebar();
   const activePlatform = () => local.platform || ctx.platform();
 
   return (
     <div
       data-no-drag
+      data-tauri-drag-region="false"
+      style={("-webkit-app-region: no-drag; app-region: no-drag;" + (typeof local.style === "string" ? ` ${local.style}` : "")) as any}
       class={cn(
-        "flex items-center z-10 self-stretch",
+        "flex items-center z-10 self-stretch pointer-events-auto [app-region:no-drag] [-webkit-app-region:no-drag]",
         activePlatform() === "macos"
           ? "gap-2 order-first"
           : "gap-0 -mr-3 h-full ml-auto order-last",
@@ -342,7 +344,11 @@ export const TitlebarIcon: ParentComponent<JSX.HTMLAttributes<HTMLDivElement>> =
   return (
     <div
       data-no-drag
-      class={cn("flex shrink-0 items-center justify-center size-4 text-muted-foreground order-1", local.class)}
+      data-tauri-drag-region="false"
+      class={cn(
+        "flex shrink-0 items-center justify-center size-4 text-muted-foreground order-1 pointer-events-auto [app-region:no-drag] [-webkit-app-region:no-drag]",
+        local.class
+      )}
       {...rest}
     >
       {local.children}
@@ -354,11 +360,16 @@ export const TitlebarIcon: ParentComponent<JSX.HTMLAttributes<HTMLDivElement>> =
  * Action buttons container (Search, Settings, Menu) placed in the titlebar.
  */
 export const TitlebarActions: ParentComponent<JSX.HTMLAttributes<HTMLDivElement>> = (props) => {
-  const [local, rest] = splitProps(props, ["class", "children"]);
+  const [local, rest] = splitProps(props, ["class", "children", "style"]);
   return (
     <div
       data-no-drag
-      class={cn("flex items-center gap-1 shrink-0 z-10 ml-auto order-2", local.class)}
+      data-tauri-drag-region="false"
+      style={("-webkit-app-region: no-drag; app-region: no-drag;" + (typeof local.style === "string" ? ` ${local.style}` : "")) as any}
+      class={cn(
+        "flex items-center gap-1 shrink-0 z-10 ml-auto order-2 pr-2 pointer-events-auto [app-region:no-drag] [-webkit-app-region:no-drag]",
+        local.class
+      )}
       {...rest}
     >
       {local.children}

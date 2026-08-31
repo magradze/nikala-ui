@@ -152,8 +152,10 @@ export const TitlebarTabs: ParentComponent<TitlebarTabsProps> = (props) => {
       <nav
         aria-label="Window Tabs"
         data-no-drag
+        data-tauri-drag-region="false"
+        style={"-webkit-app-region: no-drag; app-region: no-drag;" as any}
         class={cn(
-          "flex flex-1 h-full overflow-hidden z-10 min-w-0",
+          "flex flex-1 h-full overflow-hidden z-10 min-w-0 pointer-events-auto [app-region:no-drag] [-webkit-app-region:no-drag]",
           variant() === "chrome" ? "items-end" : "items-center",
           local.class
         )}
