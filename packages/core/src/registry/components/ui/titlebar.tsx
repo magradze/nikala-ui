@@ -184,8 +184,8 @@ export const TitlebarControls: Component<TitlebarControlsProps> = (props) => {
       class={cn(
         "flex items-center z-10 self-stretch shrink-0 pointer-events-auto [app-region:no-drag] [-webkit-app-region:no-drag]",
         activePlatform() === "macos"
-          ? "gap-2 px-1"
-          : "gap-0 -mr-3 h-full",
+          ? "gap-2 px-1 order-first"
+          : "gap-0 -mr-3 h-full order-last ml-auto",
         local.class
       )}
       {...rest}

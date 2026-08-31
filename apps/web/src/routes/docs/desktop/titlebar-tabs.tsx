@@ -57,7 +57,7 @@ function AppTitlebar() {
   });
 
   const handleAddTab = () => {
-    const id = \`doc-\${tabs.count() + 1}.ts\`;
+    const id = "doc-" + (tabs.count() + 1) + ".ts";
     tabs.addTab({ id, title: id, icon: FileCode });
   };
 
@@ -72,6 +72,83 @@ function AppTitlebar() {
         onAddTab={handleAddTab}
       />
     </Titlebar>
+  );
+};`;
+
+const dynamicComponentUsageCode = `import { Titlebar, TitlebarControls, TitlebarTabs } from "@/components/ui/titlebar";
+import { createDocumentTabs } from "@/hooks/create-document-tabs";
+import { Dynamic } from "solid-js/web";
+import { Show, type Component } from "solid-js";
+import { FileCode, Settings as SettingsIcon, Terminal } from "lucide-solid";
+import { CodeEditorView } from "@/components/editor-view";
+import { SettingsView } from "@/components/settings-view";
+import { TerminalView } from "@/components/terminal-view";
+
+interface TabData {
+  component: Component<any>;
+  props?: Record<string, any>;
+}
+
+function DesktopApp() {
+  const tabs = createDocumentTabs<TabData>({
+    initialTabs: [
+      {
+        id: "App.tsx",
+        title: "App.tsx",
+        icon: FileCode,
+        isDirty: true,
+        data: { component: CodeEditorView, props: { filename: "App.tsx" } },
+      },
+      {
+        id: "settings",
+        title: "Settings",
+        icon: SettingsIcon,
+        data: { component: SettingsView },
+      },
+      {
+        id: "terminal",
+        title: "Terminal",
+        icon: Terminal,
+        data: { component: TerminalView },
+      },
+    ],
+    enableKeybindings: true,
+  });
+
+  const handleAddTab = () => {
+    const id = "Untitled-" + (tabs.count() + 1) + ".tsx";
+    tabs.addTab({
+      id,
+      title: id,
+      icon: FileCode,
+      data: { component: CodeEditorView, props: { filename: id } },
+    });
+  };
+
+  return (
+    <div class="h-screen flex flex-col bg-background text-foreground">
+      {/* 1. Titlebar with Tabs */}
+      <Titlebar platform="auto" class="h-10 bg-card">
+        <TitlebarControls />
+        <TitlebarTabs
+          manager={tabs}
+          variant="editor"
+          onAddTab={handleAddTab}
+        />
+      </Titlebar>
+
+      {/* 2. Dynamic Component Rendering for Active Tab */}
+      <main class="flex-1 min-h-0 overflow-auto p-4">
+        <Show when={tabs.activeTab()?.data?.component}>
+          {(Comp) => (
+            <Dynamic
+              component={Comp()}
+              {...(tabs.activeTab()?.data?.props || {})}
+            />
+          )}
+        </Show>
+      </main>
+    </div>
   );
 };`;
 
@@ -274,13 +351,24 @@ export default function TitlebarTabsDocsPage() {
         </div>
 
         {/* Code Usage */}
-        <div class="space-y-4">
+        <div class="space-y-6">
           <DocSectionHeader
-            title="Usage Example with createDocumentTabs"
+            title="Usage Examples"
             description="Control and render desktop titlebar tabs with fine-grained reactivity"
           />
 
-          <CodeBlock code={usageCode} lang="tsx" />
+          <div class="space-y-3">
+            <h3 class="text-base font-semibold tracking-tight">1. Basic Titlebar Tabs Integration</h3>
+            <CodeBlock code={usageCode} lang="tsx" />
+          </div>
+
+          <div class="space-y-3 pt-2">
+            <h3 class="text-base font-semibold tracking-tight">2. Dynamic Component Views per Tab</h3>
+            <p class="text-sm text-muted-foreground">
+              Pass custom SolidJS components inside <code class="bg-muted px-1.5 py-0.5 rounded text-xs font-mono">tab.data.component</code> and render the active tab view dynamically using SolidJS <code class="bg-muted px-1.5 py-0.5 rounded text-xs font-mono">&lt;Dynamic&gt;</code>:
+            </p>
+            <CodeBlock code={dynamicComponentUsageCode} lang="tsx" />
+          </div>
         </div>
 
         {/* API Reference Table */}

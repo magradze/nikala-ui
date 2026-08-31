@@ -77,7 +77,10 @@ function TabManager() {
         <Button
           variant="outline"
           size="icon"
-          onClick={() => tabs.addTab({ id: \`doc-\${tabs.count() + 1}.txt\`, title: \`doc-\${tabs.count() + 1}.txt\` })}
+          onClick={() => {
+            const nextId = "doc-" + (tabs.count() + 1) + ".txt";
+            tabs.addTab({ id: nextId, title: nextId });
+          }}
           class="size-7"
         >
           <Plus class="size-3.5" />
@@ -91,6 +94,78 @@ function TabManager() {
     </Card>
   );
 }`;
+
+const dynamicTabUsageCode = `import { createDocumentTabs } from "@/hooks/create-document-tabs";
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import { Dynamic } from "solid-js/web";
+import { Show, For, type Component } from "solid-js";
+import { FileCode, Settings as SettingsIcon, Terminal } from "lucide-solid";
+import { CodeEditorView } from "@/components/editor-view";
+import { SettingsView } from "@/components/settings-view";
+import { TerminalView } from "@/components/terminal-view";
+
+interface TabData {
+  component: Component<any>;
+  props?: Record<string, any>;
+}
+
+function MultiViewWorkspace() {
+  const tabs = createDocumentTabs<TabData>({
+    initialTabs: [
+      {
+        id: "editor",
+        title: "App.tsx",
+        icon: FileCode,
+        data: { component: CodeEditorView, props: { filename: "App.tsx" } },
+      },
+      {
+        id: "settings",
+        title: "Settings",
+        icon: SettingsIcon,
+        data: { component: SettingsView },
+      },
+      {
+        id: "terminal",
+        title: "Terminal",
+        icon: Terminal,
+        data: { component: TerminalView },
+      },
+    ],
+  });
+
+  return (
+    <Card class="flex flex-col h-96 overflow-hidden p-0">
+      {/* Tab Selector Header */}
+      <div class="flex items-center gap-1 p-2 bg-muted/40 border-b border-border">
+        <For each={tabs.tabs()}>
+          {(tab) => (
+            <Button
+              size="sm"
+              variant={tabs.activeTabId() === tab.id ? "default" : "ghost"}
+              onClick={() => tabs.setActiveTab(tab.id)}
+              class="h-7 text-xs"
+            >
+              {tab.title}
+            </Button>
+          )}
+        </For>
+      </div>
+
+      {/* Active Tab Dynamic Component View */}
+      <div class="flex-1 p-4 overflow-auto">
+        <Show when={tabs.activeTab()?.data?.component}>
+          {(Comp) => (
+            <Dynamic
+              component={Comp()}
+              {...(tabs.activeTab()?.data?.props || {})}
+            />
+          )}
+        </Show>
+      </div>
+    </Card>
+  );
+};`;
 
 export default function CreateDocumentTabsDocsPage() {
   const tabs = createDocumentTabs({
@@ -308,13 +383,24 @@ export default function CreateDocumentTabsDocsPage() {
         </div>
 
         {/* Headless Usage Code */}
-        <div class="space-y-4">
+        <div class="space-y-6">
           <DocSectionHeader
-            title="Headless Usage Example"
+            title="Usage Examples"
             description="Use createDocumentTabs in any SolidJS component or custom navigation bar"
           />
 
-          <CodeBlock code={basicUsageCode} lang="tsx" />
+          <div class="space-y-3">
+            <h3 class="text-base font-semibold tracking-tight">1. Basic Tab State Management</h3>
+            <CodeBlock code={basicUsageCode} lang="tsx" />
+          </div>
+
+          <div class="space-y-3 pt-2">
+            <h3 class="text-base font-semibold tracking-tight">2. Dynamic Component Views per Tab</h3>
+            <p class="text-sm text-muted-foreground">
+              Pass custom SolidJS components inside <code class="bg-muted px-1.5 py-0.5 rounded text-xs font-mono">tab.data.component</code> and render the active tab view dynamically using SolidJS <code class="bg-muted px-1.5 py-0.5 rounded text-xs font-mono">&lt;Dynamic&gt;</code>:
+            </p>
+            <CodeBlock code={dynamicTabUsageCode} lang="tsx" />
+          </div>
         </div>
 
         {/* API Reference Table */}
