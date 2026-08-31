@@ -3,7 +3,7 @@ import { NumberField as KobalteNumberField } from "@kobalte/core/number-field";
 import { Plus, Minus } from "lucide-solid";
 import { Input } from "./input";
 import { Button } from "./button";
-import { createLongPress } from "@nikala-ui/hooks";
+import { createLongPress } from "@/hooks/create-long-press";
 import { cn } from "@/lib/cn";
 
 export interface NumberInputProps {

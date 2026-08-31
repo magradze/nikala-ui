@@ -1,6 +1,6 @@
 import { splitProps, type Component, type ComponentProps } from "solid-js";
 import { Popover as KobaltePopover } from "@kobalte/core/popover";
-import { createClickOutside } from "@nikala-ui/hooks";
+import { createClickOutside } from "@/hooks/create-click-outside";
 import { X } from "lucide-solid";
 import { cn } from "@/lib/cn";
 

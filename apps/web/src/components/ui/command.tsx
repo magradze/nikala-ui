@@ -9,7 +9,7 @@ import {
   type JSX,
   type Accessor,
 } from "solid-js";
-import { createKeybindings } from "@nikala-ui/hooks";
+import { createKeybindings } from "@/hooks/create-keybindings";
 import { Dialog } from "@kobalte/core/dialog";
 import { Search, ArrowUp, ArrowDown, CornerDownLeft } from "lucide-solid";
 import { cn } from "@/lib/cn";

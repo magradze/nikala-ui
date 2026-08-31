@@ -7,7 +7,7 @@ import {
   type JSX,
   type Accessor,
 } from "solid-js";
-import { createControllableSignal } from "@nikala-ui/hooks";
+import { createControllableSignal } from "@/hooks/create-controllable-signal";
 import { cn } from "@/lib/cn";
 
 interface TabsContextValue {

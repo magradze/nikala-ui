@@ -7,7 +7,8 @@ import {
   type JSX,
   type Accessor,
 } from "solid-js";
-import { createScrollPosition, createElementSize } from "@nikala-ui/hooks";
+import { createScrollPosition } from "@/hooks/create-scroll-position";
+import { createElementSize } from "@/hooks/create-resize-observer";
 import { cn } from "@/lib/cn";
 
 export interface ScrollAreaProps extends JSX.HTMLAttributes<HTMLDivElement> {

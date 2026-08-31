@@ -130,6 +130,9 @@
     "dependencies": [
       "clsx",
       "tailwind-merge"
+    ],
+    "registryDependencies": [
+      "create-controllable-signal"
     ]
   },
   {
@@ -173,7 +176,8 @@
       "kbd",
       "input-group",
       "list",
-      "scroll-area"
+      "scroll-area",
+      "create-keybindings"
     ]
   },
   {
@@ -218,7 +222,8 @@
       "@kobalte/core"
     ],
     "registryDependencies": [
-      "scroll-area"
+      "scroll-area",
+      "create-click-outside"
     ]
   },
   {
@@ -275,7 +280,8 @@
     "description": "Validation message helper connected to createForm errors and touched state.",
     "type": "registry:ui",
     "registryDependencies": [
-      "field"
+      "field",
+      "create-form"
     ]
   },
   {
@@ -490,6 +496,9 @@
       "tailwind-merge",
       "@kobalte/core",
       "lucide-solid"
+    ],
+    "registryDependencies": [
+      "create-click-outside"
     ]
   },
   {
@@ -581,7 +590,8 @@
       "@kobalte/core"
     ],
     "registryDependencies": [
-      "scroll-area"
+      "scroll-area",
+      "create-click-outside"
     ]
   },
   {
@@ -689,6 +699,9 @@
     "dependencies": [
       "clsx",
       "tailwind-merge"
+    ],
+    "registryDependencies": [
+      "create-controllable-signal"
     ]
   },
   {
@@ -709,6 +722,9 @@
     "dependencies": [
       "clsx",
       "tailwind-merge"
+    ],
+    "registryDependencies": [
+      "create-controllable-signal"
     ]
   },
   {
@@ -734,7 +750,8 @@
     ],
     "registryDependencies": [
       "button",
-      "dropdown-menu"
+      "dropdown-menu",
+      "create-color-mode"
     ]
   },
   {

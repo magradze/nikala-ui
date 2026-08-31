@@ -11,7 +11,7 @@ import {
   Show,
 } from "solid-js";
 import { cva, type VariantProps } from "class-variance-authority";
-import { createClickOutside } from "@nikala-ui/hooks";
+import { createClickOutside } from "@/hooks/create-click-outside";
 import { cn } from "@/lib/cn";
 import { ChevronDown } from "lucide-solid";
 

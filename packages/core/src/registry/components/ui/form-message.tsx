@@ -1,5 +1,5 @@
 import { Show, splitProps, type JSX } from "solid-js";
-import type { CreateFormReturn } from "@nikala-ui/hooks";
+import type { CreateFormReturn } from "@/hooks/create-form";
 import { FieldError, type FieldErrorProps } from "./field";
 
 type FormState<T extends Record<string, any>> = Pick<

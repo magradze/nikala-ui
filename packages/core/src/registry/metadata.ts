@@ -56,7 +56,7 @@ export const COMPONENT_METADATA: Record<string, ComponentMeta> = {
   "form-message": {
     title: "Form Message",
     description: "Validation message helper connected to createForm errors and touched state.",
-    registryDependencies: ["field"],
+    registryDependencies: ["field", "create-form"],
   },
   field: {
     title: "Field",
@@ -103,11 +103,13 @@ export const COMPONENT_METADATA: Record<string, ComponentMeta> = {
     title: "Switch",
     description: "A control that allows the user to toggle between checked and unchecked states.",
     dependencies: ["clsx", "tailwind-merge"],
+    registryDependencies: ["create-controllable-signal"],
   },
   checkbox: {
     title: "Checkbox",
     description: "A control that allows the user to toggle between checked and unchecked options.",
     dependencies: ["clsx", "tailwind-merge"],
+    registryDependencies: ["create-controllable-signal"],
   },
   "radio-group": {
     title: "Radio Group",
@@ -118,7 +120,7 @@ export const COMPONENT_METADATA: Record<string, ComponentMeta> = {
     title: "Select",
     description: "Displays a list of options for the user to pick from, built on Kobalte primitives.",
     dependencies: ["clsx", "tailwind-merge", "@kobalte/core"],
-    registryDependencies: ["scroll-area"],
+    registryDependencies: ["scroll-area", "create-click-outside"],
   },
   combobox: {
     title: "Combobox",
@@ -130,6 +132,7 @@ export const COMPONENT_METADATA: Record<string, ComponentMeta> = {
     title: "Tabs",
     description: "A set of layered sections of content displayed one at a time.",
     dependencies: ["clsx", "tailwind-merge"],
+    registryDependencies: ["create-controllable-signal"],
   },
   accordion: {
     title: "Accordion",
@@ -162,13 +165,13 @@ export const COMPONENT_METADATA: Record<string, ComponentMeta> = {
     title: "Dropdown Menu",
     description: "Displays a menu to the user—such as a set of actions or functions—triggered by a button or avatar.",
     dependencies: ["clsx", "tailwind-merge", "@kobalte/core"],
-    registryDependencies: ["scroll-area"],
+    registryDependencies: ["scroll-area", "create-click-outside"],
   },
   "theme-manager": {
     title: "Theme Manager",
     description: "Zero-dependency ThemeProvider and ThemeToggle component for switching light, dark, and system themes.",
     dependencies: ["clsx", "tailwind-merge", "@kobalte/core", "lucide-solid"],
-    registryDependencies: ["button", "dropdown-menu"],
+    registryDependencies: ["button", "dropdown-menu", "create-color-mode"],
   },
   banner: {
     title: "Banner",
@@ -201,7 +204,7 @@ export const COMPONENT_METADATA: Record<string, ComponentMeta> = {
       "lucide-solid",
       "@kobalte/core",
     ],
-    registryDependencies: ["kbd", "input-group", "list", "scroll-area"],
+    registryDependencies: ["kbd", "input-group", "list", "scroll-area", "create-keybindings"],
   },
   toast: {
     title: "Toast / Sonner",
@@ -217,6 +220,7 @@ export const COMPONENT_METADATA: Record<string, ComponentMeta> = {
     title: "Popover",
     description: "Displays rich content in a portal layer triggered by a button, built on Kobalte primitives.",
     dependencies: ["clsx", "tailwind-merge", "@kobalte/core", "lucide-solid"],
+    registryDependencies: ["create-click-outside"],
   },
   progress: {
     title: "Progress",

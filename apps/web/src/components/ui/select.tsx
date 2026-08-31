@@ -1,7 +1,7 @@
 import { splitProps, type JSX, type ValidComponent } from "solid-js";
 import * as SelectPrimitive from "@kobalte/core/select";
 import type { PolymorphicProps } from "@kobalte/core/polymorphic";
-import { createClickOutside } from "@nikala-ui/hooks";
+import { createClickOutside } from "@/hooks/create-click-outside";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { cn } from "@/lib/cn";
 

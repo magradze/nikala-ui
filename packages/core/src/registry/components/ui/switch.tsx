@@ -1,5 +1,5 @@
 import { splitProps, type Component, type JSX } from "solid-js";
-import { createControllableSignal } from "@nikala-ui/hooks";
+import { createControllableSignal } from "@/hooks/create-controllable-signal";
 import { cn } from "@/lib/cn";
 
 export interface SwitchProps

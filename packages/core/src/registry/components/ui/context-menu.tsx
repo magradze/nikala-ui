@@ -1,7 +1,7 @@
 import { splitProps, type Component, type JSX, type ValidComponent } from "solid-js";
 import * as ContextMenuPrimitive from "@kobalte/core/context-menu";
 import type { PolymorphicProps } from "@kobalte/core/polymorphic";
-import { createClickOutside } from "@nikala-ui/hooks";
+import { createClickOutside } from "@/hooks/create-click-outside";
 import { ScrollArea } from "./scroll-area";
 import { Separator } from "./separator";
 import { Kbd } from "./kbd";

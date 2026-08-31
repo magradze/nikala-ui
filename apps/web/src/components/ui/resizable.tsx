@@ -7,7 +7,7 @@ import {
   type JSX,
   type Accessor,
 } from "solid-js";
-import { createElementSize } from "@nikala-ui/hooks";
+import { createElementSize } from "@/hooks/create-resize-observer";
 import { GripVertical, GripHorizontal } from "lucide-solid";
 import { cn } from "@/lib/cn";
 

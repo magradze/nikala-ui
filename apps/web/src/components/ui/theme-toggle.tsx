@@ -21,7 +21,7 @@ import {
 } from "./dropdown-menu";
 import { cn } from "@/lib/cn";
 
-import { createColorMode } from "@nikala-ui/hooks";
+import { createColorMode } from "@/hooks/create-color-mode";
 
 export interface ThemeToggleProps {
   /** Display mode: "mini" for compact dropdown, "max" for full customizer panel (default: "mini") */
