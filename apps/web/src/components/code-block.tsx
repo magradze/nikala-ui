@@ -1,13 +1,15 @@
 import {
   createEffect,
   createSignal,
+  createMemo,
+  splitProps,
   Show,
   type Component,
 } from "solid-js";
 import { createClipboard } from "@nikala-ui/hooks";
-import { highlightCode } from "@/lib/code-highlighter";
+import { highlightCode, highlightCliCommand } from "@/lib/code-highlighter";
 import { Button } from "@/components/ui/button";
-import { usePackageManager } from "@/hooks/use-package-manager";
+import { usePackageManager, getRunnerPrefix } from "@/hooks/use-package-manager";
 import { PmRunnerSelector } from "@/components/docs/pm-runner-selector";
 
 interface CodeBlockProps {
@@ -19,25 +21,56 @@ interface CodeBlockProps {
 }
 
 export const CodeBlock: Component<CodeBlockProps> = (props) => {
-  const { copied, copy } = createClipboard({ timeout: 2000 });
-  const [highlighted, setHighlighted] = createSignal("");
-  const { formatCommand } = usePackageManager();
+  const [local, rest] = splitProps(props, [
+    "code",
+    "lang",
+    "isCli",
+    "showPmSwitcher",
+    "class",
+  ]);
 
-  const cleanCode = () => {
+  const { copied, copy } = createClipboard({ timeout: 2000 });
+  const { activePm } = usePackageManager();
+
+  const cleanCode = createMemo(() => {
     const raw =
-      typeof props.code === "function"
-        ? (props.code as () => string)()
-        : props.code;
-    return (raw || "").trim();
-  };
+      typeof local.code === "function"
+        ? (local.code as () => string)()
+        : local.code;
+    const trimmed = (raw || "").trim();
+
+    if (local.isCli) {
+      const prefixMatch = trimmed.match(/^(bunx|npx|pnpm dlx|yarn dlx)\s+@nikala-ui\/cli\s*(.*)$/);
+      if (prefixMatch) {
+        const args = prefixMatch[2];
+        return `${getRunnerPrefix(activePm())}${args ? " " + args : ""}`;
+      }
+    }
+
+    return trimmed;
+  });
+
+  const isBashCli = createMemo(() => {
+    const language = (local.lang || "tsx").toLowerCase();
+    return language === "bash" || language === "sh" || language === "shell" || Boolean(local.isCli);
+  });
+
+  const [asyncHighlighted, setAsyncHighlighted] = createSignal("");
 
   createEffect(() => {
-    const codeStr = cleanCode();
-    const language = props.lang || "tsx";
+    if (!isBashCli()) {
+      highlightCode(cleanCode(), local.lang || "tsx").then((html) => {
+        setAsyncHighlighted(html);
+      });
+    }
+  });
 
-    highlightCode(codeStr, language).then((html) => {
-      setHighlighted(html);
-    });
+  const highlightedHtml = createMemo(() => {
+    const codeStr = cleanCode();
+    if (isBashCli()) {
+      return highlightCliCommand(codeStr);
+    }
+    return asyncHighlighted() || codeStr;
   });
 
   const handleCopy = () => {
@@ -45,20 +78,20 @@ export const CodeBlock: Component<CodeBlockProps> = (props) => {
   };
 
   const shouldShowSwitcher = () =>
-    props.showPmSwitcher || props.isCli || props.lang === "bash";
+    Boolean(local.showPmSwitcher || local.isCli);
 
   return (
-    <div class={`group relative flex flex-col space-y-1.5 ${props.class || ""}`}>
-      {/* PM Switcher Bar (Positioned OUTSIDE and ABOVE the code box) */}
+    <div class={`group relative flex flex-col space-y-1.5 ${local.class || ""}`} {...rest}>
+      {/* PM Switcher Bar */}
       <Show when={shouldShowSwitcher()}>
         <div class="flex items-center justify-end font-mono">
           <PmRunnerSelector size="sm" />
         </div>
       </Show>
 
-      {/* Main Dark Code Box */}
+      {/* Main Code Box */}
       <div class="relative rounded-lg border border-border/40 bg-card/40 text-foreground p-4 font-mono text-sm overflow-x-auto shadow-xs transition-colors">
-        {/* Copy Button (INSIDE the code box on top-right on hover) */}
+        {/* Copy Button */}
         <div class="absolute right-3 top-3 opacity-0 group-hover:opacity-100 transition-opacity z-10">
           <Button
             variant="outline"
@@ -89,7 +122,10 @@ export const CodeBlock: Component<CodeBlockProps> = (props) => {
 
         {/* Code Content */}
         <pre class="font-mono text-sm leading-relaxed whitespace-pre overflow-x-auto">
-          <code class={`language-${props.lang || "tsx"}`} innerHTML={highlighted() || cleanCode()} />
+          <code
+            class={`language-${local.lang || "tsx"}`}
+            innerHTML={highlightedHtml()}
+          />
         </pre>
       </div>
     </div>
