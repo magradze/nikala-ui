@@ -6,6 +6,7 @@
 - Current Version: v0.11.0
 - GitHub Repository: https://github.com/nikala-ui/ui
 - Documentation Portal: https://nikala.dev/docs
+- Desktop & Tauri Suite: https://nikala.dev/docs/desktop
 - Interactive Playground: https://nikala.dev/playground
 - Raw LLM Reference: https://nikala.dev/llms.txt
 
@@ -19,6 +20,7 @@ Nikala UI rejects heavy `node_modules` UI dependencies for component structures 
 - **Native SolidJS Reactivity**: Fine-grained reactive signals, props splitting (`splitProps`), and explicit memoization (`children(() => props.children)`).
 - **Tailwind CSS v4 Native**: Built on modern `@import "tailwindcss";` setups, CSS-first `@theme` variables, and semantic color design tokens without legacy JS configs.
 - **Full Source Ownership**: The CLI writes components to `src/components/ui/` and primitive hooks directly to `src/hooks/`. Developers own, inspect, and customize all generated source files.
+- **Tauri v2 Desktop Native**: First-class support for cross-platform desktop applications (macOS, Windows 11, Linux) with custom frameless window chrome, drag regions, and native OS hotkey primitives.
 - **Zero Lock-In**: Decoupled `@nikala-ui/cli` client, `@nikala-ui/core` registry, and `@nikala-ui/mcp` server for remote HTTP(S) manifest installs and direct AI IDE integration.
 - **Model Context Protocol (MCP)**: Native `@nikala-ui/mcp` integration supporting Stdio local execution (`npx @nikala-ui/mcp`) and remote HTTP/SSE streaming (`https://nikala.dev/api/mcp/sse`) with callable tools, pre-built AI prompts, and SolidJS engineering resources.
 
@@ -40,7 +42,7 @@ bunx @nikala-ui/cli rules
 
 ### Listing Catalog & Installed Items
 ```bash
-# List all 66 components and 43 hooks with installation status
+# List all 67 components and 45 hooks with installation status
 bunx @nikala-ui/cli list
 # Shortcut alias
 bunx @nikala-ui/cli ls
@@ -56,13 +58,13 @@ bunx @nikala-ui/cli list --hook
 bunx @nikala-ui/cli list --json
 ```
 
-### Adding UI Components
+### Adding UI & Desktop Components
 ```bash
 # Interactive autocomplete multiselect menu for UI components
 bunx @nikala-ui/cli add
 
-# Direct installation of specific UI components
-bunx @nikala-ui/cli add button input card dialog sidebar marquee review-card rating stat footer navbar
+# Direct installation of specific UI and Desktop components
+bunx @nikala-ui/cli add button input card dialog sidebar titlebar
 
 # Add all available UI components
 bunx @nikala-ui/cli add --all
@@ -97,10 +99,10 @@ bunx @nikala-ui/cli remove -h create-clipboard
 bunx @nikala-ui/cli add --hook
 
 # Direct copy-paste installation of specific hooks to src/hooks/
-bunx @nikala-ui/cli add --hook create-audio create-fetch create-clipboard create-chat-scroll
+bunx @nikala-ui/cli add --hook create-audio create-fetch create-clipboard create-tauri-window
 
 # Shortcut option (-h)
-bunx @nikala-ui/cli add -h create-websocket create-drop-zone
+bunx @nikala-ui/cli add -h create-global-shortcut create-websocket create-drop-zone
 ```
 
 ### Theme Management & Diagnostics
@@ -133,10 +135,11 @@ When generating or editing SolidJS code using Nikala UI components and hooks, AI
 
 5. **Hook Imports**:
    - Import copy-pasted hooks locally from project alias: `import { createClipboard } from "@/hooks/create-clipboard";`
+   - Import desktop hooks locally: `import { createTauriWindow } from "@/hooks/create-tauri-window";`
 
 ---
 
-## 4. UI Components Registry (66 Components)
+## 4. UI Components Registry (67 Components)
 
 Below is the complete inventory of available Nikala UI components with exported JSX elements:
 
@@ -202,14 +205,15 @@ Below is the complete inventory of available Nikala UI components with exported 
 60. **Textarea**: `Textarea`
 61. **Theme Manager**: `ThemeProvider`, `ThemeScript`, `ThemeToggle`, `useTheme`
 62. **Timeline**: `Timeline`, `TimelineItem`, `TimelineSeparator`, `TimelineIndicator`, `TimelineConnector`, `TimelineContent`, `TimelineHeader`, `TimelineTitle`, `TimelineDescription`, `TimelineTime`
-63. **Toast**: `Toast`, `ToastTitle`, `ToastDescription`, `ToastCloseButton`, `ToastRegion`, `ToastList`, `showToast`
-64. **Toggle**: `Toggle`
-65. **Toggle Group**: `ToggleGroup`, `ToggleGroupItem`
-66. **Tooltip**: `Tooltip`, `TooltipTrigger`, `TooltipContent`, `TooltipArrow`
+63. **Titlebar**: `Titlebar`, `TitlebarControls`, `TitlebarTitle`, `TitlebarIcon`, `TitlebarActions`, `useTitlebar`
+64. **Toast**: `Toast`, `ToastTitle`, `ToastDescription`, `ToastCloseButton`, `ToastRegion`, `ToastList`, `showToast`
+65. **Toggle**: `Toggle`
+66. **Toggle Group**: `ToggleGroup`, `ToggleGroupItem`
+67. **Tooltip**: `Tooltip`, `TooltipTrigger`, `TooltipContent`, `TooltipArrow`
 
 ---
 
-## 5. Reactive Primitives / Hooks Registry (43 Hooks)
+## 5. Reactive Primitives / Hooks Registry (45 Hooks)
 
 Nikala UI primitives are written directly to `src/hooks/<hook-name>.ts`. Below is the complete catalog:
 
@@ -232,43 +236,116 @@ Nikala UI primitives are written directly to `src/hooks/<hook-name>.ts`. Below i
 17. **`createForm`** — Handles form field state, dynamic validation rules, errors, and submission.
 18. **`createFullscreen`** — Requests and monitors element or document fullscreen state (`isFullscreen()`, `toggle()`).
 19. **`createGeolocation`** — Tracks real-time GPS coordinates, accuracy, speed, and heading.
-20. **`createHover`** — Tracks element mouse hover state with enter/exit delay configurations.
-21. **`createIdle`** — Detects user inactivity after customizable timeout threshold (`isIdle()`).
-22. **`createInfiniteScroll`** — Manages infinite scroll pagination and auto-fetching next page triggers.
-23. **`createInputMask`** — Applies formatting masks (phone numbers, credit cards, dates) to text inputs.
-24. **`createIntersectionObserver`** — Observes element visibility and viewport intersection ratios.
-25. **`createKeybindings`** — Listens to keyboard shortcuts, key combinations, and Escape key presses.
-26. **`createLockScroll`** — Locks body or scrollable container scrolling when overlays are active.
-27. **`createLongPress`** — Detects long press / touch hold interactions with custom duration.
-28. **`createMediaQuery`** — Tracks CSS media queries and responsive Tailwind breakpoints.
-29. **`createMousePosition`** — Tracks global window and element-relative cursor coordinates.
-30. **`createNetworkStatus`** — Tracks browser online/offline status and network connection type.
-31. **`createOrientation`** — Monitors screen orientation (`portrait` / `landscape`) and rotation angle.
-32. **`createPagination`** — Calculates pagination state, page ranges with ellipses, and jump actions.
-33. **`createPermission`** — Queries and observes browser permission states (`granted`, `denied`, `prompt`).
-34. **`createPrevious`** — Accesses previous value of a reactive signal accessor.
-35. **`createResizeObserver`** — Observes element width, height, and content box bounding rects.
-36. **`createScrollIntoView`** — Smoothly scrolls target element or ref into container viewport.
-37. **`createScrollPosition`** — Tracks container scroll offset (X, Y), scroll direction, and boundaries.
-38. **`createStorage`** — Reactive `createLocalStorage` and `createSessionStorage` with cross-tab sync.
-39. **`createTimer`** — Provides interval timers, stopwatch counters, and formatted countdowns.
-40. **`createUndoRedo`** — Manages undo/redo state history stacks and pointer state resets.
-41. **`createWebNotification`** — Sends native browser desktop notifications and handles permission requests.
-42. **`createWebSocket`** — WebSocket client connection manager with auto-reconnect and message parsing.
-43. **`createWindowSize`** — Tracks window inner width and inner height reactively.
+20. **`createGlobalShortcut`** — Registers native system-wide OS global hotkeys via Tauri v2 plugin with web keyboard fallback (`register()`, `unregister()`, `isRegistered()`).
+21. **`createHover`** — Tracks element mouse hover state with enter/exit delay configurations.
+22. **`createIdle`** — Detects user inactivity after customizable timeout threshold (`isIdle()`).
+23. **`createInfiniteScroll`** — Manages infinite scroll pagination and auto-fetching next page triggers.
+24. **`createInputMask`** — Applies formatting masks (phone numbers, credit cards, dates) to text inputs.
+25. **`createIntersectionObserver`** — Observes element visibility and viewport intersection ratios.
+26. **`createKeybindings`** — Listens to keyboard shortcuts, key combinations, and Escape key presses.
+27. **`createLockScroll`** — Locks body or scrollable container scrolling when overlays are active.
+28. **`createLongPress`** — Detects long press / touch hold interactions with custom duration.
+29. **`createMediaQuery`** — Tracks CSS media queries and responsive Tailwind breakpoints.
+30. **`createMousePosition`** — Tracks global window and element-relative cursor coordinates.
+31. **`createNetworkStatus`** — Tracks browser online/offline status and network connection type.
+32. **`createOrientation`** — Monitors screen orientation (`portrait` / `landscape`) and rotation angle.
+33. **`createPagination`** — Calculates pagination state, page ranges with ellipses, and jump actions.
+34. **`createPermission`** — Queries and observes browser permission states (`granted`, `denied`, `prompt`).
+35. **`createPrevious`** — Accesses previous value of a reactive signal accessor.
+36. **`createResizeObserver`** — Observes element width, height, and content box bounding rects.
+37. **`createScrollIntoView`** — Smoothly scrolls target element or ref into container viewport.
+38. **`createScrollPosition`** — Tracks container scroll offset (X, Y), scroll direction, and boundaries.
+39. **`createStorage`** — Reactive `createLocalStorage` and `createSessionStorage` with cross-tab sync.
+40. **`createTauriWindow`** — Fine-grained reactive signals and actions for Tauri desktop windows (`isMaximized()`, `isMinimized()`, `isFullscreen()`, `isFocused()`, `minimize()`, `maximize()`, `toggleMaximize()`, `close()`, `startDragging()`).
+41. **`createTimer`** — Provides interval timers, stopwatch counters, and formatted countdowns.
+42. **`createUndoRedo`** — Manages undo/redo state history stacks and pointer state resets.
+43. **`createWebNotification`** — Sends native browser desktop notifications and handles permission requests.
+44. **`createWebSocket`** — WebSocket client connection manager with auto-reconnect and message parsing.
+45. **`createWindowSize`** — Tracks window inner width and inner height reactively.
 
 ---
 
-## 6. Complete Documentation Sitemap Index
+## 6. Desktop & Tauri v2 Suite Reference
 
-### Overview Pages
+Nikala UI provides a complete desktop-first UI system tailored for **Tauri v2** and **SolidJS**.
+
+### Frameless Window Chrome (`Titlebar`)
+```tsx
+import {
+  Titlebar,
+  TitlebarControls,
+  TitlebarTitle,
+  TitlebarIcon,
+  TitlebarActions,
+} from "@/components/ui/titlebar";
+import { Button } from "@/components/ui/button";
+
+export function AppHeader() {
+  return (
+    <Titlebar platform="macos">
+      <TitlebarControls />
+      <TitlebarTitle>My Desktop App</TitlebarTitle>
+      <TitlebarActions>
+        <Button variant="ghost" size="sm">Settings</Button>
+      </TitlebarActions>
+    </Titlebar>
+  );
+}
+```
+
+### Tauri Reactive Window Management (`createTauriWindow`)
+```tsx
+import { createTauriWindow } from "@/hooks/create-tauri-window";
+
+export function WindowControls() {
+  const {
+    isTauri,
+    platform,
+    isMaximized,
+    isMinimized,
+    minimize,
+    toggleMaximize,
+    close,
+  } = createTauriWindow();
+
+  return (
+    <div class="flex items-center gap-2">
+      <button onClick={minimize}>Minimize</button>
+      <button onClick={toggleMaximize}>
+        {isMaximized() ? "Restore" : "Maximize"}
+      </button>
+      <button onClick={close}>Close</button>
+    </div>
+  );
+}
+```
+
+### Global Hotkeys (`createGlobalShortcut`)
+```tsx
+import { createGlobalShortcut } from "@/hooks/create-global-shortcut";
+
+createGlobalShortcut({
+  shortcut: ["CommandOrControl+Shift+K", "Alt+Space"],
+  onTrigger: (key) => {
+    console.log("Global hotkey fired:", key);
+  },
+});
+```
+
+---
+
+## 7. Complete Documentation Sitemap Index
+
+### Overview & Guides
 - System Philosophy & Intro: https://nikala.dev/docs
 - CLI Reference Guide: https://nikala.dev/docs/cli
 - Tailwind v4 Theming System: https://nikala.dev/docs/theming
 - Model Context Protocol (MCP): https://nikala.dev/docs/mcp
+- Desktop Suite Overview: https://nikala.dev/docs/desktop
+- Tauri v2 Setup Guide: https://nikala.dev/docs/desktop/setup
 - Live Interactive Playground: https://nikala.dev/playground
 
-### All Component Pages (66 Components)
+### All Component Pages (67 Components)
 - Accordion: https://nikala.dev/docs/components/accordion
 - Alert: https://nikala.dev/docs/components/alert
 - Aspect Ratio: https://nikala.dev/docs/components/aspect-ratio
@@ -330,12 +407,13 @@ Nikala UI primitives are written directly to `src/hooks/<hook-name>.ts`. Below i
 - Textarea: https://nikala.dev/docs/components/textarea
 - Theme Manager: https://nikala.dev/docs/components/theme-manager
 - Timeline: https://nikala.dev/docs/components/timeline
+- Titlebar: https://nikala.dev/docs/desktop/titlebar
 - Toast: https://nikala.dev/docs/components/toast
 - Toggle Group: https://nikala.dev/docs/components/toggle-group
 - Toggle: https://nikala.dev/docs/components/toggle
 - Tooltip: https://nikala.dev/docs/components/tooltip
 
-### All Reactive Hooks & Primitives (43 Hooks)
+### All Reactive Hooks & Primitives (45 Hooks)
 - createActiveElement: https://nikala.dev/docs/hooks/create-active-element
 - createAudio: https://nikala.dev/docs/hooks/create-audio
 - createBattery: https://nikala.dev/docs/hooks/create-battery
@@ -355,6 +433,7 @@ Nikala UI primitives are written directly to `src/hooks/<hook-name>.ts`. Below i
 - createForm: https://nikala.dev/docs/hooks/create-form
 - createFullscreen: https://nikala.dev/docs/hooks/create-fullscreen
 - createGeolocation: https://nikala.dev/docs/hooks/create-geolocation
+- createGlobalShortcut: https://nikala.dev/docs/desktop/create-global-shortcut
 - createHover: https://nikala.dev/docs/hooks/create-hover
 - createIdle: https://nikala.dev/docs/hooks/create-idle
 - createInfiniteScroll: https://nikala.dev/docs/hooks/create-infinite-scroll
@@ -374,6 +453,7 @@ Nikala UI primitives are written directly to `src/hooks/<hook-name>.ts`. Below i
 - createScrollIntoView: https://nikala.dev/docs/hooks/create-scroll-into-view
 - createScrollPosition: https://nikala.dev/docs/hooks/create-scroll-position
 - createStorage: https://nikala.dev/docs/hooks/create-storage
+- createTauriWindow: https://nikala.dev/docs/desktop/create-tauri-window
 - createTimer: https://nikala.dev/docs/hooks/create-timer
 - createUndoRedo: https://nikala.dev/docs/hooks/create-undo-redo
 - createWebNotification: https://nikala.dev/docs/hooks/create-web-notification
