@@ -1,5 +1,5 @@
 import { createSignal, onMount, type Accessor } from "solid-js";
-import { isTauriEnvironment } from "@nikala-ui/hooks";
+import { isTauriEnvironment } from "./create-tauri-window";
 
 export type UpdaterStatus =
   | "idle"

@@ -21,7 +21,7 @@ import type {
   CreateAppUpdaterReturn,
   UpdateManifestInfo,
   UpdateProgressInfo,
-} from "@nikala-ui/hooks";
+} from "@/hooks/create-app-updater";
 import {
   Download,
   RotateCcw,

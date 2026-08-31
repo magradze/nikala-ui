@@ -62,7 +62,6 @@ export async function configureAliases(cwd: string): Promise<void> {
     const tsconfig = await readTsConfig(cwd);
     if (tsconfig) {
       tsconfig.compilerOptions = tsconfig.compilerOptions || {};
-      tsconfig.compilerOptions.baseUrl = ".";
       tsconfig.compilerOptions.paths = tsconfig.compilerOptions.paths || {};
 
       // Correct path mapping with leading relative dot ./src/*
