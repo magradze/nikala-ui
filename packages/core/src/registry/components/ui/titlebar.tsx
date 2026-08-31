@@ -180,7 +180,7 @@ export const TitlebarControls: Component<TitlebarControlsProps> = (props) => {
     <div
       data-no-drag
       class={cn(
-        "flex items-center z-10",
+        "flex items-center z-10 self-stretch",
         activePlatform() === "macos"
           ? "gap-2 order-first"
           : "gap-0 -mr-3 h-full ml-auto order-last",
@@ -192,12 +192,12 @@ export const TitlebarControls: Component<TitlebarControlsProps> = (props) => {
         when={activePlatform() === "macos"}
         fallback={
           /* Windows 11 Fluent Window Controls */
-          <div class="flex items-center h-full">
+          <div class="flex items-center h-full self-stretch">
             {/* Minimize */}
             <button
               type="button"
               onClick={() => ctx.minimize()}
-              class="inline-flex h-9 w-11 items-center justify-center text-muted-foreground hover:bg-muted hover:text-foreground transition-colors cursor-pointer"
+              class="inline-flex h-full w-11 items-center justify-center text-muted-foreground hover:bg-muted hover:text-foreground transition-colors cursor-pointer"
               aria-label="Minimize Window"
             >
               <svg class="h-3 w-3" fill="none" viewBox="0 0 12 12">
@@ -209,7 +209,7 @@ export const TitlebarControls: Component<TitlebarControlsProps> = (props) => {
             <button
               type="button"
               onClick={() => ctx.toggleMaximize()}
-              class="inline-flex h-9 w-11 items-center justify-center text-muted-foreground hover:bg-muted hover:text-foreground transition-colors cursor-pointer"
+              class="inline-flex h-full w-11 items-center justify-center text-muted-foreground hover:bg-muted hover:text-foreground transition-colors cursor-pointer"
               aria-label={ctx.isMaximized() ? "Restore Window" : "Maximize Window"}
             >
               <Show
@@ -230,7 +230,7 @@ export const TitlebarControls: Component<TitlebarControlsProps> = (props) => {
             <button
               type="button"
               onClick={() => ctx.close()}
-              class="inline-flex h-9 w-11 items-center justify-center text-muted-foreground hover:bg-destructive hover:text-destructive-foreground transition-colors cursor-pointer"
+              class="inline-flex h-full w-11 items-center justify-center text-muted-foreground hover:bg-destructive hover:text-destructive-foreground transition-colors cursor-pointer"
               aria-label="Close Window"
             >
               <svg class="h-3 w-3" fill="none" viewBox="0 0 12 12">

@@ -252,9 +252,13 @@ export function createTauriWindow(
 
   const startDragging = async (e?: MouseEvent): Promise<void> => {
     if (e && e.button !== 0) return; // Only primary mouse button starts drag
-    const tauriWin = await getTauriWindow();
-    if (tauriWin?.startDragging) {
-      await tauriWin.startDragging();
+    try {
+      const tauriWin = await getTauriWindow();
+      if (tauriWin?.startDragging) {
+        await tauriWin.startDragging();
+      }
+    } catch {
+      // Silently fall back if Tauri capability is not yet enabled
     }
   };
 
