@@ -93,10 +93,10 @@ export function PlaygroundSidebar(props: PlaygroundSidebarProps) {
                                       }
                                     }}
                                     onClick={() => props.onSelect(item.id)}
-                                    class={`flex h-8 w-full items-center justify-between rounded-md px-2 text-sm font-medium transition-colors text-left cursor-pointer ${
+                                    class={`flex h-8 w-full items-center justify-between rounded-md px-2 text-sm font-medium transition-colors duration-100 ease-out text-left cursor-pointer select-none ${
                                       isActive()
                                         ? "bg-primary text-primary-foreground font-bold shadow-2xs"
-                                        : "text-muted-foreground hover:bg-accent hover:text-accent-foreground"
+                                        : "bg-transparent text-muted-foreground hover:bg-accent hover:text-accent-foreground"
                                     }`}
                                   >
                                     <span>{item.title}</span>

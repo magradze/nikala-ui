@@ -106,10 +106,10 @@ export const DocsSidebar: Component = () => {
                                       setActiveElement(el);
                                     }
                                   }}
-                                  class={`flex h-8 w-full items-center justify-between rounded-md px-2 text-sm font-medium transition-colors ${
+                                  class={`flex h-8 w-full items-center justify-between rounded-md px-2 text-sm font-medium transition-colors duration-100 ease-out select-none ${
                                     isActive()
                                       ? "bg-primary text-primary-foreground font-bold shadow-2xs"
-                                      : "text-muted-foreground hover:bg-accent hover:text-accent-foreground"
+                                      : "bg-transparent text-muted-foreground hover:bg-accent hover:text-accent-foreground"
                                   }`}
                                 >
                                   <span>{item.title}</span>
@@ -161,10 +161,10 @@ export const DocsSidebar: Component = () => {
                                         setActiveElement(el);
                                       }
                                     }}
-                                    class={`flex h-8 w-full items-center justify-between rounded-md px-2 text-sm font-medium transition-colors ${
+                                    class={`flex h-8 w-full items-center justify-between rounded-md px-2 text-sm font-medium transition-colors duration-100 ease-out select-none ${
                                       isActive()
                                         ? "bg-primary text-primary-foreground font-bold shadow-2xs"
-                                        : "text-muted-foreground hover:bg-accent hover:text-accent-foreground"
+                                        : "bg-transparent text-muted-foreground hover:bg-accent hover:text-accent-foreground"
                                     }`}
                                   >
                                     <span>{item.title}</span>
