@@ -169,7 +169,7 @@ export const TitlebarTabs: ParentComponent<TitlebarTabsProps> = (props) => {
               <div
                 ref={scrollContainerRef}
                 class={cn(
-                  "flex h-full overflow-x-auto no-scrollbar gap-0 items-center min-w-0 flex-1 scroll-smooth",
+                  "flex h-full overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] gap-0 items-center min-w-0 flex-1 scroll-smooth",
                   variant() === "chrome" && "items-end pt-1.5"
                 )}
               >
@@ -224,7 +224,7 @@ export const TitlebarTabList: ParentComponent<TitlebarTabListProps> = (props) =>
       ref={listRef}
       data-no-drag
       class={cn(
-        "flex h-full overflow-x-auto no-scrollbar gap-0 items-center min-w-0 flex-1 scroll-smooth",
+        "flex h-full overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] gap-0 items-center min-w-0 flex-1 scroll-smooth",
         ctx.variant() === "chrome" && "items-end pt-1.5",
         local.class
       )}
@@ -237,7 +237,7 @@ export const TitlebarTabList: ParentComponent<TitlebarTabListProps> = (props) =>
 
 /* --- 4. TitlebarTab Individual Item --- */
 
-export interface TitlebarTabProps extends Omit<JSX.HTMLAttributes<HTMLButtonElement>, "onClose"> {
+export interface TitlebarTabProps extends Omit<JSX.HTMLAttributes<HTMLDivElement>, "onClose"> {
   /** Tab data object from createDocumentTabs(). Automatically wires all properties. */
   tab?: TabItem<any>;
   value?: string;
@@ -259,10 +259,11 @@ export const TitlebarTab: ParentComponent<TitlebarTabProps> = (props) => {
     "class",
     "children",
     "onClick",
+    "onKeyDown",
   ]);
 
   const ctx = useTitlebarTabs();
-  let buttonRef: HTMLButtonElement | undefined;
+  let tabRef: HTMLDivElement | undefined;
 
   const tabId = () => local.tab?.id || local.value || "";
   const isPinned = () => local.tab?.isPinned ?? local.isPinned ?? false;
@@ -273,14 +274,18 @@ export const TitlebarTab: ParentComponent<TitlebarTabProps> = (props) => {
 
   const isActive = () => ctx.value() === tabId();
 
-  // Scroll active tab into view when selected
+  // Scroll active tab into view when selected safely
   createEffect(() => {
-    if (isActive() && buttonRef) {
-      buttonRef.scrollIntoView({
-        behavior: "smooth",
-        block: "nearest",
-        inline: "nearest",
-      });
+    if (typeof window !== "undefined" && isActive() && tabRef) {
+      try {
+        tabRef.scrollIntoView({
+          behavior: "smooth",
+          block: "nearest",
+          inline: "nearest",
+        });
+      } catch {
+        // Safe fallback in SSR or testing environments
+      }
     }
   });
 
@@ -288,6 +293,16 @@ export const TitlebarTab: ParentComponent<TitlebarTabProps> = (props) => {
     ctx.setValue(tabId());
     if (typeof local.onClick === "function") {
       (local.onClick as any)(e);
+    }
+  };
+
+  const handleKeyDown = (e: KeyboardEvent) => {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      ctx.setValue(tabId());
+    }
+    if (typeof (local as any).onKeyDown === "function") {
+      ((local as any).onKeyDown)(e);
     }
   };
 
@@ -301,15 +316,19 @@ export const TitlebarTab: ParentComponent<TitlebarTabProps> = (props) => {
   };
 
   return (
-    <Button
-      ref={buttonRef}
-      variant="ghost"
+    <div
+      ref={tabRef}
+      role="tab"
+      tabindex="0"
+      aria-selected={isActive()}
       data-no-drag
       data-active={isActive() ? "true" : "false"}
       onClick={handleClick}
+      onKeyDown={handleKeyDown}
       class={cn(
         titlebarTabVariants({ variant: ctx.variant() }),
         isPinned() && "min-w-fit px-2 max-w-fit",
+        "cursor-pointer outline-none focus-visible:ring-1 focus-visible:ring-ring",
         local.class
       )}
       {...rest}
@@ -356,7 +375,7 @@ export const TitlebarTab: ParentComponent<TitlebarTabProps> = (props) => {
           </TooltipContent>
         </Tooltip>
       </Show>
-    </Button>
+    </div>
   );
 };
 

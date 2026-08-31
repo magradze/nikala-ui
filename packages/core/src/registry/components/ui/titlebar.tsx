@@ -182,10 +182,10 @@ export const TitlebarControls: Component<TitlebarControlsProps> = (props) => {
       data-tauri-drag-region="false"
       style={("-webkit-app-region: no-drag; app-region: no-drag;" + (typeof local.style === "string" ? ` ${local.style}` : "")) as any}
       class={cn(
-        "flex items-center z-10 self-stretch pointer-events-auto [app-region:no-drag] [-webkit-app-region:no-drag]",
+        "flex items-center z-10 self-stretch shrink-0 pointer-events-auto [app-region:no-drag] [-webkit-app-region:no-drag]",
         activePlatform() === "macos"
-          ? "gap-2 order-first"
-          : "gap-0 -mr-3 h-full ml-auto order-last",
+          ? "gap-2 px-1"
+          : "gap-0 -mr-3 h-full",
         local.class
       )}
       {...rest}
@@ -248,7 +248,7 @@ export const TitlebarControls: Component<TitlebarControlsProps> = (props) => {
           <button
             type="button"
             onClick={() => ctx.close()}
-            class="relative inline-flex size-3 items-center justify-center rounded-full bg-[#ff5f56] border border-[#e0443e] active:brightness-90 transition-all cursor-pointer"
+            class="flex size-3 items-center justify-center rounded-full bg-[#ff5f57] border border-[#e0443e] cursor-pointer"
             aria-label="Close Window"
           >
             <svg
@@ -266,25 +266,25 @@ export const TitlebarControls: Component<TitlebarControlsProps> = (props) => {
           <button
             type="button"
             onClick={() => ctx.minimize()}
-            class="relative inline-flex size-3 items-center justify-center rounded-full bg-[#ffbd2e] border border-[#dea123] active:brightness-90 transition-all cursor-pointer"
+            class="flex size-3 items-center justify-center rounded-full bg-[#febc2e] border border-[#d89e24] cursor-pointer"
             aria-label="Minimize Window"
           >
             <svg
-              class="size-1.5 text-[#543b00] opacity-0 group-hover/traffic:opacity-100 transition-opacity"
+              class="size-1.5 text-[#5c3e00] opacity-0 group-hover/traffic:opacity-100 transition-opacity"
               viewBox="0 0 6 6"
               fill="none"
               stroke="currentColor"
               stroke-width="1.2"
             >
-              <path d="M0.5 3h5" />
+              <path d="M1 3h4" />
             </svg>
           </button>
 
-          {/* Maximize / Fullscreen */}
+          {/* Maximize */}
           <button
             type="button"
             onClick={() => ctx.toggleMaximize()}
-            class="relative inline-flex size-3 items-center justify-center rounded-full bg-[#27c93f] border border-[#1aab29] active:brightness-90 transition-all cursor-pointer"
+            class="flex size-3 items-center justify-center rounded-full bg-[#28c840] border border-[#1aab29] cursor-pointer"
             aria-label="Maximize Window"
           >
             <svg
@@ -304,7 +304,7 @@ export const TitlebarControls: Component<TitlebarControlsProps> = (props) => {
 };
 
 /**
- * Centered or aligned title text container.
+ * Title text container. Placed naturally in JSX flow by default, or centered with align="center".
  */
 export interface TitlebarTitleProps extends JSX.HTMLAttributes<HTMLDivElement> {
   align?: "center" | "start";
@@ -312,21 +312,17 @@ export interface TitlebarTitleProps extends JSX.HTMLAttributes<HTMLDivElement> {
 
 export const TitlebarTitle: ParentComponent<TitlebarTitleProps> = (props) => {
   const [local, rest] = splitProps(props, ["align", "class", "children"]);
-  const ctx = useTitlebar();
 
-  const isCentered = () => {
-    if (local.align) return local.align === "center";
-    return ctx.platform() === "macos";
-  };
+  const isCentered = () => local.align === "center";
 
   return (
     <div
       data-tauri-drag-region
       class={cn(
-        "flex items-center gap-2 font-medium truncate",
+        "flex items-center gap-2 font-medium truncate text-xs text-foreground",
         isCentered()
           ? "absolute left-1/2 -translate-x-1/2 pointer-events-none text-center justify-center max-w-[calc(100%-160px)]"
-          : "flex-1 justify-start text-left order-1",
+          : "shrink-0",
         local.class
       )}
       {...rest}
@@ -346,7 +342,7 @@ export const TitlebarIcon: ParentComponent<JSX.HTMLAttributes<HTMLDivElement>> =
       data-no-drag
       data-tauri-drag-region="false"
       class={cn(
-        "flex shrink-0 items-center justify-center size-4 text-muted-foreground order-1 pointer-events-auto [app-region:no-drag] [-webkit-app-region:no-drag]",
+        "flex shrink-0 items-center justify-center size-4 text-muted-foreground pointer-events-auto [app-region:no-drag] [-webkit-app-region:no-drag]",
         local.class
       )}
       {...rest}
@@ -357,17 +353,39 @@ export const TitlebarIcon: ParentComponent<JSX.HTMLAttributes<HTMLDivElement>> =
 };
 
 /**
- * Action buttons container (Search, Settings, Menu) placed in the titlebar.
+ * Action buttons container (Search, Settings, ThemeToggle, Navigation) placed in the titlebar.
+ * Supports start, end, center, or natural flow alignment.
  */
-export const TitlebarActions: ParentComponent<JSX.HTMLAttributes<HTMLDivElement>> = (props) => {
-  const [local, rest] = splitProps(props, ["class", "children", "style"]);
+export interface TitlebarActionsProps extends JSX.HTMLAttributes<HTMLDivElement> {
+  /** Alignment of the actions container within the titlebar. Defaults to 'end'. */
+  align?: "start" | "end" | "center" | "none";
+}
+
+export const TitlebarActions: ParentComponent<TitlebarActionsProps> = (props) => {
+  const [local, rest] = splitProps(props, ["align", "class", "children", "style"]);
+
+  const alignClass = () => {
+    switch (local.align) {
+      case "start":
+        return "mr-auto";
+      case "center":
+        return "mx-auto";
+      case "none":
+        return "";
+      case "end":
+      default:
+        return "ml-auto";
+    }
+  };
+
   return (
     <div
       data-no-drag
       data-tauri-drag-region="false"
       style={("-webkit-app-region: no-drag; app-region: no-drag;" + (typeof local.style === "string" ? ` ${local.style}` : "")) as any}
       class={cn(
-        "flex items-center gap-1 shrink-0 z-10 ml-auto order-2 pr-2 pointer-events-auto [app-region:no-drag] [-webkit-app-region:no-drag]",
+        "flex items-center gap-1 shrink-0 z-10 px-1 pointer-events-auto [app-region:no-drag] [-webkit-app-region:no-drag]",
+        alignClass(),
         local.class
       )}
       {...rest}

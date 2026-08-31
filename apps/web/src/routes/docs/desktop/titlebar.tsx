@@ -225,7 +225,7 @@ export default function TitlebarDocsPage() {
           />
         </div>
 
-        {/* Component API Table */}
+        {/* Component API Tables */}
         <DocApiTable
           title="Titlebar Props"
           items={[
@@ -264,6 +264,42 @@ export default function TitlebarDocsPage() {
               type: "() => void",
               default: "-",
               description: "Custom callback when close button is triggered.",
+            },
+          ]}
+        />
+
+        <DocApiTable
+          title="TitlebarTitle Props"
+          items={[
+            {
+              prop: "align",
+              type: '"start" | "center"',
+              default: '"start"',
+              description: "Alignment mode. 'start' flows naturally in JSX order; 'center' absolutely centers the title in the window header.",
+            },
+          ]}
+        />
+
+        <DocApiTable
+          title="TitlebarActions Props"
+          items={[
+            {
+              prop: "align",
+              type: '"start" | "end" | "center" | "none"',
+              default: '"end"',
+              description: "Alignment of the actions container. 'start' anchors left (mr-auto), 'end' anchors right (ml-auto), 'center' centers (mx-auto), 'none' follows natural flex flow.",
+            },
+          ]}
+        />
+
+        <DocApiTable
+          title="TitlebarControls Props"
+          items={[
+            {
+              prop: "platform",
+              type: '"macos" | "windows"',
+              default: "inherited",
+              description: "Explicitly overrides host platform window controls style.",
             },
           ]}
         />
