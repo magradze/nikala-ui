@@ -292,8 +292,20 @@ export const HOOKS_LIST: DocHookItem[] = [
   {
     name: "create-chat-scroll",
     title: "createChatScroll",
-    description: "SolidJS reactive primitive for automated chat container scrolling with manual scroll-up detection",
+    description: "SolidJS reactive primitive for intelligent chat message streaming auto-scrolling with user-pinned override detection",
     href: "/docs/hooks/create-chat-scroll",
+  },
+  {
+    name: "create-tauri-window",
+    title: "createTauriWindow",
+    description: "SolidJS reactive primitive for observing and controlling Tauri desktop window states with drag regions and platform detection",
+    href: "/docs/desktop/create-tauri-window",
+  },
+  {
+    name: "create-global-shortcut",
+    title: "createGlobalShortcut",
+    description: "SolidJS reactive primitive for registering native OS global hotkeys with automatic web keyboard fallback",
+    href: "/docs/desktop/create-global-shortcut",
   },
 ];
 
@@ -563,6 +575,32 @@ export const BLOCK_SECTIONS: NavSection[] = [
 
 export const BLOCKS_SIDEBAR_NAVIGATION: NavSection[] = BLOCK_SECTIONS;
 
+/* --- Desktop & Tauri Suite Sections --- */
+export const DESKTOP_SECTIONS: NavSection[] = [
+  {
+    title: "Overview",
+    items: [
+      { title: "Introduction", href: "/docs/desktop", addedAt: "2026-08-31" },
+      { title: "Tauri v2 Setup", href: "/docs/desktop/setup", addedAt: "2026-08-31" },
+    ],
+  },
+  {
+    title: "Window & Chrome",
+    items: [
+      { title: "Titlebar", href: "/docs/desktop/titlebar", addedAt: "2026-08-31" },
+    ],
+  },
+  {
+    title: "OS Primitives (Hooks)",
+    items: [
+      { title: "createTauriWindow", href: "/docs/desktop/create-tauri-window", addedAt: "2026-08-31" },
+      { title: "createGlobalShortcut", href: "/docs/desktop/create-global-shortcut", addedAt: "2026-08-31" },
+    ],
+  },
+];
+
+export const DESKTOP_SIDEBAR_NAVIGATION: NavSection[] = DESKTOP_SECTIONS;
+
 export const COMPONENTS_SIDEBAR_NAVIGATION: NavSection[] = [
   GETTING_STARTED_SECTION,
   ...COMPONENT_SECTIONS,
@@ -574,4 +612,5 @@ export const HOOKS_SIDEBAR_NAVIGATION: NavSection[] = [
 ];
 
 export const DOCS_SIDEBAR_NAVIGATION: NavSection[] = COMPONENTS_SIDEBAR_NAVIGATION;
+
 

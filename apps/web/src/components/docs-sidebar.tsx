@@ -4,6 +4,7 @@ import {
   HOOKS_SIDEBAR_NAVIGATION,
   COMPONENTS_SIDEBAR_NAVIGATION,
   BLOCKS_SIDEBAR_NAVIGATION,
+  DESKTOP_SIDEBAR_NAVIGATION,
 } from "@/config/docs";
 import {
   Sidebar,
@@ -36,10 +37,12 @@ export function isItemNew(addedAt?: string): boolean {
 
 export const DocsSidebar: Component = () => {
   const location = useLocation();
-  const [activeContext, setActiveContext] = createSignal<"hooks" | "components" | "blocks">("components");
+  const [activeContext, setActiveContext] = createSignal<"hooks" | "components" | "blocks" | "desktop">("components");
 
   createEffect(() => {
-    if (location.pathname.startsWith("/docs/hooks")) {
+    if (location.pathname.startsWith("/docs/desktop")) {
+      setActiveContext("desktop");
+    } else if (location.pathname.startsWith("/docs/hooks")) {
       setActiveContext("hooks");
     } else if (location.pathname.startsWith("/blocks")) {
       setActiveContext("blocks");
@@ -59,6 +62,9 @@ export const DocsSidebar: Component = () => {
   });
 
   const navigation = () => {
+    if (activeContext() === "desktop") {
+      return DESKTOP_SIDEBAR_NAVIGATION;
+    }
     if (activeContext() === "hooks") {
       return HOOKS_SIDEBAR_NAVIGATION;
     }

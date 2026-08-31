@@ -45,8 +45,9 @@ export function Header() {
     location.pathname.startsWith("/docs/rules");
 
   const isComponentsActive = () => location.pathname.startsWith("/docs/components");
-  const isHooksActive = () => location.pathname.startsWith("/docs/hooks");
   const isBlocksActive = () => location.pathname.startsWith("/blocks");
+  const isHooksActive = () => location.pathname.startsWith("/docs/hooks");
+  const isDesktopActive = () => location.pathname.startsWith("/docs/desktop");
   const isMcpActive = () => location.pathname.startsWith("/docs/mcp");
   const isPlaygroundActive = () => location.pathname.startsWith("/playground");
 
@@ -124,6 +125,17 @@ export function Header() {
                 isActive={isHooksActive()}
               >
                 Hooks
+              </NavbarLink>
+            </NavbarItem>
+
+            <NavbarItem isActive={isDesktopActive()}>
+              <NavbarLink
+                href="/docs/desktop"
+                isActive={isDesktopActive()}
+                class="flex items-center gap-1.5"
+              >
+                Desktop
+                <Badge variant="outline" class="text-[9px] px-1 py-0 border-primary/30 text-primary">Tauri</Badge>
               </NavbarLink>
             </NavbarItem>
 
