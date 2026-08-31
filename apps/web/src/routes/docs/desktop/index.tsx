@@ -20,12 +20,14 @@ export default function DesktopDocsPage() {
       <div class="space-y-10 pb-16">
         {/* Page Header */}
         <div class="space-y-3">
-          <div class="flex items-center gap-2">
-            <h1 class="text-3xl sm:text-4xl font-bold tracking-tight">Desktop Suite</h1>
-            <Badge variant="outline" class="border-primary/40 text-primary">Tauri v2</Badge>
-            <Badge variant="secondary">SolidJS Native</Badge>
+          <div class="flex flex-wrap items-center gap-2">
+            <h1 class="text-2xl sm:text-4xl font-bold tracking-tight">Desktop Suite</h1>
+            <div class="flex items-center gap-1.5 shrink-0">
+              <Badge variant="outline" class="text-xs border-primary/40 text-primary">Tauri v2</Badge>
+              <Badge variant="secondary" class="text-xs">SolidJS Native</Badge>
+            </div>
           </div>
-          <p class="text-base sm:text-lg text-muted-foreground leading-relaxed">
+          <p class="text-sm sm:text-lg text-muted-foreground leading-relaxed">
             Nikala UI offers first-class desktop components and OS-level reactive primitives crafted specifically for <strong>Tauri v2</strong> and <strong>SolidJS</strong>.
           </p>
         </div>

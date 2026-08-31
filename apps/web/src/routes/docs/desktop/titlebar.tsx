@@ -58,12 +58,14 @@ export default function TitlebarDocsPage() {
       <div class="space-y-10 pb-16">
         {/* Page Header */}
         <div class="space-y-2">
-          <div class="flex items-center gap-2">
-            <h1 class="text-3xl font-bold tracking-tight">Titlebar</h1>
-            <Badge variant="outline" class="text-xs border-primary/40 text-primary">Tauri v2</Badge>
-            <Badge variant="secondary" class="text-xs">Desktop</Badge>
+          <div class="flex flex-wrap items-center gap-2">
+            <h1 class="text-2xl sm:text-3xl font-bold tracking-tight">Titlebar</h1>
+            <div class="flex items-center gap-1.5 shrink-0">
+              <Badge variant="outline" class="text-xs border-primary/40 text-primary">Tauri v2</Badge>
+              <Badge variant="secondary" class="text-xs">Desktop</Badge>
+            </div>
           </div>
-          <p class="text-base text-muted-foreground">
+          <p class="text-sm sm:text-base text-muted-foreground leading-relaxed">
             A native-feeling custom titlebar for frameless desktop windows. Supports macOS Traffic Lights, Windows 11 controls, draggable headers, and action bars.
           </p>
         </div>

@@ -87,12 +87,16 @@ export default function CreateTauriWindowDocsPage() {
       <div class="space-y-10 pb-16">
         {/* Page Header */}
         <div class="space-y-2">
-          <div class="flex items-center gap-2">
-            <h1 class="text-3xl font-bold tracking-tight">createTauriWindow</h1>
-            <Badge variant="outline" class="text-xs border-primary/40 text-primary">Tauri v2</Badge>
-            <Badge variant="secondary" class="text-xs">Hook</Badge>
+          <div class="flex flex-wrap items-center gap-2">
+            <h1 class="text-2xl sm:text-3xl font-bold tracking-tight break-all sm:break-normal">
+              createTauriWindow
+            </h1>
+            <div class="flex items-center gap-1.5 shrink-0">
+              <Badge variant="outline" class="text-xs border-primary/40 text-primary">Tauri v2</Badge>
+              <Badge variant="secondary" class="text-xs">Hook</Badge>
+            </div>
           </div>
-          <p class="text-base text-muted-foreground">
+          <p class="text-sm sm:text-base text-muted-foreground leading-relaxed">
             A fine-grained reactive primitive for controlling and observing native Tauri desktop window states (maximize, minimize, close, drag regions, focus, and fullscreen).
           </p>
         </div>
@@ -106,25 +110,25 @@ export default function CreateTauriWindowDocsPage() {
             />
           </div>
 
-          <Card class="bg-card/50 border-border/80 p-6 space-y-6">
+          <Card class="bg-card/50 border-border/80 p-4 sm:p-6 space-y-6">
             {/* Status Indicators Grid */}
-            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
-              <div class="p-3 rounded-md bg-muted/40 border border-border/50 space-y-1">
-                <span class="text-muted-foreground">Platform</span>
-                <p class="font-mono font-semibold uppercase text-foreground">{platform()}</p>
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 sm:gap-3 text-xs">
+              <div class="p-2.5 sm:p-3 rounded-md bg-muted/40 border border-border/50 space-y-0.5">
+                <span class="text-muted-foreground text-[11px]">Platform</span>
+                <p class="font-mono font-semibold uppercase text-foreground truncate">{platform()}</p>
               </div>
-              <div class="p-3 rounded-md bg-muted/40 border border-border/50 space-y-1">
-                <span class="text-muted-foreground">Tauri Runtime</span>
-                <p class="font-mono font-semibold text-foreground">
-                  {isTauri() ? "Active (Native)" : "Web Fallback"}
+              <div class="p-2.5 sm:p-3 rounded-md bg-muted/40 border border-border/50 space-y-0.5">
+                <span class="text-muted-foreground text-[11px]">Tauri Runtime</span>
+                <p class="font-mono font-semibold text-foreground truncate">
+                  {isTauri() ? "Native" : "Web Fallback"}
                 </p>
               </div>
-              <div class="p-3 rounded-md bg-muted/40 border border-border/50 space-y-1">
-                <span class="text-muted-foreground">Maximized</span>
+              <div class="p-2.5 sm:p-3 rounded-md bg-muted/40 border border-border/50 space-y-0.5">
+                <span class="text-muted-foreground text-[11px]">Maximized</span>
                 <p class="font-mono font-semibold text-foreground">{isMaximized() ? "Yes" : "No"}</p>
               </div>
-              <div class="p-3 rounded-md bg-muted/40 border border-border/50 space-y-1">
-                <span class="text-muted-foreground">Minimized</span>
+              <div class="p-2.5 sm:p-3 rounded-md bg-muted/40 border border-border/50 space-y-0.5">
+                <span class="text-muted-foreground text-[11px]">Minimized</span>
                 <p class="font-mono font-semibold text-foreground">{isMinimized() ? "Yes" : "No"}</p>
               </div>
             </div>

@@ -19,12 +19,14 @@ export default function DesktopSetupDocsPage() {
       <div class="space-y-10 pb-16">
         {/* Page Header */}
         <div class="space-y-2">
-          <div class="flex items-center gap-2">
-            <h1 class="text-3xl font-bold tracking-tight">Tauri v2 Setup</h1>
-            <Badge variant="outline" class="text-xs border-primary/40 text-primary">Tauri v2</Badge>
-            <Badge variant="secondary" class="text-xs">Guide</Badge>
+          <div class="flex flex-wrap items-center gap-2">
+            <h1 class="text-2xl sm:text-3xl font-bold tracking-tight">Tauri v2 Setup</h1>
+            <div class="flex items-center gap-1.5 shrink-0">
+              <Badge variant="outline" class="text-xs border-primary/40 text-primary">Tauri v2</Badge>
+              <Badge variant="secondary" class="text-xs">Guide</Badge>
+            </div>
           </div>
-          <p class="text-base text-muted-foreground">
+          <p class="text-sm sm:text-base text-muted-foreground leading-relaxed">
             Complete guide for setting up Tauri v2 with SolidJS, configuring capabilities, security permissions, and frameless window styling for Nikala UI.
           </p>
         </div>

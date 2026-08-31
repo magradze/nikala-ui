@@ -56,12 +56,16 @@ export default function CreateGlobalShortcutDocsPage() {
       <div class="space-y-10 pb-16">
         {/* Page Header */}
         <div class="space-y-2">
-          <div class="flex items-center gap-2">
-            <h1 class="text-3xl font-bold tracking-tight">createGlobalShortcut</h1>
-            <Badge variant="outline" class="text-xs border-primary/40 text-primary">Tauri v2</Badge>
-            <Badge variant="secondary" class="text-xs">Hook</Badge>
+          <div class="flex flex-wrap items-center gap-2">
+            <h1 class="text-2xl sm:text-3xl font-bold tracking-tight break-all sm:break-normal">
+              createGlobalShortcut
+            </h1>
+            <div class="flex items-center gap-1.5 shrink-0">
+              <Badge variant="outline" class="text-xs border-primary/40 text-primary">Tauri v2</Badge>
+              <Badge variant="secondary" class="text-xs">Hook</Badge>
+            </div>
           </div>
-          <p class="text-base text-muted-foreground">
+          <p class="text-sm sm:text-base text-muted-foreground leading-relaxed">
             A reactive primitive for registering system-wide global hotkeys using the Tauri v2 Global Shortcut plugin, with automatic keyboard fallback for web browsers.
           </p>
         </div>
@@ -73,13 +77,13 @@ export default function CreateGlobalShortcutDocsPage() {
             description="Press Ctrl+Shift+K or Alt+Space on your keyboard to test listener"
           />
 
-          <Card class="bg-card/50 border-border/80 p-6 space-y-4">
-            <div class="flex items-center justify-between">
+          <Card class="bg-card/50 border-border/80 p-4 sm:p-6 space-y-4">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
               <div class="flex items-center gap-2">
-                <Command class="size-4 text-primary" />
+                <Command class="size-4 text-primary shrink-0" />
                 <span class="text-sm font-semibold text-foreground">Registered Key Combinations</span>
               </div>
-              <Badge variant="secondary" class="text-xs font-mono">
+              <Badge variant="secondary" class="text-xs font-mono w-fit">
                 Ctrl+Shift+K | Alt+Space
               </Badge>
             </div>

@@ -10,6 +10,7 @@ import {
   Boxes,
   Layers,
   Zap,
+  AppWindow,
   ChevronRight,
 } from "lucide-solid";
 import {
@@ -31,6 +32,7 @@ import {
   COMPONENTS_SIDEBAR_NAVIGATION,
   HOOKS_SIDEBAR_NAVIGATION,
   BLOCKS_SIDEBAR_NAVIGATION,
+  DESKTOP_SIDEBAR_NAVIGATION,
   COMPONENT_SECTIONS,
   COMPONENTS_LIST,
   HOOKS_LIST,
@@ -51,10 +53,12 @@ export function MobileNav() {
     }
   };
 
-  const [activeContext, setActiveContext] = createSignal<"components" | "hooks" | "playground" | "blocks">("components");
+  const [activeContext, setActiveContext] = createSignal<"components" | "hooks" | "playground" | "blocks" | "desktop">("components");
 
   createEffect(() => {
-    if (location.pathname.startsWith("/playground")) {
+    if (location.pathname.startsWith("/docs/desktop")) {
+      setActiveContext("desktop");
+    } else if (location.pathname.startsWith("/playground")) {
       setActiveContext("playground");
     } else if (location.pathname.startsWith("/docs/hooks")) {
       setActiveContext("hooks");
@@ -108,6 +112,17 @@ export function MobileNav() {
       },
     },
     {
+      title: "Desktop (Tauri v2)",
+      href: "/docs/desktop",
+      icon: AppWindow,
+      badge: "Tauri",
+      isActive: () => activeContext() === "desktop" && location.pathname.startsWith("/docs/desktop"),
+      onClick: () => {
+        setActiveContext("desktop");
+        closeNav();
+      },
+    },
+    {
       title: "Playground",
       href: "/playground",
       icon: Sparkles,
@@ -156,7 +171,7 @@ export function MobileNav() {
         <Menu class="w-5 h-5" />
       </SheetTrigger>
 
-      <SheetContent side="left" class="w-80 sm:w-90 bg-background">
+      <SheetContent side="left" class="w-80 sm:w-90 bg-background overflow-y-auto">
         {/* Header */}
         <SheetHeader class="text-left pb-3 border-b border-border/50">
           <SheetTitle class="flex items-center gap-2">
@@ -216,21 +231,25 @@ export function MobileNav() {
 
           <Separator class="bg-border/60" />
 
-          {/* 2. Dynamic Active Context (Playground vs Hooks vs UI Components) */}
+          {/* 2. Dynamic Active Context (Desktop vs Playground vs Hooks vs UI Components) */}
           <Show
             when={activeContext() === "playground"}
             fallback={
               <div class="space-y-2">
                 <div class="flex items-center justify-between px-2">
                   <span class="text-[11px] font-bold text-muted-foreground tracking-wider uppercase">
-                    {activeContext() === "hooks"
+                    {activeContext() === "desktop"
+                      ? "Desktop (Tauri v2)"
+                      : activeContext() === "hooks"
                       ? "Reactive Hooks"
                       : activeContext() === "blocks"
                       ? "Blocks"
                       : "UI Components"}
                   </span>
                   <Badge variant="secondary" class="text-[10px] px-1.5 py-0 font-mono">
-                    {activeContext() === "hooks"
+                    {activeContext() === "desktop"
+                      ? "Tauri"
+                      : activeContext() === "hooks"
                       ? HOOKS_LIST.length
                       : activeContext() === "blocks"
                       ? 2
@@ -241,7 +260,9 @@ export function MobileNav() {
                 <div class="space-y-1">
                   <For
                     each={(
-                      activeContext() === "hooks"
+                      activeContext() === "desktop"
+                        ? DESKTOP_SIDEBAR_NAVIGATION
+                        : activeContext() === "hooks"
                         ? HOOKS_SIDEBAR_NAVIGATION.filter((s) => s.title !== "Getting Started")
                         : activeContext() === "blocks"
                         ? BLOCKS_SIDEBAR_NAVIGATION
@@ -251,7 +272,7 @@ export function MobileNav() {
                     {(section) => {
                       const hasActiveItem = () => section.items.some((item) => location.pathname === item.href);
                       const sectionHasNewItem = () => section.items.some((item) => isItemNew(item.addedAt));
-                      const [isOpen, setIsOpen] = createSignal(hasActiveItem());
+                      const [isOpen, setIsOpen] = createSignal(hasActiveItem() || activeContext() === "desktop");
 
                       createEffect(() => {
                         if (hasActiveItem()) {
@@ -265,16 +286,13 @@ export function MobileNav() {
                             <div class="flex items-center gap-1.5">
                               <span>{section.title}</span>
                               <Show when={!isOpen() && sectionHasNewItem()}>
-                                <span class="relative flex h-1.5 w-1.5">
-                                  <span class="animate-ping absolute inline-flex h-full w-full rounded-lg bg-primary opacity-75"></span>
-                                  <span class="relative inline-flex rounded-lg h-1.5 w-1.5 bg-primary"></span>
-                                </span>
+                                <span class="size-1.5 rounded-full bg-primary shrink-0" />
                               </Show>
                             </div>
                             <ChevronRight class="size-3.5 text-muted-foreground transition-transform duration-200 group-data-expanded:rotate-90" />
                           </CollapsibleTrigger>
 
-                          <CollapsibleContent class="pt-0.5 pl-2 space-y-0.5">
+                          <CollapsibleContent class="pt-0.5 pl-2 space-y-0.5 border-l border-border/40 ml-3">
                             <For each={section.items}>
                               {(item) => {
                                 const isActive = () => location.pathname === item.href;
@@ -289,12 +307,9 @@ export function MobileNav() {
                                         : "text-muted-foreground hover:bg-muted hover:text-foreground"
                                     }`}
                                   >
-                                    <span>{item.title}</span>
+                                    <span class="truncate">{item.title}</span>
                                     <Show when={isNew}>
-                                      <span class="relative flex h-2 w-2">
-                                        <span class="animate-ping absolute inline-flex h-full w-full rounded-lg bg-primary opacity-75"></span>
-                                        <span class="relative inline-flex rounded-lg h-2 w-2 bg-primary"></span>
-                                      </span>
+                                      <span class="size-1.5 rounded-full bg-primary shrink-0" />
                                     </Show>
                                   </A>
                                 );
@@ -348,16 +363,13 @@ export function MobileNav() {
                           <div class="flex items-center gap-1.5">
                             <span>{section.title}</span>
                             <Show when={!isOpen() && sectionHasNewItem()}>
-                              <span class="relative flex h-1.5 w-1.5">
-                                <span class="animate-ping absolute inline-flex h-full w-full rounded-lg bg-primary opacity-75"></span>
-                                <span class="relative inline-flex rounded-lg h-1.5 w-1.5 bg-primary"></span>
-                              </span>
+                              <span class="size-1.5 rounded-full bg-primary shrink-0" />
                             </Show>
                           </div>
                           <ChevronRight class="size-3.5 text-muted-foreground transition-transform duration-200 group-data-expanded:rotate-90" />
                         </CollapsibleTrigger>
 
-                        <CollapsibleContent class="pt-0.5 pl-2 space-y-0.5">
+                        <CollapsibleContent class="pt-0.5 pl-2 space-y-0.5 border-l border-border/40 ml-3">
                           <For each={sectionItems()}>
                             {(item) => {
                               const isActive = () =>
@@ -376,12 +388,9 @@ export function MobileNav() {
                                       : "text-muted-foreground hover:bg-muted hover:text-foreground"
                                   }`}
                                 >
-                                  <span>{item.title}</span>
+                                  <span class="truncate">{item.title}</span>
                                   <Show when={isNew}>
-                                    <span class="relative flex h-2 w-2">
-                                      <span class="animate-ping absolute inline-flex h-full w-full rounded-lg bg-primary opacity-75"></span>
-                                      <span class="relative inline-flex rounded-lg h-2 w-2 bg-primary"></span>
-                                    </span>
+                                    <span class="size-1.5 rounded-full bg-primary shrink-0" />
                                   </Show>
                                 </A>
                               );
