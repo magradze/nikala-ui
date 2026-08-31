@@ -1,6 +1,5 @@
 import { A, useLocation } from "@solidjs/router";
-import { type Component, For, createSignal, createEffect, Show } from "solid-js";
-import { createScrollIntoView } from "@nikala-ui/hooks";
+import { type Component, For, createSignal, createEffect, onMount, Show } from "solid-js";
 import {
   HOOKS_SIDEBAR_NAVIGATION,
   COMPONENTS_SIDEBAR_NAVIGATION,
@@ -14,7 +13,8 @@ import {
   SidebarGroupContent,
   SidebarMenu,
   SidebarMenuItem,
-  SidebarMenuButton,
+  SidebarMenuSub,
+  SidebarMenuSubItem,
 } from "@/components/ui/sidebar";
 import {
   Collapsible,
@@ -37,7 +37,6 @@ export function isItemNew(addedAt?: string): boolean {
 export const DocsSidebar: Component = () => {
   const location = useLocation();
   const [activeContext, setActiveContext] = createSignal<"hooks" | "components" | "blocks">("components");
-  const [activeElement, setActiveElement] = createSignal<HTMLElement | null>(null);
 
   createEffect(() => {
     if (location.pathname.startsWith("/docs/hooks")) {
@@ -49,11 +48,14 @@ export const DocsSidebar: Component = () => {
     }
   });
 
-  /* SolidJS Primitive for auto-scrolling active element into view */
-  createScrollIntoView(activeElement, {
-    behavior: "smooth",
-    block: "nearest",
-    delay: 50,
+  // Only scroll active page item into view ONCE on initial mount / navigation
+  onMount(() => {
+    setTimeout(() => {
+      if (typeof document !== "undefined") {
+        const activeLink = document.querySelector<HTMLElement>("aside a[data-active='true']");
+        activeLink?.scrollIntoView({ block: "nearest", behavior: "smooth" });
+      }
+    }, 100);
   });
 
   const navigation = () => {
@@ -69,7 +71,7 @@ export const DocsSidebar: Component = () => {
   return (
     <aside class="fixed top-14 z-30 hidden h-[calc(100vh-3.5rem)] w-full shrink-0 md:sticky md:block border-r border-border/40 bg-background">
       <Sidebar collapsible="none" class="h-full w-full border-none bg-transparent">
-        <SidebarContent class="py-6 px-1 space-y-3">
+        <SidebarContent class="py-6 px-1 space-y-3 overflow-x-hidden">
           <For each={navigation()}>
             {(section) => {
               const isGettingStarted = section.title === "Getting Started";
@@ -88,7 +90,7 @@ export const DocsSidebar: Component = () => {
               if (isGettingStarted) {
                 return (
                   <SidebarGroup class="p-0">
-                    <SidebarGroupLabel class="px-2 text-xs font-bold text-foreground tracking-wider uppercase">
+                    <SidebarGroupLabel class="px-2 text-xs font-bold text-foreground tracking-wider uppercase select-none">
                       {section.title}
                     </SidebarGroupLabel>
                     <SidebarGroupContent>
@@ -101,23 +103,16 @@ export const DocsSidebar: Component = () => {
                               <SidebarMenuItem>
                                 <A
                                   href={item.href}
-                                  ref={(el) => {
-                                    if (typeof window !== "undefined" && isActive()) {
-                                      setActiveElement(el);
-                                    }
-                                  }}
-                                  class={`flex h-8 w-full items-center justify-between rounded-md px-2 text-sm font-medium transition-colors duration-100 ease-out select-none ${
+                                  data-active={isActive() ? "true" : "false"}
+                                  class={`flex h-8 w-full items-center justify-between rounded-md px-2 text-sm font-medium select-none ${
                                     isActive()
-                                      ? "bg-primary text-primary-foreground font-bold shadow-2xs"
+                                      ? "bg-primary text-primary-foreground font-semibold shadow-2xs"
                                       : "bg-transparent text-muted-foreground hover:bg-accent hover:text-accent-foreground"
                                   }`}
                                 >
-                                  <span>{item.title}</span>
+                                  <span class="pointer-events-none truncate">{item.title}</span>
                                   <Show when={isNew}>
-                                    <span class="relative flex h-2 w-2">
-                                      <span class="animate-ping absolute inline-flex h-full w-full rounded-lg bg-primary opacity-75"></span>
-                                      <span class="relative inline-flex rounded-lg h-2 w-2 bg-primary"></span>
-                                    </span>
+                                    <span class="size-1.5 rounded-full bg-primary shrink-0 pointer-events-none" />
                                   </Show>
                                 </A>
                               </SidebarMenuItem>
@@ -133,53 +128,43 @@ export const DocsSidebar: Component = () => {
               return (
                 <SidebarGroup class="p-0">
                   <Collapsible open={isOpen()} onOpenChange={setIsOpen} class="space-y-1">
-                    <CollapsibleTrigger class="group flex h-8 w-full items-center justify-between rounded-md px-2 text-xs font-semibold text-foreground tracking-wider uppercase hover:bg-accent/50 transition-colors cursor-pointer">
-                      <div class="flex items-center gap-1.5">
+                    <CollapsibleTrigger class="group flex h-8 w-full items-center justify-between rounded-md px-2 text-xs font-semibold text-foreground tracking-wider uppercase hover:bg-accent/50 cursor-pointer select-none">
+                      <div class="flex items-center gap-1.5 pointer-events-none truncate">
                         <span>{section.title}</span>
                         <Show when={!isOpen() && sectionHasNewItem()}>
-                          <span class="relative flex h-1.5 w-1.5">
-                            <span class="animate-ping absolute inline-flex h-full w-full rounded-lg bg-primary opacity-75"></span>
-                            <span class="relative inline-flex rounded-lg h-1.5 w-1.5 bg-primary"></span>
-                          </span>
+                          <span class="size-1.5 rounded-full bg-primary shrink-0 pointer-events-none" />
                         </Show>
                       </div>
-                      <ChevronRight class="h-3.5 w-3.5 text-muted-foreground transition-transform duration-200 group-data-expanded:rotate-90" />
+                      <ChevronRight class="h-3.5 w-3.5 text-muted-foreground transition-transform duration-200 group-data-expanded:rotate-90 pointer-events-none shrink-0" />
                     </CollapsibleTrigger>
                     <CollapsibleContent>
                       <SidebarGroupContent class="pt-0.5">
-                        <SidebarMenu class="gap-0.5">
+                        <SidebarMenuSub class="ml-3.5 border-l border-border/50 pl-2.5 my-1 gap-0.5">
                           <For each={section.items}>
                             {(item) => {
                               const isActive = () => location.pathname === item.href;
                               const isNew = isItemNew(item.addedAt);
                               return (
-                                <SidebarMenuItem>
+                                <SidebarMenuSubItem>
                                   <A
                                     href={item.href}
-                                    ref={(el) => {
-                                      if (typeof window !== "undefined" && isActive()) {
-                                        setActiveElement(el);
-                                      }
-                                    }}
-                                    class={`flex h-8 w-full items-center justify-between rounded-md px-2 text-sm font-medium transition-colors duration-100 ease-out select-none ${
+                                    data-active={isActive() ? "true" : "false"}
+                                    class={`flex h-7.5 w-full items-center justify-between rounded-md px-2 text-xs font-medium select-none ${
                                       isActive()
-                                        ? "bg-primary text-primary-foreground font-bold shadow-2xs"
+                                        ? "bg-primary text-primary-foreground font-semibold shadow-2xs"
                                         : "bg-transparent text-muted-foreground hover:bg-accent hover:text-accent-foreground"
                                     }`}
                                   >
-                                    <span>{item.title}</span>
+                                    <span class="pointer-events-none truncate">{item.title}</span>
                                     <Show when={isNew}>
-                                      <span class="relative flex h-2 w-2">
-                                        <span class="animate-ping absolute inline-flex h-full w-full rounded-lg bg-primary opacity-75"></span>
-                                        <span class="relative inline-flex rounded-lg h-2 w-2 bg-primary"></span>
-                                      </span>
+                                      <span class="size-1.5 rounded-full bg-primary shrink-0 pointer-events-none" />
                                     </Show>
                                   </A>
-                                </SidebarMenuItem>
+                                </SidebarMenuSubItem>
                               );
                             }}
                           </For>
-                        </SidebarMenu>
+                        </SidebarMenuSub>
                       </SidebarGroupContent>
                     </CollapsibleContent>
                   </Collapsible>

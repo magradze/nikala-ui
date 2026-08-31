@@ -211,7 +211,7 @@ export const Sidebar: ParentComponent<SidebarProps> = (props) => {
       data-variant={variant()}
       data-side={side()}
       class={cn(
-        "group relative flex flex-col bg-card text-card-foreground transition-all duration-200 ease-in-out shrink-0",
+        "group relative flex flex-col bg-card text-card-foreground transition-[width,opacity] duration-200 ease-in-out shrink-0",
         !isCollapsed()
           ? "w-[var(--sidebar-width,17rem)]"
           : collapsible() === "icon"
