@@ -109,6 +109,18 @@ export const Titlebar: ParentComponent<TitlebarProps> = (props) => {
     local.onToggleMaximize ? local.onToggleMaximize() : windowCtrl.toggleMaximize();
   const close = () => (local.onClose ? local.onClose() : windowCtrl.close());
 
+  const handleMouseDown: JSX.EventHandlerUnion<HTMLElement, MouseEvent> = (e) => {
+    if (e.button === 0) {
+      const target = e.target as HTMLElement;
+      if (!target.closest("button, a, input, select, textarea, [data-no-drag]")) {
+        windowCtrl.startDragging(e);
+      }
+    }
+    if (typeof (local as any).onMouseDown === "function") {
+      ((local as any).onMouseDown)(e);
+    }
+  };
+
   const handleDoubleClick: JSX.EventHandlerUnion<HTMLElement, MouseEvent> = (e) => {
     if (local.doubleClickToMaximize !== false) {
       // Don't maximize if user double-clicked an interactive button
@@ -134,6 +146,7 @@ export const Titlebar: ParentComponent<TitlebarProps> = (props) => {
     <TitlebarContext.Provider value={contextValue}>
       <header
         data-tauri-drag-region
+        onMouseDown={handleMouseDown}
         onDblClick={handleDoubleClick}
         class={cn(
           titlebarVariants({ variant: local.variant, size: local.size }),
@@ -168,7 +181,9 @@ export const TitlebarControls: Component<TitlebarControlsProps> = (props) => {
       data-no-drag
       class={cn(
         "flex items-center z-10",
-        activePlatform() === "macos" ? "gap-2" : "gap-0 -mr-3 h-full ml-auto",
+        activePlatform() === "macos"
+          ? "gap-2 order-first"
+          : "gap-0 -mr-3 h-full ml-auto order-last",
         local.class
       )}
       {...rest}
@@ -297,19 +312,19 @@ export const TitlebarTitle: ParentComponent<TitlebarTitleProps> = (props) => {
   const [local, rest] = splitProps(props, ["align", "class", "children"]);
   const ctx = useTitlebar();
 
-  const alignmentClass = () => {
-    if (local.align) {
-      return local.align === "center" ? "justify-center text-center" : "justify-start text-left";
-    }
-    return ctx.platform() === "macos" ? "justify-center text-center" : "justify-start text-left";
+  const isCentered = () => {
+    if (local.align) return local.align === "center";
+    return ctx.platform() === "macos";
   };
 
   return (
     <div
       data-tauri-drag-region
       class={cn(
-        "flex flex-1 items-center gap-2 font-medium truncate pointer-events-none",
-        alignmentClass(),
+        "flex items-center gap-2 font-medium truncate",
+        isCentered()
+          ? "absolute left-1/2 -translate-x-1/2 pointer-events-none text-center justify-center max-w-[calc(100%-160px)]"
+          : "flex-1 justify-start text-left order-1",
         local.class
       )}
       {...rest}
@@ -327,7 +342,7 @@ export const TitlebarIcon: ParentComponent<JSX.HTMLAttributes<HTMLDivElement>> =
   return (
     <div
       data-no-drag
-      class={cn("flex shrink-0 items-center justify-center size-4 text-muted-foreground", local.class)}
+      class={cn("flex shrink-0 items-center justify-center size-4 text-muted-foreground order-1", local.class)}
       {...rest}
     >
       {local.children}
@@ -343,7 +358,7 @@ export const TitlebarActions: ParentComponent<JSX.HTMLAttributes<HTMLDivElement>
   return (
     <div
       data-no-drag
-      class={cn("flex items-center gap-1 shrink-0 z-10", local.class)}
+      class={cn("flex items-center gap-1 shrink-0 z-10 ml-auto order-2", local.class)}
       {...rest}
     >
       {local.children}
