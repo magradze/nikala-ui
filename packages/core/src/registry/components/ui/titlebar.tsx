@@ -36,7 +36,7 @@ export function useTitlebar() {
 
 /* --- 2. Titlebar Variants --- */
 export const titlebarVariants = cva(
-  "relative flex w-full select-none items-center justify-between border-b transition-colors",
+  "relative flex w-full select-none items-center justify-between border-b transition-colors shrink-0 sticky top-0 z-50",
   {
     variants: {
       variant: {
