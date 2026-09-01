@@ -319,6 +319,12 @@ export const HOOKS_LIST: DocHookItem[] = [
     description: "SolidJS reactive primitive for managing multi-document tabs, editor buffers, and browser tab stacks with adjacent activation and pinned state",
     href: "/docs/desktop/create-document-tabs",
   },
+  {
+    name: "create-tiptap-editor",
+    title: "createTiptapEditor",
+    description: "Fine-grained reactive SolidJS primitive for managing Tiptap rich text editor instances, signals, and formatting commands",
+    href: "/docs/hooks/create-tiptap-editor",
+  },
 ];
 
 /* --- Component Library Registry List --- */
@@ -390,6 +396,7 @@ export const COMPONENTS_LIST: DocComponentItem[] = [
   { name: "sidebar", title: "Sidebar", description: "A composable, collapsible, and accessible application sidebar navigation suite with icon mode and keyboard shortcuts", href: "/docs/components/sidebar" },
   { name: "titlebar", title: "Titlebar", description: "A native-feeling custom titlebar for frameless desktop windows supporting macOS Traffic Lights and Windows 11 controls", href: "/docs/desktop/titlebar" },
   { name: "updater-modal", title: "Updater Modal", description: "An automated application auto-updater dialog for Tauri v2 with release notes preview and progress bar", href: "/docs/desktop/updater-dialog" },
+  { name: "rich-text-editor", title: "Rich Text Editor", description: "A full-featured WYSIWYG rich text editor with toolbar, bubble formatting, tables, and task lists built on Tiptap", href: "/docs/components/rich-text-editor" },
 ];
 
 /* --- Global Sidebar Navigation Config --- */
@@ -423,6 +430,7 @@ export const COMPONENT_SECTIONS: NavSection[] = [
       { title: "Pin Input", href: "/docs/components/pin-input" },
       { title: "Radio Group", href: "/docs/components/radio-group" },
       { title: "Rating", href: "/docs/components/rating", addedAt: "2026-08-30" },
+      { title: "Rich Text Editor", href: "/docs/components/rich-text-editor", addedAt: "2026-09-01" },
       { title: "Select", href: "/docs/components/select" },
       { title: "Switch", href: "/docs/components/switch" },
       { title: "Textarea", href: "/docs/components/textarea" },
@@ -532,6 +540,7 @@ export const HOOK_SECTIONS: NavSection[] = [
       { title: "createLongPress", href: "/docs/hooks/create-long-press" },
       { title: "createMousePosition", href: "/docs/hooks/create-mouse-position" },
       { title: "createScrollIntoView", href: "/docs/hooks/create-scroll-into-view" },
+      { title: "createTiptapEditor", href: "/docs/hooks/create-tiptap-editor", addedAt: "2026-09-01" },
     ],
   },
   {

@@ -32,6 +32,25 @@
   },
   "dependencies": {
     "@nikala-ui/hooks": "workspace:*",
-    "lucide-solid": "^1.28.0"
+    "@tiptap/core": "^3.31.0",
+    "@tiptap/extension-character-count": "^3.31.0",
+    "@tiptap/extension-highlight": "^3.31.0",
+    "@tiptap/extension-image": "^3.31.0",
+    "@tiptap/extension-link": "^3.31.0",
+    "@tiptap/extension-placeholder": "^3.31.0",
+    "@tiptap/extension-subscript": "^3.31.0",
+    "@tiptap/extension-superscript": "^3.31.0",
+    "@tiptap/extension-table": "^3.31.0",
+    "@tiptap/extension-table-cell": "^3.31.0",
+    "@tiptap/extension-table-header": "^3.31.0",
+    "@tiptap/extension-table-row": "^3.31.0",
+    "@tiptap/extension-task-item": "^3.31.0",
+    "@tiptap/extension-task-list": "^3.31.0",
+    "@tiptap/extension-text-align": "^3.31.0",
+    "@tiptap/extension-typography": "^3.31.0",
+    "@tiptap/extension-underline": "^3.31.0",
+    "@tiptap/starter-kit": "^3.31.0",
+    "lucide-solid": "^1.28.0",
+    "tiptap-markdown": "^0.9.0"
   }
 }

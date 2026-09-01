@@ -10,6 +10,7 @@ import {
 import { createDocumentTabs } from "@/hooks/create-document-tabs";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { RichTextEditor } from "@/components/ui/rich-text-editor";
 import {
   AppWindow,
   ArrowRight,
@@ -22,32 +23,33 @@ import {
   Layers,
   ExternalLink,
   Settings,
+  PenTool,
+  Sparkles,
 } from "lucide-solid";
 
 import { tokenizeLine } from "./tokenizer";
-import { getAppCode } from "./app-view";
 import { getSettingsCode } from "./settings-view";
 import { getUpdaterCode } from "./updater-view";
 import { getBufferCode } from "./buffer-view";
 
 interface TabData {
-  getCode: () => string;
+  getCode?: () => string;
 }
 
 export function DesktopShowcase() {
   const [platform, setPlatform] = createSignal<"macos" | "windows">("macos");
   const [copiedCode, setCopiedCode] = createSignal(false);
+  const [editorContent, setEditorContent] = createSignal(
+    `<h2>✨ Welcome to Nikala Studio</h2><p>Nikala UI is a <strong>lightweight, fine-grained reactive</strong> component suite built natively for <em>SolidJS</em> and <em>Tailwind CSS v4</em>.</p><ul data-type="taskList"><li data-type="taskItem" data-checked="true"><label><input type="checkbox" checked="checked"><span></span></label><div><p>Pure Copy-Paste ownership model with instant CLI scaffolding</p></div></li><li data-type="taskItem" data-checked="true"><label><input type="checkbox" checked="checked"><span></span></label><div><p>Type <code>/</code> anywhere on a new line for quick slash commands</p></div></li><li data-type="taskItem" data-checked="false"><label><input type="checkbox"><span></span></label><div><p>Select any word to reveal floating bubble formatting toolbar</p></div></li></ul><blockquote><p>Crafted for high performance with 0ms reactivity overhead.</p></blockquote>`
+  );
 
   const tabs = createDocumentTabs<TabData>({
     initialTabs: [
       {
-        id: "App.tsx",
-        title: "App.tsx",
-        icon: FileCode,
+        id: "editor",
+        title: "Editor",
+        icon: PenTool,
         closable: false,
-        data: {
-          getCode: () => getAppCode(platform()),
-        },
       },
       {
         id: "settings.tsx",
@@ -91,12 +93,25 @@ export function DesktopShowcase() {
   };
 
   const handleCopyCurrentCode = () => {
-    navigator.clipboard.writeText(currentCode());
+    if (tabs.activeTabId() === "editor") {
+      navigator.clipboard.writeText(editorContent());
+    } else {
+      navigator.clipboard.writeText(currentCode());
+    }
     setCopiedCode(true);
     setTimeout(() => setCopiedCode(false), 1500);
   };
 
   const desktopModules = [
+    {
+      name: "Rich Text Editor",
+      type: "UI Component",
+      pkg: "components/ui/rich-text-editor",
+      href: "/docs/components/rich-text-editor",
+      icon: Sparkles,
+      description: "Full-featured WYSIWYG rich text editor with toolbar, bubble formatting, tables, task lists, and Markdown.",
+      cli: "bunx @nikala-ui/cli add rich-text-editor",
+    },
     {
       name: "Titlebar & Controls",
       type: "UI Component",
@@ -121,7 +136,7 @@ export function DesktopShowcase() {
       pkg: "hooks/create-document-tabs",
       href: "/docs/desktop/create-document-tabs",
       icon: FileCode,
-      description: "Reactive tab manager with active state, dirty tracking, ⌘W/⌘T keybindings, and dynamic component view routing.",
+      description: "Reactive tab manager with active state, dirty tracking, ⌘W/⌘T keybindings, and dynamic view routing.",
       cli: "bunx @nikala-ui/cli add -h create-document-tabs",
     },
     {
@@ -132,15 +147,6 @@ export function DesktopShowcase() {
       icon: ShieldCheck,
       description: "Fine-grained window controls: minimize, maximize, fullscreen, start dragging, and OS platform detection.",
       cli: "bunx @nikala-ui/cli add -h create-tauri-window",
-    },
-    {
-      name: "createGlobalShortcut",
-      type: "Primitive",
-      pkg: "hooks/create-global-shortcut",
-      href: "/docs/desktop/create-global-shortcut",
-      icon: Command,
-      description: "Register system-level global keyboard shortcuts with automatic registration and cleanup.",
-      cli: "bunx @nikala-ui/cli add -h create-global-shortcut",
     },
     {
       name: "UpdaterModal & Primitives",
@@ -167,7 +173,7 @@ export function DesktopShowcase() {
               Native Desktop Primitives for SolidJS
             </h2>
             <p class="text-sm sm:text-base text-muted-foreground">
-              Frameless titlebars, window controls, multi-document tabs, and auto-updaters engineered for Tauri v2.
+              Frameless titlebars, window controls, multi-document tabs, and rich text editors engineered for Tauri v2.
             </p>
           </div>
 
@@ -207,10 +213,10 @@ export function DesktopShowcase() {
           </div>
         </div>
 
-        {/* 2. Frameless Desktop Window Code Editor */}
-        <div class="rounded-lg border border-border bg-card shadow-lg overflow-hidden text-foreground">
+        {/* 2. Frameless Desktop Window Frame */}
+        <div class="rounded-lg border border-border bg-card shadow-2xl overflow-hidden text-foreground">
           {/* Frameless Titlebar */}
-          <Titlebar platform={platform()} class="border-b border-border bg-muted/40 text-foreground">
+          <Titlebar platform={platform()} class="border-b border-border bg-muted/60 text-foreground">
             <TitlebarTitle align="start" class="mx-2 font-bold text-primary text-xs">
               Nikala Studio
             </TitlebarTitle>
@@ -230,52 +236,69 @@ export function DesktopShowcase() {
                 <Show when={copiedCode()} fallback={<Copy class="size-3.5" />}>
                   <Check class="size-3.5 text-emerald-500" />
                 </Show>
-                <span class="hidden sm:inline">{copiedCode() ? "Copied" : "Copy Code"}</span>
+                <span class="hidden sm:inline">
+                  {copiedCode() ? "Copied" : tabs.activeTabId() === "editor" ? "Copy HTML" : "Copy Code"}
+                </span>
               </Button>
             </TitlebarActions>
           </Titlebar>
 
-          {/* Full-Width Code Editor Body (Directly underneath Titlebar) */}
-          <div class="font-mono text-xs overflow-hidden flex flex-col min-h-[380px] max-h-[460px] select-text bg-card">
-            <div class="p-4 md:p-6 space-y-0.5 overflow-auto flex-1 text-[11px] leading-relaxed">
-              <For each={currentCode().split("\n")}>
-                {(line, idx) => {
-                  const tokens = tokenizeLine(line);
-                  return (
-                    <div class="flex hover:bg-muted/30 -mx-4 md:-mx-6 px-4 md:px-6 py-0.5 rounded-xs">
-                      <span class="w-8 select-none text-muted-foreground/40 text-right pr-4 shrink-0 font-mono text-[10px]">
-                        {idx() + 1}
-                      </span>
-                      <div class="whitespace-pre">
-                        <For each={tokens}>
-                          {(t) => <span class={t.color}>{t.text}</span>}
-                        </For>
-                      </div>
-                    </div>
-                  );
-                }}
-              </For>
-            </div>
+          {/* Window Body: Live Rich Text Editor vs Code Viewer */}
+          <Show
+            when={tabs.activeTabId() === "editor"}
+            fallback={
+              <div class="font-mono text-xs overflow-hidden flex flex-col min-h-[380px] max-h-[480px] select-text bg-card">
+                <div class="p-4 md:p-6 space-y-0.5 overflow-auto flex-1 text-[11px] leading-relaxed">
+                  <For each={currentCode().split("\n")}>
+                    {(line, idx) => {
+                      const tokens = tokenizeLine(line);
+                      return (
+                        <div class="flex hover:bg-muted/30 -mx-4 md:-mx-6 px-4 md:px-6 py-0.5 rounded-xs">
+                          <span class="w-8 select-none text-muted-foreground/40 text-right pr-4 shrink-0 font-mono text-[10px]">
+                            {idx() + 1}
+                          </span>
+                          <div class="whitespace-pre">
+                            <For each={tokens}>
+                              {(t) => <span class={t.color}>{t.text}</span>}
+                            </For>
+                          </div>
+                        </div>
+                      );
+                    }}
+                  </For>
+                </div>
 
-            {/* Bottom Editor Bar */}
-            <div class="flex items-center justify-between px-4 py-1.5 bg-muted/20 border-t border-border/60 text-[10px] text-muted-foreground shrink-0 font-mono">
-              <div class="flex items-center gap-3">
-                <span class="text-foreground flex items-center gap-1">
-                  <FileCode class="size-3 text-primary" />
-                  {tabs.activeTab()?.title || "App.tsx"}
-                </span>
-                <span>TypeScript JSX</span>
-                <span>UTF-8</span>
+                {/* Bottom Editor Bar */}
+                <div class="flex items-center justify-between px-4 py-1.5 bg-muted/20 border-t border-border/60 text-[10px] text-muted-foreground shrink-0 font-mono">
+                  <div class="flex items-center gap-3">
+                    <span class="text-foreground flex items-center gap-1">
+                      <FileCode class="size-3 text-primary" />
+                      {tabs.activeTab()?.title}
+                    </span>
+                    <span>TypeScript JSX</span>
+                    <span>UTF-8</span>
+                  </div>
+                  <div class="flex items-center gap-3">
+                    <span class="text-emerald-600 dark:text-emerald-400">● Fine-grained 0ms Reactivity</span>
+                    <span>Tauri v2</span>
+                  </div>
+                </div>
               </div>
-              <div class="flex items-center gap-3">
-                <span class="text-emerald-600 dark:text-emerald-400">● Fine-grained 0ms Reactivity</span>
-                <span>Tauri v2</span>
-              </div>
+            }
+          >
+            {/* Live Interactive Rich Text Editor Tab Seamlessly Integrated */}
+            <div class="bg-card text-left">
+              <RichTextEditor
+                class="border-0 shadow-none rounded-none bg-card min-h-[360px]"
+                value={editorContent()}
+                onChange={setEditorContent}
+                placeholder="Type something wonderful or type '/' for commands..."
+              />
             </div>
-          </div>
+          </Show>
         </div>
 
-        {/* 3. Complete 6-Item Technical Desktop Catalog */}
+        {/* 3. Complete Technical Desktop Catalog */}
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           <For each={desktopModules}>
             {(mod) => {

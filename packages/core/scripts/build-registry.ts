@@ -45,13 +45,72 @@ async function buildRegistry() {
 
   // 1. Build UI Components (type: "registry:ui")
   if (await fs.pathExists(sourceDir)) {
-    const files = (await fs.readdir(sourceDir)).sort((a, b) => a.localeCompare(b));
+    const entries = (await fs.readdir(sourceDir)).sort((a, b) => a.localeCompare(b));
 
-    for (const filename of files) {
-      if (!filename.endsWith(".tsx")) continue;
+    for (const entry of entries) {
+      const fullEntryPath = path.join(sourceDir, entry);
+      const isDir = (await fs.stat(fullEntryPath)).isDirectory();
 
-      let componentName = path.basename(filename, ".tsx");
-      const filePath = path.join(sourceDir, filename);
+      if (isDir) {
+        const componentName = entry;
+        const subFiles = await getFilesRecursively(fullEntryPath, "");
+        const validSubFiles = subFiles.filter((f) => f.endsWith(".tsx") || f.endsWith(".ts"));
+        if (validSubFiles.length === 0) continue;
+
+        const meta = COMPONENT_METADATA[componentName] || {
+          title: componentName
+            .split("-")
+            .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+            .join(" "),
+          description: `${componentName} component suite.`,
+          dependencies: ["clsx", "tailwind-merge"],
+        };
+
+        const registryFiles = [];
+        for (const subFile of validSubFiles) {
+          const relToUi = path.relative(sourceDir, subFile).replace(/\\/g, "/");
+          const subContent = await fs.readFile(subFile, "utf-8");
+          registryFiles.push({
+            path: `ui/${relToUi}`,
+            content: subContent,
+            type: "registry:ui" as const,
+          });
+        }
+
+        const registryItem: RegistryItem = {
+          name: componentName,
+          title: meta.title,
+          description: meta.description,
+          type: "registry:ui",
+          dependencies: meta.dependencies,
+          registryDependencies: meta.registryDependencies,
+          files: registryFiles,
+        };
+
+        const outputPath = path.join(outputDir, `${componentName}.json`);
+        await fs.writeFile(outputPath, JSON.stringify(registryItem, null, 2));
+
+        indexList.push({
+          name: componentName,
+          title: meta.title,
+          description: meta.description,
+          type: "registry:ui",
+          dependencies: meta.dependencies,
+          registryDependencies: meta.registryDependencies,
+        });
+
+        console.log(
+          pc.green(
+            `  ✓ Generated registry/${componentName}.json (directory: ${registryFiles.length} files)`
+          )
+        );
+        continue;
+      }
+
+      if (!entry.endsWith(".tsx")) continue;
+
+      let componentName = path.basename(entry, ".tsx");
+      const filePath = path.join(sourceDir, entry);
       const content = await fs.readFile(filePath, "utf-8");
 
       if (componentName === "theme-toggle") {
@@ -66,7 +125,7 @@ async function buildRegistry() {
 
       const registryFiles = [
         {
-          path: `ui/${filename}`,
+          path: `ui/${entry}`,
           content,
           type: "registry:ui" as const,
         },
@@ -238,6 +297,13 @@ async function buildRegistry() {
   if (await fs.pathExists(webComponentsDir) && await fs.pathExists(sourceDir)) {
     await fs.copy(sourceDir, webComponentsDir, { overwrite: true });
     console.log(pc.green("  ✓ Synced UI components to apps/web/src/components/ui"));
+  }
+
+  // 6. Automatically sync Hooks to apps/web/src/hooks
+  const webHooksDir = path.join(cwd, "..", "..", "apps", "web", "src", "hooks");
+  if (await fs.pathExists(webHooksDir) && await fs.pathExists(hooksSourceDir)) {
+    await fs.copy(hooksSourceDir, webHooksDir, { overwrite: true });
+    console.log(pc.green("  ✓ Synced hooks to apps/web/src/hooks"));
   }
 
   console.log(pc.cyan("\n✅ Registry build complete!"));
