@@ -63,8 +63,12 @@ export function htmlToMarkdown(html: string): string {
   md = md.replace(/<br\s*[\/]?>/gi, "\n");
   md = md.replace(/<hr\s*[\/]?>/gi, "---\n\n");
 
-  // Strip remaining HTML tags
-  md = md.replace(/<[^>]+>/g, "");
+  // Strip remaining HTML tags securely (iterative loop prevents bypasses)
+  let prev: string;
+  do {
+    prev = md;
+    md = md.replace(/<[^>]*>/g, "");
+  } while (md !== prev);
 
   // Clean multiple extra line breaks
   md = md.replace(/\n{3,}/g, "\n\n").trim();
