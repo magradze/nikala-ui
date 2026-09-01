@@ -74,7 +74,7 @@ export function Header() {
           {/* Left: Mobile Nav Drawer Toggle & Brand Logo */}
           <div class="flex items-center gap-3 lg:gap-5 shrink-0">
             <MobileNav />
-            <NavbarBrand href="/">
+            <NavbarBrand as={A} href="/">
               <Logo class="w-7 h-7 rounded-md" />
               <span class="hidden sm:inline-block font-bold text-base tracking-tight">Nikala UI</span>
               <Badge
@@ -170,6 +170,7 @@ export function Header() {
             {/* 2. Desktop (Tauri v2) */}
             <NavbarItem isActive={isDesktopActive()}>
               <NavbarLink
+                as={A}
                 href="/docs/desktop"
                 isActive={isDesktopActive()}
                 class="flex items-center gap-1.5 text-xs"
@@ -182,17 +183,19 @@ export function Header() {
             {/* 3. MCP */}
             <NavbarItem isActive={isMcpActive()}>
               <NavbarLink
+                as={A}
                 href="/docs/mcp"
                 isActive={isMcpActive()}
                 class="text-xs"
               >
-                MCP
+                MCP Server
               </NavbarLink>
             </NavbarItem>
 
             {/* 4. Playground */}
             <NavbarItem isActive={isPlaygroundActive()}>
               <NavbarLink
+                as={A}
                 href="/playground"
                 isActive={isPlaygroundActive()}
                 class="text-xs"

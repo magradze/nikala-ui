@@ -8,8 +8,9 @@ import {
   type ParentComponent,
   type Component,
   type Accessor,
+  type ValidComponent,
 } from "solid-js";
-import { A } from "@solidjs/router";
+import { Dynamic } from "solid-js/web";
 import { cva, type VariantProps } from "class-variance-authority";
 import { Menu, X } from "lucide-solid";
 import { cn } from "@/lib/cn";
@@ -146,43 +147,26 @@ export const NavbarContainer: ParentComponent<NavbarContainerProps> = (props) =>
 };
 
 /* --- Navbar Brand / Logo Container --- */
-export interface NavbarBrandProps extends JSX.AnchorHTMLAttributes<HTMLAnchorElement> {
+export interface NavbarBrandProps<T extends ValidComponent = "a"> extends JSX.AnchorHTMLAttributes<HTMLAnchorElement> {
   class?: string;
+  as?: T;
   href?: string;
 }
 
-export const NavbarBrand: ParentComponent<NavbarBrandProps> = (props) => {
-  const [local, rest] = splitProps(props, ["class", "href", "children"]);
-
-  const isExternal = () => local.href?.startsWith("http");
+export const NavbarBrand = <T extends ValidComponent = "a">(props: NavbarBrandProps<T>) => {
+  const [local, rest] = splitProps(props as NavbarBrandProps, ["class", "as", "children"]);
 
   return (
-    <Show
-      when={!isExternal() && local.href}
-      fallback={
-        <a
-          href={local.href}
-          class={cn(
-            "flex items-center gap-2 font-bold text-foreground transition-opacity hover:opacity-90 cursor-pointer shrink-0",
-            local.class
-          )}
-          {...rest}
-        >
-          {local.children}
-        </a>
-      }
+    <Dynamic
+      component={local.as || "a"}
+      class={cn(
+        "flex items-center gap-2 font-bold text-foreground transition-opacity hover:opacity-90 cursor-pointer shrink-0",
+        local.class
+      )}
+      {...rest}
     >
-      <A
-        href={local.href!}
-        class={cn(
-          "flex items-center gap-2 font-bold text-foreground transition-opacity hover:opacity-90 cursor-pointer shrink-0",
-          local.class
-        )}
-        {...rest}
-      >
-        {local.children}
-      </A>
-    </Show>
+      {local.children}
+    </Dynamic>
   );
 };
 
@@ -268,50 +252,31 @@ export const navbarLinkVariants = cva(
   }
 );
 
-export interface NavbarLinkProps
+export interface NavbarLinkProps<T extends ValidComponent = "a">
   extends JSX.AnchorHTMLAttributes<HTMLAnchorElement>,
     VariantProps<typeof navbarLinkVariants> {
   class?: string;
   isActive?: boolean;
+  as?: T;
   href?: string;
 }
 
-export const NavbarLink: ParentComponent<NavbarLinkProps> = (props) => {
-  const [local, rest] = splitProps(props, ["class", "variant", "isActive", "href", "children"]);
-
-  const isExternal = () => local.href?.startsWith("http");
+export const NavbarLink = <T extends ValidComponent = "a">(props: NavbarLinkProps<T>) => {
+  const [local, rest] = splitProps(props as NavbarLinkProps, ["class", "variant", "isActive", "as", "children"]);
 
   return (
-    <Show
-      when={!isExternal() && local.href}
-      fallback={
-        <a
-          href={local.href}
-          class={cn(
-            navbarLinkVariants({
-              variant: local.isActive ? "active" : local.variant,
-            }),
-            local.class
-          )}
-          {...rest}
-        >
-          {local.children}
-        </a>
-      }
+    <Dynamic
+      component={local.as || "a"}
+      class={cn(
+        navbarLinkVariants({
+          variant: local.isActive ? "active" : local.variant,
+        }),
+        local.class
+      )}
+      {...rest}
     >
-      <A
-        href={local.href!}
-        class={cn(
-          navbarLinkVariants({
-            variant: local.isActive ? "active" : local.variant,
-          }),
-          local.class
-        )}
-        {...rest}
-      >
-        {local.children}
-      </A>
-    </Show>
+      {local.children}
+    </Dynamic>
   );
 };
 
