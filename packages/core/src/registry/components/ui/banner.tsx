@@ -28,8 +28,6 @@ export const bannerVariants = cva(
           "bg-emerald-500/15 text-emerald-900 border-b border-emerald-500/20 dark:text-emerald-200",
         destructive:
           "bg-rose-500/15 text-rose-900 border-b border-rose-500/20 dark:text-rose-200",
-        pirosmani:
-          "bg-[#722f37] text-white border-b border-[#8a3943] shadow-sm",
       },
       sticky: {
         true: "sticky top-0 z-50 backdrop-blur-sm",

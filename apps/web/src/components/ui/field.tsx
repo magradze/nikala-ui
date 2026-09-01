@@ -17,8 +17,9 @@ export const Field: Component<FieldProps> = (props) => {
   );
 };
 
-export interface FieldLabelProps extends LabelProps {
+export interface FieldLabelProps extends JSX.LabelHTMLAttributes<HTMLLabelElement>, LabelProps {
   class?: string;
+  for?: string;
   children?: JSX.Element;
 }
 

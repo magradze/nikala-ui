@@ -12,11 +12,11 @@ import {
   DialogTitle,
   DialogDescription,
   DialogFooter,
-} from "./dialog";
-import { Button } from "./button";
-import { Badge } from "./badge";
-import { Progress } from "./progress";
-import { Alert, AlertTitle, AlertDescription } from "./alert";
+} from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Progress } from "@/components/ui/progress";
+import { Alert, AlertTitle, AlertDescription } from "@/components/ui/alert";
 import type {
   CreateAppUpdaterReturn,
   UpdateManifestInfo,

@@ -228,11 +228,18 @@ async function buildRegistry() {
     console.log(pc.green(`  ✓ Generated registry/${hookName}.json`));
   }
 
-  // Write central registry/index.json
+  // 4. Write central registry/index.json
   const indexPath = path.join(outputDir, "index.json");
   await fs.writeFile(indexPath, JSON.stringify(indexList, null, 2));
+  console.log(pc.green("  ✓ Generated registry/index.json"));
 
-  console.log(pc.green("\n  ✓ Generated registry/index.json"));
+  // 5. Automatically sync UI components to apps/web/src/components/ui
+  const webComponentsDir = path.join(cwd, "..", "..", "apps", "web", "src", "components", "ui");
+  if (await fs.pathExists(webComponentsDir) && await fs.pathExists(sourceDir)) {
+    await fs.copy(sourceDir, webComponentsDir, { overwrite: true });
+    console.log(pc.green("  ✓ Synced UI components to apps/web/src/components/ui"));
+  }
+
   console.log(pc.cyan("\n✅ Registry build complete!"));
 }
 

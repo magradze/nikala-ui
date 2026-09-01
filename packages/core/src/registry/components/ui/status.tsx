@@ -106,11 +106,13 @@ export const Status: Component<StatusProps> = (props) => {
           />
         </Show>
         <span
-          class={statusDotVariants({
-            variant: local.variant,
-            size: local.size,
-            animation: local.animation === "ping" ? "none" : local.animation,
-          })}
+          class={cn(
+            statusDotVariants({
+              variant: local.variant,
+              size: local.size,
+              animation: local.animation === "ping" ? "none" : local.animation,
+            })
+          )}
         />
       </span>
       {local.children}

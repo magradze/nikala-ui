@@ -2,7 +2,7 @@ import { splitProps, type Component, type JSX, type ValidComponent, createContex
 import * as DropdownMenuPrimitive from "@kobalte/core/dropdown-menu";
 import type { PolymorphicProps } from "@kobalte/core/polymorphic";
 import { createClickOutside } from "@/hooks/create-click-outside";
-import { ScrollArea } from "./scroll-area";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import { cn } from "@/lib/cn";
 
 const DropdownGroupContext = createContext<boolean>(false);
@@ -130,7 +130,7 @@ export const DropdownMenuContent = <T extends ValidComponent = "div">(
           local.class
         )}
       >
-        <ScrollArea class="max-h-72 w-full rounded-[inherit]">
+        <ScrollArea class="max-h-72 w-full">
           <div class="p-1">
             {local.children}
           </div>
@@ -144,18 +144,25 @@ export type DropdownMenuItemProps<T extends ValidComponent = "div"> =
   DropdownMenuPrimitive.DropdownMenuItemProps<T> & {
     class?: string;
     inset?: boolean;
+    variant?: "default" | "destructive";
   };
 
 export const DropdownMenuItem = <T extends ValidComponent = "div">(
   props: PolymorphicProps<T, DropdownMenuItemProps<T>>
 ) => {
-  const [local, rest] = splitProps(props as DropdownMenuItemProps, ["class", "inset"]);
+  const [local, rest] = splitProps(props as DropdownMenuItemProps, [
+    "class",
+    "inset",
+    "variant",
+  ]);
 
   return (
     <DropdownMenuPrimitive.Item
       class={cn(
-        "relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50 text-foreground",
+        "relative flex cursor-pointer select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-disabled:pointer-events-none data-disabled:opacity-50",
         local.inset && "pl-8",
+        local.variant === "destructive" &&
+        "text-destructive focus:bg-destructive/15 focus:text-destructive",
         local.class
       )}
       {...(rest as any)}
@@ -167,26 +174,24 @@ export type DropdownMenuCheckboxItemProps<T extends ValidComponent = "div"> =
   DropdownMenuPrimitive.DropdownMenuCheckboxItemProps<T> & {
     class?: string;
     children?: JSX.Element;
-    checked?: boolean;
   };
 
 export const DropdownMenuCheckboxItem = <T extends ValidComponent = "div">(
   props: PolymorphicProps<T, DropdownMenuCheckboxItemProps<T>>
 ) => {
-  const [local, rest] = splitProps(props as DropdownMenuCheckboxItemProps, ["class", "children", "checked"]);
+  const [local, rest] = splitProps(props as DropdownMenuCheckboxItemProps, ["class", "children"]);
 
   return (
     <DropdownMenuPrimitive.CheckboxItem
-      checked={local.checked}
       class={cn(
-        "relative flex cursor-default select-none items-center rounded-sm py-1.5 pl-8 pr-2 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50 text-foreground",
+        "relative flex cursor-pointer select-none items-center rounded-sm py-1.5 pl-8 pr-2 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-disabled:pointer-events-none data-disabled:opacity-50",
         local.class
       )}
       {...(rest as any)}
     >
       <span class="absolute left-2 flex h-3.5 w-3.5 items-center justify-center">
         <DropdownMenuPrimitive.ItemIndicator>
-          <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <svg class="h-4 w-4 fill-none stroke-current stroke-2" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
           </svg>
         </DropdownMenuPrimitive.ItemIndicator>
@@ -210,16 +215,14 @@ export const DropdownMenuRadioItem = <T extends ValidComponent = "div">(
   return (
     <DropdownMenuPrimitive.RadioItem
       class={cn(
-        "relative flex cursor-default select-none items-center rounded-sm py-1.5 pl-8 pr-2 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50 text-foreground",
+        "relative flex cursor-pointer select-none items-center rounded-sm py-1.5 pl-8 pr-2 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-disabled:pointer-events-none data-disabled:opacity-50",
         local.class
       )}
       {...(rest as any)}
     >
       <span class="absolute left-2 flex h-3.5 w-3.5 items-center justify-center">
         <DropdownMenuPrimitive.ItemIndicator>
-          <svg class="h-2 w-2 fill-current" viewBox="0 0 8 8">
-            <circle cx="4" cy="4" r="3" />
-          </svg>
+          <span class="h-2 w-2 rounded-lg bg-current" />
         </DropdownMenuPrimitive.ItemIndicator>
       </span>
       {local.children}
@@ -261,25 +264,35 @@ export const DropdownMenuLabel: Component<DropdownMenuLabelProps> = (props) => {
   );
 };
 
-export const DropdownMenuSeparator: Component<{ class?: string }> = (props) => {
+export type DropdownMenuSeparatorProps<T extends ValidComponent = "hr"> =
+  DropdownMenuPrimitive.DropdownMenuSeparatorProps<T> & {
+    class?: string;
+  };
+
+export const DropdownMenuSeparator = <T extends ValidComponent = "hr">(
+  props: PolymorphicProps<T, DropdownMenuSeparatorProps<T>>
+) => {
+  const [local, rest] = splitProps(props as DropdownMenuSeparatorProps, ["class"]);
+
   return (
     <DropdownMenuPrimitive.Separator
-      class={cn("-mx-1 my-1 h-px bg-border", props.class)}
+      class={cn("-mx-1 my-1 h-px bg-border", local.class)}
+      {...(rest as any)}
     />
   );
 };
 
-export interface DropdownMenuShortcutProps {
+export interface DropdownMenuShortcutProps extends JSX.HTMLAttributes<HTMLSpanElement> {
   class?: string;
-  children?: JSX.Element;
 }
 
 export const DropdownMenuShortcut: Component<DropdownMenuShortcutProps> = (props) => {
-  const [local, rest] = splitProps(props, ["class", "children"]);
+  const [local, rest] = splitProps(props, ["class"]);
 
   return (
-    <span class={cn("ml-auto text-xs tracking-widest text-muted-foreground", local.class)} {...rest}>
-      {local.children}
-    </span>
+    <span
+      class={cn("ml-auto text-xs tracking-widest text-muted-foreground", local.class)}
+      {...rest}
+    />
   );
 };

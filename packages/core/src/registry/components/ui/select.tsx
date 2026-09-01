@@ -1,20 +1,24 @@
-import { splitProps, type Component, type JSX, type ValidComponent } from "solid-js";
+import { splitProps, type JSX, type ValidComponent } from "solid-js";
 import * as SelectPrimitive from "@kobalte/core/select";
 import type { PolymorphicProps } from "@kobalte/core/polymorphic";
 import { createClickOutside } from "@/hooks/create-click-outside";
-import { ScrollArea } from "./scroll-area";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import { cn } from "@/lib/cn";
 
 export type SelectRootProps<Option = any, OptGroup = any, T extends ValidComponent = "div"> =
-  SelectPrimitive.SelectRootProps<Option, OptGroup, T>;
+  SelectPrimitive.SelectRootProps<Option, OptGroup, T> & {
+    class?: string;
+  };
 
 /**
- * Root Select component wrapper built on Kobalte primitives.
+ * Root Select component built on top of Kobalte headless primitives.
  */
 export const Select = <Option = any, OptGroup = any, T extends ValidComponent = "div">(
-  props: SelectRootProps<Option, OptGroup, T>
+  props: PolymorphicProps<T, SelectRootProps<Option, OptGroup, T>>
 ) => {
-  return <SelectPrimitive.Root {...props} />;
+  const [local, rest] = splitProps(props as SelectRootProps, ["class"]);
+
+  return <SelectPrimitive.Root class={cn("relative w-full", local.class)} {...(rest as any)} />;
 };
 
 export type SelectTriggerProps<T extends ValidComponent = "button"> =
@@ -136,23 +140,16 @@ export const SelectItem = <T extends ValidComponent = "li">(
   return (
     <SelectPrimitive.Item
       class={cn(
-        "relative flex w-full cursor-pointer select-none items-center rounded-sm py-1.5 pl-8 pr-2 text-sm outline-none data-[disabled]:pointer-events-none data-[highlighted]:bg-accent data-[highlighted]:text-accent-foreground data-[disabled]:opacity-50 text-foreground",
+        "relative flex w-full cursor-pointer select-none items-center rounded-sm py-1.5 pl-8 pr-2 text-sm outline-none data-disabled:pointer-events-none data-highlighted:bg-accent data-highlighted:text-accent-foreground",
         local.class
       )}
       {...rest}
     >
-      <span class="absolute left-2 flex h-3.5 w-3.5 items-center justify-center">
-        <SelectPrimitive.ItemIndicator
-          as="svg"
-          class="h-4 w-4"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-        >
+      <SelectPrimitive.ItemIndicator class="absolute left-2 flex h-3.5 w-3.5 items-center justify-center">
+        <svg class="h-4 w-4 fill-none stroke-current stroke-2" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
-        </SelectPrimitive.ItemIndicator>
-      </span>
+        </svg>
+      </SelectPrimitive.ItemIndicator>
       <SelectPrimitive.ItemLabel>{local.children}</SelectPrimitive.ItemLabel>
     </SelectPrimitive.Item>
   );

@@ -15,8 +15,8 @@ import {
 } from "solid-js";
 import { cva, type VariantProps } from "class-variance-authority";
 import { Plus, X, Pin } from "lucide-solid";
-import { Button } from "./button";
-import { Tooltip, TooltipTrigger, TooltipContent } from "./tooltip";
+import { Button } from "@/components/ui/button";
+import { Tooltip, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip";
 import {
   type CreateDocumentTabsReturn,
   type TabItem,

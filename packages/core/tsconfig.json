@@ -6,6 +6,8 @@
     "jsx": "preserve",
     "jsxImportSource": "solid-js",
     "paths": {
+      "@/components/ui/*": ["./src/registry/components/ui/*"],
+      "@/components/blocks/*": ["./src/registry/blocks/*"],
       "@/hooks/*": ["../hooks/src/*"],
       "@/*": ["./src/*"]
     },

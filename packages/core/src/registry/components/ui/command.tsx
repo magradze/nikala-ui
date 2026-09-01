@@ -10,13 +10,13 @@ import {
   type Accessor,
 } from "solid-js";
 import { createKeybindings } from "@/hooks/create-keybindings";
+import { Dialog } from "@kobalte/core/dialog";
 import { Search, ArrowUp, ArrowDown, CornerDownLeft } from "lucide-solid";
 import { cn } from "@/lib/cn";
-import { Kbd, KbdGroup } from "./kbd";
-import { InputGroup, InputGroupInput, InputGroupAddon } from "./input-group";
-import { List, ListGroup, ListHeader, ListItem, type ListItemProps } from "./list";
-import { Dialog, DialogOverlay, DialogContent } from "./dialog";
-import { ScrollArea } from "./scroll-area";
+import { Kbd, KbdGroup } from "../ui/kbd";
+import { InputGroup, InputGroupInput, InputGroupAddon } from "../ui/input-group";
+import { List, ListGroup, ListHeader, ListItem, type ListItemProps } from "../ui/list";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 /* --- Command Context State --- */
 interface CommandContextValue {
@@ -24,8 +24,8 @@ interface CommandContextValue {
   setSearch: (value: string) => void;
   activeIndex: Accessor<number>;
   setActiveIndex: (fn: (prev: number) => number) => void;
-  registerItemIndex: () => number;
-  onItemSelect: (fn: () => void) => void;
+  registerItemIndex: (element: HTMLElement) => number;
+  onItemSelect: (index: number, action?: () => void) => void;
 }
 
 const CommandContext = createContext<CommandContextValue>();
@@ -33,12 +33,12 @@ const CommandContext = createContext<CommandContextValue>();
 export const useCommand = () => {
   const ctx = useContext(CommandContext);
   if (!ctx) {
-    throw new Error("useCommand must be used within a <Command /> root component.");
+    throw new Error("useCommand must be used within a <Command />");
   }
   return ctx;
 };
 
-/* --- Command Root --- */
+/* --- Root Command Container --- */
 export interface CommandProps extends Omit<JSX.HTMLAttributes<HTMLDivElement>, "children"> {
   class?: string;
   children?: JSX.Element | ((ctx: CommandContextValue) => JSX.Element);
@@ -48,32 +48,56 @@ export const Command: Component<CommandProps> = (props) => {
   const [local, rest] = splitProps(props, ["class", "children"]);
   const [search, setSearch] = createSignal("");
   const [activeIndex, setActiveIndex] = createSignal(0);
-  let itemCounter = 0;
-  const itemCallbacks: Record<number, () => void> = {};
-  let containerRef: HTMLDivElement | undefined;
 
-  const registerItemIndex = () => {
-    const idx = itemCounter;
-    itemCounter += 1;
-    return idx;
+  let containerRef: HTMLDivElement | undefined;
+  let itemsList: HTMLElement[] = [];
+
+  const registerItemIndex = (element: HTMLElement) => {
+    if (!itemsList.includes(element)) {
+      itemsList.push(element);
+    }
+    return itemsList.indexOf(element);
   };
 
-  const onItemSelect = (fn: () => void) => {
-    itemCallbacks[activeIndex()] = fn;
+  const onItemSelect = (index: number, action?: () => void) => {
+    setActiveIndex(index);
+    if (action) action();
+  };
+
+  const getVisibleItems = () => {
+    if (!containerRef) return [];
+    return Array.from(containerRef.querySelectorAll<HTMLElement>("[data-command-item]:not(.hidden)"));
+  };
+
+  const updateActiveAttribute = (index: number) => {
+    const visible = getVisibleItems();
+    visible.forEach((el, idx) => {
+      if (idx === index) {
+        el.setAttribute("aria-selected", "true");
+        el.scrollIntoView({ block: "nearest" });
+      } else {
+        el.removeAttribute("aria-selected");
+      }
+    });
   };
 
   const handleKeyDown = (e: KeyboardEvent) => {
+    const visible = getVisibleItems();
+    if (visible.length === 0) return;
+
     if (e.key === "ArrowDown") {
       e.preventDefault();
-      setActiveIndex((prev) => Math.min(prev + 1, Math.max(0, itemCounter - 1)));
+      const next = (activeIndex() + 1) % visible.length;
+      setActiveIndex(next);
+      updateActiveAttribute(next);
     } else if (e.key === "ArrowUp") {
       e.preventDefault();
-      setActiveIndex((prev) => Math.max(prev - 1, 0));
+      const prev = (activeIndex() - 1 + visible.length) % visible.length;
+      setActiveIndex(prev);
+      updateActiveAttribute(prev);
     } else if (e.key === "Enter") {
       e.preventDefault();
-      const fn = itemCallbacks[activeIndex()];
-      if (fn) fn();
-      const current = containerRef?.querySelector('[data-command-active="true"]') as HTMLElement;
+      const current = visible[activeIndex()];
       if (current) {
         current.click();
       }
@@ -144,12 +168,14 @@ export const CommandDialog: Component<CommandDialogProps> = (props) => {
 
   return (
     <Dialog open={isOpen()} onOpenChange={setOpen}>
-      <DialogOverlay class="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs data-expanded:animate-in data-closed:animate-out data-[closed]:fade-out-0 data-[expanded]:fade-in-0" />
-      <div class="fixed inset-0 z-50 flex items-start justify-center pt-16 sm:pt-24 px-4">
-        <DialogContent class="w-full max-w-xl rounded-lg border border-border bg-popover text-popover-foreground shadow-2xl outline-none data-expanded:animate-in data-closed:animate-out data-[closed]:fade-out-0 data-[expanded]:fade-in-0 data-closed:zoom-out-95 data-expanded:zoom-in-95 p-0">
-          <Command class={props.class}>{props.children}</Command>
-        </DialogContent>
-      </div>
+      <Dialog.Portal>
+        <Dialog.Overlay class="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs data-expanded:animate-in data-closed:animate-out data-[closed]:fade-out-0 data-[expanded]:fade-in-0" />
+        <div class="fixed inset-0 z-50 flex items-start justify-center pt-16 sm:pt-24 px-4">
+          <Dialog.Content class="w-full max-w-xl rounded-lg border border-border bg-popover text-popover-foreground shadow-2xl outline-none data-expanded:animate-in data-closed:animate-out data-[closed]:fade-out-0 data-[expanded]:fade-in-0 data-closed:zoom-out-95 data-expanded:zoom-in-95">
+            <Command class={props.class}>{props.children}</Command>
+          </Dialog.Content>
+        </div>
+      </Dialog.Portal>
     </Dialog>
   );
 };
@@ -257,118 +283,88 @@ export const CommandItem: Component<CommandItemProps> = (props) => {
     "title",
     "subtitle",
     "keywords",
-    "disabled",
     "onSelect",
+    "onClick",
     "class",
-    "children",
   ]);
+  const { search, activeIndex } = useCommand();
 
-  const ctx = useCommand();
-  const index = ctx.registerItemIndex();
-
-  const isActive = () => ctx.activeIndex() === index;
-
-  /* Automatic scroll into view when navigating with Arrow keys */
-  const scrollIntoViewIfNeeded = () => {
-    if (isActive() && itemRef) {
-      itemRef.scrollIntoView({ block: "nearest", behavior: "smooth" });
-    }
-  };
-
-  const isVisible = () => {
-    const query = ctx.search().toLowerCase().trim();
+  /* Auto fuzzy-filter item based on search query */
+  const matchesSearch = () => {
+    const query = search().toLowerCase().trim();
     if (!query) return true;
 
-    const titleStr = typeof local.title === "string" ? local.title.toLowerCase() : "";
-    const subStr = typeof local.subtitle === "string" ? local.subtitle.toLowerCase() : "";
+    const titleMatch = local.title?.toLowerCase().includes(query);
+    const subtitleMatch = local.subtitle?.toLowerCase().includes(query);
+    const keywordMatch = local.keywords?.some((k) =>
+      k.toLowerCase().includes(query)
+    );
 
-    if (titleStr.includes(query) || subStr.includes(query)) return true;
-
-    if (local.keywords) {
-      return local.keywords.some((k) => k.toLowerCase().includes(query));
-    }
-
-    return false;
+    return Boolean(titleMatch || subtitleMatch || keywordMatch);
   };
 
-  const handleSelect = () => {
-    if (local.disabled) return;
-    if (local.onSelect) local.onSelect();
+  const handleClick = (e: MouseEvent) => {
+    if (typeof local.onSelect === "function") {
+      local.onSelect();
+    }
+    if (typeof local.onClick === "function") {
+      local.onClick(e as any);
+    }
   };
 
   return (
-    <Show when={isVisible()}>
+    <Show when={matchesSearch()}>
       <ListItem
-        ref={(el) => {
-          itemRef = el;
-          scrollIntoViewIfNeeded();
-        }}
+        ref={itemRef}
+        data-command-item="true"
         title={local.title}
         subtitle={local.subtitle}
-        data-command-active={isActive() ? "true" : "false"}
+        onClick={handleClick}
         class={cn(
-          "relative flex cursor-pointer select-none items-center rounded-md px-2 py-1.5 text-sm outline-none transition-colors",
-          isActive()
-            ? "bg-accent text-accent-foreground font-medium"
-            : "text-popover-foreground hover:bg-muted/50",
-          local.disabled && "pointer-events-none opacity-50",
+          "aria-selected:bg-accent aria-selected:text-accent-foreground cursor-pointer transition-colors hover:bg-accent hover:text-accent-foreground",
           local.class
         )}
-        onClick={handleSelect}
-        onMouseEnter={() => ctx.setActiveIndex(() => index)}
         {...rest}
-      >
-        {local.children}
-      </ListItem>
+      />
     </Show>
   );
 };
 
-/* --- Command Footer Indicator Bar --- */
+/* --- Command Footer --- */
 export interface CommandFooterProps extends JSX.HTMLAttributes<HTMLDivElement> {
   class?: string;
 }
 
 export const CommandFooter: Component<CommandFooterProps> = (props) => {
-  const [local, rest] = splitProps(props, ["class", "children"]);
+  const [local, rest] = splitProps(props, ["class"]);
 
   return (
     <div
       class={cn(
-        "flex items-center justify-between border-t border-border px-3 py-2 text-xs text-muted-foreground bg-muted/40",
+        "flex items-center justify-between border-t border-border bg-muted/30 px-3 py-2 text-xs text-muted-foreground select-none",
         local.class
       )}
       {...rest}
     >
-      {local.children || (
-        <>
-          <div class="flex items-center gap-2">
-            <span class="inline-flex items-center gap-1">
-              <KbdGroup>
-                <Kbd size="sm">
-                  <ArrowUp class="w-2.5 h-2.5" />
-                </Kbd>
-                <Kbd size="sm">
-                  <ArrowDown class="w-2.5 h-2.5" />
-                </Kbd>
-              </KbdGroup>
-              <span>Navigate</span>
-            </span>
+      <div class="flex items-center gap-3">
+        <span class="flex items-center gap-1">
+          <KbdGroup>
+            <Kbd size="sm"><ArrowUp class="w-2.5 h-2.5" /></Kbd>
+            <Kbd size="sm"><ArrowDown class="w-2.5 h-2.5" /></Kbd>
+          </KbdGroup>
+          <span>Navigate</span>
+        </span>
 
-            <span class="inline-flex items-center gap-1">
-              <Kbd size="sm">
-                <CornerDownLeft class="w-2.5 h-2.5" />
-              </Kbd>
-              <span>Select</span>
-            </span>
-          </div>
+        <span class="flex items-center gap-1">
+          <Kbd size="sm"><CornerDownLeft class="w-2.5 h-2.5" /></Kbd>
+          <span>Select</span>
+        </span>
+      </div>
 
-          <span class="inline-flex items-center gap-1">
-            <Kbd size="sm">ESC</Kbd>
-            <span>Close</span>
-          </span>
-        </>
-      )}
+      <span class="flex items-center gap-1">
+        <Kbd size="sm">Esc</Kbd>
+        <span>Close</span>
+      </span>
     </div>
   );
 };

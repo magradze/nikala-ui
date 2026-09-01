@@ -1,30 +1,29 @@
 import { splitProps, type Component, type JSX, type ValidComponent, Show } from "solid-js";
 import * as DialogPrimitive from "@kobalte/core/dialog";
 import type { PolymorphicProps } from "@kobalte/core/polymorphic";
-import { ScrollArea } from "./scroll-area";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import { cn } from "@/lib/cn";
 
 export type DialogRootProps = DialogPrimitive.DialogRootProps;
 
 /**
- * Root Dialog container managing state and context.
+ * Root Dialog component managing modal open state.
  */
 export const Dialog: Component<DialogRootProps> = (props) => {
   return <DialogPrimitive.Root {...props} />;
 };
 
 export const DialogTrigger = DialogPrimitive.Trigger;
-export const DialogClose = DialogPrimitive.CloseButton;
 
 export type DialogOverlayProps<T extends ValidComponent = "div"> =
   DialogPrimitive.DialogOverlayProps<T> & {
-    /** Whether to apply background backdrop blur (default: true) */
+    /** Whether to apply background blur effect (default: true) */
     blur?: boolean;
     class?: string;
   };
 
 /**
- * Darkened background overlay behind open dialog.
+ * Backdrop overlay wrapper with optional backdrop blur styling.
  */
 export const DialogOverlay = <T extends ValidComponent = "div">(
   props: PolymorphicProps<T, DialogOverlayProps<T>>
@@ -34,8 +33,8 @@ export const DialogOverlay = <T extends ValidComponent = "div">(
   return (
     <DialogPrimitive.Overlay
       class={cn(
-        "fixed inset-0 z-50 transition-all duration-200 data-expanded:animate-in data-closed:animate-out data-[closed]:fade-out-0 data-[expanded]:fade-in-0",
-        local.blur !== false ? "bg-black/80 backdrop-blur-sm" : "bg-black/80",
+        "fixed inset-0 z-50 bg-black/80 data-expanded:animate-in data-closed:animate-out data-[closed]:fade-out-0 data-[expanded]:fade-in-0",
+        local.blur !== false && "backdrop-blur-sm",
         local.class
       )}
       {...(rest as any)}
@@ -124,6 +123,9 @@ export interface DialogHeaderProps extends JSX.HTMLAttributes<HTMLDivElement> {
   class?: string;
 }
 
+/**
+ * Dialog top header container.
+ */
 export const DialogHeader: Component<DialogHeaderProps> = (props) => {
   const [local, rest] = splitProps(props, ["class"]);
 
@@ -139,52 +141,60 @@ export interface DialogFooterProps extends JSX.HTMLAttributes<HTMLDivElement> {
   class?: string;
 }
 
+/**
+ * Dialog bottom action buttons area.
+ */
 export const DialogFooter: Component<DialogFooterProps> = (props) => {
   const [local, rest] = splitProps(props, ["class"]);
 
   return (
     <div
-      class={cn(
-        "flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2 pt-4",
-        local.class
-      )}
+      class={cn("flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2", local.class)}
       {...rest}
     />
   );
 };
 
-export interface DialogTitleProps {
-  class?: string;
-  children?: JSX.Element;
-}
+export type DialogTitleProps<T extends ValidComponent = "h2"> =
+  DialogPrimitive.DialogTitleProps<T> & {
+    class?: string;
+  };
 
-export const DialogTitle: Component<DialogTitleProps> = (props) => {
-  const [local, rest] = splitProps(props, ["class", "children"]);
+/**
+ * Dialog title heading.
+ */
+export const DialogTitle = <T extends ValidComponent = "h2">(
+  props: PolymorphicProps<T, DialogTitleProps<T>>
+) => {
+  const [local, rest] = splitProps(props as DialogTitleProps, ["class"]);
 
   return (
     <DialogPrimitive.Title
       class={cn("text-lg font-semibold leading-none tracking-tight text-foreground", local.class)}
-      {...rest}
-    >
-      {local.children}
-    </DialogPrimitive.Title>
+      {...(rest as any)}
+    />
   );
 };
 
-export interface DialogDescriptionProps {
-  class?: string;
-  children?: JSX.Element;
-}
+export type DialogDescriptionProps<T extends ValidComponent = "p"> =
+  DialogPrimitive.DialogDescriptionProps<T> & {
+    class?: string;
+  };
 
-export const DialogDescription: Component<DialogDescriptionProps> = (props) => {
-  const [local, rest] = splitProps(props, ["class", "children"]);
+/**
+ * Dialog subtitle or description text.
+ */
+export const DialogDescription = <T extends ValidComponent = "p">(
+  props: PolymorphicProps<T, DialogDescriptionProps<T>>
+) => {
+  const [local, rest] = splitProps(props as DialogDescriptionProps, ["class"]);
 
   return (
     <DialogPrimitive.Description
       class={cn("text-sm text-muted-foreground", local.class)}
-      {...rest}
-    >
-      {local.children}
-    </DialogPrimitive.Description>
+      {...(rest as any)}
+    />
   );
 };
+
+export const DialogClose = DialogPrimitive.CloseButton;

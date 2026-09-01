@@ -1,5 +1,5 @@
 import { splitProps, type Component, type JSX } from "solid-js";
-import { Button, type ButtonProps } from "./button";
+import { Button, type ButtonProps } from "@/components/ui/button";
 import { cn } from "@/lib/cn";
 
 export interface IconButtonProps

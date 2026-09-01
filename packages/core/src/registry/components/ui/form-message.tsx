@@ -1,6 +1,6 @@
 import { Show, splitProps, type JSX } from "solid-js";
 import type { CreateFormReturn } from "@/hooks/create-form";
-import { FieldError, type FieldErrorProps } from "./field";
+import { FieldError, type FieldErrorProps } from "@/components/ui/field";
 
 type FormState<T extends Record<string, any>> = Pick<
   CreateFormReturn<T>,

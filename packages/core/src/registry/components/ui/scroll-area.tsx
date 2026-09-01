@@ -51,9 +51,11 @@ export const ScrollArea: Component<ScrollAreaProps> = (props) => {
     const scrollWidth = viewportRef.scrollWidth;
     const clientWidth = viewportRef.clientWidth;
 
+    // Track available lengths (considering 4px track padding)
     const trackHeight = verticalTrackRef ? verticalTrackRef.clientHeight - 4 : clientHeight - 4;
     const trackWidth = horizontalTrackRef ? horizontalTrackRef.clientWidth - 4 : clientWidth - 4;
 
+    // Vertical thumb metrics
     if (scrollHeight > clientHeight && clientHeight > 0) {
       const vRatio = clientHeight / scrollHeight;
       const calculatedHeight = Math.max(vRatio * trackHeight, 20);
@@ -65,6 +67,7 @@ export const ScrollArea: Component<ScrollAreaProps> = (props) => {
       setThumbHeight(0);
     }
 
+    // Horizontal thumb metrics
     if (scrollWidth > clientWidth && clientWidth > 0) {
       const hRatio = clientWidth / scrollWidth;
       const calculatedWidth = Math.max(hRatio * trackWidth, 20);
@@ -85,6 +88,7 @@ export const ScrollArea: Component<ScrollAreaProps> = (props) => {
     updateThumbMetrics();
   });
 
+  // Enable mouse drag on Vertical Thumb
   const handleVerticalThumbPointerDown = (e: PointerEvent) => {
     if (!viewportRef || !verticalTrackRef) return;
     e.preventDefault();
@@ -116,6 +120,7 @@ export const ScrollArea: Component<ScrollAreaProps> = (props) => {
     window.addEventListener("pointerup", onPointerUp);
   };
 
+  // Enable mouse drag on Horizontal Thumb
   const handleHorizontalThumbPointerDown = (e: PointerEvent) => {
     if (!viewportRef || !horizontalTrackRef) return;
     e.preventDefault();
@@ -147,6 +152,7 @@ export const ScrollArea: Component<ScrollAreaProps> = (props) => {
     window.addEventListener("pointerup", onPointerUp);
   };
 
+  // Convert vertical mouse wheel into horizontal scroll proportionally
   const handleWheel = (e: WheelEvent) => {
     if (orientation() === "horizontal" && viewportRef) {
       if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
@@ -162,6 +168,7 @@ export const ScrollArea: Component<ScrollAreaProps> = (props) => {
       onWheel={handleWheel}
       {...rest}
     >
+      {/* Scroll Viewport Container */}
       <div
         ref={viewportRef}
         class="h-full w-full overflow-auto scrollbar-none rounded-[inherit]"
@@ -173,6 +180,7 @@ export const ScrollArea: Component<ScrollAreaProps> = (props) => {
         {local.children}
       </div>
 
+      {/* Vertical Scrollbar Track & Thumb */}
       {(orientation() === "vertical" || orientation() === "both") && thumbHeight() > 0 && (
         <div
           ref={verticalTrackRef}
@@ -194,6 +202,7 @@ export const ScrollArea: Component<ScrollAreaProps> = (props) => {
         </div>
       )}
 
+      {/* Horizontal Scrollbar Track & Thumb */}
       {(orientation() === "horizontal" || orientation() === "both") && thumbWidth() > 0 && (
         <div
           ref={horizontalTrackRef}

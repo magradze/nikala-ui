@@ -15,9 +15,9 @@ import {
 } from "solid-js";
 import { cva, type VariantProps } from "class-variance-authority";
 import { PanelLeft, PanelRight } from "lucide-solid";
-import { Tooltip, TooltipTrigger, TooltipContent } from "./tooltip";
-import { Skeleton } from "./skeleton";
-import { Separator } from "./separator";
+import { Tooltip, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip";
+import { Skeleton } from "@/components/ui/skeleton";
+import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/cn";
 
 /* --- Constants --- */
@@ -211,7 +211,7 @@ export const Sidebar: ParentComponent<SidebarProps> = (props) => {
       data-variant={variant()}
       data-side={side()}
       class={cn(
-        "group relative flex flex-col bg-card text-card-foreground transition-all duration-200 ease-in-out shrink-0",
+        "group relative flex flex-col bg-card text-card-foreground transition-[width,opacity] duration-200 ease-in-out shrink-0",
         !isCollapsed()
           ? "w-[var(--sidebar-width,17rem)]"
           : collapsible() === "icon"

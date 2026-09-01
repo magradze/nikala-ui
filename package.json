@@ -12,6 +12,7 @@
     "build:mcp": "cd packages/mcp && bun run build",
     "build:web": "cd apps/web && bun run build",
     "build": "bun run build:registry && bun run build:cli && bun run build:mcp && bun run build:web",
+    "typecheck": "(cd packages/core && bunx tsc --noEmit) && (cd packages/hooks && bunx tsc --noEmit) && (cd packages/cli && bunx tsc --noEmit) && (cd packages/mcp && bunx tsc --noEmit) && (cd apps/web && bunx tsc --noEmit)",
     "bump": "bun run scripts/bump.ts"
   },
   "devDependencies": {

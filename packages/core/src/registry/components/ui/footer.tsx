@@ -1,4 +1,4 @@
-import { splitProps, type JSX, type ParentComponent } from "solid-js";
+import { splitProps, type JSX, type ParentComponent, type Component } from "solid-js";
 import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/cn";
 

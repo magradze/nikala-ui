@@ -1,6 +1,6 @@
 import { splitProps, type Component, type JSX } from "solid-js";
 import { cn } from "@/lib/cn";
-import { Label, type LabelProps } from "./label";
+import { Label, type LabelProps } from "@/components/ui/label";
 
 export interface FieldProps extends JSX.HTMLAttributes<HTMLDivElement> {
   class?: string;
@@ -17,8 +17,9 @@ export const Field: Component<FieldProps> = (props) => {
   );
 };
 
-export interface FieldLabelProps extends LabelProps {
+export interface FieldLabelProps extends JSX.LabelHTMLAttributes<HTMLLabelElement>, LabelProps {
   class?: string;
+  for?: string;
   children?: JSX.Element;
 }
 
@@ -41,7 +42,10 @@ export const FieldDescription: Component<FieldDescriptionProps> = (props) => {
   const [local, rest] = splitProps(props, ["class", "children"]);
 
   return (
-    <p class={cn("text-sm text-muted-foreground", local.class)} {...rest}>
+    <p
+      class={cn("text-sm text-muted-foreground", local.class)}
+      {...rest}
+    >
       {local.children}
     </p>
   );

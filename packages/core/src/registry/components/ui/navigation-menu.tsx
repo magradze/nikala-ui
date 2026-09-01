@@ -26,7 +26,7 @@ interface NavigationMenuContextValue {
 
 const NavigationMenuContext = createContext<NavigationMenuContextValue>();
 
-export function useNavigationMenu() {
+function useNavigationMenu() {
   const context = useContext(NavigationMenuContext);
   if (!context) {
     throw new Error("useNavigationMenu must be used within a <NavigationMenu />");

@@ -2,20 +2,17 @@ import { splitProps, type Component, type JSX, type ValidComponent } from "solid
 import * as ContextMenuPrimitive from "@kobalte/core/context-menu";
 import type { PolymorphicProps } from "@kobalte/core/polymorphic";
 import { createClickOutside } from "@/hooks/create-click-outside";
-import { ScrollArea } from "./scroll-area";
-import { Separator } from "./separator";
-import { Kbd } from "./kbd";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Separator } from "@/components/ui/separator";
+import { Kbd } from "@/components/ui/kbd";
 import { cn } from "@/lib/cn";
 
-export type ContextMenuRootProps = ContextMenuPrimitive.ContextMenuRootProps;
-
-export const ContextMenu: Component<ContextMenuRootProps> = (props) => {
-  return <ContextMenuPrimitive.Root {...props} />;
-};
-
+export const ContextMenu = ContextMenuPrimitive.Root;
 export const ContextMenuTrigger = ContextMenuPrimitive.Trigger;
 export const ContextMenuGroup = ContextMenuPrimitive.Group;
+export const ContextMenuPortal = ContextMenuPrimitive.Portal;
 export const ContextMenuSub = ContextMenuPrimitive.Sub;
+export const ContextMenuRadioGroup = ContextMenuPrimitive.RadioGroup;
 
 export type ContextMenuSubTriggerProps<T extends ValidComponent = "div"> =
   ContextMenuPrimitive.ContextMenuSubTriggerProps<T> & {
@@ -32,7 +29,7 @@ export const ContextMenuSubTrigger = <T extends ValidComponent = "div">(
   return (
     <ContextMenuPrimitive.SubTrigger
       class={cn(
-        "flex cursor-pointer select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none focus:bg-accent focus:text-accent-foreground data-[state=open]:bg-accent data-[state=open]:text-accent-foreground text-foreground",
+        "flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none focus:bg-accent data-[state=open]:bg-accent text-foreground",
         local.inset && "pl-8",
         local.class
       )}
@@ -126,7 +123,7 @@ export const ContextMenuItem = <T extends ValidComponent = "div">(
   return (
     <ContextMenuPrimitive.Item
       class={cn(
-        "relative flex cursor-pointer select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50 text-foreground",
+        "relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
         local.inset && "pl-8",
         local.class
       )}
@@ -151,7 +148,7 @@ export const ContextMenuCheckboxItem = <T extends ValidComponent = "div">(
     <ContextMenuPrimitive.CheckboxItem
       checked={local.checked}
       class={cn(
-        "relative flex cursor-pointer select-none items-center rounded-sm py-1.5 pl-8 pr-2 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50 text-foreground",
+        "relative flex cursor-default select-none items-center rounded-sm py-1.5 pl-8 pr-2 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
         local.class
       )}
       {...(rest as any)}
@@ -168,7 +165,61 @@ export const ContextMenuCheckboxItem = <T extends ValidComponent = "div">(
   );
 };
 
-export interface ContextMenuShortcutProps extends JSX.HTMLAttributes<HTMLSpanElement> {
+export type ContextMenuRadioItemProps<T extends ValidComponent = "div"> =
+  ContextMenuPrimitive.ContextMenuRadioItemProps<T> & {
+    class?: string;
+    children?: JSX.Element;
+  };
+
+export const ContextMenuRadioItem = <T extends ValidComponent = "div">(
+  props: PolymorphicProps<T, ContextMenuRadioItemProps<T>>
+) => {
+  const [local, rest] = splitProps(props as ContextMenuRadioItemProps, ["class", "children"]);
+
+  return (
+    <ContextMenuPrimitive.RadioItem
+      class={cn(
+        "relative flex cursor-default select-none items-center rounded-sm py-1.5 pl-8 pr-2 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
+        local.class
+      )}
+      {...(rest as any)}
+    >
+      <span class="absolute left-2 flex h-3.5 w-3.5 items-center justify-center">
+        <ContextMenuPrimitive.ItemIndicator>
+          <svg class="h-2 w-2 fill-current" viewBox="0 0 8 8">
+            <circle cx="4" cy="4" r="3" />
+          </svg>
+        </ContextMenuPrimitive.ItemIndicator>
+      </span>
+      {local.children}
+    </ContextMenuPrimitive.RadioItem>
+  );
+};
+
+export interface ContextMenuLabelProps {
+  class?: string;
+  inset?: boolean;
+  children?: JSX.Element;
+}
+
+export const ContextMenuLabel: Component<ContextMenuLabelProps> = (props) => {
+  const [local, rest] = splitProps(props, ["class", "inset", "children"]);
+
+  return (
+    <ContextMenuPrimitive.GroupLabel
+      class={cn("px-2 py-1.5 text-sm font-semibold text-foreground", local.inset && "pl-8", local.class)}
+      {...rest}
+    >
+      {local.children}
+    </ContextMenuPrimitive.GroupLabel>
+  );
+};
+
+export const ContextMenuSeparator: Component<{ class?: string }> = (props) => {
+  return <Separator class={cn("-mx-1 my-1", props.class)} />;
+};
+
+export interface ContextMenuShortcutProps {
   class?: string;
   children?: JSX.Element;
 }
@@ -177,16 +228,10 @@ export const ContextMenuShortcut: Component<ContextMenuShortcutProps> = (props) 
   const [local, rest] = splitProps(props, ["class", "children"]);
 
   return (
-    <span class={cn("ml-auto text-xs tracking-widest text-muted-foreground", local.class)} {...rest}>
-      <Kbd size="sm">{local.children}</Kbd>
+    <span class={cn("ml-auto pl-4 text-xs tracking-widest text-muted-foreground", local.class)} {...rest}>
+      <Kbd size="sm" variant="outline">
+        {local.children}
+      </Kbd>
     </span>
   );
-};
-
-export interface ContextMenuSeparatorProps {
-  class?: string;
-}
-
-export const ContextMenuSeparator: Component<ContextMenuSeparatorProps> = (props) => {
-  return <Separator class={cn("-mx-1 my-1 h-px bg-border", props.class)} />;
 };

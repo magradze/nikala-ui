@@ -1,7 +1,7 @@
 import { Show, splitProps, type Component, type JSX } from "solid-js";
 import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/cn";
-import { Spinner } from "./spinner";
+import { Spinner } from "@/components/ui/spinner";
 
 /**
  * Class variance authority configuration for button styling variants and sizes.

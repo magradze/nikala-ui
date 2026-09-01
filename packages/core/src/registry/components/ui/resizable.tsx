@@ -66,6 +66,7 @@ export const ResizableGroup: Component<ResizableGroupProps> = (props) => {
       let newLeft = startLeftPct + deltaPct;
       let newRight = startRightPct - deltaPct;
 
+      // Min size limits (10% minimum)
       if (newLeft < 10) {
         newLeft = 10;
         newRight = startLeftPct + startRightPct - 10;
@@ -134,6 +135,7 @@ export const ResizablePanel: Component<ResizablePanelProps> = (props) => {
 
   const currentPct = () => ctx.sizes()[local.id] ?? local.initialSize ?? 50;
 
+  // Utilize Nikala UI createElementSize hook for reactive size inspection
   const containerSize = createElementSize(() => ctx.containerRef());
 
   return (
