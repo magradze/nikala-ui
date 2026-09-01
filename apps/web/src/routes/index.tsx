@@ -1,6 +1,7 @@
 import { Header } from "@/components/partials/header";
 import { Seo } from "@/components/seo";
 import { Hero } from "@/components/sections/hero";
+import { DesktopShowcase } from "@/components/sections/desktop-showcase";
 import { DashboardShowcase } from "@/components/sections/dashboard-showcase";
 import { HooksShowcase } from "@/components/sections/hooks-showcase";
 import { McpShowcase } from "@/components/sections/mcp-showcase";
@@ -23,7 +24,10 @@ export default function Home() {
           {/* 1. Hero & Bento Grid */}
           <Hero />
 
-          {/* 2. Interactive Mini-Dashboard Composition */}
+          {/* 2. Native Tauri v2 & Desktop Suite Showcase */}
+          <DesktopShowcase />
+
+          {/* 3. Interactive Mini-Dashboard Composition */}
           <DashboardShowcase />
 
           {/* 3. 40+ Reactive Hooks & Primitives */}

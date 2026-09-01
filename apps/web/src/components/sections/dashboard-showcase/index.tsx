@@ -30,7 +30,7 @@ export function DashboardShowcase() {
 
           <A href="/docs/components/table">
             <Button variant="outline" class="gap-2 text-xs font-semibold cursor-pointer">
-              Explore All 27 Components
+              Explore All 69 Components
               <ArrowRight class="size-3.5" />
             </Button>
           </A>

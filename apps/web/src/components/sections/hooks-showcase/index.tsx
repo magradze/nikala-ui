@@ -21,7 +21,7 @@ export function HooksShowcase() {
               <span>Reactive Primitives Suite</span>
             </div>
             <h2 class="text-2xl sm:text-4xl font-extrabold tracking-tight text-foreground">
-              40+ Pure SolidJS Hooks & Primitives
+              47 Pure SolidJS Hooks & Primitives
             </h2>
             <p class="text-sm sm:text-base text-muted-foreground">
               Fine-grained signals without React-style hook rules or unnecessary lifecycle re-evaluations. Use them independently via copy-paste or the CLI.
@@ -30,7 +30,7 @@ export function HooksShowcase() {
 
           <A href="/docs/hooks/create-clipboard">
             <Button variant="outline" class="gap-2 text-xs font-semibold cursor-pointer">
-              Explore All 40+ Hooks
+              Explore All 47 Primitives
               <ArrowRight class="size-3.5" />
             </Button>
           </A>
