@@ -274,17 +274,23 @@ export const TitlebarTab: ParentComponent<TitlebarTabProps> = (props) => {
 
   const isActive = () => ctx.value() === tabId();
 
-  // Scroll active tab into view when selected safely
+  // Scroll active tab horizontally inside its tablist container
   createEffect(() => {
-    if (typeof window !== "undefined" && isActive() && tabRef) {
+    if (typeof window !== "undefined" && isActive() && tabRef && tabRef.parentElement) {
       try {
-        tabRef.scrollIntoView({
-          behavior: "smooth",
-          block: "nearest",
-          inline: "nearest",
-        });
+        const container = tabRef.parentElement;
+        const tabLeft = tabRef.offsetLeft;
+        const tabRight = tabLeft + tabRef.offsetWidth;
+        const containerLeft = container.scrollLeft;
+        const containerRight = containerLeft + container.clientWidth;
+
+        if (tabLeft < containerLeft) {
+          container.scrollTo({ left: tabLeft, behavior: "smooth" });
+        } else if (tabRight > containerRight) {
+          container.scrollTo({ left: tabRight - container.clientWidth, behavior: "smooth" });
+        }
       } catch {
-        // Safe fallback in SSR or testing environments
+        // Safe fallback
       }
     }
   });

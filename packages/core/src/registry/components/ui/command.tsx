@@ -197,7 +197,6 @@ export const CommandInput: Component<CommandInputProps> = (props) => {
       </InputGroupAddon>
 
       <InputGroupInput
-        ref={(el) => setTimeout(() => el.focus(), 50)}
         value={search()}
         onInput={(e) => {
           setSearch(e.currentTarget.value);
