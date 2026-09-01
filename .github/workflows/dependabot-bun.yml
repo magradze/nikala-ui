@@ -1,0 +1,48 @@
+name: Dependabot Bun Lockfile Updater
+
+on:
+  pull_request_target:
+    branches:
+      - main
+    types:
+      - opened
+      - synchronize
+      - reopened
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  update-bun-lock:
+    name: Sync Bun Lockfile
+    if: github.actor == 'dependabot[bot]'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout PR Branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0
+
+      - name: Setup Bun Environment
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Regenerate Bun Lockfile
+        run: bun install
+
+      - name: Commit and Push Updated Lockfile
+        run: |
+          if git status --porcelain | grep -q 'bun.lock'; then
+            git config --global user.name "github-actions[bot]"
+            git config --global user.email "github-actions[bot]@users.noreply.github.com"
+            git add bun.lock bun.lockb
+            git commit -m "chore(deps): update bun.lock [skip ci]"
+            git push
+            echo "Successfully synced bun.lock to PR branch."
+          else
+            echo "bun.lock is already up-to-date."
+          fi

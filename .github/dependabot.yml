@@ -7,83 +7,26 @@ updates:
       interval: "weekly"
       day: "monday"
     commit-message:
-      prefix: "ci"
-      include: "scope"
+      prefix: "ci(actions)"
     groups:
       github-actions:
         patterns:
           - "*"
 
-  # 2. Monorepo Root Dependencies
+  # 2. Monorepo JavaScript / TypeScript Dependencies (Bun)
   - package-ecosystem: "npm"
     directory: "/"
     schedule:
       interval: "weekly"
       day: "monday"
-    open-pull-requests-limit: 10
+    open-pull-requests-limit: 5
     commit-message:
       prefix: "chore(deps)"
+    ignore:
+      # Prevent breaking major updates from breaking the build automatically
+      - dependency-name: "*"
+        update-types: ["version-update:semver-major"]
     groups:
-      minor-and-patch:
-        update-types:
-          - "minor"
-          - "patch"
-      solid-ecosystem:
+      dependencies:
         patterns:
-          - "solid-js"
-          - "@solidjs/*"
-          - "@kobalte/*"
-      tailwind:
-        patterns:
-          - "tailwindcss*"
-          - "@tailwindcss/*"
-
-  # 3. Web Docs & Playground App
-  - package-ecosystem: "npm"
-    directory: "/apps/web"
-    schedule:
-      interval: "weekly"
-      day: "monday"
-    open-pull-requests-limit: 5
-    commit-message:
-      prefix: "chore(deps-web)"
-
-  # 4. CLI Package
-  - package-ecosystem: "npm"
-    directory: "/packages/cli"
-    schedule:
-      interval: "weekly"
-      day: "monday"
-    open-pull-requests-limit: 5
-    commit-message:
-      prefix: "chore(deps-cli)"
-
-  # 5. Core Package
-  - package-ecosystem: "npm"
-    directory: "/packages/core"
-    schedule:
-      interval: "weekly"
-      day: "monday"
-    open-pull-requests-limit: 5
-    commit-message:
-      prefix: "chore(deps-core)"
-
-  # 6. Hooks Package
-  - package-ecosystem: "npm"
-    directory: "/packages/hooks"
-    schedule:
-      interval: "weekly"
-      day: "monday"
-    open-pull-requests-limit: 5
-    commit-message:
-      prefix: "chore(deps-hooks)"
-
-  # 7. MCP Package
-  - package-ecosystem: "npm"
-    directory: "/packages/mcp"
-    schedule:
-      interval: "weekly"
-      day: "monday"
-    open-pull-requests-limit: 5
-    commit-message:
-      prefix: "chore(deps-mcp)"
+          - "*"
