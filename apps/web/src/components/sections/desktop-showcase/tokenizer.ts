@@ -17,17 +17,17 @@ export function tokenizeLine(line: string): Token[] {
     }
     const [full, str, kw, tag, fn, num, sym] = match;
     if (str) {
-      tokens.push({ text: str, color: "text-emerald-400 dark:text-emerald-300" });
+      tokens.push({ text: str, color: "text-emerald-600 dark:text-emerald-400 font-normal" });
     } else if (kw) {
-      tokens.push({ text: kw, color: "text-purple-400 dark:text-violet-400 font-semibold" });
+      tokens.push({ text: kw, color: "text-purple-600 dark:text-purple-400 font-semibold" });
     } else if (tag) {
-      tokens.push({ text: tag, color: "text-amber-400 dark:text-amber-300 font-semibold" });
+      tokens.push({ text: tag, color: "text-amber-600 dark:text-amber-400 font-semibold" });
     } else if (fn) {
-      tokens.push({ text: fn, color: "text-sky-400 dark:text-sky-300 font-medium" });
+      tokens.push({ text: fn, color: "text-sky-600 dark:text-sky-400 font-medium" });
     } else if (num) {
-      tokens.push({ text: num, color: "text-orange-400 font-bold" });
+      tokens.push({ text: num, color: "text-orange-600 dark:text-orange-400 font-bold" });
     } else if (sym) {
-      tokens.push({ text: sym, color: "text-muted-foreground/80" });
+      tokens.push({ text: sym, color: "text-muted-foreground" });
     } else {
       tokens.push({ text: full, color: "text-foreground" });
     }

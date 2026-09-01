@@ -208,9 +208,9 @@ export function DesktopShowcase() {
         </div>
 
         {/* 2. Frameless Desktop Window Code Editor */}
-        <div class="rounded-xl border border-border/80 bg-black/70 shadow-2xl overflow-hidden">
+        <div class="rounded-lg border border-border bg-card shadow-lg overflow-hidden text-foreground">
           {/* Frameless Titlebar */}
-          <Titlebar platform={platform()} class="border-b border-border/70 bg-card/80">
+          <Titlebar platform={platform()} class="border-b border-border bg-muted/40 text-foreground">
             <TitlebarTitle align="start" class="mx-2 font-bold text-primary text-xs">
               Nikala Studio
             </TitlebarTitle>
@@ -225,10 +225,10 @@ export function DesktopShowcase() {
                 variant="ghost"
                 size="sm"
                 onClick={handleCopyCurrentCode}
-                class="h-7 text-xs gap-1.5 px-2 cursor-pointer text-muted-foreground hover:text-foreground"
+                class="h-7 text-xs gap-1.5 px-2 cursor-pointer text-muted-foreground hover:text-foreground hover:bg-muted/50"
               >
                 <Show when={copiedCode()} fallback={<Copy class="size-3.5" />}>
-                  <Check class="size-3.5 text-emerald-400" />
+                  <Check class="size-3.5 text-emerald-500" />
                 </Show>
                 <span class="hidden sm:inline">{copiedCode() ? "Copied" : "Copy Code"}</span>
               </Button>
@@ -236,14 +236,14 @@ export function DesktopShowcase() {
           </Titlebar>
 
           {/* Full-Width Code Editor Body (Directly underneath Titlebar) */}
-          <div class="font-mono text-xs overflow-hidden flex flex-col min-h-[380px] max-h-[460px] select-text">
+          <div class="font-mono text-xs overflow-hidden flex flex-col min-h-[380px] max-h-[460px] select-text bg-card">
             <div class="p-4 md:p-6 space-y-0.5 overflow-auto flex-1 text-[11px] leading-relaxed">
               <For each={currentCode().split("\n")}>
                 {(line, idx) => {
                   const tokens = tokenizeLine(line);
                   return (
-                    <div class="flex hover:bg-muted/15 -mx-4 md:-mx-6 px-4 md:px-6 py-0.5 rounded-xs">
-                      <span class="w-8 select-none text-muted-foreground/35 text-right pr-4 shrink-0 font-mono text-[10px]">
+                    <div class="flex hover:bg-muted/30 -mx-4 md:-mx-6 px-4 md:px-6 py-0.5 rounded-xs">
+                      <span class="w-8 select-none text-muted-foreground/40 text-right pr-4 shrink-0 font-mono text-[10px]">
                         {idx() + 1}
                       </span>
                       <div class="whitespace-pre">
@@ -258,7 +258,7 @@ export function DesktopShowcase() {
             </div>
 
             {/* Bottom Editor Bar */}
-            <div class="flex items-center justify-between px-4 py-1.5 bg-muted/20 border-t border-border/40 text-[10px] text-muted-foreground shrink-0 font-mono">
+            <div class="flex items-center justify-between px-4 py-1.5 bg-muted/20 border-t border-border/60 text-[10px] text-muted-foreground shrink-0 font-mono">
               <div class="flex items-center gap-3">
                 <span class="text-foreground flex items-center gap-1">
                   <FileCode class="size-3 text-primary" />
@@ -268,7 +268,7 @@ export function DesktopShowcase() {
                 <span>UTF-8</span>
               </div>
               <div class="flex items-center gap-3">
-                <span class="text-emerald-400">● Fine-grained 0ms Reactivity</span>
+                <span class="text-emerald-600 dark:text-emerald-400">● Fine-grained 0ms Reactivity</span>
                 <span>Tauri v2</span>
               </div>
             </div>
