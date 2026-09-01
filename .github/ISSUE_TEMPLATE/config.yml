@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Nikala UI Documentation
+    url: https://nikala.dev
+    about: Read the official component docs, interactive examples, and API guides.
+  - name: GitHub Discussions
+    url: https://github.com/nikala-ui/ui/discussions
+    about: Ask questions, share ideas, and showcase what you're building with Nikala UI.

@@ -1,0 +1,63 @@
+name: Feature / Component Request
+description: Suggest a new UI component, reactive primitive, CLI enhancement, or desktop feature.
+title: "feat: "
+labels: ["enhancement", "needs-triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Have an idea for a new component, hook, or CLI improvement? Share your proposal below.
+
+  - type: dropdown
+    id: request-type
+    attributes:
+      label: Proposal Category
+      options:
+        - "New UI Component (@nikala-ui/core)"
+        - "New Reactive Primitive / Hook (@nikala-ui/hooks)"
+        - "Tauri Desktop Feature (Titlebar / Multi-Window / OS Controls)"
+        - "CLI Command / Generator Tool (@nikala-ui/cli)"
+        - "MCP AI pair-programming tool (@nikala-ui/mcp)"
+        - "Documentation / Playground Example"
+        - "Other"
+    validations:
+      required: true
+
+  - type: input
+    id: proposed-name
+    attributes:
+      label: Proposed Name
+      placeholder: "e.g., OTPInput, createTauriStore, SplitPane"
+    validations:
+      required: true
+
+  - type: textarea
+    id: problem-motivation
+    attributes:
+      label: Problem / Motivation
+      description: What problem does this solve, or what use-case does it enable for SolidJS developers?
+      placeholder: "Currently, building desktop split panes requires..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposed-api
+    attributes:
+      label: Proposed API & Usage Example
+      description: How should this component or hook be used in SolidJS?
+      placeholder: |
+        ```tsx
+        import { SplitPane } from "@/components/ui/split-pane";
+
+        // Example JSX usage
+        ```
+    validations:
+      required: false
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives Considered
+      description: Any existing workarounds or alternative libraries you considered.
+    validations:
+      required: false

@@ -1,0 +1,82 @@
+name: Bug Report
+description: Report a reproducible bug or issue with Nikala UI components, CLI, hooks, or MCP server.
+title: "bug: "
+labels: ["bug", "triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for reporting an issue. Please provide details so we can diagnose and resolve it.
+
+  - type: dropdown
+    id: package
+    attributes:
+      label: Affected Area / Package
+      description: Which part of Nikala UI is affected?
+      options:
+        - "@nikala-ui/core (UI Components)"
+        - "@nikala-ui/hooks (Reactive Primitives)"
+        - "@nikala-ui/cli (CLI Tool)"
+        - "@nikala-ui/mcp (Model Context Protocol Server)"
+        - "Desktop Suite (Tauri v2 Titlebar / Tabs / Updater)"
+        - "Documentation / Playground (nikala.dev)"
+        - "Other"
+    validations:
+      required: true
+
+  - type: input
+    id: component-name
+    attributes:
+      label: Component or Hook Name
+      description: e.g., Button, Dialog, createClipboard, titlebar
+      placeholder: "Button"
+    validations:
+      required: false
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Bug Description
+      description: A clear and concise description of what the bug is.
+      placeholder: "When passing dynamic props to..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Reproduction Code / Sandbox
+      description: Please share a minimal code snippet, reproduction steps, or reproduction repository link.
+      placeholder: |
+        ```tsx
+        import { Dialog } from "@/components/ui/dialog";
+
+        export function App() {
+          // ...
+        }
+        ```
+    validations:
+      required: true
+
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment Info
+      description: Relevant versions and runtime environment details.
+      value: |
+        - SolidJS Version:
+        - Tailwind CSS Version:
+        - Package Manager / Runtime (Bun / Vite / SolidStart / Tauri):
+        - OS & Browser:
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Validation Checklist
+      options:
+        - label: I have searched existing issues to ensure this is not a duplicate.
+          required: true
+        - label: I am using the latest version of @nikala-ui packages or CLI.
+          required: true
