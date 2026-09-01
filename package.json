@@ -14,10 +14,14 @@
     "build": "bun run build:registry && bun run build:cli && bun run build:mcp && bun run build:web",
     "typecheck": "(cd packages/core && bunx tsc --noEmit) && (cd packages/hooks && bunx tsc --noEmit) && (cd packages/cli && bunx tsc --noEmit) && (cd packages/mcp && bunx tsc --noEmit) && (cd apps/web && bunx tsc --noEmit)",
     "bump": "bun run scripts/bump.ts",
-    "changelog": "bun run scripts/generate-changelog.ts"
+    "changelog": "bun run scripts/generate-changelog.ts",
+    "index:algolia": "bun run .github/scripts/index-algolia.ts"
   },
   "devDependencies": {
     "@types/node": "^26.1.1",
     "typescript": "^5.7.2"
+  },
+  "dependencies": {
+    "algoliasearch": "^5.57.0"
   }
 }

@@ -1,11 +1,9 @@
-import { createSignal, For, Show } from "solid-js";
+import { createSignal, lazy } from "solid-js";
 import { A, useLocation } from "@solidjs/router";
-import { COMPONENTS_LIST, DOCUMENTATION_LIST, HOOKS_LIST } from "@/config/docs";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Kbd } from "@/components/ui/kbd";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
-import { Banner } from "@/components/ui/banner";
 import {
   Navbar,
   NavbarContainer,
@@ -43,6 +41,10 @@ import {
 import { MobileNav } from "@/components/partials/mobile-nav";
 import { Logo } from "../ui/logo";
 import { GithubButton } from "@/components/partials/github-button";
+
+const SearchDialog = lazy(() =>
+  import("@/components/partials/search-dialog").then((m) => ({ default: m.SearchDialog }))
+);
 
 export function Header() {
   const [open, setOpen] = createSignal(false);
@@ -188,7 +190,7 @@ export function Header() {
                 isActive={isMcpActive()}
                 class="text-xs"
               >
-                MCP Server
+                MCP
               </NavbarLink>
             </NavbarItem>
 
@@ -221,126 +223,7 @@ export function Header() {
             </Button>
 
             {/* Global Command Palette Modal */}
-            <CommandDialog open={open()} onOpenChange={setOpen} enableHotkey={true}>
-              {({ search }) => {
-                const query = () => search().toLowerCase().trim();
-
-                const filteredDocs = () =>
-                  DOCUMENTATION_LIST.filter(
-                    (doc) =>
-                      !query() ||
-                      doc.title.toLowerCase().includes(query()) ||
-                      doc.subtitle.toLowerCase().includes(query())
-                  );
-
-                const filteredHooks = () =>
-                  HOOKS_LIST.filter(
-                    (hook) =>
-                      !query() ||
-                      hook.title.toLowerCase().includes(query()) ||
-                      hook.description.toLowerCase().includes(query()) ||
-                      hook.name.toLowerCase().includes(query())
-                  );
-
-                const filteredComponents = () =>
-                  COMPONENTS_LIST.filter(
-                    (comp) =>
-                      !query() ||
-                      comp.title.toLowerCase().includes(query()) ||
-                      comp.description.toLowerCase().includes(query()) ||
-                      comp.name.toLowerCase().includes(query())
-                  );
-
-                const hasAnyResults = () =>
-                  filteredDocs().length > 0 ||
-                  filteredHooks().length > 0 ||
-                  filteredComponents().length > 0;
-
-                return (
-                  <>
-                    <CommandInput placeholder="Search documentation, CLI, hooks, components..." />
-
-                    <CommandList>
-                      <Show when={query().length > 0 && !hasAnyResults()}>
-                        <CommandEmpty />
-                      </Show>
-
-                      {/* Documentation Section */}
-                      <Show when={filteredDocs().length > 0}>
-                        <CommandGroup heading="Documentation">
-                          <For each={filteredDocs()}>
-                            {(doc) => (
-                              <CommandItem
-                                title={doc.title}
-                                subtitle={doc.subtitle}
-                                icon={doc.icon}
-                                href={doc.href}
-                                shortcut={doc.shortcut}
-                                showChevron={true}
-                                onSelect={() => setOpen(false)}
-                              />
-                            )}
-                          </For>
-                        </CommandGroup>
-                      </Show>
-
-                      {/* Hooks Section */}
-                      <Show when={filteredHooks().length > 0}>
-                        <CommandGroup heading="Hooks & Primitives">
-                          <For each={filteredHooks()}>
-                            {(hook) => (
-                              <CommandItem
-                                title={hook.title}
-                                subtitle={hook.description}
-                                icon={Webhook}
-                                href={hook.href}
-                                showChevron={true}
-                                onSelect={() => setOpen(false)}
-                              />
-                            )}
-                          </For>
-                        </CommandGroup>
-                      </Show>
-
-                      {/* Components Section */}
-                      <Show when={filteredComponents().length > 0}>
-                        <CommandGroup heading="Components">
-                          <For each={filteredComponents()}>
-                            {(comp) => (
-                              <CommandItem
-                                title={comp.title}
-                                subtitle={comp.description}
-                                icon={ComponentIcon}
-                                href={comp.href}
-                                showChevron={true}
-                                onSelect={() => setOpen(false)}
-                              />
-                            )}
-                          </For>
-                        </CommandGroup>
-                      </Show>
-                    </CommandList>
-
-                    <CommandFooter>
-                      <a
-                        href="https://www.algolia.com/?utm_medium=AOS-referral"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        class="inline-flex items-center gap-1.5 text-[11px] font-medium text-muted-foreground hover:text-foreground transition-colors group cursor-pointer"
-                        title="Search powered by Algolia"
-                      >
-                        <span class="text-[10px] text-muted-foreground/80 group-hover:text-foreground transition-colors">Search by</span>
-                        <img
-                          src="/algolia-logo.svg"
-                          alt="Algolia"
-                          class="h-4 w-auto opacity-70 group-hover:opacity-100 transition-opacity dark:brightness-100 brightness-0"
-                        />
-                      </a>
-                    </CommandFooter>
-                  </>
-                );
-              }}
-            </CommandDialog>
+            <SearchDialog open={open()} onOpenChange={setOpen} />
 
             {/* GitHub Link */}
             <GithubButton repo="nikala-ui/ui" class="hidden sm:inline-flex" />
