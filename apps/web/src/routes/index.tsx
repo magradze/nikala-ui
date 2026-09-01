@@ -15,7 +15,7 @@ export default function Home() {
       {/* Dynamic SEO Meta Tags */}
       <Seo path="/" />
 
-      <div class="relative min-h-screen flex flex-col text-foreground selection:bg-primary selection:text-primary-foreground overflow-x-clip w-full">
+      <div class="relative min-h-screen flex flex-col bg-background text-foreground selection:bg-primary selection:text-primary-foreground overflow-x-clip w-full">
         {/* 1. Header Navigation */}
         <Header />
 

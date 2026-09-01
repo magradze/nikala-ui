@@ -22,8 +22,6 @@ import {
 } from "./dropdown-menu";
 import { cn } from "@/lib/cn";
 
-import { createColorMode } from "@/hooks/create-color-mode";
-
 export interface ThemeToggleProps {
   /** Display mode: "mini" for compact dropdown, "max" for full customizer panel (default: "mini") */
   mode?: "mini" | "max";
@@ -56,26 +54,23 @@ export const ThemeToggle: Component<ThemeToggleProps> = (props) => {
   const [local] = splitProps(props, ["mode", "effect", "class"]);
   const { theme, setTheme, accent, setAccent, radius, setRadius } = useTheme();
 
-  const colorMode = createColorMode({
-    initialValue: theme(),
-    storageKey: "nikala-theme-mode",
-  });
-
   const mode = () => local.mode || "mini";
   const effect = () => local.effect || "none";
 
-  /* Reactive accessor determining whether dark mode is active via createColorMode hook */
+  /* Reactive accessor determining whether dark mode is active */
   const isDarkMode = () => {
     const currentTheme = theme();
     if (currentTheme === "dark") return true;
     if (currentTheme === "light") return false;
-    return colorMode.isDark();
+    if (typeof window !== "undefined") {
+      return window.matchMedia("(prefers-color-scheme: dark)").matches;
+    }
+    return false;
   };
 
   const changeThemeWithEffect = (newTheme: Theme, e: MouseEvent) => {
     runThemeTransition(effect(), e, () => {
       setTheme(newTheme);
-      colorMode.setMode(newTheme);
     });
   };
 

@@ -10,7 +10,7 @@ export default function App() {
     <Router
       root={(props) => (
         <MetaProvider>
-          <ThemeScript storageKey="nikala-theme" />
+          <ThemeScript storageKey="nikala-docs-theme" />
           <ThemeProvider defaultTheme="system" storageKey="nikala-docs-theme">
             <Suspense>{props.children}</Suspense>
           </ThemeProvider>

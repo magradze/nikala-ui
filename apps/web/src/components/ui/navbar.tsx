@@ -9,6 +9,7 @@ import {
   type Component,
   type Accessor,
 } from "solid-js";
+import { A } from "@solidjs/router";
 import { cva, type VariantProps } from "class-variance-authority";
 import { Menu, X } from "lucide-solid";
 import { cn } from "@/lib/cn";
@@ -147,21 +148,41 @@ export const NavbarContainer: ParentComponent<NavbarContainerProps> = (props) =>
 /* --- Navbar Brand / Logo Container --- */
 export interface NavbarBrandProps extends JSX.AnchorHTMLAttributes<HTMLAnchorElement> {
   class?: string;
+  href?: string;
 }
 
 export const NavbarBrand: ParentComponent<NavbarBrandProps> = (props) => {
-  const [local, rest] = splitProps(props, ["class", "children"]);
+  const [local, rest] = splitProps(props, ["class", "href", "children"]);
+
+  const isExternal = () => local.href?.startsWith("http");
 
   return (
-    <a
-      class={cn(
-        "flex items-center gap-2 font-bold text-foreground transition-opacity hover:opacity-90 cursor-pointer shrink-0",
-        local.class
-      )}
-      {...rest}
+    <Show
+      when={!isExternal() && local.href}
+      fallback={
+        <a
+          href={local.href}
+          class={cn(
+            "flex items-center gap-2 font-bold text-foreground transition-opacity hover:opacity-90 cursor-pointer shrink-0",
+            local.class
+          )}
+          {...rest}
+        >
+          {local.children}
+        </a>
+      }
     >
-      {local.children}
-    </a>
+      <A
+        href={local.href!}
+        class={cn(
+          "flex items-center gap-2 font-bold text-foreground transition-opacity hover:opacity-90 cursor-pointer shrink-0",
+          local.class
+        )}
+        {...rest}
+      >
+        {local.children}
+      </A>
+    </Show>
   );
 };
 
@@ -252,23 +273,45 @@ export interface NavbarLinkProps
     VariantProps<typeof navbarLinkVariants> {
   class?: string;
   isActive?: boolean;
+  href?: string;
 }
 
 export const NavbarLink: ParentComponent<NavbarLinkProps> = (props) => {
-  const [local, rest] = splitProps(props, ["class", "variant", "isActive", "children"]);
+  const [local, rest] = splitProps(props, ["class", "variant", "isActive", "href", "children"]);
+
+  const isExternal = () => local.href?.startsWith("http");
 
   return (
-    <a
-      class={cn(
-        navbarLinkVariants({
-          variant: local.isActive ? "active" : local.variant,
-        }),
-        local.class
-      )}
-      {...rest}
+    <Show
+      when={!isExternal() && local.href}
+      fallback={
+        <a
+          href={local.href}
+          class={cn(
+            navbarLinkVariants({
+              variant: local.isActive ? "active" : local.variant,
+            }),
+            local.class
+          )}
+          {...rest}
+        >
+          {local.children}
+        </a>
+      }
     >
-      {local.children}
-    </a>
+      <A
+        href={local.href!}
+        class={cn(
+          navbarLinkVariants({
+            variant: local.isActive ? "active" : local.variant,
+          }),
+          local.class
+        )}
+        {...rest}
+      >
+        {local.children}
+      </A>
+    </Show>
   );
 };
 

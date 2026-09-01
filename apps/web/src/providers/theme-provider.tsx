@@ -58,7 +58,10 @@ export const ThemeProvider: ParentComponent<ThemeProviderProps> = (props) => {
   const getInitialTheme = (): Theme => {
     if (typeof window === "undefined") return defaultTheme;
     try {
-      const saved = localStorage.getItem(`${storageKey}-mode`);
+      const saved =
+        localStorage.getItem(`${storageKey}-mode`) ||
+        localStorage.getItem("nikala-docs-theme-mode") ||
+        localStorage.getItem("nikala-theme-mode");
       if (saved === "light" || saved === "dark" || saved === "system") return saved;
     } catch { }
     return defaultTheme;
@@ -95,15 +98,22 @@ export const ThemeProvider: ParentComponent<ThemeProviderProps> = (props) => {
     if (typeof window === "undefined") return;
 
     const root = document.documentElement;
-    root.classList.remove("light", "dark");
 
     let resolvedDark = false;
     if (targetTheme === "system") {
       resolvedDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-      root.classList.add(resolvedDark ? "dark" : "light");
     } else {
       resolvedDark = targetTheme === "dark";
-      root.classList.add(targetTheme);
+    }
+
+    if (resolvedDark) {
+      root.classList.remove("light");
+      root.classList.add("dark");
+      root.style.colorScheme = "dark";
+    } else {
+      root.classList.remove("dark");
+      root.classList.add("light");
+      root.style.colorScheme = "light";
     }
 
     // Override --primary CSS variables ONLY if explicitly chosen
