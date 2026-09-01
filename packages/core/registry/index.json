@@ -566,6 +566,39 @@
     ]
   },
   {
+    "name": "rich-text-editor",
+    "title": "Rich Text Editor",
+    "description": "A full-featured WYSIWYG rich text editor with toolbar, bubble formatting, tables, task lists, and image uploads built on Tiptap.",
+    "type": "registry:ui",
+    "dependencies": [
+      "@tiptap/core",
+      "@tiptap/starter-kit",
+      "@tiptap/extension-link",
+      "@tiptap/extension-image",
+      "@tiptap/extension-placeholder",
+      "@tiptap/extension-task-list",
+      "@tiptap/extension-task-item",
+      "@tiptap/extension-table",
+      "@tiptap/extension-table-row",
+      "@tiptap/extension-table-cell",
+      "@tiptap/extension-table-header",
+      "@tiptap/extension-underline",
+      "@tiptap/extension-text-align",
+      "@tiptap/extension-highlight",
+      "@tiptap/extension-character-count",
+      "@tiptap/extension-subscript",
+      "@tiptap/extension-superscript",
+      "@tiptap/extension-typography",
+      "tiptap-markdown",
+      "clsx",
+      "tailwind-merge",
+      "lucide-solid"
+    ],
+    "registryDependencies": [
+      "create-tiptap-editor"
+    ]
+  },
+  {
     "name": "scroll-area",
     "title": "Scroll Area",
     "description": "Augments native scroll functionality with custom styled scrollbars and reactive scroll tracking.",
@@ -1250,5 +1283,32 @@
     "title": "createDocumentTabs",
     "description": "SolidJS reactive primitive for managing multi-document tabs, editor buffers, and browser tab stacks with adjacent activation and pinned state",
     "type": "registry:hook"
+  },
+  {
+    "name": "create-tiptap-editor",
+    "title": "createTiptapEditor",
+    "description": "Fine-grained reactive SolidJS primitive for managing Tiptap rich text editor instances, signals, and formatting commands.",
+    "type": "registry:hook",
+    "dependencies": [
+      "@tiptap/core",
+      "@tiptap/starter-kit",
+      "@tiptap/extension-link",
+      "@tiptap/extension-image",
+      "@tiptap/extension-placeholder",
+      "@tiptap/extension-task-list",
+      "@tiptap/extension-task-item",
+      "@tiptap/extension-table",
+      "@tiptap/extension-table-row",
+      "@tiptap/extension-table-cell",
+      "@tiptap/extension-table-header",
+      "@tiptap/extension-underline",
+      "@tiptap/extension-text-align",
+      "@tiptap/extension-highlight",
+      "@tiptap/extension-character-count",
+      "@tiptap/extension-subscript",
+      "@tiptap/extension-superscript",
+      "@tiptap/extension-typography",
+      "tiptap-markdown"
+    ]
   }
 ]
