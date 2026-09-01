@@ -1,3 +1,9 @@
+<p align="center">
+  <a href="https://nikala.dev">
+    <img src="./.github/assets/hero-preview.png" alt="Nikala UI — Copy-Paste UI Components for SolidJS and Tailwind CSS v4" width="100%" />
+  </a>
+</p>
+
 # Nikala UI
 
 A simple, copy-paste component system and reactive primitives suite for **SolidJS** built natively for **Tailwind CSS v4** and **Tauri v2**.
