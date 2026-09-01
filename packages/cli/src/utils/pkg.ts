@@ -1,10 +1,13 @@
 import fs from "fs-extra";
 import path from "node:path";
-import { execSync } from "node:child_process";
+import { execFileSync } from "node:child_process";
 import pc from "picocolors";
 import stripJsonComments from "strip-json-comments";
 
 export type PackageManager = "bun" | "pnpm" | "yarn" | "npm";
+
+// Standard npm package name regex validator (supports scoped packages and version specifiers)
+const NPM_PACKAGE_REGEX = /^(@[a-z0-9-~][a-z0-9-._~]*\/)?[a-z0-9-~][a-z0-9-._~]*(@[a-zA-Z0-9^~.*><=-]+)?$/;
 
 /**
  * Detects the package manager used in the target project workspace by checking lockfiles.
@@ -56,30 +59,18 @@ export async function installDependencies(dependencies: string[], cwd: string = 
     }
   }
 
-  const depsString = dependencies.join(" ");
+  // Validate and sanitize dependency names to prevent any shell metacharacter injection
+  const validDeps = dependencies.filter((dep) => NPM_PACKAGE_REGEX.test(dep));
+  if (validDeps.length === 0) return;
 
-  let command = "";
-  switch (pkgManager) {
-    case "bun":
-      command = `bun add ${depsString}`;
-      break;
-    case "pnpm":
-      command = `pnpm add ${depsString}`;
-      break;
-    case "yarn":
-      command = `yarn add ${depsString}`;
-      break;
-    case "npm":
-    default:
-      command = `npm install ${depsString}`;
-      break;
-  }
+  const subCommand = pkgManager === "npm" ? "install" : "add";
+  const args = [subCommand, ...validDeps];
 
   console.log(pc.yellow(`\n📦 Installing required component dependencies (${pkgManager})...`));
-  console.log(pc.white(`   ${command}\n`));
+  console.log(pc.white(`   ${pkgManager} ${args.join(" ")}\n`));
 
   try {
-    execSync(command, { cwd, stdio: "inherit" });
+    execFileSync(pkgManager, args, { cwd, stdio: "inherit" });
 
     // 2. Validate package.json integrity after installation and restore stripped fields if necessary
     if (originalPkgJson && (await fs.pathExists(pkgPath))) {
@@ -110,6 +101,6 @@ export async function installDependencies(dependencies: string[], cwd: string = 
     console.log(pc.green("  ✓ Dependencies installed successfully."));
   } catch (error) {
     console.log(pc.red(`❌ Failed to install dependencies automatically.`));
-    console.log(pc.yellow(`   Please run manually: ${command}`));
+    console.log(pc.yellow(`   Please run manually: ${pkgManager} ${args.join(" ")}`));
   }
 }
