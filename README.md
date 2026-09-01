@@ -12,6 +12,7 @@ Honoring the iconic Georgian painter **Niko Pirosmani (Nikala)**.
 
 [![npm version](https://img.shields.io/npm/v/@nikala-ui/cli.svg?style=flat-square&color=9e3a47)](https://www.npmjs.com/package/@nikala-ui/cli)
 [![npm downloads](https://img.shields.io/npm/dm/@nikala-ui/cli.svg?style=flat-square&color=00a63e)](https://www.npmjs.com/package/@nikala-ui/cli)
+[![GitHub Sponsors](https://img.shields.io/badge/Sponsor-%E2%99%A5-ea4aaa?style=flat-square&logo=githubsponsors&logoColor=white)](https://github.com/sponsors/magradze)
 [![CI Status](https://img.shields.io/github/actions/workflow/status/nikala-ui/ui/workspace-ci.yml?branch=main&style=flat-square&label=CI)](https://github.com/nikala-ui/ui/actions/workflows/workspace-ci.yml)
 [![SolidJS](https://img.shields.io/badge/SolidJS-v1.9+-4c78a8?style=flat-square&logo=solid)](https://solidjs.com)
 [![Tailwind CSS v4](https://img.shields.io/badge/Tailwind_CSS-v4.0-38bdf8?style=flat-square&logo=tailwindcss)](https://tailwindcss.com)
@@ -202,6 +203,14 @@ bunx @nikala-ui/cli add
 - [**Theming & Color System Guide**](./docs/THEMING.md) — Comprehensive guide covering CLI theme customization, CSS design tokens, `ThemeProvider`, `ThemeToggle` modes, and Web View Transition animations.
 - [**MCP AI Integration**](https://nikala.dev/docs/mcp) — Model Context Protocol tools, resources, and prompts for AI coding agents.
 - [**Component Authoring & Contribution Guide**](./docs/COMPONENT_GUIDE.md) — Detailed rules and conventions for creating, registering, and contributing new components.
+
+---
+
+## Sponsor & Support
+
+Nikala UI is a 100% free and open-source project. If it has saved you development time or helped your team build better apps, please consider sponsoring its ongoing development:
+
+[![Sponsor on GitHub](https://img.shields.io/badge/Sponsor%20on%20GitHub-ea4aaa?style=for-the-badge&logo=githubsponsors&logoColor=white)](https://github.com/sponsors/magradze)
 
 ---
 
