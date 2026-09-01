@@ -540,6 +540,7 @@ export const HOOK_SECTIONS: NavSection[] = [
       { title: "createLongPress", href: "/docs/hooks/create-long-press" },
       { title: "createMousePosition", href: "/docs/hooks/create-mouse-position" },
       { title: "createScrollIntoView", href: "/docs/hooks/create-scroll-into-view" },
+      { title: "createTiptapEditor", href: "/docs/hooks/create-tiptap-editor", addedAt: "2026-09-01" },
     ],
   },
   {
