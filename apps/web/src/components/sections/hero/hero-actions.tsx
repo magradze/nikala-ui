@@ -19,23 +19,23 @@ export function HeroActions() {
         </Button>
       </A>
 
-      <div class="flex items-center gap-2 bg-zinc-950 dark:bg-zinc-900 border border-border text-zinc-200 px-3.5 h-10 rounded-lg font-mono text-xs justify-between shadow-inner">
-        <span class="text-zinc-500 select-none font-semibold">$</span>
+      <div class="flex items-center gap-2 bg-card border border-border text-foreground px-3.5 h-10 rounded-lg font-mono text-xs justify-between shadow-xs">
+        <span class="text-muted-foreground select-none font-semibold">$</span>
         <span class="px-1 select-all font-medium">{cliInitCmd}</span>
         <button
           type="button"
           onClick={() => copy(cliInitCmd)}
-          class="ml-2 flex items-center gap-1 text-[11px] bg-zinc-800 hover:bg-zinc-700 active:bg-zinc-600 text-zinc-200 px-2 py-1 rounded-md transition-colors cursor-pointer"
+          class="ml-2 flex items-center gap-1 text-[11px] bg-muted hover:bg-muted/80 active:bg-muted/60 text-foreground border border-border/70 px-2 py-1 rounded-md transition-colors cursor-pointer"
           title="Copy command to clipboard"
         >
           {copied() ? (
             <>
-              <Check class="size-3 text-emerald-400" />
-              <span class="text-emerald-400 font-medium">Copied!</span>
+              <Check class="size-3 text-emerald-500" />
+              <span class="text-emerald-500 font-medium">Copied!</span>
             </>
           ) : (
             <>
-              <Copy class="size-3 text-zinc-400" />
+              <Copy class="size-3 text-muted-foreground" />
               <span>Copy</span>
             </>
           )}

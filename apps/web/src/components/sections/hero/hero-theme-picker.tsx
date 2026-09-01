@@ -47,7 +47,7 @@ export function HeroThemePicker() {
                 aria-label={`Select ${opt.label} accent color`}
               >
                 {isSelected() && (
-                  <Check class="size-3 text-white dark:text-zinc-950 drop-shadow-xs stroke-[3]" />
+                  <Check class="size-3 text-white dark:text-foreground drop-shadow-xs stroke-[3]" />
                 )}
               </button>
             );

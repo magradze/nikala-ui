@@ -283,7 +283,7 @@ export function DesktopShowcase() {
               return (
                 <A
                   href={mod.href}
-                  class="group p-4 rounded-xl border border-border/70 bg-card/60 hover:bg-card hover:border-border transition-all flex flex-col justify-between space-y-3"
+                  class="group p-4 rounded-lg border border-border/70 bg-card/60 hover:bg-card hover:border-border transition-all flex flex-col justify-between space-y-3"
                 >
                   <div class="space-y-2">
                     <div class="flex items-center justify-between">

@@ -43,25 +43,25 @@ export function CtaBanner() {
       {/* Right Column: Interactive CLI Box & Action Buttons */}
       <div class="lg:col-span-5 space-y-4">
         {/* CLI Command Box */}
-        <div class="flex items-center gap-2 bg-zinc-950 dark:bg-zinc-900 border border-border text-zinc-200 px-4 h-12 rounded-lg font-mono text-sm justify-between shadow-xs">
+        <div class="flex items-center gap-2 bg-card border border-border text-foreground px-4 h-12 rounded-lg font-mono text-sm justify-between shadow-xs">
           <div class="flex items-center gap-2 min-w-0">
-            <span class="text-zinc-500 select-none font-semibold">$</span>
+            <span class="text-muted-foreground select-none font-semibold">$</span>
             <span class="truncate font-medium">{initCmd}</span>
           </div>
           <button
             type="button"
             onClick={() => copy(initCmd)}
-            class="shrink-0 ml-2 flex items-center gap-1.5 text-xs bg-zinc-800 hover:bg-zinc-700 active:bg-zinc-600 text-zinc-200 px-3 py-1.5 rounded-md transition-colors cursor-pointer"
+            class="shrink-0 ml-2 flex items-center gap-1.5 text-xs bg-muted hover:bg-muted/80 active:bg-muted/60 text-foreground border border-border/70 px-3 py-1.5 rounded-md transition-colors cursor-pointer"
             title="Copy command"
           >
             {copied() ? (
               <>
-                <Check class="size-3.5 text-emerald-400" />
-                <span class="text-emerald-400 font-medium">Copied!</span>
+                <Check class="size-3.5 text-emerald-500" />
+                <span class="text-emerald-500 font-medium">Copied!</span>
               </>
             ) : (
               <>
-                <Copy class="size-3.5 text-zinc-400" />
+                <Copy class="size-3.5 text-muted-foreground" />
                 <span>Copy</span>
               </>
             )}

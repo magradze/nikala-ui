@@ -37,7 +37,7 @@ export function DashboardShowcase() {
         </div>
 
         {/* The Live Mini-Dashboard Shell */}
-        <div class="rounded-xl border border-border/80 bg-background/90 backdrop-blur-xl p-5 md:p-8 shadow-xl space-y-6">
+        <div class="rounded-lg border border-border/80 bg-background/90 backdrop-blur-xl p-5 md:p-8 shadow-xl space-y-6">
           <ShowcaseHeader period={period()} onPeriodChange={setPeriod} />
 
           <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
