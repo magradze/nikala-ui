@@ -15,7 +15,7 @@ export interface AlgoliaSearchResult {
 }
 
 const APP_ID = import.meta.env.VITE_ALGOLIA_APP_ID || "3OJO76EK9R";
-const SEARCH_KEY = import.meta.env.VITE_ALGOLIA_SEARCH_KEY;
+const SEARCH_KEY = import.meta.env.VITE_ALGOLIA_SEARCH_KEY || "9438669fba1a82c8c8066cc7b8a97453";
 const INDEX_NAME = import.meta.env.VITE_ALGOLIA_INDEX_NAME || "nikala_docs";
 
 export const isAlgoliaConfigured = () => Boolean(SEARCH_KEY);

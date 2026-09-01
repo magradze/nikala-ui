@@ -158,6 +158,7 @@ export const SearchDialog: Component<SearchDialogProps> = (props) => {
                         subtitle={doc.subtitle}
                         icon={doc.icon || BookOpen}
                         href={doc.href}
+                        shouldFilter={false}
                         showChevron={true}
                         onSelect={() => props.onOpenChange(false)}
                       />
@@ -176,6 +177,7 @@ export const SearchDialog: Component<SearchDialogProps> = (props) => {
                         subtitle={hook.description}
                         icon={Webhook}
                         href={hook.href}
+                        shouldFilter={false}
                         showChevron={true}
                         onSelect={() => props.onOpenChange(false)}
                       />
@@ -194,6 +196,7 @@ export const SearchDialog: Component<SearchDialogProps> = (props) => {
                         subtitle={comp.description}
                         icon={ComponentIcon}
                         href={comp.href}
+                        shouldFilter={false}
                         showChevron={true}
                         onSelect={() => props.onOpenChange(false)}
                       />
@@ -212,6 +215,7 @@ export const SearchDialog: Component<SearchDialogProps> = (props) => {
                         subtitle={block.description}
                         icon={Boxes}
                         href={block.href}
+                        shouldFilter={false}
                         showChevron={true}
                         onSelect={() => props.onOpenChange(false)}
                       />

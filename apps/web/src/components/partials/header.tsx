@@ -1,4 +1,4 @@
-import { createSignal, lazy } from "solid-js";
+import { createSignal } from "solid-js";
 import { A, useLocation } from "@solidjs/router";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -19,18 +19,6 @@ import {
   DropdownMenuContent,
 } from "@/components/ui/dropdown-menu";
 import {
-  CommandDialog,
-  CommandInput,
-  CommandList,
-  CommandEmpty,
-  CommandGroup,
-  CommandItem,
-  CommandFooter,
-} from "@/components/ui/command";
-import {
-  Info,
-  Webhook,
-  Component as ComponentIcon,
   Search,
   ChevronDown,
   BookOpen,
@@ -41,10 +29,7 @@ import {
 import { MobileNav } from "@/components/partials/mobile-nav";
 import { Logo } from "../ui/logo";
 import { GithubButton } from "@/components/partials/github-button";
-
-const SearchDialog = lazy(() =>
-  import("@/components/partials/search-dialog").then((m) => ({ default: m.SearchDialog }))
-);
+import { SearchDialog } from "@/components/partials/search-dialog";
 
 export function Header() {
   const [open, setOpen] = createSignal(false);

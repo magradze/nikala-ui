@@ -274,7 +274,9 @@ export const CommandGroup: Component<CommandGroupProps> = (props) => {
 /* --- Command Item --- */
 export interface CommandItemProps extends ListItemProps {
   keywords?: string[];
+  description?: string;
   onSelect?: () => void;
+  shouldFilter?: boolean;
 }
 
 export const CommandItem: Component<CommandItemProps> = (props) => {
@@ -282,25 +284,29 @@ export const CommandItem: Component<CommandItemProps> = (props) => {
   const [local, rest] = splitProps(props, [
     "title",
     "subtitle",
+    "description",
     "keywords",
     "onSelect",
     "onClick",
+    "shouldFilter",
     "class",
   ]);
-  const { search, activeIndex } = useCommand();
+  const { search } = useCommand();
 
-  /* Auto fuzzy-filter item based on search query */
+  /* Auto filter item based on search query */
   const matchesSearch = () => {
+    if (local.shouldFilter === false) return true;
     const query = search().toLowerCase().trim();
     if (!query) return true;
 
     const titleMatch = local.title?.toLowerCase().includes(query);
     const subtitleMatch = local.subtitle?.toLowerCase().includes(query);
+    const descMatch = local.description?.toLowerCase().includes(query);
     const keywordMatch = local.keywords?.some((k) =>
       k.toLowerCase().includes(query)
     );
 
-    return Boolean(titleMatch || subtitleMatch || keywordMatch);
+    return Boolean(titleMatch || subtitleMatch || descMatch || keywordMatch);
   };
 
   const handleClick = (e: MouseEvent) => {
@@ -318,7 +324,7 @@ export const CommandItem: Component<CommandItemProps> = (props) => {
         ref={itemRef}
         data-command-item="true"
         title={local.title}
-        subtitle={local.subtitle}
+        subtitle={local.subtitle || local.description}
         onClick={handleClick}
         class={cn(
           "aria-selected:bg-accent aria-selected:text-accent-foreground cursor-pointer transition-colors hover:bg-accent hover:text-accent-foreground",
