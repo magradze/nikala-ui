@@ -171,7 +171,7 @@ export const ScrollArea: Component<ScrollAreaProps> = (props) => {
       {/* Scroll Viewport Container */}
       <div
         ref={viewportRef}
-        class="h-full w-full overflow-auto scrollbar-none rounded-[inherit]"
+        class="h-full w-full max-h-[inherit] overflow-auto scrollbar-none rounded-[inherit]"
         style={{
           "scrollbar-width": "none",
           "-ms-overflow-style": "none",
