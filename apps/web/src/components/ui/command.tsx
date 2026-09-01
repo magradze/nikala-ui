@@ -333,10 +333,11 @@ export const CommandItem: Component<CommandItemProps> = (props) => {
 /* --- Command Footer --- */
 export interface CommandFooterProps extends JSX.HTMLAttributes<HTMLDivElement> {
   class?: string;
+  children?: JSX.Element;
 }
 
 export const CommandFooter: Component<CommandFooterProps> = (props) => {
-  const [local, rest] = splitProps(props, ["class"]);
+  const [local, rest] = splitProps(props, ["class", "children"]);
 
   return (
     <div
@@ -359,12 +360,14 @@ export const CommandFooter: Component<CommandFooterProps> = (props) => {
           <Kbd size="sm"><CornerDownLeft class="w-2.5 h-2.5" /></Kbd>
           <span>Select</span>
         </span>
+
+        <span class="flex items-center gap-1">
+          <Kbd size="sm">Esc</Kbd>
+          <span>Close</span>
+        </span>
       </div>
 
-      <span class="flex items-center gap-1">
-        <Kbd size="sm">Esc</Kbd>
-        <span>Close</span>
-      </span>
+      {local.children}
     </div>
   );
 };

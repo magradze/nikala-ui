@@ -321,7 +321,22 @@ export function Header() {
                       </Show>
                     </CommandList>
 
-                    <CommandFooter />
+                    <CommandFooter>
+                      <a
+                        href="https://www.algolia.com/?utm_medium=AOS-referral"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="inline-flex items-center gap-1.5 text-[11px] font-medium text-muted-foreground hover:text-foreground transition-colors group cursor-pointer"
+                        title="Search powered by Algolia"
+                      >
+                        <span class="text-[10px] text-muted-foreground/80 group-hover:text-foreground transition-colors">Search by</span>
+                        <img
+                          src="/algolia-logo.svg"
+                          alt="Algolia"
+                          class="h-4 w-auto opacity-70 group-hover:opacity-100 transition-opacity dark:brightness-100 brightness-0"
+                        />
+                      </a>
+                    </CommandFooter>
                   </>
                 );
               }}
