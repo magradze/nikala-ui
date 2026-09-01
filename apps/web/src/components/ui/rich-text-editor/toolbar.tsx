@@ -134,6 +134,8 @@ export const EditorToolbar: Component<ComponentProps<"div">> = (props) => {
     return AlignLeft;
   };
 
+  const isEditable = () => actions.editor()?.isEditable ?? true;
+
   return (
     <div
       class={cn(
@@ -142,15 +144,22 @@ export const EditorToolbar: Component<ComponentProps<"div">> = (props) => {
       )}
       {...others}
     >
-      {/* 1. History (Undo / Redo) */}
-      <div class="flex items-center gap-0.5 pr-1 border-r border-border shrink-0">
-        <ToolbarButton onClick={actions.undo} disabled={!actions.canUndo()} tooltip="Undo (Ctrl+Z)">
-          <Undo class="h-4 w-4" />
-        </ToolbarButton>
-        <ToolbarButton onClick={actions.redo} disabled={!actions.canRedo()} tooltip="Redo (Ctrl+Y)">
-          <Redo class="h-4 w-4" />
-        </ToolbarButton>
-      </div>
+      {/* Editing Controls Group (Disabled in Read-Only Mode) */}
+      <div
+        class="flex flex-wrap items-center gap-1"
+        classList={{
+          "opacity-40 pointer-events-none select-none": !isEditable(),
+        }}
+      >
+        {/* 1. History (Undo / Redo) */}
+        <div class="flex items-center gap-0.5 pr-1 border-r border-border shrink-0">
+          <ToolbarButton onClick={actions.undo} disabled={!isEditable() || !actions.canUndo()} tooltip="Undo (Ctrl+Z)">
+            <Undo class="h-4 w-4" />
+          </ToolbarButton>
+          <ToolbarButton onClick={actions.redo} disabled={!isEditable() || !actions.canRedo()} tooltip="Redo (Ctrl+Y)">
+            <Redo class="h-4 w-4" />
+          </ToolbarButton>
+        </div>
 
       {/* 2. Compact Typography Dropdown */}
       <div class="relative shrink-0 editor-popover-trigger">
@@ -414,6 +423,7 @@ export const EditorToolbar: Component<ComponentProps<"div">> = (props) => {
           <EditorTableControls />
         </div>
       </div>
+      </div>
 
       {/* 7. Markdown Toggle, Clear Formatting, Fullscreen */}
       <div class="flex items-center gap-1 border-l border-border pl-1.5 shrink-0 ml-auto">
@@ -427,7 +437,7 @@ export const EditorToolbar: Component<ComponentProps<"div">> = (props) => {
           </Show>
         </ToolbarButton>
 
-        <ToolbarButton onClick={actions.clearContent} tooltip="Clear All Content">
+        <ToolbarButton onClick={actions.clearContent} disabled={!isEditable()} tooltip="Clear All Content">
           <RemoveFormatting class="h-4 w-4" />
         </ToolbarButton>
 

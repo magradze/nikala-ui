@@ -35,7 +35,7 @@ export const EditorBubbleMenu: Component = () => {
     const handleSelectionChange = () => {
       const ed = actions.editor();
       const containerEl = container();
-      if (!ed || !ed.isFocused) {
+      if (!ed || !ed.isFocused || !ed.isEditable) {
         setIsVisible(false);
         setShowHighlightPalette(false);
         return;

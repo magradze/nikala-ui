@@ -6,21 +6,19 @@ export const config: ComponentSpec = {
   id: "rich-text-editor",
   name: "Rich Text Editor",
   props: [
-    { name: "placeholder", label: "Placeholder", type: "text", default: "Write something rich..." },
+    { name: "placeholder", label: "Placeholder", type: "text", default: "Write something rich or type '/' for commands..." },
     { name: "hideToolbar", label: "Hide Toolbar", type: "boolean", default: false },
     { name: "hideFooter", label: "Hide Footer Bar", type: "boolean", default: false },
-    { name: "editable", label: "Editable Mode", type: "boolean", default: true },
   ],
   generateCode: (v) => {
     const hideToolbar = v.hideToolbar ? `\n  hideToolbar={true}` : "";
     const hideFooter = v.hideFooter ? `\n  hideFooter={true}` : "";
-    const editable = v.editable === false ? `\n  editable={false}` : "";
     return `const [content, setContent] = createSignal("<p>Start typing...</p>");
 
 <RichTextEditor
   value={content()}
   onChange={setContent}
-  placeholder="${v.placeholder || "Write something..."}"${hideToolbar}${hideFooter}${editable}
+  placeholder="${v.placeholder || "Write something..."}"${hideToolbar}${hideFooter}
 />`;
   },
 };
@@ -31,14 +29,13 @@ export default function RichTextEditorStage(props: StageProps) {
   );
 
   return (
-    <div class="w-full max-w-xl">
+    <div class="w-full max-w-4xl">
       <RichTextEditor
         value={value()}
         onChange={setValue}
         placeholder={props.values.placeholder}
         hideToolbar={props.values.hideToolbar}
         hideFooter={props.values.hideFooter}
-        editable={props.values.editable}
       />
     </div>
   );

@@ -139,7 +139,7 @@ export const EditorSlashCommand: Component = () => {
     const handleEditorUpdate = () => {
       const ed = actions.editor();
       const containerEl = container();
-      if (!ed || !ed.isFocused) {
+      if (!ed || !ed.isFocused || !ed.isEditable) {
         setIsOpen(false);
         return;
       }
