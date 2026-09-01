@@ -10,7 +10,7 @@ import {
 } from "solid-js";
 
 export type Theme = "light" | "dark" | "system";
-export type AccentColor = "amber" | "violet" | "sky" | "emerald" | "rose" | "zinc";
+export type AccentColor = "yellow" | "red" | "violet" | "sky" | "emerald" | "zinc";
 export type Radius = "0" | "0.3" | "0.5" | "0.75" | "1.0";
 
 export interface ThemeProviderProps {
@@ -28,12 +28,12 @@ const ACCENT_COLORS: Record<
   AccentColor,
   { light: string; dark: string; lightFg: string; darkFg: string }
 > = {
-  amber: { light: "#d97706", dark: "#fbbf24", lightFg: "#ffffff", darkFg: "#111827" },
-  violet: { light: "#7c3aed", dark: "#8b5cf6", lightFg: "#ffffff", darkFg: "#ffffff" },
-  sky: { light: "#0284c7", dark: "#38bdf8", lightFg: "#ffffff", darkFg: "#0f172a" },
-  emerald: { light: "#059669", dark: "#34d399", lightFg: "#ffffff", darkFg: "#052e16" },
-  rose: { light: "#e11d48", dark: "#fb7185", lightFg: "#ffffff", darkFg: "#ffffff" },
-  zinc: { light: "#18181b", dark: "#fafafa", lightFg: "#fafafa", darkFg: "#18181b" },
+  yellow: { light: "oklch(0.795 0.184 86.047)", dark: "oklch(0.852 0.199 91.936)", lightFg: "oklch(0.145 0 0)", darkFg: "oklch(0.145 0 0)" },
+  red: { light: "oklch(0.577 0.245 27.325)", dark: "oklch(0.637 0.237 25.331)", lightFg: "oklch(0.985 0 0)", darkFg: "oklch(0.985 0 0)" },
+  violet: { light: "oklch(0.541 0.281 293.009)", dark: "oklch(0.606 0.25 292.717)", lightFg: "oklch(0.985 0 0)", darkFg: "oklch(0.985 0 0)" },
+  sky: { light: "oklch(0.588 0.158 241.966)", dark: "oklch(0.672 0.154 238.29)", lightFg: "oklch(0.985 0 0)", darkFg: "oklch(0.145 0 0)" },
+  emerald: { light: "oklch(0.596 0.145 163.225)", dark: "oklch(0.696 0.17 162.48)", lightFg: "oklch(0.985 0 0)", darkFg: "oklch(0.145 0 0)" },
+  zinc: { light: "oklch(0.205 0 0)", dark: "oklch(0.985 0 0)", lightFg: "oklch(0.985 0 0)", darkFg: "oklch(0.205 0 0)" },
 };
 
 interface ThemeProviderContextValue {
@@ -58,10 +58,7 @@ export const ThemeProvider: ParentComponent<ThemeProviderProps> = (props) => {
   const getInitialTheme = (): Theme => {
     if (typeof window === "undefined") return defaultTheme;
     try {
-      const saved =
-        localStorage.getItem(`${storageKey}-mode`) ||
-        localStorage.getItem("nikala-docs-theme-mode") ||
-        localStorage.getItem("nikala-theme-mode");
+      const saved = localStorage.getItem(`${storageKey}-mode`);
       if (saved === "light" || saved === "dark" || saved === "system") return saved;
     } catch { }
     return defaultTheme;
@@ -98,23 +95,17 @@ export const ThemeProvider: ParentComponent<ThemeProviderProps> = (props) => {
     if (typeof window === "undefined") return;
 
     const root = document.documentElement;
+    root.classList.remove("light", "dark");
 
     let resolvedDark = false;
     if (targetTheme === "system") {
       resolvedDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+      root.classList.add(resolvedDark ? "dark" : "light");
     } else {
       resolvedDark = targetTheme === "dark";
+      root.classList.add(targetTheme);
     }
-
-    if (resolvedDark) {
-      root.classList.remove("light");
-      root.classList.add("dark");
-      root.style.colorScheme = "dark";
-    } else {
-      root.classList.remove("dark");
-      root.classList.add("light");
-      root.style.colorScheme = "light";
-    }
+    root.style.colorScheme = resolvedDark ? "dark" : "light";
 
     // Override --primary CSS variables ONLY if explicitly chosen
     if (currentAccent && ACCENT_COLORS[currentAccent]) {
@@ -124,11 +115,16 @@ export const ThemeProvider: ParentComponent<ThemeProviderProps> = (props) => {
 
       root.style.setProperty("--primary", primaryHex);
       root.style.setProperty("--primary-foreground", primaryFgHex);
+    } else {
+      root.style.removeProperty("--primary");
+      root.style.removeProperty("--primary-foreground");
     }
 
     // Override --radius CSS variable ONLY if explicitly chosen
     if (currentRadius) {
       root.style.setProperty("--radius", `${currentRadius}rem`);
+    } else {
+      root.style.removeProperty("--radius");
     }
   };
 
@@ -144,7 +140,9 @@ export const ThemeProvider: ParentComponent<ThemeProviderProps> = (props) => {
       try {
         localStorage.setItem(`${storageKey}-mode`, t);
         if (a) localStorage.setItem(`${storageKey}-accent`, a);
+        else localStorage.removeItem(`${storageKey}-accent`);
         if (r) localStorage.setItem(`${storageKey}-radius`, r);
+        else localStorage.removeItem(`${storageKey}-radius`);
       } catch { }
     }
   });
@@ -159,6 +157,7 @@ export const ThemeProvider: ParentComponent<ThemeProviderProps> = (props) => {
         const root = document.documentElement;
         root.classList.remove("light", "dark");
         root.classList.add(e.matches ? "dark" : "light");
+        root.style.colorScheme = e.matches ? "dark" : "light";
 
         const currentAccent = accent();
         if (currentAccent && ACCENT_COLORS[currentAccent]) {

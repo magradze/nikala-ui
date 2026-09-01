@@ -213,16 +213,16 @@ export const PRIMARY_COLORS: Record<string, PrimaryColor> = {
     },
   },
   yellow: {
-    light: "oklch(0.75 0.18 90)",
-    dark: "oklch(0.82 0.16 90)",
+    light: "oklch(0.795 0.184 86.047)",
+    dark: "oklch(0.852 0.199 91.936)",
     lightFg: "oklch(0.1450 0 0)",
     darkFg: "oklch(0.1450 0 0)",
     charts: {
-      chart1: "oklch(0.82 0.18 90)",
-      chart2: "oklch(0.72 0.16 80)",
-      chart3: "oklch(0.62 0.14 100)",
-      chart4: "oklch(0.88 0.12 95)",
-      chart5: "oklch(0.52 0.15 85)",
+      chart1: "oklch(0.795 0.184 86.047)",
+      chart2: "oklch(0.65 0.16 50)",
+      chart3: "oklch(0.55 0.15 85)",
+      chart4: "oklch(0.85 0.12 60)",
+      chart5: "oklch(0.45 0.14 75)",
     },
   },
   lime: {

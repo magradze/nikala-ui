@@ -1,4 +1,5 @@
 import { For } from "solid-js";
+import { isServer } from "solid-js/web";
 import { Palette, Check } from "lucide-solid";
 import { useTheme, type AccentColor } from "@/providers/theme-provider";
 import { cn } from "@/lib/cn";
@@ -10,18 +11,22 @@ export interface AccentOption {
 }
 
 export const ACCENT_OPTIONS: AccentOption[] = [
-  { name: "amber", label: "Amber (Default)", colorClass: "bg-[#d97706]" },
-  { name: "violet", label: "Violet", colorClass: "bg-[#7c3aed]" },
-  { name: "sky", label: "Sky", colorClass: "bg-[#0284c7]" },
-  { name: "emerald", label: "Emerald", colorClass: "bg-[#059669]" },
-  { name: "rose", label: "Rose", colorClass: "bg-[#e11d48]" },
-  { name: "zinc", label: "Zinc", colorClass: "bg-[#18181b] dark:bg-[#fafafa]" },
+  { name: "yellow", label: "Yellow (Default)", colorClass: "bg-yellow-500" },
+  { name: "red", label: "Red", colorClass: "bg-red-500" },
+  { name: "violet", label: "Violet", colorClass: "bg-violet-500" },
+  { name: "sky", label: "Sky", colorClass: "bg-sky-500" },
+  { name: "emerald", label: "Emerald", colorClass: "bg-emerald-500" },
+  { name: "zinc", label: "Zinc", colorClass: "bg-zinc-800 dark:bg-zinc-200" },
 ];
 
 export function HeroThemePicker() {
   const { accent, setAccent } = useTheme();
 
-  const currentAccent = () => accent() || "amber";
+  const isSelected = (name: AccentColor) => {
+    if (isServer) return false;
+    const current = accent() || "yellow";
+    return current === name;
+  };
 
   return (
     <div class="inline-flex items-center gap-3 p-1.5 px-3.5 rounded-lg border border-border/80 bg-card/60 backdrop-blur-md shadow-xs text-xs">
@@ -32,23 +37,29 @@ export function HeroThemePicker() {
       <div class="flex items-center gap-1.5">
         <For each={ACCENT_OPTIONS}>
           {(opt) => {
-            const isSelected = () => currentAccent() === opt.name;
+            const selected = () => isSelected(opt.name);
 
             return (
               <button
                 type="button"
                 onClick={() => setAccent(opt.name)}
                 class={cn(
-                  "relative size-5 rounded-lg transition-transform hover:scale-110 active:scale-95 cursor-pointer flex items-center justify-center ring-offset-background",
-                  opt.colorClass,
-                  isSelected() && "ring-2 ring-foreground/60 ring-offset-1 scale-110"
+                  "relative size-5 rounded-lg transition-all hover:scale-110 active:scale-95 cursor-pointer flex items-center justify-center ring-offset-background",
+                  opt.colorClass
                 )}
+                classList={{
+                  "ring-2 ring-foreground/60 ring-offset-1 scale-110": selected(),
+                }}
                 title={opt.label}
                 aria-label={`Select ${opt.label} accent color`}
               >
-                {isSelected() && (
-                  <Check class="size-3 text-white dark:text-foreground drop-shadow-xs stroke-[3]" />
-                )}
+                <Check
+                  class="size-3 text-white dark:text-foreground drop-shadow-xs stroke-[3] transition-all duration-150 pointer-events-none"
+                  classList={{
+                    "opacity-100 scale-100": selected(),
+                    "opacity-0 scale-75": !selected(),
+                  }}
+                />
               </button>
             );
           }}

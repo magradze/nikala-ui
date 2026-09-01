@@ -31,12 +31,12 @@ export interface ThemeToggleProps {
 }
 
 const ACCENT_OPTIONS: { name: AccentColor; label: string; color: string }[] = [
-  { name: "amber", label: "Amber", color: "bg-[#d97706]" },
-  { name: "violet", label: "Violet", color: "bg-[#7c3aed]" },
-  { name: "sky", label: "Sky", color: "bg-[#0284c7]" },
-  { name: "emerald", label: "Emerald", color: "bg-[#059669]" },
-  { name: "rose", label: "Rose", color: "bg-[#e11d48]" },
-  { name: "zinc", label: "Zinc", color: "bg-[#18181b]" },
+  { name: "yellow", label: "Yellow", color: "bg-yellow-500" },
+  { name: "red", label: "Red", color: "bg-red-500" },
+  { name: "violet", label: "Violet", color: "bg-violet-500" },
+  { name: "sky", label: "Sky", color: "bg-sky-500" },
+  { name: "emerald", label: "Emerald", color: "bg-emerald-500" },
+  { name: "zinc", label: "Zinc", color: "bg-zinc-800 dark:bg-zinc-200" },
 ];
 
 const RADIUS_OPTIONS: { value: Radius; label: string }[] = [

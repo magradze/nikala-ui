@@ -11,7 +11,10 @@ export default defineConfig({
       "@": path.resolve(import.meta.dirname, "./src"),
       "@nikala-ui/hooks": path.resolve(import.meta.dirname, "../../packages/hooks/src/index.ts"),
     },
-    dedupe: ["solid-js"],
+    dedupe: ["solid-js", "solid-js/web", "solid-js/store"],
+  },
+  optimizeDeps: {
+    include: ["source-map-js"],
   },
   plugins: [
     lucidePreprocess(),
