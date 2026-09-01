@@ -193,7 +193,6 @@ export const NavbarContent: ParentComponent<NavbarContentProps> = (props) => {
     <div
       class={cn(
         navbarContentVariants({ justify: local.justify }),
-        local.hideOnMobile !== false && "hidden md:flex",
         local.class
       )}
       {...rest}

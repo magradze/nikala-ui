@@ -1,5 +1,5 @@
 import { createSignal, For, Show } from "solid-js";
-import { useLocation } from "@solidjs/router";
+import { A, useLocation } from "@solidjs/router";
 import { COMPONENTS_LIST, DOCUMENTATION_LIST, HOOKS_LIST } from "@/config/docs";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -16,6 +16,11 @@ import {
   NavbarActions,
 } from "@/components/ui/navbar";
 import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+} from "@/components/ui/dropdown-menu";
+import {
   CommandDialog,
   CommandInput,
   CommandList,
@@ -29,6 +34,11 @@ import {
   Webhook,
   Component as ComponentIcon,
   Search,
+  ChevronDown,
+  BookOpen,
+  Boxes,
+  Zap,
+  Layers,
 } from "lucide-solid";
 import { MobileNav } from "@/components/partials/mobile-nav";
 import { Logo } from "../ui/logo";
@@ -53,27 +63,14 @@ export function Header() {
 
   return (
     <>
-      {/* Global Announcement Banner */}
-      <Banner
-        variant="warning"
-        dismissible={true}
-        sticky={false}
-        icon={Info}
-        storageKey="nikala-under-construction-banner"
-        link="https://github.com/nikala-ui/ui"
-        linkText="GitHub"
-      >
-        Website is under active construction. Some pages and components are in preview mode.
-      </Banner>
-
       {/* Main Navbar Header */}
       <Navbar
         isSticky={true}
         variant="default"
-        maxWidth="full"
+        maxWidth={location.pathname === "/" ? "xl" : "full"}
         class="sticky top-0 z-50 supports-backdrop-filter:bg-background/60"
       >
-        <NavbarContainer class="container-full max-w-full px-4">
+        <NavbarContainer class={location.pathname === "/" ? "px-4" : "container-full max-w-full px-4"}>
           {/* Left: Mobile Nav Drawer Toggle & Brand Logo */}
           <div class="flex items-center gap-3 lg:gap-5 shrink-0">
             <MobileNav />
@@ -89,69 +86,116 @@ export function Header() {
             </NavbarBrand>
           </div>
 
-          {/* Center: Clean Direct Navigation Links */}
-          <NavbarContent justify="start" class="hidden md:flex ml-3 gap-1">
-            <NavbarItem isActive={isDocsActive()}>
-              <NavbarLink
-                href="/docs"
-                isActive={isDocsActive()}
+          {/* Center: Clean 4-Item Direct & Dropdown Navigation */}
+          <NavbarContent justify="start" class="hidden lg:flex ml-3 gap-1">
+            {/* 1. Documentation Dropdown */}
+            <DropdownMenu placement="bottom-start">
+              <DropdownMenuTrigger
+                class="flex items-center gap-1 px-3 py-1.5 rounded-md text-xs font-medium transition-colors cursor-pointer text-muted-foreground hover:text-foreground hover:bg-muted/50 data-[state=open]:text-foreground data-[state=open]:bg-muted/50"
+                classList={{
+                  "text-foreground font-semibold bg-muted/40": isDocsActive() || isComponentsActive() || isHooksActive() || isBlocksActive(),
+                }}
               >
-                Documentation
-              </NavbarLink>
-            </NavbarItem>
+                <span>Documentation</span>
+                <ChevronDown class="size-3 text-muted-foreground transition-transform duration-200" />
+              </DropdownMenuTrigger>
+              <DropdownMenuContent class="w-72 p-2 space-y-1 bg-popover/95 backdrop-blur-md border-border/80 shadow-xl rounded-xl">
+                <A href="/docs" class="flex items-start gap-2.5 p-2 rounded-lg hover:bg-muted/60 transition-colors group">
+                  <div class="size-7 rounded-md bg-primary/10 border border-primary/20 flex items-center justify-center text-primary shrink-0 mt-0.5">
+                    <BookOpen class="size-3.5" />
+                  </div>
+                  <div class="space-y-0.5">
+                    <div class="text-xs font-semibold text-foreground group-hover:text-primary transition-colors">
+                      General Documentation
+                    </div>
+                    <p class="text-[11px] text-muted-foreground leading-tight">
+                      Architecture, CLI commands, theming, and AI setup.
+                    </p>
+                  </div>
+                </A>
 
-            <NavbarItem isActive={isComponentsActive()}>
-              <NavbarLink
-                href="/docs/components/accordion"
-                isActive={isComponentsActive()}
-              >
-                Components
-              </NavbarLink>
-            </NavbarItem>
+                <A href="/docs/components/accordion" class="flex items-start gap-2.5 p-2 rounded-lg hover:bg-muted/60 transition-colors group">
+                  <div class="size-7 rounded-md bg-primary/10 border border-primary/20 flex items-center justify-center text-primary shrink-0 mt-0.5">
+                    <Boxes class="size-3.5" />
+                  </div>
+                  <div class="space-y-0.5">
+                    <div class="flex items-center gap-1.5">
+                      <span class="text-xs font-semibold text-foreground group-hover:text-primary transition-colors">
+                        Components
+                      </span>
+                      <Badge variant="outline" class="text-[9px] px-1 py-0 border-primary/30 text-primary">69</Badge>
+                    </div>
+                    <p class="text-[11px] text-muted-foreground leading-tight">
+                      Kobalte UI components built for Tailwind CSS v4.
+                    </p>
+                  </div>
+                </A>
 
-            <NavbarItem isActive={isBlocksActive()}>
-              <NavbarLink
-                href="/blocks"
-                isActive={isBlocksActive()}
-                class="flex items-center gap-1.5"
-              >
-                Blocks
-              </NavbarLink>
-            </NavbarItem>
+                <A href="/docs/hooks/create-controllable-signal" class="flex items-start gap-2.5 p-2 rounded-lg hover:bg-muted/60 transition-colors group">
+                  <div class="size-7 rounded-md bg-primary/10 border border-primary/20 flex items-center justify-center text-primary shrink-0 mt-0.5">
+                    <Zap class="size-3.5 text-amber-500" />
+                  </div>
+                  <div class="space-y-0.5">
+                    <div class="flex items-center gap-1.5">
+                      <span class="text-xs font-semibold text-foreground group-hover:text-primary transition-colors">
+                        Hooks & Primitives
+                      </span>
+                      <Badge variant="outline" class="text-[9px] px-1 py-0 border-amber-500/30 text-amber-500">47</Badge>
+                    </div>
+                    <p class="text-[11px] text-muted-foreground leading-tight">
+                      Fine-grained reactive signals and DOM primitives.
+                    </p>
+                  </div>
+                </A>
 
-            <NavbarItem isActive={isHooksActive()}>
-              <NavbarLink
-                href="/docs/hooks/create-controllable-signal"
-                isActive={isHooksActive()}
-              >
-                Hooks
-              </NavbarLink>
-            </NavbarItem>
+                <A href="/blocks" class="flex items-start gap-2.5 p-2 rounded-lg hover:bg-muted/60 transition-colors group">
+                  <div class="size-7 rounded-md bg-primary/10 border border-primary/20 flex items-center justify-center text-primary shrink-0 mt-0.5">
+                    <Layers class="size-3.5 text-sky-500" />
+                  </div>
+                  <div class="space-y-0.5">
+                    <div class="flex items-center gap-1.5">
+                      <span class="text-xs font-semibold text-foreground group-hover:text-primary transition-colors">
+                        Application Blocks
+                      </span>
+                      <Badge variant="secondary" class="text-[9px] px-1 py-0 font-mono">New</Badge>
+                    </div>
+                    <p class="text-[11px] text-muted-foreground leading-tight">
+                      Ready-to-use dashboards, auth, and complex UI layouts.
+                    </p>
+                  </div>
+                </A>
+              </DropdownMenuContent>
+            </DropdownMenu>
 
+            {/* 2. Desktop (Tauri v2) */}
             <NavbarItem isActive={isDesktopActive()}>
               <NavbarLink
                 href="/docs/desktop"
                 isActive={isDesktopActive()}
-                class="flex items-center gap-1.5"
+                class="flex items-center gap-1.5 text-xs"
               >
                 Desktop
-                <Badge variant="outline" class="text-[9px] px-1 py-0 border-primary/30 text-primary">Tauri</Badge>
+                <Badge variant="outline" class="text-[9px] px-1 py-0 border-primary/30 text-primary font-mono">Tauri</Badge>
               </NavbarLink>
             </NavbarItem>
 
+            {/* 3. MCP */}
             <NavbarItem isActive={isMcpActive()}>
               <NavbarLink
                 href="/docs/mcp"
                 isActive={isMcpActive()}
+                class="text-xs"
               >
                 MCP
               </NavbarLink>
             </NavbarItem>
 
+            {/* 4. Playground */}
             <NavbarItem isActive={isPlaygroundActive()}>
               <NavbarLink
                 href="/playground"
                 isActive={isPlaygroundActive()}
+                class="text-xs"
               >
                 Playground
               </NavbarLink>

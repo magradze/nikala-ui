@@ -165,7 +165,7 @@ export function MobileNav() {
         as={Button}
         variant="ghost"
         size="sm"
-        class="md:hidden h-9 w-9 p-0 text-muted-foreground hover:text-foreground cursor-pointer"
+        class="lg:hidden h-9 w-9 p-0 text-muted-foreground hover:text-foreground cursor-pointer"
         aria-label="Toggle mobile navigation menu"
       >
         <Menu class="w-5 h-5" />
