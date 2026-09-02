@@ -1,0 +1,11 @@
+{
+  "name": "api-table",
+  "title": "API Table",
+  "description": "A structured, clean API reference table component for documenting props, options, and events.",
+  "type": "registry:hook",
+  "dependencies": [
+    "clsx",
+    "tailwind-merge"
+  ],
+  "files": []
+}

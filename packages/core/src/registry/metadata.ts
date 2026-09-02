@@ -641,7 +641,7 @@ export const HOOK_METADATA: Record<string, ComponentMeta> = {
   "code-block": {
     title: "Code Block",
     description: "A code block container with filename header, language indicator, and interactive copy to clipboard button.",
-    dependencies: ["clsx", "tailwind-merge", "lucide-solid"],
+    dependencies: ["clsx", "tailwind-merge", "lucide-solid", "shiki"],
     registryDependencies: ["button", "badge", "tooltip"],
   },
   "package-manager-tabs": {
@@ -666,6 +666,18 @@ export const HOOK_METADATA: Record<string, ComponentMeta> = {
     description: "An interactive hierarchical directory file tree component built on Collapsible.",
     dependencies: ["clsx", "tailwind-merge", "lucide-solid"],
     registryDependencies: ["collapsible"],
+  },
+  "api-table": {
+    title: "API Table",
+    description: "A structured, clean API reference table component for documenting props, options, and events.",
+    dependencies: ["clsx", "tailwind-merge"],
+    registryDependencies: ["table", "badge"],
+  },
+  "component-viewer": {
+    title: "Component Viewer",
+    description: "An interactive preview canvas and code viewer container with responsive viewports, canvas grid, and AI prompts.",
+    dependencies: ["clsx", "tailwind-merge", "lucide-solid"],
+    registryDependencies: ["tabs", "button", "tooltip", "code-block"],
   },
 };
 

@@ -22,6 +22,16 @@
     ]
   },
   {
+    "name": "api-table",
+    "title": "Api-table",
+    "description": "api-table component.",
+    "type": "registry:ui",
+    "dependencies": [
+      "clsx",
+      "tailwind-merge"
+    ]
+  },
+  {
     "name": "aspect-ratio",
     "title": "Aspect Ratio",
     "description": "Displays content within a specific aspect ratio using CSS aspect-ratio while preventing layout shifts.",
@@ -208,6 +218,16 @@
       "list",
       "scroll-area",
       "create-keybindings"
+    ]
+  },
+  {
+    "name": "component-viewer",
+    "title": "Component-viewer",
+    "description": "component-viewer component.",
+    "type": "registry:ui",
+    "dependencies": [
+      "clsx",
+      "tailwind-merge"
     ]
   },
   {
@@ -1391,7 +1411,8 @@
     "dependencies": [
       "clsx",
       "tailwind-merge",
-      "lucide-solid"
+      "lucide-solid",
+      "shiki"
     ]
   },
   {
@@ -1429,6 +1450,27 @@
     "name": "file-tree",
     "title": "File Tree",
     "description": "An interactive hierarchical directory file tree component built on Collapsible.",
+    "type": "registry:hook",
+    "dependencies": [
+      "clsx",
+      "tailwind-merge",
+      "lucide-solid"
+    ]
+  },
+  {
+    "name": "api-table",
+    "title": "API Table",
+    "description": "A structured, clean API reference table component for documenting props, options, and events.",
+    "type": "registry:hook",
+    "dependencies": [
+      "clsx",
+      "tailwind-merge"
+    ]
+  },
+  {
+    "name": "component-viewer",
+    "title": "Component Viewer",
+    "description": "An interactive preview canvas and code viewer container with responsive viewports, canvas grid, and AI prompts.",
     "type": "registry:hook",
     "dependencies": [
       "clsx",

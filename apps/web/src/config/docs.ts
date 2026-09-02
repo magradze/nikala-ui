@@ -331,6 +331,7 @@ export const HOOKS_LIST: DocHookItem[] = [
 export const COMPONENTS_LIST: DocComponentItem[] = [
   { name: "accordion", title: "Accordion", description: "Vertically stacked collapsible content sections", href: "/docs/components/accordion" },
   { name: "alert", title: "Alert", description: "Callout banner for user feedback with status variants", href: "/docs/components/alert" },
+  { name: "api-table", title: "API Table", description: "Structured API reference table for documenting props, types, defaults, and descriptions", href: "/docs/components/api-table" },
   { name: "avatar", title: "Avatar", description: "Profile image component with automatic fallback handling", href: "/docs/components/avatar" },
   { name: "badge", title: "Badge", description: "Status indicator and tag badges with multiple variants", href: "/docs/components/badge" },
   { name: "banner", title: "Banner", description: "Announcement banner with sticky positioning and dismissal", href: "/docs/components/banner" },
@@ -341,6 +342,7 @@ export const COMPONENTS_LIST: DocComponentItem[] = [
   { name: "card", title: "Card", description: "Compound card layout with header, title, and footer", href: "/docs/components/card" },
   { name: "code-block", title: "Code Block", description: "Code block container with filename header, language badge, and interactive copy button", href: "/docs/components/code-block" },
   { name: "code-group", title: "Code Group", description: "Tabbed multi-file code snippet container built on Tabs", href: "/docs/components/code-group" },
+  { name: "component-viewer", title: "Component Viewer", description: "Interactive preview canvas and code viewer container with responsive viewports, canvas grid, and AI prompts", href: "/docs/components/component-viewer" },
   { name: "checkbox", title: "Checkbox", description: "Checkable input box with custom checkmark indicator", href: "/docs/components/checkbox" },
   { name: "combobox", title: "Combobox", description: "Searchable autocomplete dropdown with single/multi-selection tags, avatars, and groups", href: "/docs/components/combobox" },
   { name: "command", title: "Command", description: "Fast, accessible command palette and search modal", href: "/docs/components/command" },
@@ -447,12 +449,14 @@ export const COMPONENT_SECTIONS: NavSection[] = [
   {
     title: "Data Display",
     items: [
+      { title: "API Table", href: "/docs/components/api-table", addedAt: "2026-09-02" },
       { title: "Avatar", href: "/docs/components/avatar" },
       { title: "Badge", href: "/docs/components/badge" },
       { title: "Bubble", href: "/docs/components/bubble", addedAt: "2026-08-30" },
       { title: "Card", href: "/docs/components/card" },
       { title: "Code Block", href: "/docs/components/code-block", addedAt: "2026-09-02" },
       { title: "Code Group", href: "/docs/components/code-group", addedAt: "2026-09-02" },
+      { title: "Component Viewer", href: "/docs/components/component-viewer", addedAt: "2026-09-02" },
       { title: "Empty", href: "/docs/components/empty", addedAt: "2026-08-10" },
       { title: "File Tree", href: "/docs/components/file-tree", addedAt: "2026-09-02" },
       { title: "Kbd", href: "/docs/components/kbd" },
