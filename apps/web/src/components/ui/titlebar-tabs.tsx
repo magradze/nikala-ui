@@ -151,11 +151,9 @@ export const TitlebarTabs: ParentComponent<TitlebarTabsProps> = (props) => {
     <TitlebarTabsContext.Provider value={contextValue}>
       <nav
         aria-label="Window Tabs"
-        data-no-drag
-        data-tauri-drag-region="false"
-        style={"-webkit-app-region: no-drag; app-region: no-drag;" as any}
+        data-tauri-drag-region
         class={cn(
-          "flex flex-1 h-full overflow-hidden z-10 min-w-0 pointer-events-auto [app-region:no-drag] [-webkit-app-region:no-drag]",
+          "flex flex-1 h-full overflow-hidden z-10 min-w-0 pointer-events-auto [app-region:drag] [-webkit-app-region:drag]",
           variant() === "chrome" ? "items-end" : "items-center",
           local.class
         )}
@@ -168,8 +166,9 @@ export const TitlebarTabs: ParentComponent<TitlebarTabsProps> = (props) => {
             <>
               <div
                 ref={scrollContainerRef}
+                data-tauri-drag-region
                 class={cn(
-                  "flex h-full overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] gap-0 items-center min-w-0 flex-1 scroll-smooth",
+                  "flex h-full overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] gap-0 items-center min-w-0 flex-1 scroll-smooth [app-region:drag] [-webkit-app-region:drag]",
                   variant() === "chrome" && "items-end pt-1.5"
                 )}
               >
@@ -222,9 +221,9 @@ export const TitlebarTabList: ParentComponent<TitlebarTabListProps> = (props) =>
   return (
     <div
       ref={listRef}
-      data-no-drag
+      data-tauri-drag-region
       class={cn(
-        "flex h-full overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] gap-0 items-center min-w-0 flex-1 scroll-smooth",
+        "flex h-full overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] gap-0 items-center min-w-0 flex-1 scroll-smooth [app-region:drag] [-webkit-app-region:drag]",
         ctx.variant() === "chrome" && "items-end pt-1.5",
         local.class
       )}
@@ -257,6 +256,7 @@ export const TitlebarTab: ParentComponent<TitlebarTabProps> = (props) => {
     "closable",
     "onClose",
     "class",
+    "style",
     "children",
     "onClick",
     "onKeyDown",
@@ -328,13 +328,15 @@ export const TitlebarTab: ParentComponent<TitlebarTabProps> = (props) => {
       tabindex="0"
       aria-selected={isActive()}
       data-no-drag
+      data-tauri-drag-region="false"
+      style={("-webkit-app-region: no-drag; app-region: no-drag;" + (typeof local.style === "string" ? ` ${local.style}` : "")) as any}
       data-active={isActive() ? "true" : "false"}
       onClick={handleClick}
       onKeyDown={handleKeyDown}
       class={cn(
         titlebarTabVariants({ variant: ctx.variant() }),
         isPinned() && "min-w-fit px-2 max-w-fit",
-        "cursor-pointer outline-none focus-visible:ring-1 focus-visible:ring-ring",
+        "cursor-pointer outline-none focus-visible:ring-1 focus-visible:ring-ring [app-region:no-drag] [-webkit-app-region:no-drag] pointer-events-auto",
         local.class
       )}
       {...rest}
@@ -392,27 +394,36 @@ export interface TitlebarTabAddButtonProps extends JSX.HTMLAttributes<HTMLButton
 }
 
 export const TitlebarTabAddButton: Component<TitlebarTabAddButtonProps> = (props) => {
-  const [local, rest] = splitProps(props, ["class"]);
+  const [local, rest] = splitProps(props, ["class", "style"]);
 
   return (
-    <Tooltip>
-      <TooltipTrigger
-        as={Button}
-        variant="ghost"
-        size="icon"
-        data-no-drag
-        aria-label="Add new tab"
-        class={cn(
-          "size-6 rounded-md text-muted-foreground hover:bg-muted/80 hover:text-foreground cursor-pointer shrink-0",
-          local.class
-        )}
-        {...rest}
-      >
-        <Plus class="size-3.5" />
-      </TooltipTrigger>
-      <TooltipContent class="text-[10px] py-1 px-2">
-        New tab (Ctrl+T)
-      </TooltipContent>
-    </Tooltip>
+    <div
+      data-no-drag
+      data-tauri-drag-region="false"
+      style={("-webkit-app-region: no-drag; app-region: no-drag;" + (typeof local.style === "string" ? ` ${local.style}` : "")) as any}
+      class="shrink-0 flex items-center z-20 pointer-events-auto [app-region:no-drag] [-webkit-app-region:no-drag]"
+    >
+      <Tooltip>
+        <TooltipTrigger
+          as={Button}
+          variant="ghost"
+          size="icon"
+          data-no-drag
+          data-tauri-drag-region="false"
+          aria-label="Add new tab"
+          class={cn(
+            "size-6 rounded-md text-muted-foreground hover:bg-muted/80 hover:text-foreground cursor-pointer shrink-0",
+            local.class
+          )}
+          {...rest}
+        >
+          <Plus class="size-3.5" />
+        </TooltipTrigger>
+        <TooltipContent class="text-[10px] py-1 px-2">
+          New tab (Ctrl+T)
+        </TooltipContent>
+      </Tooltip>
+    </div>
   );
 };
+

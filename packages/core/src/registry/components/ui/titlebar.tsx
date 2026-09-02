@@ -16,12 +16,13 @@ import { cn } from "@/lib/cn";
 /* --- 1. Context & Types --- */
 export type TitlebarPlatform = "macos" | "windows" | "auto";
 
-interface TitlebarContextValue {
+export interface TitlebarContextValue {
   platform: Accessor<"macos" | "windows">;
   isMaximized: Accessor<boolean>;
   minimize: () => Promise<void> | void;
   toggleMaximize: () => Promise<void> | void;
   close: () => Promise<void> | void;
+  destroy?: () => Promise<void> | void;
 }
 
 const TitlebarContext = createContext<TitlebarContextValue>();
@@ -88,6 +89,7 @@ export const Titlebar: ParentComponent<TitlebarProps> = (props) => {
     "class",
     "children",
     "doubleClickToMaximize",
+    "onMouseDown",
     "onDblClick",
   ]);
 
@@ -108,6 +110,7 @@ export const Titlebar: ParentComponent<TitlebarProps> = (props) => {
   const toggleMaximize = () =>
     local.onToggleMaximize ? local.onToggleMaximize() : windowCtrl.toggleMaximize();
   const close = () => (local.onClose ? local.onClose() : windowCtrl.close());
+  const destroy = () => windowCtrl.destroy();
 
   const handleMouseDown: JSX.EventHandlerUnion<HTMLElement, MouseEvent> = (e) => {
     if (e.button === 0) {
@@ -116,16 +119,16 @@ export const Titlebar: ParentComponent<TitlebarProps> = (props) => {
         windowCtrl.startDragging(e);
       }
     }
-    if (typeof (local as any).onMouseDown === "function") {
-      ((local as any).onMouseDown)(e);
+    if (typeof local.onMouseDown === "function") {
+      (local.onMouseDown as any)(e);
     }
   };
 
   const handleDoubleClick: JSX.EventHandlerUnion<HTMLElement, MouseEvent> = (e) => {
     if (local.doubleClickToMaximize !== false) {
-      // Don't maximize if user double-clicked an interactive button
+      // Don't maximize if user double-clicked an interactive control
       const target = e.target as HTMLElement;
-      if (!target.closest("button, [data-no-drag], [data-tauri-drag-region='false']")) {
+      if (!target.closest("button, a, input, select, textarea, [data-no-drag], [data-tauri-drag-region='false']")) {
         toggleMaximize();
       }
     }
@@ -140,6 +143,7 @@ export const Titlebar: ParentComponent<TitlebarProps> = (props) => {
     minimize,
     toggleMaximize,
     close,
+    destroy,
   };
 
   return (
@@ -167,14 +171,67 @@ export const Titlebar: ParentComponent<TitlebarProps> = (props) => {
  * Traffic light buttons for macOS or Fluent control buttons for Windows.
  */
 export interface TitlebarControlsProps extends JSX.HTMLAttributes<HTMLDivElement> {
-  /** Optional override platform style. Defaults to Titlebar context. */
+  /** Optional override platform style. Defaults to Titlebar context or detected OS. */
   platform?: "macos" | "windows";
+  /** Optional controlled maximize state override. */
+  isMaximized?: boolean;
+  /** Optional minimize callback override. */
+  onMinimize?: () => void | Promise<void>;
+  /** Optional maximize callback override. */
+  onToggleMaximize?: () => void | Promise<void>;
+  /** Optional close callback override. */
+  onClose?: () => void | Promise<void>;
 }
 
 export const TitlebarControls: Component<TitlebarControlsProps> = (props) => {
-  const [local, rest] = splitProps(props, ["platform", "class", "style"]);
-  const ctx = useTitlebar();
-  const activePlatform = () => local.platform || ctx.platform();
+  const [local, rest] = splitProps(props, [
+    "platform",
+    "class",
+    "style",
+    "isMaximized",
+    "onMinimize",
+    "onToggleMaximize",
+    "onClose",
+  ]);
+  const ctx = useContext(TitlebarContext);
+  let fallbackCtrl: ReturnType<typeof createTauriWindow> | null = null;
+  if (!ctx) {
+    fallbackCtrl = createTauriWindow();
+  }
+
+  const activePlatform = createMemo<"macos" | "windows">(() => {
+    if (local.platform) return local.platform;
+    if (ctx?.platform) return ctx.platform();
+    const detected = detectPlatform();
+    return detected === "macos" ? "macos" : "windows";
+  });
+
+  const isMaximized = () => {
+    if (local.isMaximized !== undefined) return local.isMaximized;
+    if (ctx?.isMaximized) return ctx.isMaximized();
+    return fallbackCtrl ? fallbackCtrl.isMaximized() : false;
+  };
+
+  const handleMinimize = (e: MouseEvent) => {
+    e.stopPropagation();
+    if (local.onMinimize) return local.onMinimize();
+    if (ctx?.minimize) return ctx.minimize();
+    return fallbackCtrl?.minimize();
+  };
+
+  const handleToggleMaximize = (e: MouseEvent) => {
+    e.stopPropagation();
+    if (local.onToggleMaximize) return local.onToggleMaximize();
+    if (ctx?.toggleMaximize) return ctx.toggleMaximize();
+    return fallbackCtrl?.toggleMaximize();
+  };
+
+  const handleClose = (e: MouseEvent) => {
+    e.stopPropagation();
+    if (local.onClose) return local.onClose();
+    if (ctx?.close) return ctx.close();
+    return fallbackCtrl?.close();
+  };
 
   return (
     <div
@@ -198,7 +255,7 @@ export const TitlebarControls: Component<TitlebarControlsProps> = (props) => {
             {/* Minimize */}
             <button
               type="button"
-              onClick={() => ctx.minimize()}
+              onClick={handleMinimize}
               class="inline-flex h-full w-11 items-center justify-center text-muted-foreground hover:bg-muted hover:text-foreground transition-colors cursor-pointer"
               aria-label="Minimize Window"
             >
@@ -210,12 +267,12 @@ export const TitlebarControls: Component<TitlebarControlsProps> = (props) => {
             {/* Maximize / Restore */}
             <button
               type="button"
-              onClick={() => ctx.toggleMaximize()}
+              onClick={handleToggleMaximize}
               class="inline-flex h-full w-11 items-center justify-center text-muted-foreground hover:bg-muted hover:text-foreground transition-colors cursor-pointer"
-              aria-label={ctx.isMaximized() ? "Restore Window" : "Maximize Window"}
+              aria-label={isMaximized() ? "Restore Window" : "Maximize Window"}
             >
               <Show
-                when={ctx.isMaximized()}
+                when={isMaximized()}
                 fallback={
                   <svg class="h-3 w-3" fill="none" viewBox="0 0 12 12">
                     <rect width="8" height="8" x="2" y="2" stroke="currentColor" stroke-width="1" rx="0.5" />
@@ -231,7 +288,7 @@ export const TitlebarControls: Component<TitlebarControlsProps> = (props) => {
             {/* Close */}
             <button
               type="button"
-              onClick={() => ctx.close()}
+              onClick={handleClose}
               class="inline-flex h-full w-11 items-center justify-center text-muted-foreground hover:bg-destructive hover:text-destructive-foreground transition-colors cursor-pointer"
               aria-label="Close Window"
             >
@@ -247,7 +304,7 @@ export const TitlebarControls: Component<TitlebarControlsProps> = (props) => {
           {/* Close */}
           <button
             type="button"
-            onClick={() => ctx.close()}
+            onClick={handleClose}
             class="flex size-3 items-center justify-center rounded-full bg-[#ff5f57] border border-[#e0443e] cursor-pointer"
             aria-label="Close Window"
           >
@@ -265,7 +322,7 @@ export const TitlebarControls: Component<TitlebarControlsProps> = (props) => {
           {/* Minimize */}
           <button
             type="button"
-            onClick={() => ctx.minimize()}
+            onClick={handleMinimize}
             class="flex size-3 items-center justify-center rounded-full bg-[#febc2e] border border-[#d89e24] cursor-pointer"
             aria-label="Minimize Window"
           >
@@ -283,7 +340,7 @@ export const TitlebarControls: Component<TitlebarControlsProps> = (props) => {
           {/* Maximize */}
           <button
             type="button"
-            onClick={() => ctx.toggleMaximize()}
+            onClick={handleToggleMaximize}
             class="flex size-3 items-center justify-center rounded-full bg-[#28c840] border border-[#1aab29] cursor-pointer"
             aria-label="Maximize Window"
           >
@@ -292,7 +349,7 @@ export const TitlebarControls: Component<TitlebarControlsProps> = (props) => {
               viewBox="0 0 6 6"
               fill="none"
               stroke="currentColor"
-              stroke-width="1"
+              stroke-width="1.2"
             >
               <path d="M1 4.5l3.5-3.5M4.5 1h-3M4.5 1v3" />
             </svg>
@@ -397,3 +454,4 @@ export const TitlebarActions: ParentComponent<TitlebarActionsProps> = (props) =>
 
 /* --- 6. Re-export TitlebarTabs Suite --- */
 export * from "./titlebar-tabs";
+
