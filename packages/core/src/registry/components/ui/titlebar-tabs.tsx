@@ -32,6 +32,12 @@ interface TitlebarTabsContextValue {
   setValue: (value: string) => void;
   variant: Accessor<TitlebarTabsVariant>;
   manager?: CreateDocumentTabsReturn<any>;
+  reorderable?: boolean;
+  draggedTabId: Accessor<string | null>;
+  dropTargetId: Accessor<string | null>;
+  dropPosition: Accessor<"left" | "right" | null>;
+  setDragState: (draggedId: string | null, targetId: string | null, position: "left" | "right" | null) => void;
+  handleDropReorder: (sourceId: string, targetId: string, position: "left" | "right") => void;
 }
 
 const TitlebarTabsContext = createContext<TitlebarTabsContextValue>();
@@ -76,6 +82,8 @@ export interface TitlebarTabsProps extends JSX.HTMLAttributes<HTMLElement> {
   onValueChange?: (value: string) => void;
   /** Callback triggered when the "+" add tab button is clicked. */
   onAddTab?: () => void;
+  /** Whether tabs can be reordered via Drag & Drop. Defaults to true when manager is present. */
+  reorderable?: boolean;
   /** Visual chrome styling variant. */
   variant?: TitlebarTabsVariant;
   class?: string;
@@ -88,6 +96,7 @@ export const TitlebarTabs: ParentComponent<TitlebarTabsProps> = (props) => {
     "defaultValue",
     "onValueChange",
     "onAddTab",
+    "reorderable",
     "variant",
     "class",
     "children",
@@ -96,6 +105,9 @@ export const TitlebarTabs: ParentComponent<TitlebarTabsProps> = (props) => {
   let scrollContainerRef: HTMLDivElement | undefined;
 
   const [internalValue, setInternalValue] = createSignal(local.defaultValue || local.value);
+  const [draggedTabId, setDraggedTabId] = createSignal<string | null>(null);
+  const [dropTargetId, setDropTargetId] = createSignal<string | null>(null);
+  const [dropPosition, setDropPosition] = createSignal<"left" | "right" | null>(null);
 
   const activeValue = () => {
     if (local.manager) return local.manager.activeTabId();
@@ -110,6 +122,35 @@ export const TitlebarTabs: ParentComponent<TitlebarTabsProps> = (props) => {
     } else {
       setInternalValue(val);
       local.onValueChange?.(val);
+    }
+  };
+
+  const setDragState = (
+    draggedId: string | null,
+    targetId: string | null,
+    pos: "left" | "right" | null
+  ) => {
+    setDraggedTabId(draggedId);
+    setDropTargetId(targetId);
+    setDropPosition(pos);
+  };
+
+  const handleDropReorder = (sourceId: string, targetId: string, pos: "left" | "right") => {
+    if (!local.manager) return;
+    const list = local.manager.tabs();
+    const fromIndex = list.findIndex((t) => t.id === sourceId);
+    const targetIndex = list.findIndex((t) => t.id === targetId);
+    if (fromIndex === -1 || targetIndex === -1 || fromIndex === targetIndex) return;
+
+    let finalIndex = targetIndex;
+    if (fromIndex < targetIndex && pos === "left") {
+      finalIndex = targetIndex - 1;
+    } else if (fromIndex > targetIndex && pos === "right") {
+      finalIndex = targetIndex + 1;
+    }
+
+    if (fromIndex !== finalIndex && finalIndex >= 0 && finalIndex < list.length) {
+      local.manager.reorderTabs(fromIndex, finalIndex);
     }
   };
 
@@ -145,6 +186,12 @@ export const TitlebarTabs: ParentComponent<TitlebarTabsProps> = (props) => {
     setValue,
     variant,
     manager: local.manager,
+    reorderable: local.reorderable ?? Boolean(local.manager),
+    draggedTabId,
+    dropTargetId,
+    dropPosition,
+    setDragState,
+    handleDropReorder,
   };
 
   return (
@@ -240,6 +287,7 @@ export interface TitlebarTabProps extends Omit<JSX.HTMLAttributes<HTMLDivElement
   isDirty?: boolean;
   isPinned?: boolean;
   closable?: boolean;
+  reorderable?: boolean;
   onClose?: (e: MouseEvent) => void;
   class?: string;
 }
@@ -251,12 +299,18 @@ export const TitlebarTab: ParentComponent<TitlebarTabProps> = (props) => {
     "isDirty",
     "isPinned",
     "closable",
+    "reorderable",
     "onClose",
     "class",
     "style",
     "children",
     "onClick",
     "onKeyDown",
+    "onDragStart",
+    "onDragOver",
+    "onDragLeave",
+    "onDragEnd",
+    "onDrop",
   ]);
 
   const ctx = useTitlebarTabs();
@@ -270,6 +324,11 @@ export const TitlebarTab: ParentComponent<TitlebarTabProps> = (props) => {
   const IconComp = () => local.tab?.icon;
 
   const isActive = () => ctx.value() === tabId();
+  const isDragging = () => ctx.draggedTabId() === tabId();
+  const isDropTarget = () => ctx.dropTargetId() === tabId() && ctx.draggedTabId() !== tabId();
+  const dropPosition = () => (isDropTarget() ? ctx.dropPosition() : null);
+
+  const canDrag = () => !isPinned() && (local.reorderable ?? ctx.reorderable ?? true);
 
   // Scroll active tab horizontally inside its tablist container
   createEffect(() => {
@@ -318,22 +377,101 @@ export const TitlebarTab: ParentComponent<TitlebarTabProps> = (props) => {
     }
   };
 
+  const handleDragStart: JSX.EventHandlerUnion<HTMLDivElement, DragEvent> = (e) => {
+    if (!canDrag()) {
+      e.preventDefault();
+      return;
+    }
+    if (e.dataTransfer) {
+      e.dataTransfer.setData("text/plain", tabId());
+      e.dataTransfer.effectAllowed = "move";
+    }
+    ctx.setDragState(tabId(), null, null);
+    if (typeof local.onDragStart === "function") {
+      (local.onDragStart as any)(e);
+    }
+  };
+
+  const handleDragOver: JSX.EventHandlerUnion<HTMLDivElement, DragEvent> = (e) => {
+    const currentDragged = ctx.draggedTabId();
+    if (!currentDragged || currentDragged === tabId() || isPinned()) return;
+
+    e.preventDefault();
+    if (e.dataTransfer) {
+      e.dataTransfer.dropEffect = "move";
+    }
+
+    if (tabRef) {
+      const rect = tabRef.getBoundingClientRect();
+      const midpoint = rect.left + rect.width / 2;
+      const pos: "left" | "right" = e.clientX < midpoint ? "left" : "right";
+      ctx.setDragState(currentDragged, tabId(), pos);
+    }
+
+    if (typeof local.onDragOver === "function") {
+      (local.onDragOver as any)(e);
+    }
+  };
+
+  const handleDragLeave: JSX.EventHandlerUnion<HTMLDivElement, DragEvent> = (e) => {
+    if (tabRef && !tabRef.contains(e.relatedTarget as Node)) {
+      if (ctx.dropTargetId() === tabId()) {
+        ctx.setDragState(ctx.draggedTabId(), null, null);
+      }
+    }
+    if (typeof local.onDragLeave === "function") {
+      (local.onDragLeave as any)(e);
+    }
+  };
+
+  const handleDragEnd: JSX.EventHandlerUnion<HTMLDivElement, DragEvent> = (e) => {
+    ctx.setDragState(null, null, null);
+    if (typeof local.onDragEnd === "function") {
+      (local.onDragEnd as any)(e);
+    }
+  };
+
+  const handleDrop: JSX.EventHandlerUnion<HTMLDivElement, DragEvent> = (e) => {
+    e.preventDefault();
+    const sourceId = e.dataTransfer?.getData("text/plain") || ctx.draggedTabId();
+    const pos = ctx.dropPosition();
+    if (sourceId && pos && sourceId !== tabId()) {
+      ctx.handleDropReorder(sourceId, tabId(), pos);
+    }
+    ctx.setDragState(null, null, null);
+    if (typeof local.onDrop === "function") {
+      (local.onDrop as any)(e);
+    }
+  };
+
   return (
     <div
       ref={tabRef}
       role="tab"
       tabindex="0"
       aria-selected={isActive()}
+      draggable={canDrag()}
+      onDragStart={handleDragStart}
+      onDragOver={handleDragOver}
+      onDragLeave={handleDragLeave}
+      onDragEnd={handleDragEnd}
+      onDrop={handleDrop}
       data-no-drag
       data-tauri-drag-region="false"
       style={("-webkit-app-region: no-drag; app-region: no-drag;" + (typeof local.style === "string" ? ` ${local.style}` : "")) as any}
       data-active={isActive() ? "true" : "false"}
+      data-dragging={isDragging() ? "true" : undefined}
       onClick={handleClick}
       onKeyDown={handleKeyDown}
       class={cn(
         titlebarTabVariants({ variant: ctx.variant() }),
         isPinned() && "min-w-fit px-2 max-w-fit",
-        "cursor-pointer outline-none focus-visible:ring-1 focus-visible:ring-ring [app-region:no-drag] [-webkit-app-region:no-drag] pointer-events-auto",
+        isDragging() && "opacity-40 scale-95",
+        dropPosition() === "left" &&
+          "before:absolute before:left-0 before:top-1 before:bottom-1 before:w-0.5 before:bg-primary before:z-30 before:rounded-full",
+        dropPosition() === "right" &&
+          "after:absolute after:right-0 after:top-1 after:bottom-1 after:w-0.5 after:bg-primary after:z-30 after:rounded-full",
+        "cursor-pointer outline-none focus-visible:ring-1 focus-visible:ring-ring [app-region:no-drag] [-webkit-app-region:no-drag] pointer-events-auto transition-all duration-150",
         local.class
       )}
       {...rest}
