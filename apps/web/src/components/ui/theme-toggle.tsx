@@ -1,4 +1,4 @@
-import { splitProps, type Component, For, Show } from "solid-js";
+import { splitProps, type Component, For, Show, type JSX } from "solid-js";
 import { Sun, Moon, Monitor } from "lucide-solid";
 import {
   useTheme,
@@ -10,7 +10,7 @@ import {
   runThemeTransition,
   type ThemeEffect,
 } from "../../providers/theme-transitions";
-import { Button } from "./button";
+import { Button, type ButtonProps } from "./button";
 import {
   DropdownMenu,
   DropdownMenuTrigger,
@@ -22,11 +22,16 @@ import {
 } from "./dropdown-menu";
 import { cn } from "@/lib/cn";
 
-export interface ThemeToggleProps {
-  /** Display mode: "mini" for compact dropdown, "max" for full customizer panel (default: "mini") */
-  mode?: "mini" | "max";
+export interface ThemeToggleProps
+  extends Omit<JSX.ButtonHTMLAttributes<HTMLButtonElement>, "onClick"> {
+  /** Display mode: "button" (direct 1-click toggle), "mini" (compact dropdown), "max" (full customizer panel). Defaults to "mini". */
+  mode?: "button" | "mini" | "max";
   /** Transition animation effect when changing themes ("none", "circular", "fade") */
   effect?: ThemeEffect;
+  /** Button visual style variant when rendered as a button or dropdown trigger */
+  variant?: ButtonProps["variant"];
+  /** Button size */
+  size?: ButtonProps["size"];
   class?: string;
 }
 
@@ -48,10 +53,10 @@ const RADIUS_OPTIONS: { value: Radius; label: string }[] = [
 ];
 
 /**
- * Interactive UI theme switcher supporting mini/max modes and View Transition animations.
+ * Interactive UI theme switcher supporting button, mini (dropdown), and max (customizer panel) modes with View Transition animations.
  */
 export const ThemeToggle: Component<ThemeToggleProps> = (props) => {
-  const [local] = splitProps(props, ["mode", "effect", "class"]);
+  const [local, rest] = splitProps(props, ["mode", "effect", "variant", "size", "class"]);
   const { theme, setTheme, accent, setAccent, radius, setRadius } = useTheme();
 
   const mode = () => local.mode || "mini";
@@ -74,130 +79,160 @@ export const ThemeToggle: Component<ThemeToggleProps> = (props) => {
     });
   };
 
+  const handleToggleClick = (e: MouseEvent) => {
+    const nextTheme: Theme = isDarkMode() ? "light" : "dark";
+    changeThemeWithEffect(nextTheme, e);
+  };
+
   return (
-    <DropdownMenu placement="bottom-end">
-      <DropdownMenuTrigger
-        as={Button}
-        variant="ghost"
-        size="icon"
-        class={cn("relative h-9 w-9 cursor-pointer", local.class)}
-      >
-        {/* Reactive Sun / Moon Icon Toggle */}
-        <Show
-          when={isDarkMode()}
-          fallback={<Sun class="h-4 w-4 text-foreground transition-transform" />}
+    <Show
+      when={mode() !== "button"}
+      fallback={
+        /* Button Mode: Direct 1-click Dark/Light switcher without dropdown */
+        <Button
+          variant={local.variant || "ghost"}
+          size={local.size || "icon"}
+          onClick={handleToggleClick}
+          class={cn("relative cursor-pointer", local.class)}
+          aria-label="Toggle theme"
+          {...rest}
         >
-          <Moon class="h-4 w-4 text-foreground transition-transform" />
-        </Show>
+          <Show
+            when={isDarkMode()}
+            fallback={<Sun class="h-4 w-4 text-foreground transition-transform" />}
+          >
+            <Moon class="h-4 w-4 text-foreground transition-transform" />
+          </Show>
+          <span class="sr-only">Toggle theme</span>
+        </Button>
+      }
+    >
+      <DropdownMenu placement="bottom-end">
+        <DropdownMenuTrigger
+          as={Button}
+          variant={local.variant || "ghost"}
+          size={local.size || "icon"}
+          class={cn("relative cursor-pointer", local.class)}
+          {...rest}
+        >
+          {/* Reactive Sun / Moon Icon Toggle */}
+          <Show
+            when={isDarkMode()}
+            fallback={<Sun class="h-4 w-4 text-foreground transition-transform" />}
+          >
+            <Moon class="h-4 w-4 text-foreground transition-transform" />
+          </Show>
+          <span class="sr-only">Toggle theme</span>
+        </DropdownMenuTrigger>
 
-        <span class="sr-only">Toggle theme</span>
-      </DropdownMenuTrigger>
+        <Show
+          when={mode() === "max"}
+          fallback={
+            /* Mini Mode: Compact Dropdown */
+            <DropdownMenuContent>
+              <DropdownMenuItem onClick={(e: MouseEvent) => changeThemeWithEffect("light", e)}>
+                <Sun class="mr-2 h-4 w-4 text-muted-foreground" />
+                Light
+              </DropdownMenuItem>
 
-      <Show
-        when={mode() === "max"}
-        fallback={
-          /* Mini Mode: Compact Dropdown */
-          <DropdownMenuContent>
-            <DropdownMenuItem onClick={(e: MouseEvent) => changeThemeWithEffect("light", e)}>
-              <Sun class="mr-2 h-4 w-4 text-muted-foreground" />
-              Light
-            </DropdownMenuItem>
+              <DropdownMenuItem onClick={(e: MouseEvent) => changeThemeWithEffect("dark", e)}>
+                <Moon class="mr-2 h-4 w-4 text-muted-foreground" />
+                Dark
+              </DropdownMenuItem>
 
-            <DropdownMenuItem onClick={(e: MouseEvent) => changeThemeWithEffect("dark", e)}>
-              <Moon class="mr-2 h-4 w-4 text-muted-foreground" />
-              Dark
-            </DropdownMenuItem>
+              <DropdownMenuItem onClick={(e: MouseEvent) => changeThemeWithEffect("system", e)}>
+                <Monitor class="mr-2 h-4 w-4 text-muted-foreground" />
+                System
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          }
+        >
+          {/* Max Mode: Full Theme Customizer Panel */}
+          <DropdownMenuContent class="w-64">
+            <div class="p-2 space-y-2">
+              <DropdownMenuGroup>
+                <DropdownMenuLabel class="px-0 pt-0 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                  Theme Mode
+                </DropdownMenuLabel>
+                <div class="grid grid-cols-3 gap-1 my-1.5">
+                  <Button
+                    variant={theme() === "light" ? "default" : "outline"}
+                    size="sm"
+                    onClick={(e: MouseEvent) => changeThemeWithEffect("light", e)}
+                    class="h-8 text-xs cursor-pointer"
+                  >
+                    Light
+                  </Button>
+                  <Button
+                    variant={theme() === "dark" ? "default" : "outline"}
+                    size="sm"
+                    onClick={(e: MouseEvent) => changeThemeWithEffect("dark", e)}
+                    class="h-8 text-xs cursor-pointer"
+                  >
+                    Dark
+                  </Button>
+                  <Button
+                    variant={theme() === "system" ? "default" : "outline"}
+                    size="sm"
+                    onClick={(e: MouseEvent) => changeThemeWithEffect("system", e)}
+                    class="h-8 text-xs cursor-pointer"
+                  >
+                    System
+                  </Button>
+                </div>
+              </DropdownMenuGroup>
 
-            <DropdownMenuItem onClick={(e: MouseEvent) => changeThemeWithEffect("system", e)}>
-              <Monitor class="mr-2 h-4 w-4 text-muted-foreground" />
-              System
-            </DropdownMenuItem>
+              <DropdownMenuSeparator class="my-2" />
+
+              <DropdownMenuGroup>
+                <DropdownMenuLabel class="px-0 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                  Brand Accent Color
+                </DropdownMenuLabel>
+                <div class="flex flex-wrap gap-1.5 my-1.5">
+                  <For each={ACCENT_OPTIONS}>
+                    {(opt) => (
+                      <button
+                        type="button"
+                        title={opt.label}
+                        onClick={() => setAccent(opt.name)}
+                        class={cn(
+                          "h-6 w-6 rounded-md transition-all cursor-pointer border border-border flex items-center justify-center",
+                          opt.color,
+                          accent() === opt.name
+                            ? "ring-2 ring-primary ring-offset-2 ring-offset-background scale-110"
+                            : "hover:scale-105"
+                        )}
+                      />
+                    )}
+                  </For>
+                </div>
+              </DropdownMenuGroup>
+
+              <DropdownMenuSeparator class="my-2" />
+
+              <DropdownMenuGroup>
+                <DropdownMenuLabel class="px-0 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                  Border Radius
+                </DropdownMenuLabel>
+                <div class="grid grid-cols-5 gap-1 my-1.5">
+                  <For each={RADIUS_OPTIONS}>
+                    {(r) => (
+                      <Button
+                        variant={radius() === r.value ? "default" : "outline"}
+                        size="sm"
+                        onClick={() => setRadius(r.value)}
+                        class="h-7 text-xs px-1 cursor-pointer"
+                      >
+                        {r.label}
+                      </Button>
+                    )}
+                  </For>
+                </div>
+              </DropdownMenuGroup>
+            </div>
           </DropdownMenuContent>
-        }
-      >
-        {/* Max Mode: Full Theme Customizer Panel */}
-        <DropdownMenuContent class="w-64">
-          <div class="p-2 space-y-2">
-            <DropdownMenuGroup>
-              <DropdownMenuLabel class="px-0 pt-0 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                Theme Mode
-              </DropdownMenuLabel>
-              <div class="grid grid-cols-3 gap-1 my-1.5">
-                <Button
-                  variant={theme() === "light" ? "default" : "outline"}
-                  size="sm"
-                  onClick={(e: MouseEvent) => changeThemeWithEffect("light", e)}
-                  class="h-8 text-xs cursor-pointer"
-                >
-                  Light
-                </Button>
-                <Button
-                  variant={theme() === "dark" ? "default" : "outline"}
-                  size="sm"
-                  onClick={(e: MouseEvent) => changeThemeWithEffect("dark", e)}
-                  class="h-8 text-xs cursor-pointer"
-                >
-                  Dark
-                </Button>
-                <Button
-                  variant={theme() === "system" ? "default" : "outline"}
-                  size="sm"
-                  onClick={(e: MouseEvent) => changeThemeWithEffect("system", e)}
-                  class="h-8 text-xs cursor-pointer"
-                >
-                  System
-                </Button>
-              </div>
-            </DropdownMenuGroup>
-
-            <DropdownMenuSeparator class="my-2" />
-
-            <DropdownMenuGroup>
-              <DropdownMenuLabel class="px-0 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                Brand Accent Color
-              </DropdownMenuLabel>
-              <div class="flex flex-wrap gap-1.5 my-1.5">
-                <For each={ACCENT_OPTIONS}>
-                  {(opt) => (
-                    <button
-                      type="button"
-                      title={opt.label}
-                      onClick={() => setAccent(opt.name)}
-                      class={cn(
-                        "h-6 w-6 rounded-md transition-all cursor-pointer border border-border flex items-center justify-center",
-                        opt.color,
-                        accent() === opt.name ? "ring-2 ring-primary ring-offset-2 ring-offset-background scale-110" : "hover:scale-105"
-                      )}
-                    />
-                  )}
-                </For>
-              </div>
-            </DropdownMenuGroup>
-
-            <DropdownMenuSeparator class="my-2" />
-
-            <DropdownMenuGroup>
-              <DropdownMenuLabel class="px-0 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                Border Radius
-              </DropdownMenuLabel>
-              <div class="grid grid-cols-5 gap-1 my-1.5">
-                <For each={RADIUS_OPTIONS}>
-                  {(r) => (
-                    <Button
-                      variant={radius() === r.value ? "default" : "outline"}
-                      size="sm"
-                      onClick={() => setRadius(r.value)}
-                      class="h-7 text-xs px-1 cursor-pointer"
-                    >
-                      {r.label}
-                    </Button>
-                  )}
-                </For>
-              </div>
-            </DropdownMenuGroup>
-          </div>
-        </DropdownMenuContent>
-      </Show>
-    </DropdownMenu>
+        </Show>
+      </DropdownMenu>
+    </Show>
   );
 };

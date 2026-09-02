@@ -83,6 +83,7 @@ export function CustomThemeSwitcher() {
   );
 }`;
 
+const buttonCode = `<ThemeToggle mode="button" effect="circular" />`;
 const miniCode = `<ThemeToggle mode="mini" effect="circular" />`;
 const maxCode = `<ThemeToggle mode="max" effect="circular" />`;
 
@@ -199,6 +200,19 @@ export default function ThemeManagerDocsPage() {
         <div class="space-y-8 pt-4">
           <DocSectionHeader title="Examples" />
 
+          {/* Button Toggle Mode */}
+          <div class="space-y-3">
+            <h3 class="text-lg font-semibold tracking-tight">Button Mode (Direct 1-Click Toggle)</h3>
+            <p class="text-sm text-muted-foreground">
+              Pass <code class="bg-muted px-1.5 py-0.5 rounded text-xs font-mono">mode="button"</code> for a simple, direct 1-click Dark/Light toggle switch without any dropdown menu.
+            </p>
+            <ComponentPreview name="theme-manager" code={buttonCode}>
+              <div class="flex items-center justify-center p-4">
+                <ThemeToggle mode="button" effect="circular" />
+              </div>
+            </ComponentPreview>
+          </div>
+
           {/* Mini Dropdown Mode */}
           <div class="space-y-3">
             <h3 class="text-lg font-semibold tracking-tight">Mini Mode (Dropdown Menu)</h3>
@@ -283,15 +297,27 @@ export default function ThemeManagerDocsPage() {
             items={[
               {
                 prop: "mode",
-                type: '"mini" | "max"',
+                type: '"button" | "mini" | "max"',
                 default: '"mini"',
-                description: 'Presentation mode ("mini" renders a simple dropdown, "max" renders a full customizer panel).',
+                description: 'Presentation mode ("button" renders a direct 1-click dark/light toggle switch, "mini" renders a compact dropdown, "max" renders a full customizer panel).',
               },
               {
                 prop: "effect",
                 type: '"none" | "circular" | "fade"',
-                default: '"circular"',
+                default: '"none"',
                 description: "Web View Transition animation effect when switching theme modes.",
+              },
+              {
+                prop: "variant",
+                type: '"default" | "destructive" | "outline" | "secondary" | "ghost" | "link"',
+                default: '"ghost"',
+                description: "Visual appearance style of the toggle button or dropdown trigger.",
+              },
+              {
+                prop: "size",
+                type: '"default" | "sm" | "lg" | "icon"',
+                default: '"icon"',
+                description: "Size scale of the toggle button.",
               },
               {
                 prop: "class",
