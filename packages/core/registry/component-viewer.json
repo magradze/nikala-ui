@@ -1,0 +1,12 @@
+{
+  "name": "component-viewer",
+  "title": "Component Viewer",
+  "description": "An interactive preview canvas and code viewer container with responsive viewports, canvas grid, and AI prompts.",
+  "type": "registry:hook",
+  "dependencies": [
+    "clsx",
+    "tailwind-merge",
+    "lucide-solid"
+  ],
+  "files": []
+}
