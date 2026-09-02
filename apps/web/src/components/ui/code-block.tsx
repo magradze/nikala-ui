@@ -1,6 +1,9 @@
 import {
-  splitProps,
   createSignal,
+  createEffect,
+  createMemo,
+  splitProps,
+  For,
   Show,
   type JSX,
   type ParentComponent,
@@ -11,6 +14,8 @@ import { Badge } from "@/components/ui/badge";
 import { Tooltip, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip";
 import { cn } from "@/lib/cn";
 
+export type CodeBlockPackageManager = "bunx" | "npx" | "pnpm" | "yarn";
+
 export interface CodeBlockProps extends JSX.HTMLAttributes<HTMLDivElement> {
   /** The raw source code text to display and copy */
   code?: string;
@@ -18,9 +23,108 @@ export interface CodeBlockProps extends JSX.HTMLAttributes<HTMLDivElement> {
   filename?: string;
   /** Programming language badge (e.g. "tsx", "rust", "bash") */
   language?: string;
+  /** Alias for language */
+  lang?: string;
+  /** Whether the code snippet is an executable CLI command */
+  isCli?: boolean;
+  /** Shows the interactive package manager runner tabs (bunx, npx, pnpm, yarn) */
+  showPmSwitcher?: boolean;
+  /** List of package manager runners to show */
+  managers?: CodeBlockPackageManager[];
   /** Whether the copy button is enabled. Defaults to true. */
   copyable?: boolean;
   class?: string;
+}
+
+let shikiHighlighterPromise: Promise<any> | null = null;
+
+async function getShikiHighlighter() {
+  if (typeof window === "undefined") return null;
+  if (!shikiHighlighterPromise) {
+    try {
+      const { createHighlighter } = await import("shiki");
+      shikiHighlighterPromise = createHighlighter({
+        themes: ["github-dark", "github-light"],
+        langs: [
+          "typescript",
+          "javascript",
+          "tsx",
+          "jsx",
+          "bash",
+          "json",
+          "css",
+          "html",
+          "rust",
+        ],
+      });
+    } catch (e) {
+      console.warn("Failed to load Shiki highlighter", e);
+      return null;
+    }
+  }
+  return shikiHighlighterPromise;
+}
+
+function highlightCliCommand(code: string): string {
+  const trimmed = code.trim();
+  const parts = trimmed.split(/\s+/);
+  if (parts.length === 0) return code;
+
+  const isRunner = ["bunx", "npx", "pnpm", "yarn", "bun", "npm", "cargo", "deno"].includes(parts[0]);
+  if (!isRunner) return `<span class="text-foreground">${escapeHtml(trimmed)}</span>`;
+
+  return parts
+    .map((part, index) => {
+      if (index === 0) {
+        return `<span class="text-amber-500 dark:text-amber-400 font-bold">${escapeHtml(part)}</span>`;
+      }
+      if (part.startsWith("-")) {
+        return `<span class="text-purple-400 dark:text-purple-300">${escapeHtml(part)}</span>`;
+      }
+      if (part.startsWith("@")) {
+        return `<span class="text-emerald-400 dark:text-emerald-300 font-medium">${escapeHtml(part)}</span>`;
+      }
+      if (index === 1 && ["add", "install", "init", "create", "run"].includes(part)) {
+        return `<span class="text-sky-500 dark:text-sky-400 font-medium">${escapeHtml(part)}</span>`;
+      }
+      return `<span class="text-foreground/90">${escapeHtml(part)}</span>`;
+    })
+    .join(" ");
+}
+
+function transformCommandForPm(cmd: string, pm: CodeBlockPackageManager): string {
+  const trimmed = cmd.trim();
+  const runners = ["bunx", "npx", "pnpm dlx", "pnpm", "yarn dlx", "yarn", "bun", "npm"];
+
+  let base = trimmed;
+  for (const r of runners) {
+    if (trimmed.startsWith(r)) {
+      base = trimmed.slice(r.length).trim();
+      break;
+    }
+  }
+
+  switch (pm) {
+    case "bunx":
+      return `bunx ${base}`;
+    case "npx":
+      return `npx ${base}`;
+    case "pnpm":
+      return `pnpm dlx ${base}`;
+    case "yarn":
+      return `yarn dlx ${base}`;
+    default:
+      return `${pm} ${base}`;
+  }
+}
+
+function escapeHtml(str: string): string {
+  return str
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
 }
 
 export const CodeBlock: ParentComponent<CodeBlockProps> = (props) => {
@@ -29,17 +133,75 @@ export const CodeBlock: ParentComponent<CodeBlockProps> = (props) => {
     "code",
     "filename",
     "language",
+    "lang",
+    "isCli",
+    "showPmSwitcher",
+    "managers",
     "copyable",
     "class",
     "children",
   ]);
 
   const [copied, setCopied] = createSignal(false);
+  const [activePm, setActivePm] = createSignal<CodeBlockPackageManager>("bunx");
+  const [highlightedHtml, setHighlightedHtml] = createSignal("");
 
+  const effectiveLang = () => (local.lang || local.language || "tsx").toLowerCase();
   const copyable = () => local.copyable ?? true;
+  const defaultManagers: CodeBlockPackageManager[] = ["bunx", "npx", "pnpm", "yarn"];
+  const managersList = () => local.managers || defaultManagers;
+
+  const isBashCli = () => {
+    const l = effectiveLang();
+    return l === "bash" || l === "sh" || l === "shell" || Boolean(local.isCli);
+  };
+
+  const cleanCode = createMemo(() => {
+    const raw = (local.code || "").trim();
+    if (local.isCli || local.showPmSwitcher) {
+      return transformCommandForPm(raw, activePm());
+    }
+    return raw;
+  });
+
+  createEffect(() => {
+    const codeStr = cleanCode();
+    const lang = effectiveLang();
+
+    if (isBashCli()) {
+      setHighlightedHtml(highlightCliCommand(codeStr));
+      return;
+    }
+
+    if (!codeStr) {
+      setHighlightedHtml("");
+      return;
+    }
+
+    // Attempt Shiki highlighting
+    getShikiHighlighter().then((highlighter) => {
+      if (highlighter) {
+        try {
+          const html = highlighter.codeToHtml(codeStr, {
+            lang: lang === "js" ? "javascript" : lang === "ts" ? "typescript" : lang,
+            themes: {
+              light: "github-light",
+              dark: "github-dark",
+            },
+          });
+          setHighlightedHtml(html);
+          return;
+        } catch (err) {
+          console.warn(`Shiki failed for language: ${lang}`, err);
+        }
+      }
+      // Fallback
+      setHighlightedHtml(`<pre class="text-foreground/90"><code>${escapeHtml(codeStr)}</code></pre>`);
+    });
+  });
 
   const handleCopy = async () => {
-    let textToCopy = local.code;
+    let textToCopy = cleanCode();
     if (!textToCopy && typeof window !== "undefined") {
       const target = document.querySelector(`[data-code-block-id="${local.id}"]`);
       if (target) textToCopy = target.textContent || "";
@@ -58,7 +220,8 @@ export const CodeBlock: ParentComponent<CodeBlockProps> = (props) => {
     }
   };
 
-  const hasHeader = () => Boolean(local.filename || local.language);
+  const shouldShowSwitcher = () => Boolean(local.showPmSwitcher || local.isCli);
+  const hasHeader = () => Boolean(shouldShowSwitcher() || local.filename || effectiveLang());
 
   return (
     <div
@@ -68,21 +231,43 @@ export const CodeBlock: ParentComponent<CodeBlockProps> = (props) => {
       )}
       {...rest}
     >
-      {/* Code Header Bar (if filename or language is provided) */}
+      {/* Code Header Bar */}
       <Show when={hasHeader()}>
         <div class="flex h-9 items-center justify-between border-b border-border/70 bg-muted/70 px-3.5 text-xs text-muted-foreground select-none">
           <div class="flex items-center gap-2">
+            <Show when={shouldShowSwitcher()}>
+              <div class="inline-flex items-center gap-0.5 rounded-md border border-border/50 bg-background/60 p-0.5 font-mono select-none">
+                <For each={managersList()}>
+                  {(pm) => (
+                    <button
+                      type="button"
+                      onClick={() => setActivePm(pm)}
+                      class={cn(
+                        "rounded-xs px-2 py-0.5 text-[11px] font-mono transition-colors cursor-pointer",
+                        activePm() === pm
+                          ? "bg-primary text-primary-foreground font-semibold shadow-2xs"
+                          : "text-muted-foreground hover:text-foreground"
+                      )}
+                    >
+                      {pm}
+                    </button>
+                  )}
+                </For>
+              </div>
+            </Show>
+
             <Show when={local.filename}>
               <span class="font-medium text-foreground tracking-tight">{local.filename}</span>
             </Show>
-            <Show when={local.language}>
+
+            <Show when={effectiveLang() && !shouldShowSwitcher() && !local.filename}>
               <Badge variant="outline" class="uppercase text-[10px] px-1.5 py-0 h-4 font-mono font-semibold">
-                {local.language}
+                {effectiveLang()}
               </Badge>
             </Show>
           </div>
 
-          <Show when={copyable() && local.code}>
+          <Show when={copyable() && (local.code || cleanCode())}>
             <Tooltip>
               <TooltipTrigger
                 as={Button}
@@ -105,7 +290,7 @@ export const CodeBlock: ParentComponent<CodeBlockProps> = (props) => {
       </Show>
 
       {/* Floating Copy Button (if no header bar is present) */}
-      <Show when={!hasHeader() && copyable() && local.code}>
+      <Show when={!hasHeader() && copyable() && (local.code || cleanCode())}>
         <div class="absolute right-2.5 top-2.5 z-10 opacity-0 transition-opacity group-hover:opacity-100 focus-within:opacity-100">
           <Tooltip>
             <TooltipTrigger
@@ -129,7 +314,15 @@ export const CodeBlock: ParentComponent<CodeBlockProps> = (props) => {
 
       {/* Code Container */}
       <div class="overflow-x-auto p-4 text-[13px] leading-relaxed [scrollbar-width:thin]">
-        <Show when={local.children} fallback={<pre><code>{local.code}</code></pre>}>
+        <Show
+          when={local.children}
+          fallback={
+            <div
+              class="font-mono text-sm leading-relaxed overflow-x-auto [&>pre]:!bg-transparent [&>pre]:!p-0 [&>pre]:!m-0 [&>pre]:!border-none"
+              innerHTML={highlightedHtml() || `<pre class="text-foreground/90"><code>${escapeHtml(cleanCode())}</code></pre>`}
+            />
+          }
+        >
           {local.children}
         </Show>
       </div>

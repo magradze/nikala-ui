@@ -6,7 +6,8 @@
   "dependencies": [
     "clsx",
     "tailwind-merge",
-    "lucide-solid"
+    "lucide-solid",
+    "shiki"
   ],
   "files": []
 }
