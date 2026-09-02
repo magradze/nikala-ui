@@ -86,8 +86,10 @@ export interface TitlebarTabsProps extends JSX.HTMLAttributes<HTMLElement> {
   onAddTab?: () => void;
   /** Whether tabs can be reordered via Drag & Drop. Defaults to true when manager is present. */
   reorderable?: boolean;
-  /** Whether right-click context menu is enabled on tabs. Defaults to true. */
+  /** Whether right-click context menu is enabled on tabs and empty space. Defaults to true. */
   enableContextMenu?: boolean;
+  /** Custom render function for the empty tabstrip context menu. */
+  renderEmptyContextMenu?: () => JSX.Element;
   /** Visual chrome styling variant. */
   variant?: TitlebarTabsVariant;
   class?: string;
@@ -102,6 +104,7 @@ export const TitlebarTabs: ParentComponent<TitlebarTabsProps> = (props) => {
     "onAddTab",
     "reorderable",
     "enableContextMenu",
+    "renderEmptyContextMenu",
     "variant",
     "class",
     "children",
@@ -200,48 +203,129 @@ export const TitlebarTabs: ParentComponent<TitlebarTabsProps> = (props) => {
     handleDropReorder,
   };
 
+  const hasEmptyContextMenu = () =>
+    (local.enableContextMenu ?? true) &&
+    (Boolean(local.onAddTab) || Boolean(local.manager) || Boolean(local.renderEmptyContextMenu));
+
+  const renderNavContent = () => (
+    <nav
+      aria-label="Window Tabs"
+      class={cn(
+        "flex flex-1 h-full overflow-hidden z-10 min-w-0 pointer-events-auto [app-region:drag] [-webkit-app-region:drag]",
+        variant() === "chrome" ? "items-end" : "items-center",
+        local.class
+      )}
+      {...rest}
+    >
+      <Show
+        when={local.children}
+        fallback={
+          /* Automatic Declarative Mode: Tab List with Mouse Wheel Scroll + Anchored Add Button */
+          <>
+            <div
+              ref={scrollContainerRef}
+              class={cn(
+                "flex h-full overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] gap-0 items-center min-w-0 flex-1 scroll-smooth [app-region:drag] [-webkit-app-region:drag]",
+                variant() === "chrome" && "items-end pt-1.5"
+              )}
+            >
+              <Show when={local.manager}>
+                <For each={local.manager!.tabs()}>
+                  {(tab) => <TitlebarTab tab={tab} />}
+                </For>
+              </Show>
+            </div>
+
+            {/* Anchored Add Tab Button (Always visible outside scroll container) */}
+            <Show when={local.onAddTab}>
+              <div class={cn("shrink-0 px-1 z-20 flex items-center", variant() === "chrome" ? "mb-1" : "my-auto")}>
+                <TitlebarTabAddButton onClick={local.onAddTab} />
+              </div>
+            </Show>
+          </>
+        }
+      >
+        {local.children}
+      </Show>
+    </nav>
+  );
+
   return (
     <TitlebarTabsContext.Provider value={contextValue}>
-      <nav
-        aria-label="Window Tabs"
-        class={cn(
-          "flex flex-1 h-full overflow-hidden z-10 min-w-0 pointer-events-auto [app-region:drag] [-webkit-app-region:drag]",
-          variant() === "chrome" ? "items-end" : "items-center",
-          local.class
-        )}
-        {...rest}
-      >
-        <Show
-          when={local.children}
-          fallback={
-            /* Automatic Declarative Mode: Tab List with Mouse Wheel Scroll + Anchored Add Button */
-            <>
-              <div
-                ref={scrollContainerRef}
-                class={cn(
-                  "flex h-full overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] gap-0 items-center min-w-0 flex-1 scroll-smooth [app-region:drag] [-webkit-app-region:drag]",
-                  variant() === "chrome" && "items-end pt-1.5"
-                )}
-              >
-                <Show when={local.manager}>
-                  <For each={local.manager!.tabs()}>
-                    {(tab) => <TitlebarTab tab={tab} />}
-                  </For>
-                </Show>
-              </div>
+      <Show when={hasEmptyContextMenu()} fallback={renderNavContent()}>
+        <ContextMenuPrimitive.Root>
+          <ContextMenuPrimitive.Trigger
+            as="div"
+            style={("-webkit-app-region: no-drag; app-region: no-drag; outline: none !important; -webkit-focus-ring-color: transparent !important;") as any}
+            class="flex flex-1 h-full min-w-0 outline-none ring-0 focus:outline-none focus:ring-0 focus-visible:outline-none focus-visible:ring-0"
+          >
+            {renderNavContent()}
+          </ContextMenuPrimitive.Trigger>
+          <ContextMenuPrimitive.Portal>
+            <ContextMenuPrimitive.Content
+              data-no-drag
+              data-tauri-drag-region="false"
+              style="-webkit-app-region: no-drag; app-region: no-drag; outline: none !important; -webkit-focus-ring-color: transparent !important;"
+              onMouseDown={(e) => e.stopPropagation()}
+              onPointerDown={(e) => e.stopPropagation()}
+              class={cn(
+                "z-50 min-w-[160px] overflow-hidden rounded-md border border-border bg-popover p-1 text-popover-foreground shadow-md",
+                "animate-in fade-in-80 slide-in-from-top-1 text-xs pointer-events-auto [app-region:no-drag] [-webkit-app-region:no-drag]",
+                "outline-none ring-0 focus:outline-none focus:ring-0 focus-visible:outline-none focus-visible:ring-0"
+              )}
+            >
+              <Show
+                when={local.renderEmptyContextMenu}
+                fallback={
+                  <>
+                    <Show when={local.onAddTab}>
+                      <ContextMenuPrimitive.Item
+                        data-no-drag
+                        data-tauri-drag-region="false"
+                        style="-webkit-app-region: no-drag; app-region: no-drag;"
+                        onMouseDown={(e) => e.stopPropagation()}
+                        onPointerDown={(e) => e.stopPropagation()}
+                        onSelect={() => {
+                          setTimeout(() => local.onAddTab?.(), 0);
+                        }}
+                        class="relative flex cursor-pointer select-none items-center justify-between gap-2 rounded-xs px-2 py-1.5 text-xs outline-none transition-colors hover:bg-accent hover:text-accent-foreground pointer-events-auto [app-region:no-drag] [-webkit-app-region:no-drag]"
+                      >
+                        <span class="flex items-center gap-2">
+                          <Plus class="size-3.5 text-muted-foreground" />
+                          New Tab
+                        </span>
+                        <span class="ml-auto text-[10px] text-muted-foreground font-mono">Ctrl+T</span>
+                      </ContextMenuPrimitive.Item>
+                    </Show>
 
-              {/* Anchored Add Tab Button (Always visible outside scroll container) */}
-              <Show when={local.onAddTab}>
-                <div class={cn("shrink-0 px-1 z-20 flex items-center", variant() === "chrome" ? "mb-1" : "my-auto")}>
-                  <TitlebarTabAddButton onClick={local.onAddTab} />
-                </div>
+                    <Show when={local.manager && local.manager.tabs().length > 0}>
+                      <Show when={local.onAddTab}>
+                        <ContextMenuPrimitive.Separator class="my-1 h-px bg-border/60" />
+                      </Show>
+                      <ContextMenuPrimitive.Item
+                        data-no-drag
+                        data-tauri-drag-region="false"
+                        style="-webkit-app-region: no-drag; app-region: no-drag;"
+                        onMouseDown={(e) => e.stopPropagation()}
+                        onPointerDown={(e) => e.stopPropagation()}
+                        onSelect={() => {
+                          setTimeout(() => local.manager?.closeAll(), 0);
+                        }}
+                        class="relative flex cursor-pointer select-none items-center gap-2 rounded-xs px-2 py-1.5 text-xs outline-none transition-colors hover:bg-accent hover:text-accent-foreground pointer-events-auto [app-region:no-drag] [-webkit-app-region:no-drag]"
+                      >
+                        <CircleX class="size-3.5 text-muted-foreground" />
+                        <span>Close All Tabs</span>
+                      </ContextMenuPrimitive.Item>
+                    </Show>
+                  </>
+                }
+              >
+                {local.renderEmptyContextMenu!()}
               </Show>
-            </>
-          }
-        >
-          {local.children}
-        </Show>
-      </nav>
+            </ContextMenuPrimitive.Content>
+          </ContextMenuPrimitive.Portal>
+        </ContextMenuPrimitive.Root>
+      </Show>
     </TitlebarTabsContext.Provider>
   );
 };
@@ -459,7 +543,7 @@ export const TitlebarTab: ParentComponent<TitlebarTabProps> = (props) => {
     }
   };
 
-  const tabElement = (
+  const renderTabElement = () => (
     <div
       ref={tabRef}
       role="tab"
@@ -486,7 +570,7 @@ export const TitlebarTab: ParentComponent<TitlebarTabProps> = (props) => {
           "before:absolute before:left-0 before:top-1 before:bottom-1 before:w-0.5 before:bg-primary before:z-30 before:rounded-full",
         dropPosition() === "right" &&
           "after:absolute after:right-0 after:top-1 after:bottom-1 after:w-0.5 after:bg-primary after:z-30 after:rounded-full",
-        "cursor-pointer outline-none focus-visible:ring-1 focus-visible:ring-ring [app-region:no-drag] [-webkit-app-region:no-drag] pointer-events-auto transition-all duration-150",
+        "cursor-pointer outline-none ring-0 focus:outline-none focus:ring-0 focus-visible:outline-none focus-visible:ring-0 [app-region:no-drag] [-webkit-app-region:no-drag] pointer-events-auto transition-all duration-150",
         local.class
       )}
       {...rest}
@@ -518,7 +602,7 @@ export const TitlebarTab: ParentComponent<TitlebarTabProps> = (props) => {
             size="icon"
             onClick={handleClose}
             aria-label={`Close ${tabId()} tab`}
-            class="size-4 p-0 rounded-xs text-muted-foreground hover:bg-muted hover:text-foreground shrink-0 ml-0.5 cursor-pointer"
+            class="size-4 p-0 rounded-xs text-muted-foreground hover:bg-muted hover:text-foreground shrink-0 ml-0.5 cursor-pointer outline-none ring-0 focus:ring-0 focus-visible:ring-0"
           >
             <Show
               when={isDirty()}
@@ -537,27 +621,28 @@ export const TitlebarTab: ParentComponent<TitlebarTabProps> = (props) => {
   );
 
   return (
-    <Show when={hasContextMenu()} fallback={tabElement}>
+    <Show when={hasContextMenu()} fallback={renderTabElement()}>
       <ContextMenuPrimitive.Root>
         <ContextMenuPrimitive.Trigger
           as="div"
           data-no-drag
           data-tauri-drag-region="false"
-          style={("-webkit-app-region: no-drag; app-region: no-drag;" + (typeof local.style === "string" ? ` ${local.style}` : "")) as any}
-          class="h-full flex items-center shrink-0 pointer-events-auto [app-region:no-drag] [-webkit-app-region:no-drag]"
+          style={("-webkit-app-region: no-drag; app-region: no-drag; outline: none !important; -webkit-focus-ring-color: transparent !important;" + (typeof local.style === "string" ? ` ${local.style}` : "")) as any}
+          class="h-full flex items-center shrink-0 pointer-events-auto [app-region:no-drag] [-webkit-app-region:no-drag] outline-none ring-0 focus:outline-none focus:ring-0 focus-visible:outline-none focus-visible:ring-0"
         >
-          {tabElement}
+          {renderTabElement()}
         </ContextMenuPrimitive.Trigger>
         <ContextMenuPrimitive.Portal>
           <ContextMenuPrimitive.Content
             data-no-drag
             data-tauri-drag-region="false"
-            style="-webkit-app-region: no-drag; app-region: no-drag;"
+            style="-webkit-app-region: no-drag; app-region: no-drag; outline: none !important; -webkit-focus-ring-color: transparent !important;"
             onMouseDown={(e) => e.stopPropagation()}
             onPointerDown={(e) => e.stopPropagation()}
             class={cn(
               "z-50 min-w-[170px] overflow-hidden rounded-md border border-border bg-popover p-1 text-popover-foreground shadow-md",
-              "animate-in fade-in-80 slide-in-from-top-1 text-xs pointer-events-auto [app-region:no-drag] [-webkit-app-region:no-drag]"
+              "animate-in fade-in-80 slide-in-from-top-1 text-xs pointer-events-auto [app-region:no-drag] [-webkit-app-region:no-drag]",
+              "outline-none ring-0 focus:outline-none focus:ring-0 focus-visible:outline-none focus-visible:ring-0"
             )}
           >
             <Show
@@ -616,7 +701,7 @@ export const TitlebarTab: ParentComponent<TitlebarTabProps> = (props) => {
                       }}
                       class="relative flex cursor-pointer select-none items-center gap-2 rounded-xs px-2 py-1.5 text-xs outline-none transition-colors hover:bg-accent hover:text-accent-foreground pointer-events-auto [app-region:no-drag] [-webkit-app-region:no-drag]"
                     >
-                      <XCircle class="size-3.5 text-muted-foreground" />
+                      <CircleX class="size-3.5 text-muted-foreground" />
                       Close Other Tabs
                     </ContextMenuPrimitive.Item>
                     <ContextMenuPrimitive.Item
@@ -628,9 +713,9 @@ export const TitlebarTab: ParentComponent<TitlebarTabProps> = (props) => {
                       onSelect={() => {
                         setTimeout(() => ctx.manager?.closeAll(), 0);
                       }}
-                      class="relative flex cursor-pointer select-none items-center gap-2 rounded-xs px-2 py-1.5 text-xs outline-none transition-colors hover:bg-destructive/10 hover:text-destructive text-muted-foreground pointer-events-auto [app-region:no-drag] [-webkit-app-region:no-drag]"
+                      class="relative flex cursor-pointer select-none items-center gap-2 rounded-xs px-2 py-1.5 text-xs outline-none transition-colors hover:bg-accent hover:text-accent-foreground pointer-events-auto [app-region:no-drag] [-webkit-app-region:no-drag]"
                     >
-                      <XCircle class="size-3.5 text-destructive" />
+                      <CircleX class="size-3.5 text-muted-foreground" />
                       <span>Close All Tabs</span>
                     </ContextMenuPrimitive.Item>
                   </Show>
