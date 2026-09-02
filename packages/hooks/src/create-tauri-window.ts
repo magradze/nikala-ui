@@ -399,30 +399,53 @@ export function createTauriWindow(
     setIsMaximized(false);
   };
 
+  let lastToggleTime = 0;
   const toggleMaximize = async (): Promise<void> => {
+    const now = Date.now();
+    if (now - lastToggleTime < 350) {
+      return; // Ignore duplicate rapid triggers within 350ms window
+    }
+    lastToggleTime = now;
+
     let executed = false;
     const tauriWin = await getTauriWindow();
-    if (tauriWin?.toggleMaximize) {
+    if (tauriWin) {
       try {
-        await tauriWin.toggleMaximize();
-        executed = true;
-      } catch {}
-    } else if (tauriWin?.isMaximized && tauriWin?.unmaximize && tauriWin?.maximize) {
-      try {
-        const isMax = await tauriWin.isMaximized();
-        if (isMax) {
-          await tauriWin.unmaximize();
-        } else {
-          await tauriWin.maximize();
+        if (typeof tauriWin.isMaximized === "function") {
+          const isMax = await tauriWin.isMaximized();
+          if (isMax && typeof tauriWin.unmaximize === "function") {
+            await tauriWin.unmaximize();
+            setIsMaximized(false);
+            executed = true;
+          } else if (!isMax && typeof tauriWin.maximize === "function") {
+            await tauriWin.maximize();
+            setIsMaximized(true);
+            executed = true;
+          }
         }
-        executed = true;
+        if (!executed && typeof tauriWin.toggleMaximize === "function") {
+          await tauriWin.toggleMaximize();
+          executed = true;
+        }
       } catch {}
     }
 
     if (!executed && isTauriEnvironment()) {
       try {
-        await invokeTauri("toggle_maximize", {}, "toggleMaximize");
-        executed = true;
+        const isMax = await invokeTauri("is_maximized", {}, "isMaximized");
+        if (typeof isMax === "boolean") {
+          if (isMax) {
+            await invokeTauri("unmaximize", {}, "unmaximize");
+            setIsMaximized(false);
+          } else {
+            await invokeTauri("maximize", {}, "maximize");
+            setIsMaximized(true);
+          }
+          executed = true;
+        } else {
+          await invokeTauri("toggle_maximize", {}, "toggleMaximize");
+          executed = true;
+        }
       } catch {}
     }
 
@@ -433,7 +456,9 @@ export function createTauriWindow(
         sendElectronMessage("toggleMaximize");
     }
 
-    setIsMaximized((prev) => !prev);
+    if (!executed) {
+      setIsMaximized((prev) => !prev);
+    }
     setIsMinimized(false);
   };
 
@@ -561,7 +586,10 @@ export function createTauriWindow(
   };
 
   const startDragging = async (e?: MouseEvent): Promise<void> => {
-    if (e && e.button !== 0) return; // Only primary mouse button starts drag
+    if (e) {
+      if (e.button !== 0) return; // Only primary mouse button starts drag
+      if (e.detail > 1) return; // Prevent drag initialization on double-click gesture
+    }
     let dragged = false;
     const tauriWin = await getTauriWindow();
     if (tauriWin?.startDragging) {

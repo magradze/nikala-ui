@@ -116,7 +116,13 @@ export const Titlebar: ParentComponent<TitlebarProps> = (props) => {
     if (e.button === 0) {
       const target = e.target as HTMLElement;
       if (!target.closest("button, a, input, select, textarea, [data-no-drag], [data-tauri-drag-region='false']")) {
-        windowCtrl.startDragging(e);
+        if (e.detail === 2 && local.doubleClickToMaximize !== false) {
+          // Double-click detected on mousedown detail - toggles maximize immediately without initiating a drag
+          toggleMaximize();
+        } else if (e.detail === 1) {
+          // Single-click: initiate window drag
+          windowCtrl.startDragging(e);
+        }
       }
     }
     if (typeof local.onMouseDown === "function") {
@@ -124,7 +130,14 @@ export const Titlebar: ParentComponent<TitlebarProps> = (props) => {
     }
   };
 
+  let lastDblClickTime = 0;
   const handleDoubleClick: JSX.EventHandlerUnion<HTMLElement, MouseEvent> = (e) => {
+    const now = Date.now();
+    if (now - lastDblClickTime < 350) {
+      return; // Deduplicate rapid triggers
+    }
+    lastDblClickTime = now;
+
     if (local.doubleClickToMaximize !== false) {
       // Don't maximize if user double-clicked an interactive control
       const target = e.target as HTMLElement;
@@ -149,7 +162,6 @@ export const Titlebar: ParentComponent<TitlebarProps> = (props) => {
   return (
     <TitlebarContext.Provider value={contextValue}>
       <header
-        data-tauri-drag-region
         onMouseDown={handleMouseDown}
         onDblClick={handleDoubleClick}
         class={cn(
@@ -374,7 +386,6 @@ export const TitlebarTitle: ParentComponent<TitlebarTitleProps> = (props) => {
 
   return (
     <div
-      data-tauri-drag-region
       class={cn(
         "flex items-center gap-2 font-medium truncate text-xs text-foreground",
         isCentered()

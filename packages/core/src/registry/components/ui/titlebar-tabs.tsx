@@ -151,7 +151,6 @@ export const TitlebarTabs: ParentComponent<TitlebarTabsProps> = (props) => {
     <TitlebarTabsContext.Provider value={contextValue}>
       <nav
         aria-label="Window Tabs"
-        data-tauri-drag-region
         class={cn(
           "flex flex-1 h-full overflow-hidden z-10 min-w-0 pointer-events-auto [app-region:drag] [-webkit-app-region:drag]",
           variant() === "chrome" ? "items-end" : "items-center",
@@ -166,7 +165,6 @@ export const TitlebarTabs: ParentComponent<TitlebarTabsProps> = (props) => {
             <>
               <div
                 ref={scrollContainerRef}
-                data-tauri-drag-region
                 class={cn(
                   "flex h-full overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] gap-0 items-center min-w-0 flex-1 scroll-smooth [app-region:drag] [-webkit-app-region:drag]",
                   variant() === "chrome" && "items-end pt-1.5"
@@ -221,7 +219,6 @@ export const TitlebarTabList: ParentComponent<TitlebarTabListProps> = (props) =>
   return (
     <div
       ref={listRef}
-      data-tauri-drag-region
       class={cn(
         "flex h-full overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] gap-0 items-center min-w-0 flex-1 scroll-smooth [app-region:drag] [-webkit-app-region:drag]",
         ctx.variant() === "chrome" && "items-end pt-1.5",
