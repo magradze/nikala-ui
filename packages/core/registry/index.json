@@ -113,6 +113,16 @@
     ]
   },
   {
+    "name": "callout",
+    "title": "Callout",
+    "description": "callout component.",
+    "type": "registry:ui",
+    "dependencies": [
+      "clsx",
+      "tailwind-merge"
+    ]
+  },
+  {
     "name": "card",
     "title": "Card",
     "description": "A versatile container component with header, content, and footer sections.",
@@ -1309,6 +1319,18 @@
       "@tiptap/extension-superscript",
       "@tiptap/extension-typography",
       "tiptap-markdown"
+    ]
+  },
+  {
+    "name": "callout",
+    "title": "Callout",
+    "description": "A semantic callout and alert block with status variants, icons, and titles for documentation and notices.",
+    "type": "registry:hook",
+    "dependencies": [
+      "clsx",
+      "tailwind-merge",
+      "class-variance-authority",
+      "lucide-solid"
     ]
   }
 ]

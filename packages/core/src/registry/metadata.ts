@@ -633,6 +633,11 @@ export const HOOK_METADATA: Record<string, ComponentMeta> = {
       "tiptap-markdown",
     ],
   },
+  callout: {
+    title: "Callout",
+    description: "A semantic callout and alert block with status variants, icons, and titles for documentation and notices.",
+    dependencies: ["clsx", "tailwind-merge", "class-variance-authority", "lucide-solid"],
+  },
 };
 
 /**

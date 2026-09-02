@@ -337,6 +337,7 @@ export const COMPONENTS_LIST: DocComponentItem[] = [
   { name: "breadcrumb", title: "Breadcrumb", description: "Accessible navigation trail hierarchy", href: "/docs/components/breadcrumb" },
   { name: "button", title: "Button", description: "Interactive button with variant and size options", href: "/docs/components/button" },
   { name: "button-group", title: "Button Group", description: "Connected horizontal or vertical group of related buttons", href: "/docs/components/button-group" },
+  { name: "callout", title: "Callout", description: "Semantic callout and alert block with status variants and icons for notices and documentation", href: "/docs/components/callout" },
   { name: "card", title: "Card", description: "Compound card layout with header, title, and footer", href: "/docs/components/card" },
   { name: "checkbox", title: "Checkbox", description: "Checkable input box with custom checkmark indicator", href: "/docs/components/checkbox" },
   { name: "combobox", title: "Combobox", description: "Searchable autocomplete dropdown with single/multi-selection tags, avatars, and groups", href: "/docs/components/combobox" },
@@ -466,6 +467,7 @@ export const COMPONENT_SECTIONS: NavSection[] = [
     items: [
       { title: "Alert", href: "/docs/components/alert" },
       { title: "Banner", href: "/docs/components/banner" },
+      { title: "Callout", href: "/docs/components/callout", addedAt: "2026-09-02" },
       { title: "Spinner", href: "/docs/components/spinner", addedAt: "2026-08-10" },
       { title: "Status", href: "/docs/components/status", addedAt: "2026-08-10" },
       { title: "Toast", href: "/docs/components/toast" },
