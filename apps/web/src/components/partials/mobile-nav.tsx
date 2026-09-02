@@ -286,7 +286,7 @@ export function MobileNav() {
                             <div class="flex items-center gap-1.5">
                               <span>{section.title}</span>
                               <Show when={!isOpen() && sectionHasNewItem()}>
-                                <span class="size-1.5 rounded-full bg-primary shrink-0" />
+                                <span class="size-1.5 rouded-lg bg-primary shrink-0" />
                               </Show>
                             </div>
                             <ChevronRight class="size-3.5 text-muted-foreground transition-transform duration-200 group-data-expanded:rotate-90" />
@@ -309,7 +309,7 @@ export function MobileNav() {
                                   >
                                     <span class="truncate">{item.title}</span>
                                     <Show when={isNew}>
-                                      <span class="size-1.5 rounded-full bg-primary shrink-0" />
+                                      <span class="size-1.5 rouded-lg bg-primary shrink-0" />
                                     </Show>
                                   </A>
                                 );
@@ -363,7 +363,7 @@ export function MobileNav() {
                           <div class="flex items-center gap-1.5">
                             <span>{section.title}</span>
                             <Show when={!isOpen() && sectionHasNewItem()}>
-                              <span class="size-1.5 rounded-full bg-primary shrink-0" />
+                              <span class="size-1.5 rouded-lg bg-primary shrink-0" />
                             </Show>
                           </div>
                           <ChevronRight class="size-3.5 text-muted-foreground transition-transform duration-200 group-data-expanded:rotate-90" />
@@ -390,7 +390,7 @@ export function MobileNav() {
                                 >
                                   <span class="truncate">{item.title}</span>
                                   <Show when={isNew}>
-                                    <span class="size-1.5 rounded-full bg-primary shrink-0" />
+                                    <span class="size-1.5 rouded-lg bg-primary shrink-0" />
                                   </Show>
                                 </A>
                               );

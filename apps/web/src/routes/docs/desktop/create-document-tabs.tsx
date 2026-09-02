@@ -56,7 +56,7 @@ function TabManager() {
             >
               <span>{tab.title}</span>
               <Show when={tab.isDirty}>
-                <span class="size-1.5 rounded-full bg-amber-400" />
+                <span class="size-1.5 rouded-lg bg-amber-400" />
               </Show>
               <Show when={!tab.isPinned}>
                 <span
@@ -310,7 +310,7 @@ export default function CreateDocumentTabsDocsPage() {
                       </Show>
                       <span>{tab.title}</span>
                       <Show when={tab.isDirty}>
-                        <span class="size-1.5 rounded-full bg-amber-400 shrink-0" />
+                        <span class="size-1.5 rouded-lg bg-amber-400 shrink-0" />
                       </Show>
                       <button
                         type="button"

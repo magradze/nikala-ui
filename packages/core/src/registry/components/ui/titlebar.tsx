@@ -317,7 +317,7 @@ export const TitlebarControls: Component<TitlebarControlsProps> = (props) => {
           <button
             type="button"
             onClick={handleClose}
-            class="flex size-3 items-center justify-center rounded-full bg-[#ff5f57] border border-[#e0443e] cursor-pointer"
+            class="flex size-3 items-center justify-center rouded-lg bg-[#ff5f57] border border-[#e0443e] cursor-pointer"
             aria-label="Close Window"
           >
             <svg
@@ -335,7 +335,7 @@ export const TitlebarControls: Component<TitlebarControlsProps> = (props) => {
           <button
             type="button"
             onClick={handleMinimize}
-            class="flex size-3 items-center justify-center rounded-full bg-[#febc2e] border border-[#d89e24] cursor-pointer"
+            class="flex size-3 items-center justify-center rouded-lg bg-[#febc2e] border border-[#d89e24] cursor-pointer"
             aria-label="Minimize Window"
           >
             <svg
@@ -353,7 +353,7 @@ export const TitlebarControls: Component<TitlebarControlsProps> = (props) => {
           <button
             type="button"
             onClick={handleToggleMaximize}
-            class="flex size-3 items-center justify-center rounded-full bg-[#28c840] border border-[#1aab29] cursor-pointer"
+            class="flex size-3 items-center justify-center rouded-lg bg-[#28c840] border border-[#1aab29] cursor-pointer"
             aria-label="Maximize Window"
           >
             <svg

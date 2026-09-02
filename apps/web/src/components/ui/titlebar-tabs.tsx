@@ -567,9 +567,9 @@ export const TitlebarTab: ParentComponent<TitlebarTabProps> = (props) => {
         isPinned() && "min-w-fit px-2 max-w-fit",
         isDragging() && "opacity-40 scale-95",
         dropPosition() === "left" &&
-          "before:absolute before:left-0 before:top-1 before:bottom-1 before:w-0.5 before:bg-primary before:z-30 before:rounded-full",
+        "before:absolute before:left-0 before:top-1 before:bottom-1 before:w-0.5 before:bg-primary before:z-30 before:rouded-lg",
         dropPosition() === "right" &&
-          "after:absolute after:right-0 after:top-1 after:bottom-1 after:w-0.5 after:bg-primary after:z-30 after:rounded-full",
+        "after:absolute after:right-0 after:top-1 after:bottom-1 after:w-0.5 after:bg-primary after:z-30 after:rouded-lg",
         "cursor-pointer outline-none ring-0 focus:outline-none focus:ring-0 focus-visible:outline-none focus-visible:ring-0 [app-region:no-drag] [-webkit-app-region:no-drag] pointer-events-auto transition-all duration-150",
         local.class
       )}
@@ -608,7 +608,7 @@ export const TitlebarTab: ParentComponent<TitlebarTabProps> = (props) => {
               when={isDirty()}
               fallback={<X class="size-3 opacity-60 hover:opacity-100" />}
             >
-              <span class="size-1.5 rounded-full bg-primary group-hover:hidden" />
+              <span class="size-1.5 rouded-lg bg-primary group-hover:hidden" />
               <X class="size-3 hidden group-hover:block" />
             </Show>
           </TooltipTrigger>

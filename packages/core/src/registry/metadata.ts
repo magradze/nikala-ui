@@ -656,6 +656,11 @@ export const HOOK_METADATA: Record<string, ComponentMeta> = {
     dependencies: ["clsx", "tailwind-merge"],
     registryDependencies: ["tabs"],
   },
+  steps: {
+    title: "Steps",
+    description: "A vertical multi-step instruction container with connecting progress line and numbered step indicators.",
+    dependencies: ["clsx", "tailwind-merge"],
+  },
 };
 
 /**

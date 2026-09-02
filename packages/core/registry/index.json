@@ -765,6 +765,16 @@
     ]
   },
   {
+    "name": "steps",
+    "title": "Steps",
+    "description": "steps component.",
+    "type": "registry:ui",
+    "dependencies": [
+      "clsx",
+      "tailwind-merge"
+    ]
+  },
+  {
     "name": "switch",
     "title": "Switch",
     "description": "A control that allows the user to toggle between checked and unchecked states.",
@@ -1389,6 +1399,16 @@
     "name": "code-group",
     "title": "Code Group",
     "description": "A compound tabbed code container for organizing multiple files, languages, and snippets built on Tabs.",
+    "type": "registry:hook",
+    "dependencies": [
+      "clsx",
+      "tailwind-merge"
+    ]
+  },
+  {
+    "name": "steps",
+    "title": "Steps",
+    "description": "A vertical multi-step instruction container with connecting progress line and numbered step indicators.",
     "type": "registry:hook",
     "dependencies": [
       "clsx",

@@ -1,0 +1,11 @@
+{
+  "name": "steps",
+  "title": "Steps",
+  "description": "A vertical multi-step instruction container with connecting progress line and numbered step indicators.",
+  "type": "registry:hook",
+  "dependencies": [
+    "clsx",
+    "tailwind-merge"
+  ],
+  "files": []
+}

@@ -90,7 +90,7 @@ export default function BlocksHubPage() {
       <div class="space-y-10 pb-16">
         {/* Page Hero Header */}
         <div class="space-y-4 max-w-3xl">
-          <div class="inline-flex items-center gap-2 px-2.5 py-1 rounded-full border border-primary/20 bg-primary/5 text-primary text-xs font-medium">
+          <div class="inline-flex items-center gap-2 px-2.5 py-1 rouded-lg border border-primary/20 bg-primary/5 text-primary text-xs font-medium">
             <Sparkles class="size-3.5" />
             <span>Nikala UI Blocks</span>
             <Badge variant="secondary" class="text-[10px] px-1.5 py-0 bg-primary/15 text-primary border-0 font-medium">

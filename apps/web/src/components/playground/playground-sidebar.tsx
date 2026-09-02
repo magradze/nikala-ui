@@ -66,7 +66,7 @@ export function PlaygroundSidebar(props: PlaygroundSidebarProps) {
                       <div class="flex items-center gap-1.5 pointer-events-none truncate">
                         <span>{section.title}</span>
                         <Show when={!isOpen() && sectionHasNewItem()}>
-                          <span class="size-1.5 rounded-full bg-primary shrink-0 pointer-events-none" />
+                          <span class="size-1.5 rouded-lg bg-primary shrink-0 pointer-events-none" />
                         </Show>
                       </div>
                       <ChevronRight class="h-3.5 w-3.5 text-muted-foreground transition-transform duration-200 group-data-expanded:rotate-90 pointer-events-none shrink-0" />
@@ -94,7 +94,7 @@ export function PlaygroundSidebar(props: PlaygroundSidebarProps) {
                                   >
                                     <span class="pointer-events-none truncate">{item.title}</span>
                                     <Show when={isNew}>
-                                      <span class="size-1.5 rounded-full bg-primary shrink-0 pointer-events-none" />
+                                      <span class="size-1.5 rouded-lg bg-primary shrink-0 pointer-events-none" />
                                     </Show>
                                   </button>
                                 </SidebarMenuSubItem>

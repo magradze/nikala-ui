@@ -198,7 +198,7 @@ export default function CreateTauriWindowDocsPage() {
                   when={!isMinimized()}
                   fallback={
                     <div class="space-y-2 animate-in fade-in zoom-in-95 duration-200">
-                      <div class="size-9 rounded-full bg-primary/10 text-primary flex items-center justify-center mx-auto">
+                      <div class="size-9 rouded-lg bg-primary/10 text-primary flex items-center justify-center mx-auto">
                         <Minus class="size-4" />
                       </div>
                       <p class="text-sm font-semibold text-foreground">Window Minimized</p>

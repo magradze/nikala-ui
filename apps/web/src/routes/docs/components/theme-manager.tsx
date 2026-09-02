@@ -141,7 +141,7 @@ export default function ThemeManagerDocsPage() {
           {/* Step 1 */}
           <div class="space-y-3">
             <h3 class="text-base font-semibold tracking-tight flex items-center gap-2">
-              <span class="flex size-6 items-center justify-center rounded-full bg-primary/10 text-primary text-xs font-bold">1</span>
+              <span class="flex size-6 items-center justify-center rouded-lg bg-primary/10 text-primary text-xs font-bold">1</span>
               Wrap your Application with ThemeProvider
             </h3>
             <p class="text-sm text-muted-foreground">
@@ -167,7 +167,7 @@ export default function ThemeManagerDocsPage() {
           {/* Step 2: Anti-FOUC */}
           <div class="space-y-3 pt-2">
             <h3 class="text-base font-semibold tracking-tight flex items-center gap-2">
-              <span class="flex size-6 items-center justify-center rounded-full bg-primary/10 text-primary text-xs font-bold">2</span>
+              <span class="flex size-6 items-center justify-center rouded-lg bg-primary/10 text-primary text-xs font-bold">2</span>
               Prevent Flash of Unstyled Content (Anti-FOUC)
             </h3>
             <p class="text-sm text-muted-foreground">
@@ -186,7 +186,7 @@ export default function ThemeManagerDocsPage() {
           {/* Step 3: Add ThemeToggle */}
           <div class="space-y-3 pt-2">
             <h3 class="text-base font-semibold tracking-tight flex items-center gap-2">
-              <span class="flex size-6 items-center justify-center rounded-full bg-primary/10 text-primary text-xs font-bold">3</span>
+              <span class="flex size-6 items-center justify-center rouded-lg bg-primary/10 text-primary text-xs font-bold">3</span>
               Add the ThemeToggle Component
             </h3>
             <p class="text-sm text-muted-foreground">
