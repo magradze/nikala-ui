@@ -1,0 +1,11 @@
+{
+  "name": "code-group",
+  "title": "Code Group",
+  "description": "A compound tabbed code container for organizing multiple files, languages, and snippets built on Tabs.",
+  "type": "registry:hook",
+  "dependencies": [
+    "clsx",
+    "tailwind-merge"
+  ],
+  "files": []
+}

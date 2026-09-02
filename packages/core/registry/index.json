@@ -156,6 +156,16 @@
     ]
   },
   {
+    "name": "code-group",
+    "title": "Code-group",
+    "description": "code-group component.",
+    "type": "registry:ui",
+    "dependencies": [
+      "clsx",
+      "tailwind-merge"
+    ]
+  },
+  {
     "name": "collapsible",
     "title": "Collapsible",
     "description": "An interactive component that expands and collapses content panels with smooth height animations, built on Kobalte primitives.",
@@ -1373,6 +1383,16 @@
       "clsx",
       "tailwind-merge",
       "lucide-solid"
+    ]
+  },
+  {
+    "name": "code-group",
+    "title": "Code Group",
+    "description": "A compound tabbed code container for organizing multiple files, languages, and snippets built on Tabs.",
+    "type": "registry:hook",
+    "dependencies": [
+      "clsx",
+      "tailwind-merge"
     ]
   }
 ]

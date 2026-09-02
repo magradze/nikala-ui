@@ -650,6 +650,12 @@ export const HOOK_METADATA: Record<string, ComponentMeta> = {
     dependencies: ["clsx", "tailwind-merge", "lucide-solid"],
     registryDependencies: ["button", "tooltip"],
   },
+  "code-group": {
+    title: "Code Group",
+    description: "A compound tabbed code container for organizing multiple files, languages, and snippets built on Tabs.",
+    dependencies: ["clsx", "tailwind-merge"],
+    registryDependencies: ["tabs"],
+  },
 };
 
 /**
