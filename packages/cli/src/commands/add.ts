@@ -85,10 +85,6 @@ export async function add(components: string[] = [], options: AddOptions = {}) {
 
   const requiredNpmDeps = new Set<string>();
 
-  if (isHookMode) {
-    requiredNpmDeps.add("@nikala-ui/hooks");
-  }
-
   for (const target of resolvedTargets) {
     const item = await getRegistryItem(target, config.registries);
 
