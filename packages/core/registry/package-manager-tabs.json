@@ -1,0 +1,12 @@
+{
+  "name": "package-manager-tabs",
+  "title": "Package Manager Tabs",
+  "description": "An interactive command tab bar supporting customizable package managers (bun, pnpm, npm, yarn, deno, bunx, npx) with copy functionality.",
+  "type": "registry:hook",
+  "dependencies": [
+    "clsx",
+    "tailwind-merge",
+    "lucide-solid"
+  ],
+  "files": []
+}

@@ -1,50 +1,29 @@
 // src/lib/code-highlighter.ts
-import { isServer } from "solid-js/web";
+import { createHighlighter, type Highlighter } from "shiki";
 
-let prismLoaded = false;
-let PrismInstance: any = null;
+let highlighterPromise: Promise<Highlighter> | null = null;
 
-// Disable Prism auto-highlighting globally to prevent it from clobbering rendered DOM nodes
-if (typeof window !== "undefined") {
-  (window as any).Prism = (window as any).Prism || {};
-  (window as any).Prism.manual = true;
-}
-
-/* Singleton Prism loader to prevent race conditions during concurrent code block renders */
-async function loadPrism() {
-  if (prismLoaded && PrismInstance) {
-    return PrismInstance;
+/**
+ * Singleton Shiki highlighter instance with light & dark themes and core languages.
+ */
+export async function getHighlighter(): Promise<Highlighter> {
+  if (!highlighterPromise) {
+    highlighterPromise = createHighlighter({
+      themes: ["github-dark", "github-light"],
+      langs: [
+        "typescript",
+        "javascript",
+        "tsx",
+        "jsx",
+        "bash",
+        "json",
+        "css",
+        "html",
+        "rust",
+      ],
+    });
   }
-
-  if (typeof window !== "undefined") {
-    (window as any).Prism = (window as any).Prism || {};
-    (window as any).Prism.manual = true;
-  }
-
-  PrismInstance = (await import("prismjs")).default;
-  if (PrismInstance) {
-    PrismInstance.manual = true;
-  }
-
-  // @ts-ignore
-  await import("prismjs/components/prism-clike");
-  // @ts-ignore
-  await import("prismjs/components/prism-javascript");
-  // @ts-ignore
-  await import("prismjs/components/prism-typescript");
-  // @ts-ignore
-  await import("prismjs/components/prism-jsx");
-  // @ts-ignore
-  await import("prismjs/components/prism-tsx");
-  // @ts-ignore
-  await import("prismjs/components/prism-bash");
-  // @ts-ignore
-  await import("prismjs/components/prism-json");
-  // @ts-ignore
-  await import("prismjs/components/prism-css");
-
-  prismLoaded = true;
-  return PrismInstance;
+  return highlighterPromise;
 }
 
 /**
@@ -123,8 +102,11 @@ export function highlightCliCommand(code: string): string {
   return code;
 }
 
-export async function highlightCode(code: string, lang = "tsx") {
-  const targetLang = lang.toLowerCase();
+/**
+ * Highlights a source code string using Shiki with GitHub Light and Dark themes.
+ */
+export async function highlightCode(code: string, lang = "tsx"): Promise<string> {
+  const targetLang = (lang || "tsx").toLowerCase();
 
   // Instant synchronous CLI highlighting for bash
   if (targetLang === "bash" || targetLang === "sh" || targetLang === "shell") {
@@ -134,28 +116,27 @@ export async function highlightCode(code: string, lang = "tsx") {
     }
   }
 
-  /* Prevent Prism execution during SSR */
-  if (isServer) {
-    return code;
-  }
-
   try {
-    const Prism = await loadPrism();
+    const highlighter = await getHighlighter();
+    const resolvedLang =
+      targetLang === "sh" || targetLang === "shell"
+        ? "bash"
+        : targetLang === "ts"
+        ? "typescript"
+        : targetLang === "js"
+        ? "javascript"
+        : targetLang;
 
-    /* Resolve grammar with fallback cascade for TSX/JSON/CSS */
-    const grammar =
-      Prism.languages[targetLang] ||
-      Prism.languages.tsx ||
-      Prism.languages.jsx ||
-      Prism.languages.javascript ||
-      Prism.languages.markup;
-
-    if (!grammar) {
-      return code;
-    }
-
-    return Prism.highlight(code, grammar, targetLang);
+    return highlighter.codeToHtml(code, {
+      lang: resolvedLang,
+      themes: {
+        light: "github-light",
+        dark: "github-dark",
+      },
+      defaultColor: false,
+    });
   } catch (e) {
+    console.warn(`Shiki failed to highlight code for language "${lang}":`, e);
     return code;
   }
 }

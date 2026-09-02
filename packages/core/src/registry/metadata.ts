@@ -638,6 +638,18 @@ export const HOOK_METADATA: Record<string, ComponentMeta> = {
     description: "A semantic callout and alert block with status variants, icons, and titles for documentation and notices.",
     dependencies: ["clsx", "tailwind-merge", "class-variance-authority", "lucide-solid"],
   },
+  "code-block": {
+    title: "Code Block",
+    description: "A code block container with filename header, language indicator, and interactive copy to clipboard button.",
+    dependencies: ["clsx", "tailwind-merge", "lucide-solid"],
+    registryDependencies: ["button", "badge", "tooltip"],
+  },
+  "package-manager-tabs": {
+    title: "Package Manager Tabs",
+    description: "An interactive command tab bar supporting customizable package managers (bun, pnpm, npm, yarn, deno, bunx, npx) with copy functionality.",
+    dependencies: ["clsx", "tailwind-merge", "lucide-solid"],
+    registryDependencies: ["button", "tooltip"],
+  },
 };
 
 /**

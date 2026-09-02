@@ -1,0 +1,12 @@
+{
+  "name": "code-block",
+  "title": "Code Block",
+  "description": "A code block container with filename header, language indicator, and interactive copy to clipboard button.",
+  "type": "registry:hook",
+  "dependencies": [
+    "clsx",
+    "tailwind-merge",
+    "lucide-solid"
+  ],
+  "files": []
+}

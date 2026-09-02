@@ -173,135 +173,37 @@
   }
 }
 
-/* --- PrismJS Syntax Highlighting Theme --- */
-code[class*="language-"],
-pre[class*="language-"] {
-  color: var(--foreground);
-  text-shadow: none;
+/* --- Shiki Dual Theme Syntax Highlighting --- */
+pre.shiki {
+  background-color: transparent !important;
+  margin: 0;
+  padding: 0;
+  overflow-x: auto;
+}
+
+pre.shiki code {
+  display: block;
+  width: fit-content;
+  min-width: 100%;
   font-family: var(--font-mono);
-  direction: ltr;
-  text-align: left;
-  white-space: pre;
-  word-spacing: normal;
-  word-break: normal;
-  line-height: 1.5;
-  tab-size: 2;
-  hyphens: none;
 }
 
-.token.comment,
-.token.prolog,
-.token.doctype,
-.token.cdata {
-  color: oklch(0.55 0 0);
-  font-style: italic;
+html.dark .shiki,
+html.dark .shiki span {
+  color: var(--shiki-dark) !important;
+  background-color: transparent !important;
+  font-style: var(--shiki-dark-font-style) !important;
+  font-weight: var(--shiki-dark-font-weight) !important;
+  text-decoration: var(--shiki-dark-text-decoration) !important;
 }
 
-.token.punctuation {
-  color: oklch(0.6 0 0);
-}
-
-.token.namespace {
-  opacity: 0.7;
-}
-
-.token.property,
-.token.tag,
-.token.boolean,
-.token.number,
-.token.constant,
-.token.symbol,
-.token.deleted {
-  color: oklch(0.65 0.22 30);
-}
-
-.token.selector,
-.token.attr-name,
-.token.string,
-.token.char,
-.token.builtin,
-.token.inserted {
-  color: oklch(0.68 0.18 145);
-}
-
-.token.operator,
-.token.entity,
-.token.url,
-.language-css .token.string,
-.style .token.string {
-  color: oklch(0.65 0.18 70);
-}
-
-.token.atrule,
-.token.attr-value,
-.token.keyword {
-  color: oklch(0.65 0.24 300);
-}
-
-.token.function,
-.token.class-name {
-  color: oklch(0.65 0.2 240);
-}
-
-.token.regex,
-.token.important,
-.token.variable {
-  color: oklch(0.7 0.2 50);
-}
-
-.dark .token.comment,
-.dark .token.prolog,
-.dark .token.doctype,
-.dark .token.cdata {
-  color: oklch(0.6 0 0);
-}
-
-.dark .token.punctuation {
-  color: oklch(0.7 0 0);
-}
-
-.dark .token.property,
-.dark .token.tag,
-.dark .token.boolean,
-.dark .token.number,
-.dark .token.constant,
-.dark .token.symbol,
-.dark .token.deleted {
-  color: oklch(0.75 0.2 30);
-}
-
-.dark .token.selector,
-.dark .token.attr-name,
-.dark .token.string,
-.dark .token.char,
-.dark .token.builtin,
-.dark .token.inserted {
-  color: oklch(0.78 0.16 145);
-}
-
-.dark .token.operator,
-.dark .token.entity,
-.dark .token.url,
-.dark .language-css .token.string,
-.dark .style .token.string {
-  color: oklch(0.75 0.16 70);
-}
-
-.dark .token.atrule,
-.dark .token.attr-value,
-.dark .token.keyword {
-  color: oklch(0.75 0.22 300);
-}
-
-.dark .token.function,
-.dark .token.class-name {
-  color: oklch(0.75 0.18 240);
-}
-
-.dark .token.regex,
-.dark .token.important,
-.dark .token.variable {
-  color: oklch(0.8 0.18 50);
+html:not(.dark) .shiki,
+html:not(.dark) .shiki span {
+  color: var(--shiki-light) !important;
+  background-color: transparent !important;
+  font-style: var(--shiki-light-font-style) !important;
+  font-weight: var(--shiki-light-font-weight) !important;
+  text-decoration: var(--shiki-light-text-decoration) !important;
 }
 
 /* --- CLI Command Syntax Highlighting (Bash Token Overrides) --- */

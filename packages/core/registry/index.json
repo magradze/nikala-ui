@@ -146,6 +146,16 @@
     ]
   },
   {
+    "name": "code-block",
+    "title": "Code-block",
+    "description": "code-block component.",
+    "type": "registry:ui",
+    "dependencies": [
+      "clsx",
+      "tailwind-merge"
+    ]
+  },
+  {
     "name": "collapsible",
     "title": "Collapsible",
     "description": "An interactive component that expands and collapses content panels with smooth height animations, built on Kobalte primitives.",
@@ -469,6 +479,16 @@
       "input",
       "button",
       "create-long-press"
+    ]
+  },
+  {
+    "name": "package-manager-tabs",
+    "title": "Package-manager-tabs",
+    "description": "package-manager-tabs component.",
+    "type": "registry:ui",
+    "dependencies": [
+      "clsx",
+      "tailwind-merge"
     ]
   },
   {
@@ -1330,6 +1350,28 @@
       "clsx",
       "tailwind-merge",
       "class-variance-authority",
+      "lucide-solid"
+    ]
+  },
+  {
+    "name": "code-block",
+    "title": "Code Block",
+    "description": "A code block container with filename header, language indicator, and interactive copy to clipboard button.",
+    "type": "registry:hook",
+    "dependencies": [
+      "clsx",
+      "tailwind-merge",
+      "lucide-solid"
+    ]
+  },
+  {
+    "name": "package-manager-tabs",
+    "title": "Package Manager Tabs",
+    "description": "An interactive command tab bar supporting customizable package managers (bun, pnpm, npm, yarn, deno, bunx, npx) with copy functionality.",
+    "type": "registry:hook",
+    "dependencies": [
+      "clsx",
+      "tailwind-merge",
       "lucide-solid"
     ]
   }
