@@ -14,7 +14,8 @@ import {
   type Accessor,
 } from "solid-js";
 import { cva, type VariantProps } from "class-variance-authority";
-import { Plus, X, Pin } from "lucide-solid";
+import { Plus, X, Pin, XCircle, CircleX } from "lucide-solid";
+import * as ContextMenuPrimitive from "@kobalte/core/context-menu";
 import { Button } from "@/components/ui/button";
 import { Tooltip, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip";
 import {
@@ -33,6 +34,7 @@ interface TitlebarTabsContextValue {
   variant: Accessor<TitlebarTabsVariant>;
   manager?: CreateDocumentTabsReturn<any>;
   reorderable?: boolean;
+  enableContextMenu?: boolean;
   draggedTabId: Accessor<string | null>;
   dropTargetId: Accessor<string | null>;
   dropPosition: Accessor<"left" | "right" | null>;
@@ -84,6 +86,8 @@ export interface TitlebarTabsProps extends JSX.HTMLAttributes<HTMLElement> {
   onAddTab?: () => void;
   /** Whether tabs can be reordered via Drag & Drop. Defaults to true when manager is present. */
   reorderable?: boolean;
+  /** Whether right-click context menu is enabled on tabs. Defaults to true. */
+  enableContextMenu?: boolean;
   /** Visual chrome styling variant. */
   variant?: TitlebarTabsVariant;
   class?: string;
@@ -97,6 +101,7 @@ export const TitlebarTabs: ParentComponent<TitlebarTabsProps> = (props) => {
     "onValueChange",
     "onAddTab",
     "reorderable",
+    "enableContextMenu",
     "variant",
     "class",
     "children",
@@ -187,6 +192,7 @@ export const TitlebarTabs: ParentComponent<TitlebarTabsProps> = (props) => {
     variant,
     manager: local.manager,
     reorderable: local.reorderable ?? Boolean(local.manager),
+    enableContextMenu: local.enableContextMenu ?? true,
     draggedTabId,
     dropTargetId,
     dropPosition,
@@ -288,6 +294,10 @@ export interface TitlebarTabProps extends Omit<JSX.HTMLAttributes<HTMLDivElement
   isPinned?: boolean;
   closable?: boolean;
   reorderable?: boolean;
+  /** Whether right-click context menu is enabled on this tab. Defaults to true. */
+  enableContextMenu?: boolean;
+  /** Custom render function for context menu content. */
+  renderContextMenu?: (tab: TabItem<any>) => JSX.Element;
   onClose?: (e: MouseEvent) => void;
   class?: string;
 }
@@ -300,6 +310,8 @@ export const TitlebarTab: ParentComponent<TitlebarTabProps> = (props) => {
     "isPinned",
     "closable",
     "reorderable",
+    "enableContextMenu",
+    "renderContextMenu",
     "onClose",
     "class",
     "style",
@@ -329,6 +341,9 @@ export const TitlebarTab: ParentComponent<TitlebarTabProps> = (props) => {
   const dropPosition = () => (isDropTarget() ? ctx.dropPosition() : null);
 
   const canDrag = () => !isPinned() && (local.reorderable ?? ctx.reorderable ?? true);
+  const hasContextMenu = () =>
+    (local.enableContextMenu ?? ctx.enableContextMenu ?? true) &&
+    (Boolean(ctx.manager) || Boolean(local.renderContextMenu));
 
   // Scroll active tab horizontally inside its tablist container
   createEffect(() => {
@@ -444,7 +459,7 @@ export const TitlebarTab: ParentComponent<TitlebarTabProps> = (props) => {
     }
   };
 
-  return (
+  const tabElement = (
     <div
       ref={tabRef}
       role="tab"
@@ -519,6 +534,115 @@ export const TitlebarTab: ParentComponent<TitlebarTabProps> = (props) => {
         </Tooltip>
       </Show>
     </div>
+  );
+
+  return (
+    <Show when={hasContextMenu()} fallback={tabElement}>
+      <ContextMenuPrimitive.Root>
+        <ContextMenuPrimitive.Trigger
+          as="div"
+          data-no-drag
+          data-tauri-drag-region="false"
+          style={("-webkit-app-region: no-drag; app-region: no-drag;" + (typeof local.style === "string" ? ` ${local.style}` : "")) as any}
+          class="h-full flex items-center shrink-0 pointer-events-auto [app-region:no-drag] [-webkit-app-region:no-drag]"
+        >
+          {tabElement}
+        </ContextMenuPrimitive.Trigger>
+        <ContextMenuPrimitive.Portal>
+          <ContextMenuPrimitive.Content
+            data-no-drag
+            data-tauri-drag-region="false"
+            style="-webkit-app-region: no-drag; app-region: no-drag;"
+            onMouseDown={(e) => e.stopPropagation()}
+            onPointerDown={(e) => e.stopPropagation()}
+            class={cn(
+              "z-50 min-w-[170px] overflow-hidden rounded-md border border-border bg-popover p-1 text-popover-foreground shadow-md",
+              "animate-in fade-in-80 slide-in-from-top-1 text-xs pointer-events-auto [app-region:no-drag] [-webkit-app-region:no-drag]"
+            )}
+          >
+            <Show
+              when={local.renderContextMenu}
+              fallback={
+                <>
+                  <Show when={ctx.manager}>
+                    <ContextMenuPrimitive.Item
+                      data-no-drag
+                      data-tauri-drag-region="false"
+                      style="-webkit-app-region: no-drag; app-region: no-drag;"
+                      onMouseDown={(e) => e.stopPropagation()}
+                      onPointerDown={(e) => e.stopPropagation()}
+                      onSelect={() => {
+                        setTimeout(() => ctx.manager?.togglePin(tabId()), 0);
+                      }}
+                      class="relative flex cursor-pointer select-none items-center gap-2 rounded-xs px-2 py-1.5 text-xs outline-none transition-colors hover:bg-accent hover:text-accent-foreground pointer-events-auto [app-region:no-drag] [-webkit-app-region:no-drag]"
+                    >
+                      <Pin class="size-3.5 text-muted-foreground" />
+                      <span>{isPinned() ? "Unpin Tab" : "Pin Tab"}</span>
+                    </ContextMenuPrimitive.Item>
+                    <ContextMenuPrimitive.Separator class="my-1 h-px bg-border/60" />
+                  </Show>
+
+                  <ContextMenuPrimitive.Item
+                    data-no-drag
+                    data-tauri-drag-region="false"
+                    style="-webkit-app-region: no-drag; app-region: no-drag;"
+                    onMouseDown={(e) => e.stopPropagation()}
+                    onPointerDown={(e) => e.stopPropagation()}
+                    disabled={isPinned() || !closable()}
+                    onSelect={() => {
+                      setTimeout(() => {
+                        if (local.onClose) local.onClose(new MouseEvent("click"));
+                        else ctx.manager?.closeTab(tabId());
+                      }, 0);
+                    }}
+                    class="relative flex cursor-pointer select-none items-center justify-between gap-2 rounded-xs px-2 py-1.5 text-xs outline-none transition-colors hover:bg-accent hover:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50 pointer-events-auto [app-region:no-drag] [-webkit-app-region:no-drag]"
+                  >
+                    <span class="flex items-center gap-2">
+                      <X class="size-3.5 text-muted-foreground" />
+                      Close Tab
+                    </span>
+                    <span class="ml-auto text-[10px] text-muted-foreground font-mono">Ctrl+W</span>
+                  </ContextMenuPrimitive.Item>
+
+                  <Show when={ctx.manager && ctx.manager.tabs().length > 1}>
+                    <ContextMenuPrimitive.Item
+                      data-no-drag
+                      data-tauri-drag-region="false"
+                      style="-webkit-app-region: no-drag; app-region: no-drag;"
+                      onMouseDown={(e) => e.stopPropagation()}
+                      onPointerDown={(e) => e.stopPropagation()}
+                      onSelect={() => {
+                        setTimeout(() => ctx.manager?.closeOthers(tabId()), 0);
+                      }}
+                      class="relative flex cursor-pointer select-none items-center gap-2 rounded-xs px-2 py-1.5 text-xs outline-none transition-colors hover:bg-accent hover:text-accent-foreground pointer-events-auto [app-region:no-drag] [-webkit-app-region:no-drag]"
+                    >
+                      <XCircle class="size-3.5 text-muted-foreground" />
+                      Close Other Tabs
+                    </ContextMenuPrimitive.Item>
+                    <ContextMenuPrimitive.Item
+                      data-no-drag
+                      data-tauri-drag-region="false"
+                      style="-webkit-app-region: no-drag; app-region: no-drag;"
+                      onMouseDown={(e) => e.stopPropagation()}
+                      onPointerDown={(e) => e.stopPropagation()}
+                      onSelect={() => {
+                        setTimeout(() => ctx.manager?.closeAll(), 0);
+                      }}
+                      class="relative flex cursor-pointer select-none items-center gap-2 rounded-xs px-2 py-1.5 text-xs outline-none transition-colors hover:bg-destructive/10 hover:text-destructive text-muted-foreground pointer-events-auto [app-region:no-drag] [-webkit-app-region:no-drag]"
+                    >
+                      <XCircle class="size-3.5 text-destructive" />
+                      <span>Close All Tabs</span>
+                    </ContextMenuPrimitive.Item>
+                  </Show>
+                </>
+              }
+            >
+              {local.renderContextMenu!(local.tab || { id: tabId(), title: title() })}
+            </Show>
+          </ContextMenuPrimitive.Content>
+        </ContextMenuPrimitive.Portal>
+      </ContextMenuPrimitive.Root>
+    </Show>
   );
 };
 
