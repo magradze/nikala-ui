@@ -294,6 +294,16 @@
     ]
   },
   {
+    "name": "file-tree",
+    "title": "File-tree",
+    "description": "file-tree component.",
+    "type": "registry:ui",
+    "dependencies": [
+      "clsx",
+      "tailwind-merge"
+    ]
+  },
+  {
     "name": "footer",
     "title": "Footer",
     "description": "A responsive, accessible, and structured bottom navigation layout suite supporting multi-column link directories, brand sections, and newsletter inputs.",
@@ -1413,6 +1423,17 @@
     "dependencies": [
       "clsx",
       "tailwind-merge"
+    ]
+  },
+  {
+    "name": "file-tree",
+    "title": "File Tree",
+    "description": "An interactive hierarchical directory file tree component built on Collapsible.",
+    "type": "registry:hook",
+    "dependencies": [
+      "clsx",
+      "tailwind-merge",
+      "lucide-solid"
     ]
   }
 ]

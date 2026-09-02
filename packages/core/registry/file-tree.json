@@ -1,0 +1,12 @@
+{
+  "name": "file-tree",
+  "title": "File Tree",
+  "description": "An interactive hierarchical directory file tree component built on Collapsible.",
+  "type": "registry:hook",
+  "dependencies": [
+    "clsx",
+    "tailwind-merge",
+    "lucide-solid"
+  ],
+  "files": []
+}

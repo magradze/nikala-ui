@@ -661,6 +661,12 @@ export const HOOK_METADATA: Record<string, ComponentMeta> = {
     description: "A vertical multi-step instruction container with connecting progress line and numbered step indicators.",
     dependencies: ["clsx", "tailwind-merge"],
   },
+  "file-tree": {
+    title: "File Tree",
+    description: "An interactive hierarchical directory file tree component built on Collapsible.",
+    dependencies: ["clsx", "tailwind-merge", "lucide-solid"],
+    registryDependencies: ["collapsible"],
+  },
 };
 
 /**
