@@ -5,7 +5,7 @@ import {
   type JSX,
   type Component,
 } from "solid-js";
-import { Badge } from "@/components/ui/badge";
+import { SectionHeading } from "@/components/ui/section-heading";
 import {
   Table,
   TableHeader,
@@ -55,23 +55,13 @@ export const ApiTable: Component<ApiTableProps> = (props) => {
 
   return (
     <div class={cn("my-6 space-y-3", local.class)} {...rest}>
-      {/* Header Bar with Title & Badge */}
+      {/* Header */}
       <Show when={local.title}>
-        <div class="flex items-center gap-2">
-          <h3 class="text-base font-semibold tracking-tight text-foreground">
-            {local.title}
-          </h3>
-          <Badge variant="outline" class="font-mono text-[10px] py-0 px-1.5 font-medium select-none">
-            {local.badge || "Props"}
-          </Badge>
-        </div>
-      </Show>
-
-      {/* Description */}
-      <Show when={local.description}>
-        <p class="text-xs text-muted-foreground leading-relaxed">
-          {local.description}
-        </p>
+        <SectionHeading
+          title={local.title!}
+          badge={local.badge || "Props"}
+          description={local.description}
+        />
       </Show>
 
       {/* Responsive Table Container Composed from Nikala Table Primitives */}

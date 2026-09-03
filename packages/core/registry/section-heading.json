@@ -1,0 +1,12 @@
+{
+  "name": "section-heading",
+  "title": "Section Heading",
+  "description": "A reusable heading block with title, optional badge, and description. Supports page and section variants.",
+  "type": "registry:hook",
+  "dependencies": [
+    "clsx",
+    "tailwind-merge",
+    "class-variance-authority"
+  ],
+  "files": []
+}

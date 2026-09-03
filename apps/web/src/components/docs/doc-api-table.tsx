@@ -1,4 +1,5 @@
 import { DocApiTableProps } from "@/types";
+import { SectionHeading } from "@/components/ui/section-heading";
 import { For, Show, splitProps, type Component, type JSX } from "solid-js";
 
 export const DocApiTable: Component<DocApiTableProps> = (props) => {
@@ -11,20 +12,13 @@ export const DocApiTable: Component<DocApiTableProps> = (props) => {
 
   return (
     <div class={`space-y-3 ${local.class || ""}`} {...rest}>
-      {/* Header Badge */}
+      {/* Header */}
       <Show when={local.title}>
-        <div class="flex items-center gap-2">
-          <h3 class="text-base font-semibold tracking-tight text-foreground">
-            {local.title}
-          </h3>
-          <span class="inline-flex items-center rounded-md border border-border px-1.5 py-0.5 text-[10px] font-mono font-medium text-muted-foreground select-none">
-            Props
-          </span>
-        </div>
-      </Show>
-
-      <Show when={local.description}>
-        <p class="text-xs text-muted-foreground">{local.description}</p>
+        <SectionHeading
+          title={local.title!}
+          badge="Props"
+          description={local.description}
+        />
       </Show>
 
       {/* Responsive Props Table */}

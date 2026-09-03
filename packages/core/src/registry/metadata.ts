@@ -667,11 +667,17 @@ export const HOOK_METADATA: Record<string, ComponentMeta> = {
     dependencies: ["clsx", "tailwind-merge", "lucide-solid"],
     registryDependencies: ["collapsible"],
   },
+  "section-heading": {
+    title: "Section Heading",
+    description: "A reusable heading block with title, optional badge, and description. Supports page and section variants.",
+    dependencies: ["clsx", "tailwind-merge", "class-variance-authority"],
+    registryDependencies: ["badge"],
+  },
   "api-table": {
     title: "API Table",
     description: "A structured, clean API reference table component for documenting props, options, and events.",
     dependencies: ["clsx", "tailwind-merge"],
-    registryDependencies: ["table", "badge"],
+    registryDependencies: ["table", "section-heading"],
   },
   "component-viewer": {
     title: "Component Viewer",

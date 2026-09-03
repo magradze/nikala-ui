@@ -683,6 +683,16 @@
     ]
   },
   {
+    "name": "section-heading",
+    "title": "Section-heading",
+    "description": "section-heading component.",
+    "type": "registry:ui",
+    "dependencies": [
+      "clsx",
+      "tailwind-merge"
+    ]
+  },
+  {
     "name": "select",
     "title": "Select",
     "description": "Displays a list of options for the user to pick from, built on Kobalte primitives.",
@@ -1455,6 +1465,17 @@
       "clsx",
       "tailwind-merge",
       "lucide-solid"
+    ]
+  },
+  {
+    "name": "section-heading",
+    "title": "Section Heading",
+    "description": "A reusable heading block with title, optional badge, and description. Supports page and section variants.",
+    "type": "registry:hook",
+    "dependencies": [
+      "clsx",
+      "tailwind-merge",
+      "class-variance-authority"
     ]
   },
   {
