@@ -1,5 +1,13 @@
 import { DocApiTableProps } from "@/types";
 import { SectionHeading } from "@/components/ui/section-heading";
+import {
+  Table,
+  TableHeader,
+  TableBody,
+  TableRow,
+  TableHead,
+  TableCell,
+} from "@/components/ui/table";
 import { For, Show, splitProps, type Component, type JSX } from "solid-js";
 
 export const DocApiTable: Component<DocApiTableProps> = (props) => {
@@ -21,52 +29,52 @@ export const DocApiTable: Component<DocApiTableProps> = (props) => {
         />
       </Show>
 
-      {/* Responsive Props Table */}
+      {/* Props Table */}
       <div class="w-full overflow-x-auto rounded-lg border border-border bg-card/50 shadow-2xs">
-        <table class="w-full text-left text-xs">
-          <thead class="border-b border-border/60 bg-muted/40 font-mono text-[11px] uppercase tracking-wider text-muted-foreground select-none">
-            <tr>
-              <th class="px-4 py-2.5 font-semibold">Prop</th>
-              <th class="px-4 py-2.5 font-semibold">Type</th>
-              <th class="px-4 py-2.5 font-semibold">Default</th>
-              <th class="px-4 py-2.5 font-semibold">Description</th>
-            </tr>
-          </thead>
-          <tbody class="divide-y divide-border/40 font-mono text-xs">
+        <Table class="text-xs">
+          <TableHeader class="bg-muted/40 font-mono text-[11px] uppercase tracking-wider text-muted-foreground select-none">
+            <TableRow class="hover:bg-transparent">
+              <TableHead class="h-9 px-4 font-semibold">Prop</TableHead>
+              <TableHead class="h-9 px-4 font-semibold">Type</TableHead>
+              <TableHead class="h-9 px-4 font-semibold">Default</TableHead>
+              <TableHead class="h-9 px-4 font-semibold">Description</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody class="font-mono text-xs">
             <For each={local.items}>
               {(item) => (
-                <tr class="hover:bg-muted/20 transition-colors">
-                  <td class="px-4 py-3 font-semibold text-primary">
+                <TableRow class="transition-colors hover:bg-muted/20">
+                  <TableCell class="px-4 py-3 font-semibold text-primary">
                     <span class="inline-flex items-center gap-1">
                       {item.prop}
                       <Show when={item.required}>
                         <span class="text-rose-500 font-bold">*</span>
                       </Show>
                     </span>
-                  </td>
-                  <td class="px-4 py-3 text-muted-foreground">
-                    <code class="bg-muted px-1.5 py-0.5 rounded text-[11px] text-foreground font-mono">
+                  </TableCell>
+                  <TableCell class="px-4 py-3 text-muted-foreground">
+                    <code class="rounded-md bg-muted px-1.5 py-0.5 font-mono text-[11px] text-foreground">
                       {item.type}
                     </code>
-                  </td>
-                  <td class="px-4 py-3 text-muted-foreground">
+                  </TableCell>
+                  <TableCell class="px-4 py-3 text-muted-foreground">
                     <Show
                       when={item.default}
-                      fallback={<span class="text-muted-foreground/40">-</span>}
+                      fallback={<span class="text-muted-foreground/40 font-mono">-</span>}
                     >
-                      <code class="bg-muted/60 px-1 py-0.5 rounded text-[11px] font-mono">
+                      <code class="rounded-md bg-muted/60 px-1 py-0.5 font-mono text-[11px]">
                         {item.default}
                       </code>
                     </Show>
-                  </td>
-                  <td class="px-4 py-3 font-sans text-muted-foreground leading-relaxed font-normal">
+                  </TableCell>
+                  <TableCell class="px-4 py-3 font-sans font-normal leading-relaxed text-muted-foreground">
                     {item.description}
-                  </td>
-                </tr>
+                  </TableCell>
+                </TableRow>
               )}
             </For>
-          </tbody>
-        </table>
+          </TableBody>
+        </Table>
       </div>
     </div>
   );
