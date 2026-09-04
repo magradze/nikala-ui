@@ -23,6 +23,18 @@ const DEFAULT_BASE_LANGS: BundledLanguage[] = [
   "html",
   "markdown",
   "mdx",
+  "rust",
+  "c",
+  "cpp",
+  "python",
+  "go",
+  "yaml",
+  "toml",
+  "sql",
+  "mermaid",
+  "diff",
+  "dockerfile",
+  "zig",
 ];
 
 const DEFAULT_LIGHT_THEME: BundledTheme = "github-light";

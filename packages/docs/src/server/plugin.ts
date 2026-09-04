@@ -1,5 +1,6 @@
-// packages/docs/src/server/plugin.ts
 import path from "node:path";
+import { fileURLToPath } from "node:url";
+import fs from "fs-extra";
 import type { Plugin, ViteDevServer } from "vite";
 import { scanContent } from "../core/content-scanner.js";
 import { buildSidebarTree } from "../core/route-tree.js";
@@ -21,6 +22,9 @@ const RESOLVED_TREE_ID = "\0" + VIRTUAL_TREE_ID;
 
 const VIRTUAL_ROUTES_ID = "virtual:nikala-docs-routes";
 const RESOLVED_ROUTES_ID = "\0" + VIRTUAL_ROUTES_ID;
+
+const VIRTUAL_SHIKI_ID = "virtual:nikala-docs-shiki-stub";
+const RESOLVED_SHIKI_ID = "\0" + VIRTUAL_SHIKI_ID;
 
 export function nikalaDocsPlugin(options: NikalaDocsPluginOptions = {}): Plugin {
   let rootDir = process.cwd();
@@ -53,7 +57,13 @@ export function nikalaDocsPlugin(options: NikalaDocsPluginOptions = {}): Plugin 
       }
     },
 
-    resolveId(id) {
+    resolveId(id, importer) {
+      if (id === "shiki" || id.startsWith("shiki/")) {
+        if (importer && (importer.includes("/mdx/") || importer.includes("\\mdx\\"))) {
+          return null;
+        }
+        return RESOLVED_SHIKI_ID;
+      }
       if (id === VIRTUAL_CONFIG_ID) return RESOLVED_CONFIG_ID;
       if (id === VIRTUAL_TREE_ID) return RESOLVED_TREE_ID;
       if (id === VIRTUAL_ROUTES_ID) return RESOLVED_ROUTES_ID;
@@ -61,6 +71,15 @@ export function nikalaDocsPlugin(options: NikalaDocsPluginOptions = {}): Plugin 
     },
 
     async load(id) {
+      if (id === RESOLVED_SHIKI_ID) {
+        return `
+export const createHighlighter = async () => null;
+export const bundledLanguages = {};
+export const bundledThemes = {};
+export default { createHighlighter, bundledLanguages, bundledThemes };
+`;
+      }
+
       if (id === RESOLVED_CONFIG_ID) {
         return `export default ${JSON.stringify(resolvedConfig)};`;
       }
@@ -96,6 +115,36 @@ export default routes;
     },
 
     async transform(code, id) {
+      // Inject Tailwind v4 @source directives into style.css
+      if (id.endsWith("style.css")) {
+        const sources: string[] = [];
+        try {
+          const coreEntry = fileURLToPath(import.meta.resolve("@nikala-ui/core"));
+          sources.push(path.dirname(coreEntry));
+        } catch {
+          sources.push(path.resolve(rootDir, "../core/src"));
+        }
+
+        const themesDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../themes");
+        if (fs.existsSync(themesDir)) {
+          sources.push(themesDir);
+        }
+
+        if (docsDir && fs.existsSync(docsDir)) {
+          sources.push(docsDir);
+        }
+
+        const sourceDirectives = sources
+          .filter(Boolean)
+          .map((src) => `@source "${src}";`)
+          .join("\n");
+
+        return {
+          code: `@import "tailwindcss";\n${sourceDirectives}\n${code.replace('@import "tailwindcss";', "")}`,
+          map: null,
+        };
+      }
+
       // Compile Markdown / MDX files to SolidJS JSX
       if (/\.(md|mdx)$/.test(id)) {
         const result = await compileMdx(code, {

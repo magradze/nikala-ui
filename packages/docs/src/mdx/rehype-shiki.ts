@@ -59,20 +59,27 @@ export function rehypeShiki(config?: ShikiConfig) {
                   highlightedPre.properties.className = [
                     ...existingClass,
                     "nikala-code-block",
-                    "rounded-lg",
-                    "border",
-                    "border-border",
-                    "bg-card",
-                    "p-4",
-                    "text-xs",
                     "font-mono",
-                    "overflow-x-auto",
-                    "my-4",
+                    "text-xs",
                   ];
 
                   // Store raw code in data attribute for copy actions
                   highlightedPre.properties["data-code"] = codeText.trimEnd();
                   highlightedPre.properties["data-lang"] = targetLang;
+
+                  // Add class to code element so MdxCode knows it is inside pre
+                  const codeEl = highlightedPre.children?.find(
+                    (child: any) => child.type === "element" && child.tagName === "code"
+                  );
+                  if (codeEl) {
+                    const codeClass = (codeEl.properties?.className as string[]) || [];
+                    codeEl.properties = codeEl.properties || {};
+                    codeEl.properties.className = [
+                      ...codeClass,
+                      "shiki-code",
+                      `language-${targetLang}`,
+                    ];
+                  }
 
                   parent.children[index] = highlightedPre;
                 }
