@@ -47,27 +47,27 @@ type HtmlProps<T extends HTMLElement> = JSX.HTMLAttributes<T>;
 // documentation UI is delegated to Nikala primitives below.
 export function MdxH1(props: HtmlProps<HTMLHeadingElement>) {
   const [local, rest] = splitProps(props, ["class", "children"]);
-  return <h1 class={cn("text-3xl font-bold tracking-tight text-foreground mb-4", local.class)} {...rest}>{local.children}</h1>;
+  return <h1 class={cn("scroll-mt-20 text-3xl font-bold tracking-tight text-foreground mb-4", local.class)} {...rest}>{local.children}</h1>;
 }
 export function MdxH2(props: HtmlProps<HTMLHeadingElement>) {
   const [local, rest] = splitProps(props, ["class", "children"]);
-  return <h2 class={cn("text-xl font-bold tracking-tight text-foreground mt-8 mb-4 border-b border-border pb-2 group flex items-center justify-between", local.class)} {...rest}>{local.children}</h2>;
+  return <h2 class={cn("scroll-mt-20 text-xl font-bold tracking-tight text-foreground mt-8 mb-4 border-b border-border pb-2 group flex items-center justify-between", local.class)} {...rest}>{local.children}</h2>;
 }
 export function MdxH3(props: HtmlProps<HTMLHeadingElement>) {
   const [local, rest] = splitProps(props, ["class", "children"]);
-  return <h3 class={cn("text-base font-semibold tracking-tight text-foreground mt-6 mb-3", local.class)} {...rest}>{local.children}</h3>;
+  return <h3 class={cn("scroll-mt-20 text-base font-semibold tracking-tight text-foreground mt-6 mb-3", local.class)} {...rest}>{local.children}</h3>;
 }
 export function MdxH4(props: HtmlProps<HTMLHeadingElement>) {
   const [local, rest] = splitProps(props, ["class", "children"]);
-  return <h4 class={cn("text-base font-semibold tracking-tight text-foreground mt-4 mb-2", local.class)} {...rest}>{local.children}</h4>;
+  return <h4 class={cn("scroll-mt-20 text-base font-semibold tracking-tight text-foreground mt-4 mb-2", local.class)} {...rest}>{local.children}</h4>;
 }
 export function MdxH5(props: HtmlProps<HTMLHeadingElement>) {
   const [local, rest] = splitProps(props, ["class", "children"]);
-  return <h5 class={cn("text-sm font-semibold tracking-tight text-foreground mt-3 mb-1", local.class)} {...rest}>{local.children}</h5>;
+  return <h5 class={cn("scroll-mt-20 text-sm font-semibold tracking-tight text-foreground mt-3 mb-1", local.class)} {...rest}>{local.children}</h5>;
 }
 export function MdxH6(props: HtmlProps<HTMLHeadingElement>) {
   const [local, rest] = splitProps(props, ["class", "children"]);
-  return <h6 class={cn("text-xs font-semibold tracking-tight text-muted-foreground mt-2 mb-1", local.class)} {...rest}>{local.children}</h6>;
+  return <h6 class={cn("scroll-mt-20 text-xs font-semibold tracking-tight text-muted-foreground mt-2 mb-1", local.class)} {...rest}>{local.children}</h6>;
 }
 export function MdxP(props: HtmlProps<HTMLParagraphElement>) {
   const [local, rest] = splitProps(props, ["class", "children"]);

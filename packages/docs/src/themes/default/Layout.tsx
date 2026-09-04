@@ -71,8 +71,8 @@ export const DocsLayout: ParentComponent<DocsLayoutProps> = (props) => {
           </Show>
         </Container>
         <Show when={showToc() && local.currentPage?.url} keyed>
-          <Container as="aside" size="sm" class="hidden xl:block w-64 shrink-0 px-0 sticky top-14 h-[calc(100vh-3.5rem)]">
-            <DocsTableOfContents items={local.toc!} />
+          <Container as="aside" size="sm" class="hidden xl:block w-64 shrink-0 px-0 sticky top-14 z-10 h-fit max-h-[calc(100vh-3.5rem)] overflow-hidden bg-background">
+            <DocsTableOfContents items={local.toc!} class="max-h-[calc(100vh-3.5rem)]" />
           </Container>
         </Show>
       </Container>
