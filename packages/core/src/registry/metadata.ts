@@ -482,7 +482,7 @@ export const COMPONENT_METADATA: Record<string, ComponentMeta> = {
     title: "Table of Contents",
     description: "An accessible heading navigation tree with ScrollSpy tracking and smooth scrolling, composed of ScrollArea and List.",
     dependencies: ["clsx", "tailwind-merge", "class-variance-authority"],
-    registryDependencies: ["scroll-area", "list"],
+    registryDependencies: ["scroll-area", "list", "create-scroll-position"],
   },
 };
 
@@ -740,4 +740,3 @@ export const BLOCK_METADATA: Record<string, ComponentMeta> = {
     registryDependencies: ["card", "input", "label", "button", "alert", "form", "field", "form-message"],
   },
 };
-

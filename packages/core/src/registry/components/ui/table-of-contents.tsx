@@ -2,6 +2,7 @@
 import {
   splitProps,
   createSignal,
+  createEffect,
   onMount,
   onCleanup,
   For,
@@ -12,6 +13,7 @@ import {
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { List, ListHeader, ListItem } from "@/components/ui/list";
 import { cn } from "@/lib/cn";
+import { createScrollPosition } from "@/hooks/create-scroll-position";
 
 export interface TocItem {
   id: string;
@@ -41,31 +43,39 @@ export const TableOfContents: Component<TableOfContentsProps> = (props) => {
   ]);
 
   const [activeId, setActiveId] = createSignal<string>(local.activeId || "");
+  const scrollPosition = createScrollPosition();
 
   onMount(() => {
     if (typeof window === "undefined" || typeof document === "undefined") return;
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        for (const entry of entries) {
-          if (entry.isIntersecting) {
-            setActiveId(entry.target.id);
-            break;
-          }
-        }
-      },
-      {
-        rootMargin: "0px 0px -70% 0px",
-        threshold: 0.1,
+    const headings = (local.items || [])
+      .map((item) => document.getElementById(item.id))
+      .filter((element): element is HTMLElement => Boolean(element));
+
+    const updateActiveHeading = () => {
+      if (headings.length === 0) return;
+
+      const atPageBottom = scrollPosition.isAtBottom();
+      if (atPageBottom) {
+        setActiveId(headings[headings.length - 1].id);
+        return;
       }
-    );
 
-    for (const item of local.items || []) {
-      const el = document.getElementById(item.id);
-      if (el) observer.observe(el);
-    }
+      const heading = [...headings]
+        .reverse()
+        .find((element) => element.getBoundingClientRect().top <= 120);
 
-    onCleanup(() => observer.disconnect());
+      setActiveId(heading?.id || headings[0].id);
+    };
+
+    createEffect(() => {
+      scrollPosition.y();
+      scrollPosition.isAtBottom();
+      updateActiveHeading();
+    });
+
+    window.addEventListener("resize", updateActiveHeading);
+    onCleanup(() => window.removeEventListener("resize", updateActiveHeading));
   });
 
   const handleClick = (e: MouseEvent, id: string) => {

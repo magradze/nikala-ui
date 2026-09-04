@@ -908,7 +908,8 @@
     ],
     "registryDependencies": [
       "scroll-area",
-      "list"
+      "list",
+      "create-scroll-position"
     ]
   },
   {
