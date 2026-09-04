@@ -22,6 +22,7 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { Tooltip, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip";
 import { CodeBlock } from "@/components/ui/code-block";
+import { createClipboard } from "@/hooks/create-clipboard";
 import { cn } from "@/lib/cn";
 
 export type ComponentViewerViewport = "desktop" | "tablet" | "mobile";
@@ -78,8 +79,8 @@ export const ComponentViewer: ParentComponent<ComponentViewerProps> = (props) =>
   );
   const [showGrid, setShowGrid] = createSignal(true);
   const [isFullscreen, setIsFullscreen] = createSignal(false);
-  const [aiCopied, setAiCopied] = createSignal(false);
-  const [cmdCopied, setCmdCopied] = createSignal(false);
+  const aiClipboard = createClipboard();
+  const cmdClipboard = createClipboard();
   const [mounted, setMounted] = createSignal(true);
 
   const cliCommand = () => local.command;
@@ -89,30 +90,13 @@ export const ComponentViewer: ParentComponent<ComponentViewerProps> = (props) =>
     const prompt = `// ${local.title || local.name || "Component"}
 ${cmd ? `// Installation: ${cmd}\n` : ""}// Usage Code:
 ${local.code}`;
-
-    try {
-      if (typeof navigator !== "undefined" && navigator.clipboard) {
-        await navigator.clipboard.writeText(prompt);
-        setAiCopied(true);
-        setTimeout(() => setAiCopied(false), 2000);
-      }
-    } catch (err) {
-      console.error("Failed to copy for AI", err);
-    }
+    await aiClipboard.copy(prompt);
   };
 
   const handleCopyCmd = async () => {
     const cmd = cliCommand();
     if (!cmd) return;
-    try {
-      if (typeof navigator !== "undefined" && navigator.clipboard) {
-        await navigator.clipboard.writeText(cmd);
-        setCmdCopied(true);
-        setTimeout(() => setCmdCopied(false), 2000);
-      }
-    } catch (err) {
-      console.error("Failed to copy command", err);
-    }
+    await cmdClipboard.copy(cmd);
   };
 
   const handleReset = () => {
@@ -272,10 +256,10 @@ ${local.code}`;
                 aria-label="Copy context formatted for AI assistants"
                 class="h-7 px-2 text-xs text-muted-foreground hover:text-foreground border border-border/50 rounded-md cursor-pointer flex items-center gap-1.5"
               >
-                <Show when={aiCopied()} fallback={<Sparkles class="size-3" />}>
+                <Show when={aiClipboard.copied()} fallback={<Sparkles class="size-3" />}>
                   <Check class="size-3 text-emerald-500" />
                 </Show>
-                <span class="hidden sm:inline">{aiCopied() ? "Copied!" : "Prompt"}</span>
+                <span class="hidden sm:inline">{aiClipboard.copied() ? "Copied!" : "Prompt"}</span>
               </TooltipTrigger>
               <TooltipContent class="text-[10px] py-1 px-2">Copy code formatted for AI</TooltipContent>
             </Tooltip>
@@ -291,10 +275,10 @@ ${local.code}`;
                   aria-label="Copy CLI installation command"
                   class="h-7 px-2 text-xs font-mono text-muted-foreground hover:text-foreground border border-border/50 rounded-md cursor-pointer flex items-center gap-1.5"
                 >
-                  <Show when={cmdCopied()} fallback={<Terminal class="size-3" />}>
+                  <Show when={cmdClipboard.copied()} fallback={<Terminal class="size-3" />}>
                     <Check class="size-3 text-emerald-500" />
                   </Show>
-                  <span class="hidden md:inline">{cmdCopied() ? "Copied!" : cliCommand()}</span>
+                  <span class="hidden md:inline">{cmdClipboard.copied() ? "Copied!" : cliCommand()}</span>
                 </TooltipTrigger>
                 <TooltipContent class="text-[10px] py-1 px-2">Copy CLI command</TooltipContent>
               </Tooltip>
