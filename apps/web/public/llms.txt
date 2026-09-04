@@ -140,83 +140,93 @@ When generating or editing SolidJS code using Nikala UI components and hooks, AI
 
 ---
 
-## 4. UI & Desktop Components Registry (69 Components)
+## 4. UI & Desktop Components Registry (79 Components)
 
 Below is the complete inventory of available Nikala UI components with exported JSX elements:
 
 1. **Accordion**: `Accordion`, `AccordionItem`, `AccordionTrigger`, `AccordionContent`
 2. **Alert**: `Alert`, `AlertTitle`, `AlertDescription`
-3. **Aspect Ratio**: `AspectRatio`
-4. **Avatar**: `Avatar`, `AvatarImage`, `AvatarFallback`
-5. **Badge**: `Badge`
-6. **Banner**: `Banner`
-7. **Breadcrumb**: `Breadcrumb`, `BreadcrumbList`, `BreadcrumbItem`, `BreadcrumbLink`, `BreadcrumbPage`, `BreadcrumbSeparator`, `BreadcrumbEllipsis`
-8. **Bubble**: `Bubble`
-9. **Button**: `Button`
+3. **Api Table**: `ApiTable`
+4. **Aspect Ratio**: `AspectRatio`
+5. **Avatar**: `Avatar`, `AvatarImage`, `AvatarFallback`
+6. **Badge**: `Badge`
+7. **Banner**: `Banner`
+8. **Breadcrumb**: `Breadcrumb`, `BreadcrumbList`, `BreadcrumbItem`, `BreadcrumbLink`, `BreadcrumbPage`, `BreadcrumbSeparator`, `BreadcrumbEllipsis`
+9. **Bubble**: `Bubble`
 10. **Button Group**: `ButtonGroup`
-11. **Card**: `Card`, `CardHeader`, `CardTitle`, `CardDescription`, `CardContent`, `CardFooter`
-12. **Checkbox**: `Checkbox`
-13. **Collapsible**: `Collapsible`, `CollapsibleTrigger`, `CollapsibleContent`
-14. **Combobox**: `Combobox`, `ComboboxControl`, `ComboboxInput`, `ComboboxTrigger`, `ComboboxContent`, `ComboboxItem`, `ComboboxGroup`
-15. **Command**: `Command`, `CommandDialog`, `CommandInput`, `CommandList`, `CommandEmpty`, `CommandGroup`, `CommandItem`, `CommandFooter`
-16. **Context Menu**: `ContextMenu`, `ContextMenuTrigger`, `ContextMenuContent`, `ContextMenuItem`, `ContextMenuCheckboxItem`, `ContextMenuRadioGroup`, `ContextMenuRadioItem`, `ContextMenuLabel`, `ContextMenuSeparator`, `ContextMenuShortcut`, `ContextMenuSub`, `ContextMenuSubTrigger`, `ContextMenuSubContent`
-17. **Dialog**: `Dialog`, `DialogTrigger`, `DialogOverlay`, `DialogContent`, `DialogHeader`, `DialogFooter`, `DialogTitle`, `DialogDescription`, `DialogClose`
-18. **Dropdown Menu**: `DropdownMenu`, `DropdownMenuTrigger`, `DropdownMenuContent`, `DropdownMenuItem`, `DropdownMenuLabel`, `DropdownMenuSeparator`, `DropdownMenuShortcut`, `DropdownMenuSub`, `DropdownMenuSubTrigger`, `DropdownMenuSubContent`, `DropdownMenuCheckboxItem`, `DropdownMenuRadioGroup`, `DropdownMenuRadioItem`
-19. **Dropzone**: `Dropzone`, `DropzoneTrigger`, `DropzoneZone`, `DropzoneContent`, `DropzonePreviewList`, `DropzonePreviewItem`
-20. **Empty**: `Empty`, `EmptyIcon`, `EmptyTitle`, `EmptyDescription`, `EmptyAction`
-21. **Field**: `Field`, `FieldLabel`, `FieldDescription`, `FieldError`
-22. **Footer**: `Footer`, `FooterContainer`, `FooterContent`, `FooterColumn`, `FooterColumnTitle`, `FooterColumnList`, `FooterLink`, `FooterBrand`, `FooterBottom`, `FooterCopyright`, `FooterSocials`
-23. **Form**: `Form`
-24. **Form Message**: `FormMessage`
-25. **Hover Card**: `HoverCard`, `HoverCardTrigger`, `HoverCardContent`, `HoverCardArrow`
-26. **Icon Button**: `IconButton`
-27. **Input**: `Input`
-28. **Input Group**: `InputGroup`, `InputGroupInput`, `InputGroupAddon`
-29. **Kbd**: `Kbd`, `KbdGroup`
-30. **Label**: `Label`
-31. **List**: `List`, `ListGroup`, `ListHeader`, `ListItem`
-32. **Logo**: `Logo`
-33. **Marker**: `Marker`, `MarkerBadge`, `MarkerTyping`
-34. **Marquee**: `Marquee`
-35. **Message**: `Message`, `MessageAvatar`, `MessageContent`, `MessageHeader`, `MessageFooter`, `MessageAction`
-36. **Navbar**: `Navbar`, `NavbarContainer`, `NavbarBrand`, `NavbarContent`, `NavbarItem`, `NavbarLink`, `NavbarActions`, `NavbarMobileDrawer`
-37. **Navigation Menu**: `NavigationMenu`, `NavigationMenuList`, `NavigationMenuItem`, `NavigationMenuTrigger`, `NavigationMenuContent`, `NavigationMenuLink`
-38. **Number Input**: `NumberInput`
-39. **Pagination**: `Pagination`, `PaginationContent`, `PaginationItem`, `PaginationLink`, `PaginationPrevious`, `PaginationNext`, `PaginationEllipsis`
-40. **Pin Input**: `PinInput`, `PinInputInput`, `PinInputLabel`
-41. **Popover**: `Popover`, `PopoverTrigger`, `PopoverContent`
-42. **Progress**: `Progress`, `ProgressIndicator`
-43. **Radio Group**: `RadioGroup`, `RadioGroupItem`, `RadioGroupItemLabel`
-44. **Rating**: `Rating`
-45. **Resizable**: `ResizableGroup`, `ResizablePanel`, `ResizableHandle`
-46. **Review Card**: `ReviewCard`, `ReviewHeader`, `ReviewProfile`, `ReviewAvatar`, `ReviewAuthor`, `ReviewRating`, `ReviewBody`, `ReviewFooter`
-47. **Scroll Area**: `ScrollArea`
-48. **Select**: `Select`, `SelectTrigger`, `SelectValue`, `SelectContent`, `SelectItem`
-49. **Separator**: `Separator`
-50. **Sheet / Drawer**: `Sheet`, `SheetTrigger`, `SheetOverlay`, `SheetContent`, `SheetHeader`, `SheetFooter`, `SheetTitle`, `SheetDescription`, `SheetClose`
-51. **Sidebar**: `SidebarProvider`, `Sidebar`, `SidebarTrigger`, `SidebarRail`, `SidebarInset`, `SidebarHeader`, `SidebarContent`, `SidebarFooter`, `SidebarSeparator`, `SidebarGroup`, `SidebarGroupLabel`, `SidebarGroupAction`, `SidebarGroupContent`, `SidebarMenu`, `SidebarMenuItem`, `SidebarMenuButton`, `SidebarMenuAction`, `SidebarMenuBadge`, `SidebarMenuSkeleton`, `SidebarMenuSub`, `SidebarMenuSubItem`, `SidebarMenuSubButton`, `useSidebar`
-52. **Skeleton**: `Skeleton`
-53. **Slider**: `Slider`, `SliderTrack`, `SliderFill`, `SliderThumb`, `SliderLabel`, `SliderValueLabel`
-54. **Spinner**: `Spinner`
-55. **Stat**: `Stat`, `StatGroup`, `StatHeader`, `StatLabel`, `StatIcon`, `StatValue`, `StatUnit`, `StatTrend`, `StatHelpText`
-56. **Status**: `Status`
-57. **Switch**: `Switch`
-58. **Table**: `Table`, `TableHeader`, `TableBody`, `TableFooter`, `TableRow`, `TableHead`, `TableCell`, `TableCaption`
-59. **Tabs**: `Tabs`, `TabsList`, `TabsTrigger`, `TabsContent`
-60. **Textarea**: `Textarea`
-61. **Theme Manager**: `ThemeProvider`, `ThemeScript`, `ThemeToggle`, `useTheme`
-62. **Timeline**: `Timeline`, `TimelineItem`, `TimelineSeparator`, `TimelineIndicator`, `TimelineConnector`, `TimelineContent`, `TimelineHeader`, `TimelineTitle`, `TimelineDescription`, `TimelineTime`
-63. **Titlebar**: `Titlebar`, `TitlebarControls`, `TitlebarTitle`, `TitlebarIcon`, `TitlebarActions`, `useTitlebar`
-64. **TitlebarTabs**: `TitlebarTabs`, `TitlebarTabList`, `TitlebarTab`, `TitlebarTabAddButton`, `useTitlebarTabs`
-65. **Toast**: `Toast`, `ToastTitle`, `ToastDescription`, `ToastCloseButton`, `ToastRegion`, `ToastList`, `showToast`
-66. **Toggle**: `Toggle`
-67. **Toggle Group**: `ToggleGroup`, `ToggleGroupItem`
-68. **Tooltip**: `Tooltip`, `TooltipTrigger`, `TooltipContent`, `TooltipArrow`
-69. **UpdaterModal / UpdaterDialog**: `UpdaterModal`
+11. **Button**: `Button`
+12. **Callout**: `Callout`, `CalloutTitle`, `CalloutDescription`
+13. **Card**: `Card`, `CardHeader`, `CardTitle`, `CardDescription`, `CardContent`, `CardFooter`
+14. **Checkbox**: `Checkbox`
+15. **Code Block**: `CodeBlock`
+16. **Code Group**: `CodeGroup`, `CodeGroupList`, `CodeGroupTrigger`, `CodeGroupContent`
+17. **Collapsible**: `Collapsible`, `CollapsibleTrigger`, `CollapsibleContent`
+18. **Combobox**: `Combobox`, `ComboboxControl`, `ComboboxInput`, `ComboboxTrigger`, `ComboboxContent`, `ComboboxItem`, `ComboboxGroup`
+19. **Command**: `Command`, `CommandDialog`, `CommandInput`, `CommandList`, `CommandEmpty`, `CommandGroup`, `CommandItem`, `CommandFooter`
+20. **Component Viewer**: `ComponentViewer`
+21. **Context Menu**: `ContextMenu`, `ContextMenuTrigger`, `ContextMenuContent`, `ContextMenuItem`, `ContextMenuCheckboxItem`, `ContextMenuRadioGroup`, `ContextMenuRadioItem`, `ContextMenuLabel`, `ContextMenuSeparator`, `ContextMenuShortcut`, `ContextMenuSub`, `ContextMenuSubTrigger`, `ContextMenuSubContent`
+22. **Dialog**: `Dialog`, `DialogTrigger`, `DialogOverlay`, `DialogContent`, `DialogHeader`, `DialogFooter`, `DialogTitle`, `DialogDescription`, `DialogClose`
+23. **Dropdown Menu**: `DropdownMenu`, `DropdownMenuTrigger`, `DropdownMenuContent`, `DropdownMenuItem`, `DropdownMenuLabel`, `DropdownMenuSeparator`, `DropdownMenuShortcut`, `DropdownMenuSub`, `DropdownMenuSubTrigger`, `DropdownMenuSubContent`, `DropdownMenuCheckboxItem`, `DropdownMenuRadioGroup`, `DropdownMenuRadioItem`
+24. **Dropzone**: `Dropzone`, `DropzoneTrigger`, `DropzoneZone`, `DropzoneContent`, `DropzonePreviewList`, `DropzonePreviewItem`
+25. **Empty**: `Empty`, `EmptyIcon`, `EmptyTitle`, `EmptyDescription`, `EmptyAction`
+26. **Field**: `Field`, `FieldLabel`, `FieldDescription`, `FieldError`
+27. **File Tree**: `FileTree`, `FileTreeFolder`, `FileTreeFile`
+28. **Footer**: `Footer`, `FooterContainer`, `FooterContent`, `FooterColumn`, `FooterColumnTitle`, `FooterColumnList`, `FooterLink`, `FooterBrand`, `FooterBottom`, `FooterCopyright`, `FooterSocials`
+29. **Form**: `Form`
+30. **Form Message**: `FormMessage`
+31. **Hover Card**: `HoverCard`, `HoverCardTrigger`, `HoverCardContent`, `HoverCardArrow`
+32. **Icon Button**: `IconButton`
+33. **Input**: `Input`
+34. **Input Group**: `InputGroup`, `InputGroupInput`, `InputGroupAddon`
+35. **Kbd**: `Kbd`, `KbdGroup`
+36. **Label**: `Label`
+37. **List**: `List`, `ListGroup`, `ListHeader`, `ListItem`
+38. **Logo**: `Logo`
+39. **Marker**: `Marker`, `MarkerBadge`, `MarkerTyping`
+40. **Marquee**: `Marquee`
+41. **Message**: `Message`, `MessageAvatar`, `MessageContent`, `MessageHeader`, `MessageFooter`, `MessageAction`
+42. **Navbar**: `Navbar`, `NavbarContainer`, `NavbarBrand`, `NavbarContent`, `NavbarItem`, `NavbarLink`, `NavbarActions`, `NavbarMobileDrawer`
+43. **Navigation Menu**: `NavigationMenu`, `NavigationMenuList`, `NavigationMenuItem`, `NavigationMenuTrigger`, `NavigationMenuContent`, `NavigationMenuLink`
+44. **Number Input**: `NumberInput`
+45. **Package Manager Tabs**: `PackageManagerTabs`
+46. **Pagination**: `Pagination`, `PaginationContent`, `PaginationItem`, `PaginationLink`, `PaginationPrevious`, `PaginationNext`, `PaginationEllipsis`
+47. **Pin Input**: `PinInput`, `PinInputInput`, `PinInputLabel`
+48. **Popover**: `Popover`, `PopoverTrigger`, `PopoverContent`
+49. **Progress**: `Progress`, `ProgressIndicator`
+50. **Radio Group**: `RadioGroup`, `RadioGroupItem`, `RadioGroupItemLabel`
+51. **Rating**: `Rating`
+52. **Resizable**: `ResizableGroup`, `ResizablePanel`, `ResizableHandle`
+53. **Review Card**: `ReviewCard`, `ReviewHeader`, `ReviewProfile`, `ReviewAvatar`, `ReviewAuthor`, `ReviewRating`, `ReviewBody`, `ReviewFooter`
+54. **Rich Text Editor**: `RichTextEditor`, `RichTextToolbar`, `RichTextButton`
+55. **Scroll Area**: `ScrollArea`
+56. **Section Heading**: `SectionHeading`
+57. **Select**: `Select`, `SelectTrigger`, `SelectValue`, `SelectContent`, `SelectItem`
+58. **Separator**: `Separator`
+59. **Sheet / Drawer**: `Sheet`, `SheetTrigger`, `SheetOverlay`, `SheetContent`, `SheetHeader`, `SheetFooter`, `SheetTitle`, `SheetDescription`, `SheetClose`
+60. **Sidebar**: `SidebarProvider`, `Sidebar`, `SidebarTrigger`, `SidebarRail`, `SidebarInset`, `SidebarHeader`, `SidebarContent`, `SidebarFooter`, `SidebarSeparator`, `SidebarGroup`, `SidebarGroupLabel`, `SidebarGroupAction`, `SidebarGroupContent`, `SidebarMenu`, `SidebarMenuItem`, `SidebarMenuButton`, `SidebarMenuAction`, `SidebarMenuBadge`, `SidebarMenuSkeleton`, `SidebarMenuSub`, `SidebarMenuSubItem`, `SidebarMenuSubButton`, `useSidebar`
+61. **Skeleton**: `Skeleton`
+62. **Slider**: `Slider`, `SliderTrack`, `SliderFill`, `SliderThumb`, `SliderLabel`, `SliderValueLabel`
+63. **Spinner**: `Spinner`
+64. **Stat**: `Stat`, `StatGroup`, `StatHeader`, `StatLabel`, `StatIcon`, `StatValue`, `StatUnit`, `StatTrend`, `StatHelpText`
+65. **Status**: `Status`
+66. **Steps**: `Steps`, `Step`, `StepTitle`, `StepDescription`
+67. **Switch**: `Switch`
+68. **Table**: `Table`, `TableHeader`, `TableBody`, `TableFooter`, `TableRow`, `TableHead`, `TableCell`, `TableCaption`
+69. **Tabs**: `Tabs`, `TabsList`, `TabsTrigger`, `TabsContent`
+70. **Textarea**: `Textarea`
+71. **Theme Manager**: `ThemeProvider`, `ThemeScript`, `ThemeToggle`, `useTheme`
+72. **Timeline**: `Timeline`, `TimelineItem`, `TimelineSeparator`, `TimelineIndicator`, `TimelineConnector`, `TimelineContent`, `TimelineHeader`, `TimelineTitle`, `TimelineDescription`, `TimelineTime`
+73. **Titlebar**: `Titlebar`, `TitlebarControls`, `TitlebarTitle`, `TitlebarIcon`, `TitlebarActions`, `useTitlebar`
+74. **TitlebarTabs**: `TitlebarTabs`, `TitlebarTabList`, `TitlebarTab`, `TitlebarTabAddButton`, `useTitlebarTabs`
+75. **Toast**: `Toast`, `ToastTitle`, `ToastDescription`, `ToastCloseButton`, `ToastRegion`, `ToastList`, `showToast`
+76. **Toggle**: `Toggle`
+77. **Toggle Group**: `ToggleGroup`, `ToggleGroupItem`
+78. **Tooltip**: `Tooltip`, `TooltipTrigger`, `TooltipContent`, `TooltipArrow`
+79. **UpdaterModal / UpdaterDialog**: `UpdaterModal`
 
 ---
 
-## 5. Reactive Primitives / Hooks Registry (47 Hooks)
+## 5. Reactive Primitives / Hooks Registry (48 Hooks)
 
 Nikala UI primitives are written directly to `src/hooks/<hook-name>.ts`. Below is the complete catalog:
 
@@ -263,10 +273,11 @@ Nikala UI primitives are written directly to `src/hooks/<hook-name>.ts`. Below i
 41. **`createStorage`** — Reactive `createLocalStorage` and `createSessionStorage` with cross-tab sync.
 42. **`createTauriWindow`** — Fine-grained reactive signals and actions for Tauri desktop windows (`isMaximized()`, `isMinimized()`, `isFullscreen()`, `isFocused()`, `minimize()`, `maximize()`, `toggleMaximize()`, `close()`, `startDragging()`).
 43. **`createTimer`** — Provides interval timers, stopwatch counters, and formatted countdowns.
-44. **`createUndoRedo`** — Manages undo/redo state history stacks and pointer state resets.
-45. **`createWebNotification`** — Sends native browser desktop notifications and handles permission requests.
-46. **`createWebSocket`** — WebSocket client connection manager with auto-reconnect and message parsing.
-47. **`createWindowSize`** — Tracks window inner width and inner height reactively.
+44. **`createTiptapEditor`** — Headless reactive TipTap rich text editor integration for SolidJS (`editor()`, `isActive()`, `toggleBold()`, `toggleItalic()`, `setHeading()`, etc.).
+45. **`createUndoRedo`** — Manages undo/redo state history stacks and pointer state resets.
+46. **`createWebNotification`** — Sends native browser desktop notifications and handles permission requests.
+47. **`createWebSocket`** — WebSocket client connection manager with auto-reconnect and message parsing.
+48. **`createWindowSize`** — Tracks window inner width and inner height reactively.
 
 ---
 
@@ -371,9 +382,10 @@ createGlobalShortcut({
 - Tauri v2 Setup Guide: https://nikala.dev/docs/desktop/setup
 - Live Interactive Playground: https://nikala.dev/playground
 
-### All Component Pages (69 Components)
+### All Component Pages (79 Components)
 - Accordion: https://nikala.dev/docs/components/accordion
 - Alert: https://nikala.dev/docs/components/alert
+- Api Table: https://nikala.dev/docs/components/api-table
 - Aspect Ratio: https://nikala.dev/docs/components/aspect-ratio
 - Avatar: https://nikala.dev/docs/components/avatar
 - Badge: https://nikala.dev/docs/components/badge
@@ -382,17 +394,22 @@ createGlobalShortcut({
 - Bubble: https://nikala.dev/docs/components/bubble
 - Button Group: https://nikala.dev/docs/components/button-group
 - Button: https://nikala.dev/docs/components/button
+- Callout: https://nikala.dev/docs/components/callout
 - Card: https://nikala.dev/docs/components/card
 - Checkbox: https://nikala.dev/docs/components/checkbox
+- Code Block: https://nikala.dev/docs/components/code-block
+- Code Group: https://nikala.dev/docs/components/code-group
 - Collapsible: https://nikala.dev/docs/components/collapsible
 - Combobox: https://nikala.dev/docs/components/combobox
 - Command: https://nikala.dev/docs/components/command
+- Component Viewer: https://nikala.dev/docs/components/component-viewer
 - Context Menu: https://nikala.dev/docs/components/context-menu
 - Dialog: https://nikala.dev/docs/components/dialog
 - Dropdown Menu: https://nikala.dev/docs/components/dropdown-menu
 - Dropzone: https://nikala.dev/docs/components/dropzone
 - Empty: https://nikala.dev/docs/components/empty
 - Field: https://nikala.dev/docs/components/field
+- File Tree: https://nikala.dev/docs/components/file-tree
 - Footer: https://nikala.dev/docs/components/footer
 - Form Message: https://nikala.dev/docs/components/form-message
 - Form: https://nikala.dev/docs/components/form
@@ -409,6 +426,7 @@ createGlobalShortcut({
 - Navbar: https://nikala.dev/docs/components/navbar
 - Navigation Menu: https://nikala.dev/docs/components/navigation-menu
 - Number Input: https://nikala.dev/docs/components/number-input
+- Package Manager Tabs: https://nikala.dev/docs/components/package-manager-tabs
 - Pagination: https://nikala.dev/docs/components/pagination
 - Pin Input: https://nikala.dev/docs/components/pin-input
 - Popover: https://nikala.dev/docs/components/popover
@@ -417,7 +435,9 @@ createGlobalShortcut({
 - Rating: https://nikala.dev/docs/components/rating
 - Resizable: https://nikala.dev/docs/components/resizable
 - Review Card: https://nikala.dev/docs/components/review-card
+- Rich Text Editor: https://nikala.dev/docs/components/rich-text-editor
 - Scroll Area: https://nikala.dev/docs/components/scroll-area
+- Section Heading: https://nikala.dev/docs/components/section-heading
 - Select: https://nikala.dev/docs/components/select
 - Separator: https://nikala.dev/docs/components/separator
 - Sheet: https://nikala.dev/docs/components/sheet
@@ -427,6 +447,7 @@ createGlobalShortcut({
 - Spinner: https://nikala.dev/docs/components/spinner
 - Stat: https://nikala.dev/docs/components/stat
 - Status: https://nikala.dev/docs/components/status
+- Steps: https://nikala.dev/docs/components/steps
 - Switch: https://nikala.dev/docs/components/switch
 - Table: https://nikala.dev/docs/components/table
 - Tabs: https://nikala.dev/docs/components/tabs
@@ -441,7 +462,7 @@ createGlobalShortcut({
 - Tooltip: https://nikala.dev/docs/components/tooltip
 - UpdaterModal / UpdaterDialog: https://nikala.dev/docs/desktop/updater-dialog
 
-### All Reactive Hooks & Primitives (47 Hooks)
+### All Reactive Hooks & Primitives (48 Hooks)
 - createActiveElement: https://nikala.dev/docs/hooks/create-active-element
 - createAppUpdater: https://nikala.dev/docs/desktop/create-app-updater
 - createAudio: https://nikala.dev/docs/hooks/create-audio
@@ -485,6 +506,7 @@ createGlobalShortcut({
 - createStorage: https://nikala.dev/docs/hooks/create-storage
 - createTauriWindow: https://nikala.dev/docs/desktop/create-tauri-window
 - createTimer: https://nikala.dev/docs/hooks/create-timer
+- createTiptapEditor: https://nikala.dev/docs/hooks/create-tiptap-editor
 - createUndoRedo: https://nikala.dev/docs/hooks/create-undo-redo
 - createWebNotification: https://nikala.dev/docs/hooks/create-web-notification
 - createWebSocket: https://nikala.dev/docs/hooks/create-websocket
