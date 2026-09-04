@@ -42,6 +42,7 @@ function updateJsonVersion(filePath: string) {
 // 2. Update package.json files
 updateJsonVersion("packages/cli/package.json");
 updateJsonVersion("packages/core/package.json");
+updateJsonVersion("packages/docs/package.json");
 updateJsonVersion("packages/hooks/package.json");
 updateJsonVersion("packages/mcp/package.json");
 
