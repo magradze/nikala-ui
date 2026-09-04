@@ -8,6 +8,9 @@
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "paths": {
+      "@/components/ui/*": ["../core/src/registry/components/ui/*"],
+      "@/hooks/*": ["../hooks/src/*"],
+      "@/lib/*": ["../core/src/lib/*"],
       "@/*": ["./src/*"]
     },
     "strict": true,

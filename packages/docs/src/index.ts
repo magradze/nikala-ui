@@ -6,6 +6,7 @@ export * from "./core/route-tree.js";
 export * from "./mdx/compiler.js";
 export * from "./mdx/highlighter.js";
 export * from "./components/mdx-components.js";
+export * from "./themes/index.js";
 
 import type { DocsConfig } from "./types.js";
 

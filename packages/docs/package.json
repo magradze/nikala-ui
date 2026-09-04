@@ -18,8 +18,16 @@
       "import": "./dist/plugin/index.js"
     },
     "./theme": {
-      "types": "./dist/theme/index.d.ts",
-      "import": "./dist/theme/index.js"
+      "types": "./dist/themes/default/index.d.ts",
+      "import": "./dist/themes/default/index.js"
+    },
+    "./themes": {
+      "types": "./dist/themes/index.d.ts",
+      "import": "./dist/themes/index.js"
+    },
+    "./themes/*": {
+      "types": "./dist/themes/*/index.d.ts",
+      "import": "./dist/themes/*/index.js"
     },
     "./components": {
       "types": "./dist/components/index.d.ts",
@@ -48,8 +56,10 @@
     "@nikala-ui/core": "workspace:*",
     "@nikala-ui/hooks": "workspace:*",
     "chokidar": "^4.0.3",
+    "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "commander": "^15.0.0",
+    "corvu": "^0.7.2",
     "fs-extra": "^11.3.6",
     "gray-matter": "^4.0.3",
     "lucide-solid": "^1.28.0",

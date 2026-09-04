@@ -1,7 +1,19 @@
-// packages/docs/src/components/mdx-components.tsx
 import { splitProps, type JSX } from "solid-js";
 import { clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
+import {
+  Container,
+  Pager,
+  PagerLink,
+  Callout,
+  Badge,
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardContent,
+  CardFooter,
+} from "@nikala-ui/core";
 
 function cn(...inputs: any[]) {
   return twMerge(clsx(inputs));
@@ -195,4 +207,16 @@ export const defaultMdxComponents = {
   td: MdxTd,
   hr: MdxHr,
   code: MdxCode,
+  // Nikala UI Components
+  Container,
+  Pager,
+  PagerLink,
+  Callout,
+  Badge,
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardContent,
+  CardFooter,
 };
