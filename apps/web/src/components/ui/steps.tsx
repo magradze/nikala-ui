@@ -6,30 +6,41 @@ import {
   type JSX,
   type ParentComponent,
 } from "solid-js";
-import { cva, type VariantProps } from "class-variance-authority";
+import { Badge, type BadgeProps } from "@/components/ui/badge";
 import { cn } from "@/lib/cn";
 
-export const stepBadgeVariants = cva(
-  "flex size-7 items-center justify-center rounded-lg border font-mono text-xs font-semibold shadow-2xs select-none transition-colors",
-  {
-    variants: {
-      variant: {
-        default: "border-border/80 bg-background text-foreground",
-        primary: "border-primary bg-primary text-primary-foreground shadow-xs",
-        info: "border-sky-500/40 bg-background text-sky-600 dark:text-sky-400",
-        success: "border-emerald-500/40 bg-background text-emerald-600 dark:text-emerald-400",
-        warning: "border-amber-500/40 bg-background text-amber-600 dark:text-amber-400",
-        danger: "border-rose-500/40 bg-background text-rose-600 dark:text-rose-400",
-        purple: "border-purple-500/40 bg-background text-purple-600 dark:text-purple-400",
-      },
-    },
-    defaultVariants: {
-      variant: "default",
-    },
-  }
-);
+export type StepVariant =
+  | "default"
+  | "primary"
+  | "info"
+  | "success"
+  | "warning"
+  | "danger"
+  | "secondary"
+  | "outline"
+  | "destructive"
+  | "purple";
 
-export type StepVariant = NonNullable<VariantProps<typeof stepBadgeVariants>["variant"]>;
+function toBadgeVariant(variant?: StepVariant): NonNullable<BadgeProps["variant"]> {
+  switch (variant) {
+    case "primary":
+      return "default";
+    case "danger":
+      return "destructive";
+    case "default":
+      return "outline";
+    case "info":
+      return "info";
+    case "success":
+      return "success";
+    case "warning":
+      return "warning";
+    case "secondary":
+      return "secondary";
+    default:
+      return "outline";
+  }
+}
 export type StepOrientation = "horizontal" | "vertical";
 
 interface StepsContextValue {
@@ -78,13 +89,13 @@ export const Steps: ParentComponent<StepsProps> = (props) => {
   );
 };
 
-export interface StepProps
-  extends JSX.HTMLAttributes<HTMLDivElement>,
-    VariantProps<typeof stepBadgeVariants> {
+export interface StepProps extends JSX.HTMLAttributes<HTMLDivElement> {
   /** Optional custom step number, icon, or label to override automatic CSS counter */
   step?: string | number | JSX.Element;
   /** Optional step title rendered at the top of the step */
   title?: string;
+  /** Step color variant */
+  variant?: StepVariant;
   class?: string;
 }
 
@@ -101,19 +112,17 @@ export const Step: ParentComponent<StepProps> = (props) => {
       fallback={
         <div class={cn("relative", local.class)} {...rest}>
           {/* Numbered Step Badge with geometric center on left vertical border line */}
-          <div
+          <Badge
+            variant={toBadgeVariant(effectiveVariant())}
             class={cn(
-              stepBadgeVariants({ variant: effectiveVariant() }),
-              "absolute -left-[2.875rem] top-0",
-              "[counter-increment:step] before:content-[counter(step)]"
+              "absolute -left-[2.875rem] top-0 size-7 p-0 flex items-center justify-center rounded-lg font-mono text-xs font-semibold shadow-2xs select-none",
+              !local.step && "[counter-increment:step] before:content-[counter(step)]"
             )}
           >
             <Show when={local.step}>
-              <span class="absolute inset-0 flex items-center justify-center rounded-lg font-mono text-xs font-semibold">
-                {local.step}
-              </span>
+              {local.step}
             </Show>
-          </div>
+          </Badge>
 
           {/* Step Title Header */}
           <Show when={local.title}>
@@ -131,18 +140,17 @@ export const Step: ParentComponent<StepProps> = (props) => {
     >
       <div class={cn("flex-1 flex flex-col items-center text-center relative z-10 px-2", local.class)} {...rest}>
         {/* Step Badge sitting on top of continuous parent rail */}
-        <div
+        <Badge
+          variant={toBadgeVariant(effectiveVariant())}
           class={cn(
-            stepBadgeVariants({ variant: effectiveVariant() }),
-            "mb-2.5 [counter-increment:step] before:content-[counter(step)]"
+            "mb-2.5 size-7 p-0 flex items-center justify-center rounded-lg font-mono text-xs font-semibold shadow-2xs select-none",
+            !local.step && "[counter-increment:step] before:content-[counter(step)]"
           )}
         >
           <Show when={local.step}>
-            <span class="absolute inset-0 flex items-center justify-center rounded-lg font-mono text-xs font-semibold">
-              {local.step}
-            </span>
+            {local.step}
           </Show>
-        </div>
+        </Badge>
 
         {/* Step Title Header */}
         <Show when={local.title}>
