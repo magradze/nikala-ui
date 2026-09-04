@@ -58,6 +58,7 @@ export const ApiTable: Component<ApiTableProps> = (props) => {
       {/* Header */}
       <Show when={local.title}>
         <SectionHeading
+          variant="compact"
           title={local.title!}
           badge={local.badge || "Props"}
           description={local.description}

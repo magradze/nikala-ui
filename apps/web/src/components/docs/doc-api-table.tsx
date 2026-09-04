@@ -23,6 +23,7 @@ export const DocApiTable: Component<DocApiTableProps> = (props) => {
       {/* Header */}
       <Show when={local.title}>
         <SectionHeading
+          variant="compact"
           title={local.title!}
           badge="Props"
           description={local.description}

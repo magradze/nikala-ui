@@ -8,11 +8,12 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/cn";
 
-const headingVariants = cva("font-bold tracking-tight", {
+const headingVariants = cva("tracking-tight", {
   variants: {
     variant: {
-      page: "text-3xl sm:text-4xl",
-      section: "text-base font-semibold",
+      page: "text-3xl sm:text-4xl font-bold",
+      section: "text-2xl font-semibold border-b border-border/50 pb-2",
+      compact: "text-base font-semibold",
     },
   },
   defaultVariants: {
@@ -24,7 +25,8 @@ const descriptionVariants = cva("text-muted-foreground leading-relaxed", {
   variants: {
     variant: {
       page: "text-lg",
-      section: "text-xs",
+      section: "text-sm",
+      compact: "text-xs",
     },
   },
   defaultVariants: {
@@ -48,7 +50,7 @@ export interface SectionHeadingProps
 
 /**
  * Reusable heading block with title, optional badge, and description.
- * Use `variant="page"` for top-level page headers and `variant="section"` for sub-section headers.
+ * Supports "page" (h1), "section" (h2 with divider), and "compact" (h3) variants.
  */
 export const SectionHeading: Component<SectionHeadingProps> = (props) => {
   const [local, rest] = splitProps(props, [
@@ -64,18 +66,23 @@ export const SectionHeading: Component<SectionHeadingProps> = (props) => {
 
   return (
     <div class={cn("space-y-2", local.class)} {...rest}>
-      <div class="flex items-center gap-2">
-        <Show
-          when={v() === "page"}
-          fallback={
-            <h3 class={headingVariants({ variant: v() })}>
-              {local.title}
-            </h3>
-          }
-        >
+      <div class={cn("flex items-center gap-2", v() === "section" && "w-full")}>
+        <Show when={v() === "page"}>
           <h1 class={headingVariants({ variant: v() })}>
             {local.title}
           </h1>
+        </Show>
+
+        <Show when={v() === "section"}>
+          <h2 class={cn("w-full", headingVariants({ variant: v() }))}>
+            {local.title}
+          </h2>
+        </Show>
+
+        <Show when={v() === "compact"}>
+          <h3 class={headingVariants({ variant: v() })}>
+            {local.title}
+          </h3>
         </Show>
 
         <Show when={local.badge}>
