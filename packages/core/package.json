@@ -23,6 +23,10 @@
     "./lib/*": {
       "types": "./src/lib/*.ts",
       "import": "./src/lib/*.ts"
+    },
+    "./providers/*": {
+      "types": "./src/registry/providers/*.tsx",
+      "import": "./src/registry/providers/*.tsx"
     }
   },
   "publishConfig": {

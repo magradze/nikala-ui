@@ -2,6 +2,11 @@
 export * from "./registry/index.js";
 export * from "./lib/cn.js";
 
+// Providers & Theme
+export * from "./registry/providers/theme-provider.jsx";
+export * from "./registry/providers/theme-transitions.js";
+export * from "./registry/providers/theme-script.jsx";
+
 // UI Primitives & Components
 export * from "./registry/components/ui/accordion.jsx";
 export * from "./registry/components/ui/alert.jsx";
