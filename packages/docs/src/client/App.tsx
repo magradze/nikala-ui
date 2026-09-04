@@ -183,7 +183,9 @@ export const App: Component = () => {
         tree={sidebarTree}
         currentPage={currentPage()}
         breadcrumbs={breadcrumbs()}
-        toc={toc()}
+        // Mount the TOC only after the lazy MDX module has rendered its
+        // headings; the Nikala scroll-spy observes headings in onMount.
+        toc={pageModule() ? toc() : []}
         prev={prevPage()}
         next={nextPage()}
       >

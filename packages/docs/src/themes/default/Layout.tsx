@@ -77,7 +77,7 @@ export const DocsLayout: ParentComponent<DocsLayoutProps> = (props) => {
             </Container>
 
             {/* Right Column: Table of Contents */}
-            <Show when={showToc()}>
+            <Show when={showToc() && local.currentPage?.url} keyed>
               <Container as="aside" size="sm" class="hidden xl:block w-64 shrink-0 px-0 sticky top-14 h-[calc(100vh-3.5rem)]">
                 <DocsTableOfContents items={local.toc!} />
               </Container>

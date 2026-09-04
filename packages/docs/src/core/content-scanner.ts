@@ -8,13 +8,17 @@ export function slugify(text: string): string {
   return text
     .toLowerCase()
     .trim()
-    .replace(/[^\w\s-]/g, "")
-    .replace(/[\s_-]+/g, "-")
+    // Keep the same ordering as rehype-slug/github-slugger: whitespace is
+    // converted before punctuation is removed. This preserves IDs such as
+    // `a--b` for headings containing `&` or `/`.
+    .replace(/\s/g, "-")
+    .replace(/[^\w-]/g, "")
     .replace(/^-+|-+$/g, "");
 }
 
 export function extractToc(content: string): TocItem[] {
   const headings: TocItem[] = [];
+  const slugCounts = new Map<string, number>();
   const lines = content.split("\n");
   let inCodeBlock = false;
 
@@ -38,8 +42,11 @@ export function extractToc(content: string): TocItem[] {
       text = text.replace(/\[([^\]]+)\]\([^)]+\)/g, "$1");
       text = text.replace(/[*_`]/g, "");
 
-      const id = slugify(text);
-      if (id) {
+      const baseId = slugify(text);
+      if (baseId) {
+        const occurrence = slugCounts.get(baseId) ?? 0;
+        const id = occurrence === 0 ? baseId : `${baseId}-${occurrence}`;
+        slugCounts.set(baseId, occurrence + 1);
         headings.push({
           id,
           text,

@@ -12,8 +12,8 @@ describe("content-scanner", () => {
   describe("slugify", () => {
     test("converts title to kebab-case slug", () => {
       expect(slugify("Getting Started")).toBe("getting-started");
-      expect(slugify("Installation & Setup")).toBe("installation-setup");
-      expect(slugify("Hello   World---Test")).toBe("hello-world-test");
+      expect(slugify("Installation & Setup")).toBe("installation--setup");
+      expect(slugify("Hello   World---Test")).toBe("hello---world---test");
     });
   });
 
@@ -76,6 +76,17 @@ API table.
       expect(toc[1]).toEqual({ id: "quick-start", text: "Quick Start", depth: 3 });
       expect(toc[2]).toEqual({ id: "api-reference", text: "API Reference", depth: 2 });
     });
+
+    test("assigns unique ids to repeated headings", () => {
+      const toc = extractToc("## Usage\n## Arguments\n## Usage\n### Usage");
+      expect(toc.map((item) => item.id)).toEqual([
+        "usage",
+        "arguments",
+        "usage-1",
+        "usage-2",
+      ]);
+    });
+
   });
 
   describe("scanContent", () => {
