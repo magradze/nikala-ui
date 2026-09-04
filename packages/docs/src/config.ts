@@ -40,6 +40,8 @@ export function defineDocsConfig(config: DocsConfig): DocsConfig {
 }
 
 const CONFIG_FILENAMES = [
+  "nikala.config.ts",
+  "nikala.config.js",
   "nikala.docs.config.ts",
   "nikala.docs.config.js",
   "nikala.docs.config.mjs",
@@ -47,6 +49,8 @@ const CONFIG_FILENAMES = [
   "docs.config.js",
   "docs.config.mjs",
 ];
+
+export const loadConfig = resolveDocsConfig;
 
 export async function resolveDocsConfig(cwd: string = process.cwd()): Promise<DocsConfig> {
   for (const filename of CONFIG_FILENAMES) {
