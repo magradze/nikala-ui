@@ -13,9 +13,20 @@ import {
 import { Dynamic } from "solid-js/web";
 import { ThemeProvider } from "@nikala-ui/core";
 import { defaultTheme } from "../themes/default/index.js";
-import type { PageData, TocItem } from "../types.js";
+import type { PageData, SidebarItem, TocItem } from "../types.js";
 import type { BreadcrumbItemData } from "../themes/types.js";
 import { defaultMdxComponents } from "../components/mdx-components.jsx";
+
+function flattenSidebarItems(items: SidebarItem[]): Array<{ title: string; href: string }> {
+  const flattened: Array<{ title: string; href: string }> = [];
+
+  for (const item of items) {
+    if (item.href) flattened.push({ title: item.title, href: item.href });
+    if (item.items) flattened.push(...flattenSidebarItems(item.items));
+  }
+
+  return flattened;
+}
 
 // Virtual modules resolved by Vite plugin
 // @ts-ignore
@@ -142,9 +153,17 @@ export const App: Component = () => {
     return currentPage()?.toc || [];
   });
 
-  // Sequential previous and next links from flattened pages list
+  // Keep previous/next navigation in the same order as the sidebar tree.
   const flatPages = createMemo<PageData[]>(() => {
-    return allPages.filter((p: PageData) => p.frontmatter?.hidden !== true);
+    const visiblePages = new Map(
+      allPages
+        .filter((p: PageData) => p.frontmatter?.hidden !== true)
+        .map((page: PageData) => [page.url, page] as const)
+    );
+
+    return flattenSidebarItems(sidebarTree)
+      .map((item) => visiblePages.get(item.href))
+      .filter((page): page is PageData => Boolean(page));
   });
 
   const prevPage = createMemo(() => {

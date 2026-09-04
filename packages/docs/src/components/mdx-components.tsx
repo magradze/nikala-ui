@@ -1,8 +1,10 @@
 import { splitProps, type JSX } from "solid-js";
+import { Plus } from "lucide-solid";
 import { clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 import {
   Badge,
+  Button,
   Callout,
   Card,
   CardContent,
@@ -16,9 +18,11 @@ import {
   CodeGroupList,
   CodeGroupTrigger,
   Container,
+  ComponentViewer,
   FileTree,
   FileTreeFile,
   FileTreeFolder,
+  ApiTable,
   Pager,
   PagerLink,
   PackageManagerTabs,
@@ -164,7 +168,7 @@ export const defaultMdxComponents = {
   del: (props: HtmlProps<HTMLModElement>) => <del {...props} class="line-through opacity-70" />,
   s: (props: HtmlProps<HTMLModElement>) => <del {...props} class="line-through opacity-70" />,
   img: MdxImg, sup: MdxSup, sub: MdxSub,
-  Container, Pager, PagerLink, Callout, Badge,
+  Container, Pager, PagerLink, Callout, Badge, Button, Plus, ComponentViewer, ApiTable,
   Table, TableHeader, TableBody, TableRow, TableHead, TableCell,
   Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter,
   CodeBlock, CodeGroup, CodeGroupList, CodeGroupTrigger, CodeGroupContent,

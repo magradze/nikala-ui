@@ -10,6 +10,7 @@ export * from "./registry/providers/theme-script.jsx";
 // UI Primitives & Components
 export * from "./registry/components/ui/accordion.jsx";
 export * from "./registry/components/ui/alert.jsx";
+export * from "./registry/components/ui/api-table.jsx";
 export * from "./registry/components/ui/badge.jsx";
 export * from "./registry/components/ui/breadcrumb.jsx";
 export * from "./registry/components/ui/button.jsx";
@@ -17,6 +18,7 @@ export * from "./registry/components/ui/callout.jsx";
 export * from "./registry/components/ui/card.jsx";
 export * from "./registry/components/ui/code-block.jsx";
 export * from "./registry/components/ui/code-group.jsx";
+export * from "./registry/components/ui/component-viewer.jsx";
 export * from "./registry/components/ui/collapsible.jsx";
 export * from "./registry/components/ui/command.jsx";
 export * from "./registry/components/ui/container.jsx";
