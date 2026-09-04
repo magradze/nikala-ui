@@ -11,10 +11,11 @@ import {
   type Component,
 } from "solid-js";
 import { Dynamic } from "solid-js/web";
+import { ThemeProvider } from "@nikala-ui/core";
 import { defaultTheme } from "../themes/default/index.js";
 import type { PageData, TocItem } from "../types.js";
 import type { BreadcrumbItemData } from "../themes/types.js";
-import { defaultMdxComponents } from "../components/mdx-components.js";
+import { defaultMdxComponents } from "../components/mdx-components.jsx";
 
 // Virtual modules resolved by Vite plugin
 // @ts-ignore
@@ -176,30 +177,32 @@ export const App: Component = () => {
   );
 
   return (
-    <defaultTheme.Layout
-      config={config}
-      tree={sidebarTree}
-      currentPage={currentPage()}
-      breadcrumbs={breadcrumbs()}
-      toc={toc()}
-      prev={prevPage()}
-      next={nextPage()}
-    >
-      <Suspense fallback={<div class="p-8 text-sm text-muted-foreground">Loading documentation...</div>}>
-        <Show
-          when={pageModule()}
-          fallback={
-            <div class="space-y-4 py-8">
-              <h1 class="text-2xl font-bold">Page Not Found</h1>
-              <p class="text-muted-foreground text-sm">The documentation article could not be found.</p>
-            </div>
-          }
-        >
-          {(mod) => (
-            <Dynamic component={mod().default} components={defaultMdxComponents} />
-          )}
-        </Show>
-      </Suspense>
-    </defaultTheme.Layout>
+    <ThemeProvider defaultTheme="system" storageKey="nikala-theme">
+      <defaultTheme.Layout
+        config={config}
+        tree={sidebarTree}
+        currentPage={currentPage()}
+        breadcrumbs={breadcrumbs()}
+        toc={toc()}
+        prev={prevPage()}
+        next={nextPage()}
+      >
+        <Suspense fallback={<div class="p-8 text-sm text-muted-foreground">Loading documentation...</div>}>
+          <Show
+            when={pageModule()}
+            fallback={
+              <div class="space-y-4 py-8">
+                <h1 class="text-2xl font-bold">Page Not Found</h1>
+                <p class="text-muted-foreground text-sm">The documentation article could not be found.</p>
+              </div>
+            }
+          >
+            {(mod) => (
+              <Dynamic component={mod().default} components={defaultMdxComponents} />
+            )}
+          </Show>
+        </Suspense>
+      </defaultTheme.Layout>
+    </ThemeProvider>
   );
 };

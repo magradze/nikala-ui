@@ -1,19 +1,19 @@
 // packages/docs/src/themes/default/index.ts
-export * from "./Layout.js";
-export * from "./Navbar.js";
-export * from "./Sidebar.js";
-export * from "./TableOfContents.js";
-export * from "./Breadcrumbs.js";
-export * from "./Pager.js";
-export * from "./SearchDialog.js";
+export * from "./Layout.jsx";
+export * from "./Navbar.jsx";
+export * from "./Sidebar.jsx";
+export * from "./TableOfContents.jsx";
+export * from "./Breadcrumbs.jsx";
+export * from "./Pager.jsx";
+export * from "./SearchDialog.jsx";
 
-import { DocsLayout } from "./Layout.js";
-import { DocsNavbar } from "./Navbar.js";
-import { DocsSidebar } from "./Sidebar.js";
-import { DocsTableOfContents } from "./TableOfContents.js";
-import { DocsBreadcrumbs } from "./Breadcrumbs.js";
-import { DocsPager, DocsPagination } from "./Pager.js";
-import { DocsSearchDialog } from "./SearchDialog.js";
+import { DocsLayout } from "./Layout.jsx";
+import { DocsNavbar } from "./Navbar.jsx";
+import { DocsSidebar } from "./Sidebar.jsx";
+import { DocsTableOfContents } from "./TableOfContents.jsx";
+import { DocsBreadcrumbs } from "./Breadcrumbs.jsx";
+import { DocsPager, DocsPagination } from "./Pager.jsx";
+import { DocsSearchDialog } from "./SearchDialog.jsx";
 import type { DocsThemeContract } from "../types.js";
 
 export const defaultTheme: DocsThemeContract = {

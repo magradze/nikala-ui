@@ -27,11 +27,12 @@ export const DocsNavbar: Component<DocsNavbarProps> = (props) => {
   return (
     <Navbar
       variant="default"
+      maxWidth="full"
       isSticky={true}
       class={local.class}
       {...rest}
     >
-      <NavbarContainer class="h-14 px-4 sm:px-6">
+      <NavbarContainer class="h-14 px-4 sm:px-6" >
         <NavbarContent justify="start" class="gap-3">
           <SidebarTrigger class="md:hidden" />
           <NavbarBrand href={logoHref()} class="text-base font-bold tracking-tight">

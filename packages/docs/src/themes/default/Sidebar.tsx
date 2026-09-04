@@ -17,6 +17,7 @@ import {
   Collapsible,
   CollapsibleTrigger,
   CollapsibleContent,
+  cn,
 } from "@nikala-ui/core";
 import { ChevronRight } from "lucide-solid";
 import type { DocsSidebarProps } from "../types.js";
@@ -33,10 +34,13 @@ export const DocsSidebar: Component<DocsSidebarProps> = (props) => {
   return (
     <Sidebar
       collapsible="offcanvas"
-      class={local.class}
+      class={cn(
+        "sticky top-14 z-30 h-[calc(100vh-3.5rem)] shrink-0 border-r border-border/60 bg-background",
+        local.class
+      )}
       {...rest}
     >
-      <SidebarContent class="p-2">
+      <SidebarContent class="p-2 h-full overflow-hidden">
         <ScrollArea class="h-full">
           <For each={local.tree}>
             {(group) => (
