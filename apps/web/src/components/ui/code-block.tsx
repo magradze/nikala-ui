@@ -316,7 +316,9 @@ export const CodeBlock: ParentComponent<CodeBlockProps> = (props) => {
             />
           }
         >
-          {local.children}
+          <pre class="shiki nikala-code-block m-0 overflow-x-auto bg-transparent p-0 font-mono text-xs">
+            {local.children}
+          </pre>
         </Show>
       </div>
     </div>
