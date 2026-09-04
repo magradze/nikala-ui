@@ -414,6 +414,59 @@ export const COMPONENT_METADATA: Record<string, ComponentMeta> = {
     ],
     registryDependencies: ["create-tiptap-editor"],
   },
+  callout: {
+    title: "Callout",
+    description: "A semantic callout and alert block with status variants, icons, and titles for documentation and notices.",
+    dependencies: ["clsx", "tailwind-merge", "class-variance-authority", "lucide-solid"],
+  },
+  "code-block": {
+    title: "Code Block",
+    description: "A code block container with filename header, language indicator, and interactive copy to clipboard button.",
+    dependencies: ["clsx", "tailwind-merge", "lucide-solid", "shiki"],
+    registryDependencies: ["button", "badge", "tooltip", "tabs", "create-clipboard"],
+  },
+  "package-manager-tabs": {
+    title: "Package Manager Tabs",
+    description: "An interactive command tab bar supporting customizable package managers (bun, pnpm, npm, yarn, deno, bunx, npx) with copy functionality.",
+    dependencies: ["clsx", "tailwind-merge", "lucide-solid"],
+    registryDependencies: ["button", "tooltip", "tabs", "create-clipboard"],
+  },
+  "code-group": {
+    title: "Code Group",
+    description: "A compound tabbed code container for organizing multiple files, languages, and snippets built on Tabs.",
+    dependencies: ["clsx", "tailwind-merge"],
+    registryDependencies: ["tabs"],
+  },
+  steps: {
+    title: "Steps",
+    description: "A vertical multi-step instruction container with connecting progress line and numbered step indicators.",
+    dependencies: ["clsx", "tailwind-merge"],
+    registryDependencies: ["badge"],
+  },
+  "file-tree": {
+    title: "File Tree",
+    description: "An interactive hierarchical directory file tree component built on Collapsible.",
+    dependencies: ["clsx", "tailwind-merge", "lucide-solid"],
+    registryDependencies: ["collapsible"],
+  },
+  "section-heading": {
+    title: "Section Heading",
+    description: "A reusable heading block with title, optional badge, and description. Supports page and section variants.",
+    dependencies: ["clsx", "tailwind-merge", "class-variance-authority"],
+    registryDependencies: ["badge"],
+  },
+  "api-table": {
+    title: "API Table",
+    description: "A structured, clean API reference table component for documenting props, options, and events.",
+    dependencies: ["clsx", "tailwind-merge"],
+    registryDependencies: ["table", "section-heading"],
+  },
+  "component-viewer": {
+    title: "Component Viewer",
+    description: "An interactive preview canvas and code viewer container with responsive viewports, canvas grid, and AI prompts.",
+    dependencies: ["clsx", "tailwind-merge", "lucide-solid"],
+    registryDependencies: ["tabs", "button", "tooltip", "code-block", "create-clipboard"],
+  },
 };
 
 /**
@@ -632,58 +685,6 @@ export const HOOK_METADATA: Record<string, ComponentMeta> = {
       "@tiptap/extension-typography",
       "tiptap-markdown",
     ],
-  },
-  callout: {
-    title: "Callout",
-    description: "A semantic callout and alert block with status variants, icons, and titles for documentation and notices.",
-    dependencies: ["clsx", "tailwind-merge", "class-variance-authority", "lucide-solid"],
-  },
-  "code-block": {
-    title: "Code Block",
-    description: "A code block container with filename header, language indicator, and interactive copy to clipboard button.",
-    dependencies: ["clsx", "tailwind-merge", "lucide-solid", "shiki"],
-    registryDependencies: ["button", "badge", "tooltip"],
-  },
-  "package-manager-tabs": {
-    title: "Package Manager Tabs",
-    description: "An interactive command tab bar supporting customizable package managers (bun, pnpm, npm, yarn, deno, bunx, npx) with copy functionality.",
-    dependencies: ["clsx", "tailwind-merge", "lucide-solid"],
-    registryDependencies: ["button", "tooltip"],
-  },
-  "code-group": {
-    title: "Code Group",
-    description: "A compound tabbed code container for organizing multiple files, languages, and snippets built on Tabs.",
-    dependencies: ["clsx", "tailwind-merge"],
-    registryDependencies: ["tabs"],
-  },
-  steps: {
-    title: "Steps",
-    description: "A vertical multi-step instruction container with connecting progress line and numbered step indicators.",
-    dependencies: ["clsx", "tailwind-merge"],
-  },
-  "file-tree": {
-    title: "File Tree",
-    description: "An interactive hierarchical directory file tree component built on Collapsible.",
-    dependencies: ["clsx", "tailwind-merge", "lucide-solid"],
-    registryDependencies: ["collapsible"],
-  },
-  "section-heading": {
-    title: "Section Heading",
-    description: "A reusable heading block with title, optional badge, and description. Supports page and section variants.",
-    dependencies: ["clsx", "tailwind-merge", "class-variance-authority"],
-    registryDependencies: ["badge"],
-  },
-  "api-table": {
-    title: "API Table",
-    description: "A structured, clean API reference table component for documenting props, options, and events.",
-    dependencies: ["clsx", "tailwind-merge"],
-    registryDependencies: ["table", "section-heading"],
-  },
-  "component-viewer": {
-    title: "Component Viewer",
-    description: "An interactive preview canvas and code viewer container with responsive viewports, canvas grid, and AI prompts.",
-    dependencies: ["clsx", "tailwind-merge", "lucide-solid"],
-    registryDependencies: ["tabs", "button", "tooltip", "code-block"],
   },
 };
 

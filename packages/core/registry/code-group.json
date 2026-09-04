@@ -2,10 +2,19 @@
   "name": "code-group",
   "title": "Code Group",
   "description": "A compound tabbed code container for organizing multiple files, languages, and snippets built on Tabs.",
-  "type": "registry:hook",
+  "type": "registry:ui",
   "dependencies": [
     "clsx",
     "tailwind-merge"
   ],
-  "files": []
+  "registryDependencies": [
+    "tabs"
+  ],
+  "files": [
+    {
+      "path": "ui/code-group.tsx",
+      "content": "import {\n  splitProps,\n  type JSX,\n  type ParentComponent,\n} from \"solid-js\";\nimport {\n  Tabs,\n  TabsList,\n  TabsTrigger,\n  TabsContent,\n} from \"@/components/ui/tabs\";\nimport { cn } from \"@/lib/cn\";\n\nexport interface CodeGroupProps\n  extends Omit<JSX.HTMLAttributes<HTMLDivElement>, \"onChange\"> {\n  /** Controlled active tab value */\n  value?: string;\n  /** Default active tab value */\n  defaultValue?: string;\n  /** Callback fired when active tab changes */\n  onChange?: (value: string) => void;\n  class?: string;\n}\n\n/**\n * Tabbed code container composed directly from Nikala UI Tabs primitives.\n */\nexport const CodeGroup: ParentComponent<CodeGroupProps> = (props) => {\n  const [local, rest] = splitProps(props, [\n    \"value\",\n    \"defaultValue\",\n    \"onChange\",\n    \"class\",\n    \"children\",\n  ]);\n\n  return (\n    <Tabs\n      value={local.value}\n      defaultValue={local.defaultValue}\n      onChange={local.onChange}\n      class={cn(\n        \"my-4 w-full gap-0 overflow-hidden rounded-lg border border-border bg-muted/40 font-mono text-sm shadow-2xs\",\n        local.class\n      )}\n      {...rest}\n    >\n      {local.children}\n    </Tabs>\n  );\n};\n\nexport interface CodeGroupListProps extends JSX.HTMLAttributes<HTMLDivElement> {\n  class?: string;\n}\n\nexport const CodeGroupList: ParentComponent<CodeGroupListProps> = (props) => {\n  const [local, rest] = splitProps(props, [\"class\", \"children\"]);\n  return (\n    <div class={cn(\"flex h-9 items-center justify-between border-b border-border/70 bg-muted/70 px-3 select-none\", local.class)}>\n      <TabsList class=\"h-auto bg-background/60 p-0.5 border border-border/50 gap-0.5 rounded-md\" {...rest}>\n        {local.children}\n      </TabsList>\n    </div>\n  );\n};\n\nexport interface CodeGroupTriggerProps extends JSX.ButtonHTMLAttributes<HTMLButtonElement> {\n  value: string;\n  class?: string;\n}\n\nexport const CodeGroupTrigger: ParentComponent<CodeGroupTriggerProps> = (props) => {\n  const [local, rest] = splitProps(props, [\"value\", \"class\", \"children\"]);\n  return (\n    <TabsTrigger\n      value={local.value}\n      class={cn(\n        \"rounded-xs px-2 py-0.5 text-[11px] font-mono transition-colors cursor-pointer data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:font-semibold data-[state=active]:shadow-2xs\",\n        local.class\n      )}\n      {...rest}\n    >\n      {local.children}\n    </TabsTrigger>\n  );\n};\n\nexport interface CodeGroupContentProps extends JSX.HTMLAttributes<HTMLDivElement> {\n  value: string;\n  class?: string;\n}\n\nexport const CodeGroupContent: ParentComponent<CodeGroupContentProps> = (props) => {\n  const [local, rest] = splitProps(props, [\"value\", \"class\", \"children\"]);\n  return (\n    <TabsContent\n      value={local.value}\n      class={cn(\"p-4 text-[13px] leading-relaxed overflow-x-auto m-0 focus-visible:outline-none\", local.class)}\n      {...rest}\n    >\n      {local.children}\n    </TabsContent>\n  );\n};\n",
+      "type": "registry:ui"
+    }
+  ]
 }
