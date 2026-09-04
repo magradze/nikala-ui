@@ -872,6 +872,21 @@
     ]
   },
   {
+    "name": "table-of-contents",
+    "title": "Table of Contents",
+    "description": "An accessible heading navigation tree with ScrollSpy tracking and smooth scrolling, composed of ScrollArea and List.",
+    "type": "registry:ui",
+    "dependencies": [
+      "clsx",
+      "tailwind-merge",
+      "class-variance-authority"
+    ],
+    "registryDependencies": [
+      "scroll-area",
+      "list"
+    ]
+  },
+  {
     "name": "table",
     "title": "Table",
     "description": "A responsive and accessible data table component with headers, rows, cells, and footer summaries.",

@@ -467,6 +467,12 @@ export const COMPONENT_METADATA: Record<string, ComponentMeta> = {
     dependencies: ["clsx", "tailwind-merge", "lucide-solid"],
     registryDependencies: ["tabs", "button", "tooltip", "code-block", "create-clipboard"],
   },
+  "table-of-contents": {
+    title: "Table of Contents",
+    description: "An accessible heading navigation tree with ScrollSpy tracking and smooth scrolling, composed of ScrollArea and List.",
+    dependencies: ["clsx", "tailwind-merge", "class-variance-authority"],
+    registryDependencies: ["scroll-area", "list"],
+  },
 };
 
 /**
