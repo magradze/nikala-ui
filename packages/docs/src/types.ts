@@ -50,6 +50,14 @@ export interface DocsThemeConfig {
   defaultMode?: "light" | "dark" | "system";
 }
 
+export interface ShikiConfig {
+  themes?: {
+    light?: string;
+    dark?: string;
+  };
+  langs?: string[];
+}
+
 export interface DocsConfig {
   title?: string;
   description?: string;
@@ -67,6 +75,7 @@ export interface DocsConfig {
   nav?: NavItem[];
   sidebar?: SidebarItem[] | "auto";
   theme?: DocsThemeConfig;
+  shiki?: ShikiConfig;
   search?: {
     enabled?: boolean;
     provider?: "local" | "pagefind" | "orama" | "algolia";

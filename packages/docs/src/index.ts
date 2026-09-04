@@ -3,6 +3,9 @@ export * from "./types.js";
 export * from "./config.js";
 export * from "./core/content-scanner.js";
 export * from "./core/route-tree.js";
+export * from "./mdx/compiler.js";
+export * from "./mdx/highlighter.js";
+export * from "./components/mdx-components.js";
 
 import type { DocsConfig } from "./types.js";
 

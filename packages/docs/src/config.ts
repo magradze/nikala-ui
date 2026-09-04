@@ -13,6 +13,22 @@ export const DEFAULT_DOCS_CONFIG: Required<Pick<DocsConfig, "title" | "descripti
     grayColor: "zinc",
     defaultMode: "system",
   },
+  shiki: {
+    themes: {
+      light: "github-light",
+      dark: "github-dark",
+    },
+    langs: [
+      "typescript",
+      "javascript",
+      "tsx",
+      "jsx",
+      "bash",
+      "json",
+      "css",
+      "html",
+    ],
+  },
   search: {
     enabled: true,
     provider: "local",
@@ -45,6 +61,14 @@ export async function resolveDocsConfig(cwd: string = process.cwd()): Promise<Do
           theme: {
             ...DEFAULT_DOCS_CONFIG.theme,
             ...userConfig.theme,
+          },
+          shiki: {
+            ...DEFAULT_DOCS_CONFIG.shiki,
+            ...userConfig.shiki,
+            themes: {
+              ...DEFAULT_DOCS_CONFIG.shiki?.themes,
+              ...userConfig.shiki?.themes,
+            },
           },
           search: {
             ...DEFAULT_DOCS_CONFIG.search,
