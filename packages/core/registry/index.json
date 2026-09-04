@@ -257,6 +257,17 @@
     ]
   },
   {
+    "name": "container",
+    "title": "Container",
+    "description": "A responsive layout container constraining maximum width with semantic padding tokens.",
+    "type": "registry:ui",
+    "dependencies": [
+      "clsx",
+      "tailwind-merge",
+      "class-variance-authority"
+    ]
+  },
+  {
     "name": "context-menu",
     "title": "Context Menu",
     "description": "Displays a contextual popup menu triggered by right-clicking target areas, built on Kobalte primitives.",
@@ -566,6 +577,20 @@
       "tooltip",
       "tabs",
       "create-clipboard"
+    ]
+  },
+  {
+    "name": "pager",
+    "title": "Pager",
+    "description": "Previous and next article navigation links with card previews for documentation and blog layouts.",
+    "type": "registry:ui",
+    "dependencies": [
+      "clsx",
+      "tailwind-merge",
+      "lucide-solid"
+    ],
+    "registryDependencies": [
+      "card"
     ]
   },
   {

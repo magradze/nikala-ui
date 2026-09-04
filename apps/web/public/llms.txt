@@ -140,7 +140,7 @@ When generating or editing SolidJS code using Nikala UI components and hooks, AI
 
 ---
 
-## 4. UI & Desktop Components Registry (80 Components)
+## 4. UI & Desktop Components Registry (82 Components)
 
 Below is the complete inventory of available Nikala UI components with exported JSX elements:
 
@@ -224,6 +224,8 @@ Below is the complete inventory of available Nikala UI components with exported 
 78. **Toggle Group**: `ToggleGroup`, `ToggleGroupItem`
 79. **Tooltip**: `Tooltip`, `TooltipTrigger`, `TooltipContent`, `TooltipArrow`
 80. **UpdaterModal / UpdaterDialog**: `UpdaterModal`
+81. **Container**: `Container`
+82. **Pager**: `Pager`, `PagerLink`
 
 ---
 
@@ -463,6 +465,8 @@ createGlobalShortcut({
 - Toggle: https://nikala.dev/docs/components/toggle
 - Tooltip: https://nikala.dev/docs/components/tooltip
 - UpdaterModal / UpdaterDialog: https://nikala.dev/docs/desktop/updater-dialog
+- Container: https://nikala.dev/docs/components/container
+- Pager: https://nikala.dev/docs/components/pager
 
 ### All Reactive Hooks & Primitives (48 Hooks)
 - createActiveElement: https://nikala.dev/docs/hooks/create-active-element

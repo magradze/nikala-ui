@@ -69,6 +69,11 @@ export const COMPONENT_METADATA: Record<string, ComponentMeta> = {
     description: "A versatile container component with header, content, and footer sections.",
     dependencies: ["clsx", "tailwind-merge"],
   },
+  container: {
+    title: "Container",
+    description: "A responsive layout container constraining maximum width with semantic padding tokens.",
+    dependencies: ["clsx", "tailwind-merge", "class-variance-authority"],
+  },
   badge: {
     title: "Badge",
     description: "A small badge component for status indicators and tags.",
@@ -345,6 +350,12 @@ export const COMPONENT_METADATA: Record<string, ComponentMeta> = {
     description: "An accessible multi-page navigation bar with previous, next, page numbers, and ellipsis controls.",
     dependencies: ["clsx", "tailwind-merge", "class-variance-authority", "lucide-solid"],
     registryDependencies: ["create-pagination"],
+  },
+  pager: {
+    title: "Pager",
+    description: "Previous and next article navigation links with card previews for documentation and blog layouts.",
+    dependencies: ["clsx", "tailwind-merge", "lucide-solid"],
+    registryDependencies: ["card"],
   },
   message: {
     title: "Message",
