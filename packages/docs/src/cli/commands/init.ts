@@ -85,7 +85,7 @@ bun install
 Start the live development server with hot-reloading:
 
 \`\`\`bash
-bunx nikala-docs dev
+bunx @nikala-ui/docs dev
 \`\`\`
 `;
     await fs.writeFile(quickStartPath, quickStartContent, "utf-8");
@@ -94,6 +94,6 @@ bunx nikala-docs dev
 
   console.log();
   console.log(`  ${pc.bold(pc.green("Success!"))} Documentation initialized.`);
-  console.log(`  Run ${pc.cyan("bunx nikala-docs dev")} to start your docs.`);
+  console.log(`  Run ${pc.cyan("bunx @nikala-ui/docs dev")} to start your docs.`);
   console.log();
 }

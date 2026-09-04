@@ -8,7 +8,7 @@ import { runInitCommand } from "./commands/init.js";
 const program = new Command();
 
 program
-  .name("nikala-docs")
+  .name("@nikala-ui/docs")
   .description("Zero-config, fast, and elegant documentation engine for SolidJS")
   .version("0.11.0");
 
