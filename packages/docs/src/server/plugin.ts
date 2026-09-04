@@ -10,6 +10,7 @@ import type { DocsConfig, PageData } from "../types.js";
 
 export interface NikalaDocsPluginOptions {
   docsDir?: string;
+  configRoot?: string;
   configFile?: string;
   config?: DocsConfig;
 }
@@ -53,7 +54,7 @@ export function nikalaDocsPlugin(options: NikalaDocsPluginOptions = {}): Plugin 
       }
 
       if (!options.config) {
-        resolvedConfig = await loadConfig(rootDir);
+        resolvedConfig = await loadConfig(options.configRoot || rootDir);
       }
     },
 

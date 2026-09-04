@@ -7,6 +7,7 @@ export interface Frontmatter {
   categoryOrder?: number;
   icon?: string;
   badge?: string;
+  addedAt?: string;
   prev?: string | { title: string; href: string } | boolean;
   next?: string | { title: string; href: string } | boolean;
   toc?: boolean;
@@ -33,6 +34,7 @@ export interface SidebarItem {
   title: string;
   href?: string;
   badge?: string;
+  addedAt?: string;
   icon?: string;
   items?: SidebarItem[];
   collapsed?: boolean;
@@ -48,6 +50,19 @@ export interface DocsThemeConfig {
   accentColor?: string;
   grayColor?: string;
   defaultMode?: "light" | "dark" | "system";
+}
+
+export type DocsNavigationLayout = "sidebar" | "top";
+
+export interface DocsNavigationConfig {
+  /** Keep the navbar beside the sidebar or place it above the full layout. */
+  layout?: DocsNavigationLayout;
+  sidebar?: {
+    header?: boolean;
+    footer?: boolean;
+    headerSubtitle?: string;
+    footerText?: string;
+  };
 }
 
 export interface ShikiConfig {
@@ -74,6 +89,7 @@ export interface DocsConfig {
   };
   nav?: NavItem[];
   sidebar?: SidebarItem[] | "auto";
+  navigation?: DocsNavigationConfig;
   theme?: DocsThemeConfig;
   shiki?: ShikiConfig;
   search?: {

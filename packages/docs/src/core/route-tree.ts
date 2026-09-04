@@ -45,6 +45,7 @@ export function buildSidebarTree(pages: PageData[]): SidebarItem[] {
     title: page.title || "Overview",
     href: page.url,
     badge: page.frontmatter.badge,
+    addedAt: page.frontmatter.addedAt,
     icon: page.frontmatter.icon,
   }));
 
@@ -91,6 +92,7 @@ export function buildSidebarTree(pages: PageData[]): SidebarItem[] {
           title: page.title,
           href: page.url,
           badge: page.frontmatter.badge,
+          addedAt: page.frontmatter.addedAt,
           icon: page.frontmatter.icon,
         });
       } else {
@@ -112,6 +114,7 @@ export function buildSidebarTree(pages: PageData[]): SidebarItem[] {
           title: page.title,
           href: page.url,
           badge: page.frontmatter.badge,
+          addedAt: page.frontmatter.addedAt,
           icon: page.frontmatter.icon,
         });
       }

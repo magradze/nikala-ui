@@ -12,6 +12,12 @@ export interface DocsNavbarProps {
 export interface DocsSidebarProps {
   tree: SidebarItem[];
   currentUrl?: string;
+  title?: string;
+  logo?: DocsConfig["logo"];
+  headerSubtitle?: string;
+  footerText?: string;
+  showHeader?: boolean;
+  showFooter?: boolean;
   class?: string;
 }
 

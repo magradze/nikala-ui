@@ -101,6 +101,7 @@ function getSharedConfig(options: DocsServerOptions, isDev = false): InlineConfi
     plugins: [
       nikalaDocsPlugin({
         docsDir: options.docsDir ? path.resolve(root, options.docsDir) : undefined,
+        configRoot: root,
         config: options.config,
       }),
       tailwindcss(),

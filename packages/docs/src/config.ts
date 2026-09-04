@@ -8,6 +8,15 @@ export const DEFAULT_DOCS_CONFIG: Required<Pick<DocsConfig, "title" | "descripti
   description: "Documentation built with Nikala UI",
   contentDir: "content",
   sidebar: "auto",
+  navigation: {
+    layout: "sidebar",
+    sidebar: {
+      header: true,
+      footer: true,
+      headerSubtitle: "Documentation",
+      footerText: "Documentation",
+    },
+  },
   theme: {
     accentColor: "wine",
     grayColor: "zinc",
@@ -63,8 +72,16 @@ export async function resolveDocsConfig(cwd: string = process.cwd()): Promise<Do
           ...DEFAULT_DOCS_CONFIG,
           ...userConfig,
           theme: {
-            ...DEFAULT_DOCS_CONFIG.theme,
-            ...userConfig.theme,
+          ...DEFAULT_DOCS_CONFIG.theme,
+          ...userConfig.theme,
+        },
+          navigation: {
+            ...DEFAULT_DOCS_CONFIG.navigation,
+            ...userConfig.navigation,
+            sidebar: {
+              ...DEFAULT_DOCS_CONFIG.navigation?.sidebar,
+              ...userConfig.navigation?.sidebar,
+            },
           },
           shiki: {
             ...DEFAULT_DOCS_CONFIG.shiki,

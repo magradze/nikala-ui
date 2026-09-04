@@ -28,6 +28,12 @@ import { routes as pageRoutes } from "virtual:nikala-docs-routes";
 export const App: Component = () => {
   const config = rawConfig || { title: "Nikala Docs" };
 
+  createEffect(() => {
+    if (typeof document !== "undefined") {
+      document.title = config.title || "Documentation";
+    }
+  });
+
   // Current client-side route pathname
   const [pathname, setPathname] = createSignal(
     typeof window !== "undefined" ? window.location.pathname : "/"

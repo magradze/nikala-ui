@@ -34,7 +34,7 @@ export const DocsNavbar: Component<DocsNavbarProps> = (props) => {
     >
       <NavbarContainer class="h-14 px-4 sm:px-6" >
         <NavbarContent justify="start" class="gap-3">
-          <SidebarTrigger class="md:hidden" />
+          <SidebarTrigger aria-label="Toggle documentation sidebar" />
           <NavbarBrand href={logoHref()} class="text-base font-bold tracking-tight">
             <Show when={local.config.logo?.image}>
               {(img) => <img src={img()} alt={logoText()} class="size-6 object-contain" />}

@@ -17,18 +17,25 @@ export async function runInitCommand(targetDir = "docs") {
 
   // 1. Create nikala.config.ts if not exists
   if (!(await fs.pathExists(configPath))) {
-    const configContent = `import { defineDocsConfig } from "@nikala-ui/docs";
-
-export default defineDocsConfig({
+    const configContent = `export default {
   title: "My Project Docs",
   description: "High-performance documentation built with Nikala Docs and SolidJS",
   repository: {
     url: "https://github.com/my-org/my-project",
   },
+  navigation: {
+    layout: "sidebar",
+    sidebar: {
+      header: true,
+      footer: true,
+      headerSubtitle: "Documentation",
+      footerText: "Documentation",
+    },
+  },
   search: {
     enabled: true,
   },
-});
+};
 `;
     await fs.writeFile(configPath, configContent, "utf-8");
     console.log(`  ${pc.green("✓")} Created ${pc.cyan("nikala.config.ts")}`);
