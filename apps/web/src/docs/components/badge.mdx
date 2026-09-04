@@ -1,0 +1,62 @@
+---
+title: Badge
+description: Displays a status indicator or tag badge with multiple variants in SolidJS.
+addedAt: 2026-09-05
+---
+
+<ComponentViewer
+  name="badge"
+  title="Badge"
+  command="bunx @nikala-ui/cli add badge"
+  lang="tsx"
+  code={`<Badge>v0.5.0</Badge>`}
+>
+  <Badge>v0.5.0</Badge>
+</ComponentViewer>
+
+## Usage
+
+Import the component into your SolidJS application:
+
+```tsx
+import { Badge } from "@/components/ui/badge";
+```
+
+## Examples
+
+### Variants
+
+Supports `default`, `secondary`, `destructive`, and `outline` variants.
+
+<ComponentViewer
+  name="badge-variants"
+  title="Badge variants"
+  lang="tsx"
+  code={`<div class="flex flex-wrap items-center gap-3">
+  <Badge variant="default">Default</Badge>
+  <Badge variant="secondary">Secondary</Badge>
+  <Badge variant="destructive">Destructive</Badge>
+  <Badge variant="outline">Outline</Badge>
+</div>`}
+>
+  <div class="flex flex-wrap items-center gap-3">
+    <Badge variant="default">Default</Badge>
+    <Badge variant="secondary">Secondary</Badge>
+    <Badge variant="destructive">Destructive</Badge>
+    <Badge variant="outline">Outline</Badge>
+  </div>
+</ComponentViewer>
+
+## API Reference
+
+<ApiTable
+  title="Badge"
+  items={[
+    {
+      prop: "variant",
+      type: '"default" | "secondary" | "destructive" | "outline"',
+      default: '"default"',
+      description: "Visual style variant of the badge.",
+    },
+  ]}
+/>

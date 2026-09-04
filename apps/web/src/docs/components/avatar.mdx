@@ -1,0 +1,139 @@
+---
+title: Avatar
+description: An image element with an automatic fallback mechanism for representing users.
+addedAt: 2026-09-05
+---
+
+<ComponentViewer
+  name="avatar"
+  title="Avatar"
+  command="bunx @nikala-ui/cli add avatar"
+  lang="tsx"
+  code={`<Avatar>
+  <AvatarImage src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80" alt="Niko Pirosmani" />
+  <AvatarFallback>NP</AvatarFallback>
+</Avatar>`}
+>
+  <Avatar>
+    <AvatarImage
+      src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80"
+      alt="Niko Pirosmani"
+    />
+    <AvatarFallback>NP</AvatarFallback>
+  </Avatar>
+</ComponentViewer>
+
+## Usage
+
+Import the component into your SolidJS application:
+
+```tsx
+import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
+```
+
+## Examples
+
+### Fallback State
+
+If the image fails to load or is unavailable, `AvatarFallback` automatically renders.
+
+<ComponentViewer
+  name="avatar-fallback"
+  title="Fallback state"
+  lang="tsx"
+  code={`<Avatar>
+  <AvatarImage src="/invalid.jpg" alt="Broken User" />
+  <AvatarFallback>NP</AvatarFallback>
+</Avatar>`}
+>
+  <Avatar>
+    <AvatarImage src="/invalid.jpg" alt="Broken User" />
+    <AvatarFallback>NP</AvatarFallback>
+  </Avatar>
+</ComponentViewer>
+
+### Sizes
+
+Adjust avatar dimensions using Tailwind sizing utility classes (`h-8 w-8`, `h-14 w-14`).
+
+<ComponentViewer
+  name="avatar-sizes"
+  title="Avatar sizes"
+  lang="tsx"
+  code={`<div class="flex items-center gap-4">
+  <Avatar class="h-8 w-8">
+    <AvatarImage src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80" alt="Small Avatar" />
+    <AvatarFallback>SM</AvatarFallback>
+  </Avatar>
+
+  <Avatar class="h-10 w-10">
+    <AvatarImage src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80" alt="Medium Avatar" />
+    <AvatarFallback>MD</AvatarFallback>
+  </Avatar>
+
+  <Avatar class="h-14 w-14">
+    <AvatarImage src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80" alt="Large Avatar" />
+    <AvatarFallback>LG</AvatarFallback>
+  </Avatar>
+</div>`}
+>
+  <div class="flex items-center gap-4">
+    <Avatar class="h-8 w-8">
+      <AvatarImage
+        src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80"
+        alt="Small Avatar"
+      />
+      <AvatarFallback>SM</AvatarFallback>
+    </Avatar>
+
+    <Avatar class="h-10 w-10">
+      <AvatarImage
+        src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80"
+        alt="Medium Avatar"
+      />
+      <AvatarFallback>MD</AvatarFallback>
+    </Avatar>
+
+    <Avatar class="h-14 w-14">
+      <AvatarImage
+        src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80"
+        alt="Large Avatar"
+      />
+      <AvatarFallback>LG</AvatarFallback>
+    </Avatar>
+  </div>
+</ComponentViewer>
+
+## API Reference
+
+<ApiTable
+  title="AvatarImage"
+  items={[
+    {
+      prop: "src",
+      type: "string",
+      description: "Image source URL.",
+    },
+    {
+      prop: "alt",
+      type: "string",
+      description: "Alternative text description for accessibility.",
+    },
+    {
+      prop: "onError",
+      type: "(e: Event) => void",
+      description: "Callback fired when image fails to load, triggering the fallback.",
+    },
+  ]}
+/>
+
+<ApiTable
+  title="AvatarFallback"
+  items={[
+    {
+      prop: "children",
+      type: "JSX.Element",
+      description: "Fallback content (initials, text, or icon) displayed when image fails to load.",
+    },
+  ]}
+/>
