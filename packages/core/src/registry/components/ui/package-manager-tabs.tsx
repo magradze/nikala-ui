@@ -174,8 +174,9 @@ export const PackageManagerTabs: ParentComponent<PackageManagerTabsProps> = (pro
         <Tabs
           value={activeManager()}
           onChange={handleSelect}
+          class="w-auto flex-none"
         >
-          <TabsList class="h-auto bg-background/60 p-0.5 border border-border/50 gap-0.5 rounded-md font-mono">
+          <TabsList class="w-auto inline-flex h-auto bg-background/60 p-0.5 border border-border/50 gap-0.5 rounded-md font-mono">
             <For each={managersList()}>
               {(pm) => (
                 <TabsTrigger

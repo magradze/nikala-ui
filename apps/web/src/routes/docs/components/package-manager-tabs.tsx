@@ -11,6 +11,7 @@ import { PackageManagerTabs } from "@/components/ui/package-manager-tabs";
 const importCode = `import { PackageManagerTabs } from "@/components/ui/package-manager-tabs";`;
 
 const defaultCode = `<PackageManagerTabs
+  managers={["bun", "pnpm", "npm", "yarn"]}
   command="add @nikala-ui/core"
 />`;
 
@@ -54,7 +55,10 @@ export default function PackageManagerTabsDocsPage() {
         {/* Hero Live Preview */}
         <ComponentPreview name="package-manager-tabs" code={defaultCode}>
           <div class="w-full max-w-xl">
-            <PackageManagerTabs command="add @nikala-ui/core" />
+            <PackageManagerTabs
+              managers={["bun", "pnpm", "npm", "yarn"]}
+              command="add @nikala-ui/core"
+            />
           </div>
         </ComponentPreview>
 

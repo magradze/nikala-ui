@@ -4,7 +4,7 @@ import { DocSectionHeader } from "@/components/docs/doc-section-header";
 import { DocNextSteps } from "@/components/docs/doc-next-steps";
 import { DocApiTable } from "@/components/docs/doc-api-table";
 import { ComponentPreview } from "@/components/component-preview";
-import { CodeBlock as DocCodeBlock } from "@/components/code-block";
+import { CodeBlock } from "@/components/ui/code-block";
 
 /* --- Code Snippets --- */
 const importCode = `import { CodeBlock } from "@/components/ui/code-block";`;
@@ -12,6 +12,13 @@ const importCode = `import { CodeBlock } from "@/components/ui/code-block";`;
 const defaultCode = `<CodeBlock
   code="bunx @nikala-ui/cli add button"
   isCli={true}
+/>`;
+
+const pmSwitcherCode = `<CodeBlock
+  code="bunx @nikala-ui/cli add button"
+  lang="bash"
+  showPmSwitcher={true}
+  managers={["bunx", "npx", "pnpm", "yarn"]}
 />`;
 
 const filenameCode = `<CodeBlock
@@ -51,10 +58,10 @@ export default function CodeBlockDocsPage() {
         {/* Hero Live Preview */}
         <ComponentPreview name="code-block" code={defaultCode}>
           <div class="w-full max-w-xl">
-            <DocCodeBlock
+            <CodeBlock
               code="bunx @nikala-ui/cli add button"
               lang="bash"
-              isCli={true}
+              isCli={false}
             />
           </div>
         </ComponentPreview>
@@ -62,22 +69,41 @@ export default function CodeBlockDocsPage() {
         {/* Usage & Import */}
         <div class="space-y-4">
           <DocSectionHeader title="Usage" />
-          <DocCodeBlock code={importCode} lang="tsx" />
+          <CodeBlock code={importCode} lang="tsx" />
         </div>
 
         {/* Examples */}
         <div class="space-y-8 pt-4">
           <DocSectionHeader title="Examples" />
 
-          {/* With Filename & Language */}
+          {/* Package Manager Runner Switcher */}
           <div class="space-y-3">
+            <h3 class="text-lg font-semibold tracking-tight">Package Manager Runner Switcher</h3>
+            <p class="text-sm text-muted-foreground">
+              Pass <code class="bg-muted px-1.5 py-0.5 rounded text-xs font-mono">showPmSwitcher</code> and customize the runner tabs via <code class="bg-muted px-1.5 py-0.5 rounded text-xs font-mono">managers</code>.
+            </p>
+            <ComponentPreview name="code-block" code={pmSwitcherCode}>
+              <div class="w-full max-w-xl">
+                <CodeBlock
+                  code="bunx @nikala-ui/cli add button"
+                  lang="bash"
+                  showPmSwitcher={true}
+                  managers={["bunx", "npx", "pnpm", "yarn"]}
+                />
+              </div>
+            </ComponentPreview>
+          </div>
+
+          {/* With Filename & Language */}
+          <div class="space-y-3 pt-6">
             <h3 class="text-lg font-semibold tracking-tight">With Filename & Language</h3>
             <p class="text-sm text-muted-foreground">
               Displays a top header bar with the filename and language indicator.
             </p>
             <ComponentPreview name="code-block" code={filenameCode}>
               <div class="w-full max-w-xl">
-                <DocCodeBlock
+                <CodeBlock
+                  filename="App.tsx"
                   lang="tsx"
                   code={`import { createSignal } from "solid-js";
 import { Button } from "@/components/ui/button";
@@ -99,7 +125,7 @@ export default function App() {
             </p>
             <ComponentPreview name="code-block" code={floatingCopyCode}>
               <div class="w-full max-w-xl">
-                <DocCodeBlock
+                <CodeBlock
                   lang="javascript"
                   code={`const greeting = 'Hello, Nikala UI!';
 console.log(greeting);`}
@@ -132,6 +158,30 @@ console.log(greeting);`}
                 type: "string",
                 default: "undefined",
                 description: "Optional language label badge (e.g. 'tsx', 'rust', 'bash').",
+              },
+              {
+                prop: "lang",
+                type: "string",
+                default: "undefined",
+                description: "Shorthand alias for language.",
+              },
+              {
+                prop: "isCli",
+                type: "boolean",
+                default: "false",
+                description: "Whether the code snippet is an executable CLI command with bash token highlighting.",
+              },
+              {
+                prop: "showPmSwitcher",
+                type: "boolean",
+                default: "false",
+                description: "Shows interactive package manager runner tabs (bunx, npx, pnpm, yarn) in the header.",
+              },
+              {
+                prop: "managers",
+                type: "('bunx' | 'npx' | 'pnpm' | 'yarn')[]",
+                default: "['bunx', 'npx', 'pnpm', 'yarn']",
+                description: "Custom array of package manager runner tabs to display.",
               },
               {
                 prop: "copyable",
