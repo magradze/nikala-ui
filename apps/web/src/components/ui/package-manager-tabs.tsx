@@ -9,7 +9,9 @@ import {
 } from "solid-js";
 import { Check, Copy } from "lucide-solid";
 import { Button } from "@/components/ui/button";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Tooltip, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip";
+import { createClipboard } from "@/hooks/create-clipboard";
 import { cn } from "@/lib/cn";
 
 export type DefaultPackageManager = "bun" | "pnpm" | "npm" | "yarn" | "bunx" | "npx" | "deno";
@@ -149,22 +151,13 @@ export const PackageManagerTabs: ParentComponent<PackageManagerTabsProps> = (pro
     return "";
   });
 
-  const [copied, setCopied] = createSignal(false);
+  const clipboard = createClipboard();
   const copyable = () => local.copyable ?? true;
 
   const handleCopy = async () => {
     const text = currentCommand();
     if (!text) return;
-
-    try {
-      if (typeof navigator !== "undefined" && navigator.clipboard) {
-        await navigator.clipboard.writeText(text);
-        setCopied(true);
-        setTimeout(() => setCopied(false), 2000);
-      }
-    } catch (err) {
-      console.error("Failed to copy command", err);
-    }
+    await clipboard.copy(text);
   };
 
   return (
@@ -178,27 +171,23 @@ export const PackageManagerTabs: ParentComponent<PackageManagerTabsProps> = (pro
       {/* Header with Manager Switcher Tabs and Copy Button */}
       <div class="flex h-9 items-center justify-between border-b border-border/70 bg-muted/70 px-3.5 select-none">
         {/* Switcher Tabs */}
-        <div class="inline-flex items-center gap-0.5 rounded-md border border-border/50 bg-background/60 p-0.5 font-mono select-none">
-          <For each={managersList()}>
-            {(pm) => {
-              const isActive = () => activeManager() === pm;
-              return (
-                <button
-                  type="button"
-                  onClick={() => handleSelect(pm)}
-                  class={cn(
-                    "rounded-xs px-2 py-0.5 text-[11px] font-mono transition-colors cursor-pointer",
-                    isActive()
-                      ? "bg-primary text-primary-foreground font-semibold shadow-2xs"
-                      : "text-muted-foreground hover:text-foreground"
-                  )}
+        <Tabs
+          value={activeManager()}
+          onChange={handleSelect}
+        >
+          <TabsList class="h-auto bg-background/60 p-0.5 border border-border/50 gap-0.5 rounded-md font-mono">
+            <For each={managersList()}>
+              {(pm) => (
+                <TabsTrigger
+                  value={pm}
+                  class="rounded-xs px-2 py-0.5 text-[11px] font-mono transition-colors cursor-pointer data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:font-semibold data-[state=active]:shadow-2xs"
                 >
                   {pm}
-                </button>
-              );
-            }}
-          </For>
-        </div>
+                </TabsTrigger>
+              )}
+            </For>
+          </TabsList>
+        </Tabs>
 
         {/* Copy Button */}
         <Show when={copyable() && currentCommand()}>
@@ -208,15 +197,15 @@ export const PackageManagerTabs: ParentComponent<PackageManagerTabsProps> = (pro
               variant="ghost"
               size="icon"
               onClick={handleCopy}
-              aria-label={copied() ? "Copied command" : "Copy command"}
+              aria-label={clipboard.copied() ? "Copied command" : "Copy command"}
               class="size-6 p-0 rounded-xs text-muted-foreground hover:bg-background hover:text-foreground cursor-pointer"
             >
-              <Show when={copied()} fallback={<Copy class="size-3.5" />}>
+              <Show when={clipboard.copied()} fallback={<Copy class="size-3.5" />}>
                 <Check class="size-3.5 text-emerald-500 dark:text-emerald-400" />
               </Show>
             </TooltipTrigger>
             <TooltipContent class="text-[10px] py-1 px-2">
-              {copied() ? "Copied!" : "Copy command"}
+              {clipboard.copied() ? "Copied!" : "Copy command"}
             </TooltipContent>
           </Tooltip>
         </Show>

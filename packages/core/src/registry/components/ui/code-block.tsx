@@ -11,7 +11,9 @@ import {
 import { Check, Copy } from "lucide-solid";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Tooltip, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip";
+import { createClipboard } from "@/hooks/create-clipboard";
 import { cn } from "@/lib/cn";
 
 export type CodeBlockPackageManager = "bunx" | "npx" | "pnpm" | "yarn";
@@ -142,7 +144,7 @@ export const CodeBlock: ParentComponent<CodeBlockProps> = (props) => {
     "children",
   ]);
 
-  const [copied, setCopied] = createSignal(false);
+  const clipboard = createClipboard();
   const [activePm, setActivePm] = createSignal<CodeBlockPackageManager>("bunx");
   const [highlightedHtml, setHighlightedHtml] = createSignal("");
 
@@ -208,16 +210,7 @@ export const CodeBlock: ParentComponent<CodeBlockProps> = (props) => {
     }
 
     if (!textToCopy) return;
-
-    try {
-      if (typeof navigator !== "undefined" && navigator.clipboard) {
-        await navigator.clipboard.writeText(textToCopy);
-        setCopied(true);
-        setTimeout(() => setCopied(false), 2000);
-      }
-    } catch (err) {
-      console.error("Failed to copy code to clipboard", err);
-    }
+    await clipboard.copy(textToCopy);
   };
 
   const shouldShowSwitcher = () => Boolean(local.showPmSwitcher || local.isCli);
@@ -236,24 +229,23 @@ export const CodeBlock: ParentComponent<CodeBlockProps> = (props) => {
         <div class="flex h-9 items-center justify-between border-b border-border/70 bg-muted/70 px-3.5 text-xs text-muted-foreground select-none">
           <div class="flex items-center gap-2">
             <Show when={shouldShowSwitcher()}>
-              <div class="inline-flex items-center gap-0.5 rounded-md border border-border/50 bg-background/60 p-0.5 font-mono select-none">
-                <For each={managersList()}>
-                  {(pm) => (
-                    <button
-                      type="button"
-                      onClick={() => setActivePm(pm)}
-                      class={cn(
-                        "rounded-xs px-2 py-0.5 text-[11px] font-mono transition-colors cursor-pointer",
-                        activePm() === pm
-                          ? "bg-primary text-primary-foreground font-semibold shadow-2xs"
-                          : "text-muted-foreground hover:text-foreground"
-                      )}
-                    >
-                      {pm}
-                    </button>
-                  )}
-                </For>
-              </div>
+              <Tabs
+                value={activePm()}
+                onChange={(val) => setActivePm(val as CodeBlockPackageManager)}
+              >
+                <TabsList class="h-auto bg-background/60 p-0.5 border border-border/50 gap-0.5 rounded-md font-mono">
+                  <For each={managersList()}>
+                    {(pm) => (
+                      <TabsTrigger
+                        value={pm}
+                        class="rounded-xs px-2 py-0.5 text-[11px] font-mono transition-colors cursor-pointer data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:font-semibold data-[state=active]:shadow-2xs"
+                      >
+                        {pm}
+                      </TabsTrigger>
+                    )}
+                  </For>
+                </TabsList>
+              </Tabs>
             </Show>
 
             <Show when={local.filename}>
@@ -274,15 +266,15 @@ export const CodeBlock: ParentComponent<CodeBlockProps> = (props) => {
                 variant="ghost"
                 size="icon"
                 onClick={handleCopy}
-                aria-label={copied() ? "Copied code" : "Copy code"}
+                aria-label={clipboard.copied() ? "Copied code" : "Copy code"}
                 class="size-6 p-0 rounded-xs text-muted-foreground hover:bg-background hover:text-foreground cursor-pointer"
               >
-                <Show when={copied()} fallback={<Copy class="size-3.5" />}>
+                <Show when={clipboard.copied()} fallback={<Copy class="size-3.5" />}>
                   <Check class="size-3.5 text-emerald-500 dark:text-emerald-400" />
                 </Show>
               </TooltipTrigger>
               <TooltipContent class="text-[10px] py-1 px-2">
-                {copied() ? "Copied!" : "Copy code"}
+                {clipboard.copied() ? "Copied!" : "Copy code"}
               </TooltipContent>
             </Tooltip>
           </Show>
@@ -298,15 +290,15 @@ export const CodeBlock: ParentComponent<CodeBlockProps> = (props) => {
               variant="outline"
               size="icon"
               onClick={handleCopy}
-              aria-label={copied() ? "Copied code" : "Copy code"}
+              aria-label={clipboard.copied() ? "Copied code" : "Copy code"}
               class="size-7 rounded-md border-border/80 bg-background/90 text-muted-foreground backdrop-blur-xs hover:bg-muted hover:text-foreground cursor-pointer shadow-2xs"
             >
-              <Show when={copied()} fallback={<Copy class="size-3.5" />}>
+              <Show when={clipboard.copied()} fallback={<Copy class="size-3.5" />}>
                 <Check class="size-3.5 text-emerald-500 dark:text-emerald-400" />
               </Show>
             </TooltipTrigger>
             <TooltipContent class="text-[10px] py-1 px-2">
-              {copied() ? "Copied!" : "Copy code"}
+              {clipboard.copied() ? "Copied!" : "Copy code"}
             </TooltipContent>
           </Tooltip>
         </div>
