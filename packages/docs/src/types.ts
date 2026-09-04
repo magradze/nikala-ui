@@ -4,10 +4,11 @@ export interface Frontmatter {
   title?: string;
   description?: string;
   order?: number;
+  categoryOrder?: number;
   icon?: string;
   badge?: string;
-  prev?: string | { title: string; href: string };
-  next?: string | { title: string; href: string };
+  prev?: string | { title: string; href: string } | boolean;
+  next?: string | { title: string; href: string } | boolean;
   toc?: boolean;
   [key: string]: unknown;
 }
