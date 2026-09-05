@@ -1,0 +1,88 @@
+---
+title: MCP Server Protocol
+description: Connect AI coding assistants directly to Nikala UI components, primitives, and SolidJS reactivity guidelines.
+order: 4
+---
+
+## Feature Highlights
+
+<div class="grid grid-cols-1 gap-4 md:grid-cols-3">
+  <Card class="bg-card/50"><CardHeader class="pb-2"><CardTitle>Real-time Component Code</CardTitle><CardDescription>AI models fetch up-to-date SolidJS TSX code manifests directly from the official registry.</CardDescription></CardHeader></Card>
+  <Card class="bg-card/50"><CardHeader class="pb-2"><CardTitle>Reactive Primitives</CardTitle><CardDescription>Provides instant access to primitive hooks like <code>createAudio</code>, <code>createClipboard</code>, and <code>createWebSocket</code>.</CardDescription></CardHeader></Card>
+  <Card class="bg-card/50"><CardHeader class="pb-2"><CardTitle>SolidJS & Tailwind Rules</CardTitle><CardDescription>Exposes strict props-splitting, fine-grained reactivity, and anti-FOUC rules to AI models.</CardDescription></CardHeader></Card>
+</div>
+
+## Configuration & Setup
+
+Nikala MCP supports both local Stdio execution and remote HTTP/SSE transports.
+
+### Stdio Transport
+
+Use Stdio with Cursor, Antigravity, Claude Desktop, and other local MCP clients. Add `@nikala-ui/mcp` to your MCP configuration file (`mcp.json` or the Claude Desktop configuration):
+
+```json
+{
+  "mcpServers": {
+    "nikala-ui": {
+      "command": "npx",
+      "args": ["-y", "@nikala-ui/mcp"],
+      "cwd": "/absolute/path/to/your/project",
+      "env": {
+        "WORKSPACE_DIR": "/absolute/path/to/your/project"
+      }
+    }
+  }
+}
+```
+
+### Remote SSE Transport
+
+For web-based AI tools or assistants supporting remote Server-Sent Events connections:
+
+```text
+Remote SSE endpoint: https://nikala.dev/api/mcp/sse
+Messages endpoint:   https://nikala.dev/api/mcp/messages
+```
+
+## MCP Tools Reference
+
+The following tools are available on the Nikala UI MCP server.
+
+<ApiTable
+  title="Available Tools"
+  items={[
+    { prop: "list_components", type: "{}", description: "Returns metadata for all available UI components." },
+    { prop: "list_hooks", type: "{}", description: "Returns metadata for all available reactive primitives." },
+    { prop: "get_component_code", type: '{ name: string }', description: "Fetches a complete TSX component source manifest." },
+    { prop: "get_hook_code", type: '{ name: string }', description: "Fetches complete reactive TypeScript hook source." },
+    { prop: "install_component", type: '{ name: string, workspace_dir: string }', description: "Writes component source files to the target workspace." },
+    { prop: "install_hook", type: '{ name: string, workspace_dir: string }', description: "Writes a primitive hook file to the target workspace." },
+    { prop: "validate_project", type: '{ workspace_dir: string }', description: "Inspects project configuration, dependencies, CSS tokens, and component directories." },
+    { prop: "inspect_workspace", type: '{ workspace_dir: string }', description: "Lists Nikala components and hooks already installed in a project." },
+    { prop: "search_docs", type: '{ query: string }', description: "Searches components, hooks, and engineering guidelines." },
+    { prop: "generate_ai_rules", type: '{ workspace_dir: string }', description: "Generates or updates AI assistant rules for the workspace." },
+    { prop: "get_theme_css", type: '{ primary_color: string, base_palette: string }', description: "Generates Tailwind CSS v4 theme tokens for selected colors." },
+    { prop: "diff_component", type: '{ name: string, workspace_dir: string }', description: "Compares a local component or hook with the official registry manifest." }
+  ]}
+  badge="Tools"
+  description="Callable tools registered on the Nikala UI MCP server."
+/>
+
+## Pre-built AI Prompts
+
+Ready-to-use prompt templates for generating Nikala UI structures:
+
+<div class="grid grid-cols-1 gap-4 md:grid-cols-3">
+  <Card class="bg-background"><CardHeader><CardTitle class="text-sm"><Badge variant="outline">create_form_page</Badge></CardTitle><CardDescription>Generates complete SolidJS form pages with Input, Button, Alert, Card, and the createForm primitive.</CardDescription></CardHeader></Card>
+  <Card class="bg-background"><CardHeader><CardTitle class="text-sm"><Badge variant="outline">setup_theme_provider</Badge></CardTitle><CardDescription>Generates root theme setup with ThemeProvider, ThemeToggle, and the anti-FOUC ThemeScript.</CardDescription></CardHeader></Card>
+  <Card class="bg-background"><CardHeader><CardTitle class="text-sm"><Badge variant="outline">create_audio_player</Badge></CardTitle><CardDescription>Generates a custom media player UI using Progress, Button, Badge, and the createAudio primitive.</CardDescription></CardHeader></Card>
+</div>
+
+## Engineering Rule Resources
+
+Pre-loaded guidelines automatically served to AI models:
+
+<div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+  <Card class="bg-background"><CardHeader><CardTitle class="text-sm"><Badge variant="outline">nikala://rules/solidjs</Badge> SolidJS Reactivity</CardTitle><CardDescription>Enforces strict <code>splitProps(props, [...])</code>, fine-grained signal access, and memoized <code>children()</code> inspection.</CardDescription></CardHeader></Card>
+  <Card class="bg-background"><CardHeader><CardTitle class="text-sm"><Badge variant="outline">nikala://rules/theming</Badge> Tailwind v4 Design Tokens</CardTitle><CardDescription>Enforces native Tailwind v4 CSS theme variables and anti-FOUC ThemeScript placement.</CardDescription></CardHeader></Card>
+</div>

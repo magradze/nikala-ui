@@ -1,0 +1,215 @@
+---
+title: Accordion
+description: Vertically stacked collapsible content sections supporting single and multiple modes built on Kobalte primitives.
+addedAt: 2026-09-05
+---
+
+import {
+  Accordion,
+  AccordionItem,
+  AccordionTrigger,
+  AccordionContent,
+} from "@nikala-ui/core";
+
+<ComponentViewer
+  name="accordion"
+  title="Accordion"
+  command="bunx @nikala-ui/cli add accordion"
+  lang="tsx"
+  code={`<Accordion collapsible defaultValue="item-1" class="max-w-md">
+  <AccordionItem value="item-1">
+    <AccordionTrigger>Is Nikala UI free to use?</AccordionTrigger>
+    <AccordionContent>
+      Yes, Nikala UI is 100% open-source MIT licensed for personal and commercial projects.
+    </AccordionContent>
+  </AccordionItem>
+  <AccordionItem value="item-2">
+    <AccordionTrigger>Does it support Tailwind CSS v4?</AccordionTrigger>
+    <AccordionContent>
+      Yes! Nikala UI is designed specifically around Tailwind v4's CSS-first theme architecture.
+    </AccordionContent>
+  </AccordionItem>
+  <AccordionItem value="item-3">
+    <AccordionTrigger>How does reactivity work?</AccordionTrigger>
+    <AccordionContent>
+      Components use SolidJS's native splitProps and Kobalte accessible primitives for fine-grained reactivity.
+    </AccordionContent>
+  </AccordionItem>
+</Accordion>`}
+>
+  <div class="w-full max-w-md">
+    <Accordion collapsible defaultValue="item-1">
+      <AccordionItem value="item-1">
+        <AccordionTrigger>Is Nikala UI free to use?</AccordionTrigger>
+        <AccordionContent>
+          Yes, Nikala UI is 100% open-source MIT licensed for personal and commercial projects.
+        </AccordionContent>
+      </AccordionItem>
+      <AccordionItem value="item-2">
+        <AccordionTrigger>Does it support Tailwind CSS v4?</AccordionTrigger>
+        <AccordionContent>
+          Yes! Nikala UI is designed specifically around Tailwind v4's CSS-first theme architecture.
+        </AccordionContent>
+      </AccordionItem>
+      <AccordionItem value="item-3">
+        <AccordionTrigger>How does reactivity work?</AccordionTrigger>
+        <AccordionContent>
+          Components use SolidJS's native splitProps and Kobalte accessible primitives for fine-grained reactivity.
+        </AccordionContent>
+      </AccordionItem>
+    </Accordion>
+  </div>
+</ComponentViewer>
+
+## Usage
+
+Import the component into your SolidJS application:
+
+```tsx
+import {
+  Accordion,
+  AccordionItem,
+  AccordionTrigger,
+  AccordionContent,
+} from "@/components/ui/accordion";
+```
+
+## Examples
+
+### Multiple Mode
+
+Pass `type="multiple"` to allow expanding multiple panels at the same time.
+
+<ComponentViewer
+  name="accordion-multiple"
+  title="Multiple mode"
+  lang="tsx"
+  code={`<Accordion type="multiple" defaultValue={["item-1", "item-2"]} class="max-w-md">
+  <AccordionItem value="item-1">
+    <AccordionTrigger>Can I open multiple sections at once?</AccordionTrigger>
+    <AccordionContent>
+      Yes, set type="multiple" on the root Accordion component to allow expanding multiple panels simultaneously.
+    </AccordionContent>
+  </AccordionItem>
+  <AccordionItem value="item-2">
+    <AccordionTrigger>Is it fully accessible?</AccordionTrigger>
+    <AccordionContent>
+      Yes, built on Kobalte primitives with full ARIA roles and keyboard arrow navigation.
+    </AccordionContent>
+  </AccordionItem>
+</Accordion>`}
+>
+  <div class="w-full max-w-md">
+    <Accordion type="multiple" defaultValue={["item-1", "item-2"]}>
+      <AccordionItem value="item-1">
+        <AccordionTrigger>Can I open multiple sections at once?</AccordionTrigger>
+        <AccordionContent>
+          Yes, set type="multiple" on the root Accordion component to allow expanding multiple panels simultaneously.
+        </AccordionContent>
+      </AccordionItem>
+      <AccordionItem value="item-2">
+        <AccordionTrigger>Is it fully accessible?</AccordionTrigger>
+        <AccordionContent>
+          Yes, built on Kobalte primitives with full ARIA roles and keyboard arrow navigation.
+        </AccordionContent>
+      </AccordionItem>
+    </Accordion>
+  </div>
+</ComponentViewer>
+
+### Disabled Item
+
+Pass `disabled={true}` to an `AccordionItem` to prevent user interaction.
+
+<ComponentViewer
+  name="accordion-disabled"
+  title="Disabled item"
+  lang="tsx"
+  code={`<Accordion collapsible class="max-w-md">
+  <AccordionItem value="item-1">
+    <AccordionTrigger>Active Section</AccordionTrigger>
+    <AccordionContent>
+      This accordion section is fully interactive.
+    </AccordionContent>
+  </AccordionItem>
+  <AccordionItem value="item-2" disabled={true}>
+    <AccordionTrigger>Disabled Section</AccordionTrigger>
+    <AccordionContent>
+      This panel is disabled and cannot be expanded.
+    </AccordionContent>
+  </AccordionItem>
+</Accordion>`}
+>
+  <div class="w-full max-w-md">
+    <Accordion collapsible>
+      <AccordionItem value="item-1">
+        <AccordionTrigger>Active Section</AccordionTrigger>
+        <AccordionContent>
+          This accordion section is fully interactive.
+        </AccordionContent>
+      </AccordionItem>
+      <AccordionItem value="item-2" disabled={true}>
+        <AccordionTrigger>Disabled Section</AccordionTrigger>
+        <AccordionContent>
+          This panel is disabled and cannot be expanded.
+        </AccordionContent>
+      </AccordionItem>
+    </Accordion>
+  </div>
+</ComponentViewer>
+
+## API Reference
+
+<ApiTable
+  title="Accordion (Root)"
+  items={[
+    {
+      prop: "type",
+      type: '"single" | "multiple"',
+      default: '"single"',
+      description: "Expansion mode. Determines if one or many panels can open simultaneously.",
+    },
+    {
+      prop: "collapsible",
+      type: "boolean",
+      default: "false",
+      description: "Allows closing all items in single expansion mode.",
+    },
+    {
+      prop: "value",
+      type: "string | string[]",
+      default: "-",
+      description: "Controlled open item value(s).",
+    },
+    {
+      prop: "defaultValue",
+      type: "string | string[]",
+      default: "-",
+      description: "Initial open item value(s) for uncontrolled state.",
+    },
+    {
+      prop: "disabled",
+      type: "boolean",
+      default: "false",
+      description: "Disables interaction for the entire accordion.",
+    },
+  ]}
+/>
+
+<ApiTable
+  title="AccordionItem"
+  items={[
+    {
+      prop: "value",
+      type: "string",
+      required: true,
+      description: "Unique string value identifying this accordion item.",
+    },
+    {
+      prop: "disabled",
+      type: "boolean",
+      default: "false",
+      description: "Disables interaction for this specific panel item.",
+    },
+  ]}
+/>

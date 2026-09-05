@@ -131,7 +131,7 @@ ${local.code}`;
       )}
       {...rest}
     >
-      <Tabs defaultValue="preview" class="relative w-full flex flex-col h-full flex-1">
+      <Tabs defaultValue="preview" class="relative w-full flex flex-col h-full flex-1 gap-0">
         {/* Top Header & Toolbar */}
         <div class="flex flex-wrap items-center justify-between border-b border-border/70 px-3 py-2 gap-2 bg-muted/30 shrink-0">
           <div class="flex items-center gap-3">

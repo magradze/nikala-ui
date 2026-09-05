@@ -28,6 +28,233 @@ async function getFilesRecursively(dir: string, ext: string): Promise<string[]> 
 }
 
 /**
+ * Keep the docs MDX component registry in sync with the public core barrel.
+ * Docs pages can then use exported Nikala components without maintaining a
+ * second hand-written import/mapping list.
+ */
+async function syncDocsMdxComponents(cwd: string) {
+  const coreIndexPath = path.join(cwd, "src", "index.ts");
+  const mdxComponentsPath = path.join(
+    cwd,
+    "..",
+    "docs",
+    "src",
+    "components",
+    "mdx-components.tsx"
+  );
+
+  if (!(await fs.pathExists(coreIndexPath)) || !(await fs.pathExists(mdxComponentsPath))) {
+    return;
+  }
+
+  const coreIndex = await fs.readFile(coreIndexPath, "utf-8");
+  const componentFiles = [...coreIndex.matchAll(
+    /export \* from "\.\/registry\/components\/ui\/([^"\/]+)\.jsx";/g
+  )].map((match) => match[1]);
+  const names = new Set<string>();
+
+  for (const fileName of componentFiles) {
+    const sourcePath = path.join(cwd, "src", "registry", "components", "ui", `${fileName}.tsx`);
+    if (!(await fs.pathExists(sourcePath))) continue;
+
+    const source = await fs.readFile(sourcePath, "utf-8");
+    for (const match of source.matchAll(/^export\s+(?:const|function)\s+([A-Za-z_$][\w$]*)/gm)) {
+      const name = match[1];
+      if (/^[A-Z]/.test(name) && !name.endsWith("Variants")) names.add(name);
+    }
+  }
+
+  const generatedNames = [...names].sort((a, b) => a.localeCompare(b));
+  const importBlock = `import {\n${generatedNames.map((name) => `  ${name},`).join("\n")}\n} from "@nikala-ui/core";`;
+  const mappingBlock = `  // BEGIN AUTO-GENERATED NIKALA COMPONENTS\n  Plus,\n${generatedNames.map((name) => `  ${name},`).join("\n")}\n  // END AUTO-GENERATED NIKALA COMPONENTS`;
+
+  let mdxComponents = await fs.readFile(mdxComponentsPath, "utf-8");
+  mdxComponents = mdxComponents.replace(
+    /import \{\n[\s\S]*?\n\} from "@nikala-ui\/core";/,
+    importBlock
+  );
+  mdxComponents = mdxComponents.replace(
+    /  \/\/ BEGIN AUTO-GENERATED NIKALA COMPONENTS\n[\s\S]*?  \/\/ END AUTO-GENERATED NIKALA COMPONENTS/,
+    mappingBlock
+  );
+  await fs.writeFile(mdxComponentsPath, mdxComponents);
+  console.log(pc.green(`  ✓ Synced ${path.relative(cwd, mdxComponentsPath)}`));
+}
+
+function toPascalCase(value: string) {
+  return value
+    .split("-")
+    .filter(Boolean)
+    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+    .join("");
+}
+
+/** Create starter MDX pages for UI registry items that do not have docs yet. */
+async function generateDocsBoilerplates(cwd: string, items: RegistryIndex) {
+  const docsComponentsDir = path.join(
+    cwd,
+    "..",
+    "..",
+    "apps",
+    "web",
+    "src",
+    "docs",
+    "components"
+  );
+
+  if (!(await fs.pathExists(path.dirname(docsComponentsDir)))) return;
+  await fs.ensureDir(docsComponentsDir);
+
+  const addedAt = new Date().toISOString().slice(0, 10);
+  const uiItems = items.filter((item) => item.type === "registry:ui");
+  let created = 0;
+
+  for (const [index, item] of uiItems.entries()) {
+    const outputPath = path.join(docsComponentsDir, `${item.name}.mdx`);
+    const order = index + 1;
+
+    if (await fs.pathExists(outputPath)) {
+      const existing = await fs.readFile(outputPath, "utf-8");
+      if (!/^order:\s*\d+/m.test(existing)) {
+        const withOrder = existing.replace(/^(description:.*\n)/m, `$1order: ${order}\n`);
+        await fs.writeFile(outputPath, withOrder);
+        console.log(pc.green(`  ✓ Added order: ${order} to docs/components/${item.name}.mdx`));
+      }
+      continue;
+    }
+
+    const componentName = toPascalCase(item.name);
+    const content = `---
+title: ${item.title}
+description: ${item.description}
+order: ${order}
+addedAt: ${addedAt}
+---
+
+<ComponentViewer
+  name="${item.name}"
+  title="${item.title}"
+  command="bunx @nikala-ui/cli add ${item.name}"
+  lang="tsx"
+  code={\`// TODO: Add the primary ${item.title} example
+\`}
+>
+  <div class="flex min-h-32 w-full items-center justify-center rounded-lg border border-dashed border-border p-6 text-sm text-muted-foreground">
+    Add ${item.title} preview
+  </div>
+</ComponentViewer>
+
+## Usage
+
+Import the component into your SolidJS application:
+
+\`\`\`tsx
+import { ${componentName} } from "@/components/ui/${item.name}";
+\`\`\`
+
+## Examples
+
+### Example
+
+Add the primary ${item.title} usage example here.
+
+<ComponentViewer
+  name="${item.name}-example"
+  title="${item.title} example"
+  command="bunx @nikala-ui/cli add ${item.name}"
+  lang="tsx"
+  code={\`// TODO: Add a ${item.title} example
+\`}
+>
+  <div class="flex min-h-32 w-full items-center justify-center rounded-lg border border-dashed border-border p-6 text-sm text-muted-foreground">
+    Add ${item.title} preview
+  </div>
+</ComponentViewer>
+
+## API Reference
+
+<ApiTable title="${item.title}" items={[]} />
+`;
+
+    await fs.writeFile(outputPath, content);
+    created += 1;
+    console.log(pc.green(`  ✓ Generated docs/components/${item.name}.mdx (boilerplate)`));
+  }
+
+  if (created > 0) {
+    console.log(pc.cyan(`  ✓ Generated ${created} missing component documentation boilerplates`));
+  }
+}
+
+function toHookIdentifier(value: string) {
+  const [prefix, ...parts] = value.split("-");
+  return `${prefix}${parts.map((part) => part.charAt(0).toUpperCase() + part.slice(1)).join("")}`;
+}
+
+/** Create separate starter MDX pages for hook registry items. */
+async function generateHookDocsBoilerplates(cwd: string, items: RegistryIndex) {
+  const docsHooksDir = path.join(
+    cwd,
+    "..",
+    "..",
+    "apps",
+    "web",
+    "src",
+    "docs",
+    "hooks"
+  );
+
+  if (!(await fs.pathExists(path.dirname(docsHooksDir)))) return;
+  await fs.ensureDir(docsHooksDir);
+
+  const addedAt = new Date().toISOString().slice(0, 10);
+  const hookItems = items.filter((item) => item.type === "registry:hook");
+  let created = 0;
+
+  for (const [index, item] of hookItems.entries()) {
+    const outputPath = path.join(docsHooksDir, `${item.name}.mdx`);
+    if (await fs.pathExists(outputPath)) continue;
+
+    const hookIdentifier = toHookIdentifier(item.name);
+    const content = `---
+title: ${item.title}
+description: ${item.description}
+order: ${index + 1}
+addedAt: ${addedAt}
+---
+
+## Usage
+
+Import the hook into your SolidJS application:
+
+\`\`\`tsx
+import { ${hookIdentifier} } from "@/hooks/${item.name}";
+\`\`\`
+
+## Example
+
+Add the primary interactive example for ${item.title} here.
+
+\`\`\`tsx
+// TODO: Add a ${item.title} example
+\`\`\`
+
+## API Reference
+
+<ApiTable title="${item.title}" items={[]} />
+`;
+
+    await fs.writeFile(outputPath, content);
+    created += 1;
+    console.log(pc.green(`  ✓ Generated docs/hooks/${item.name}.mdx (boilerplate)`));
+  }
+
+  if (created > 0) {
+    console.log(pc.cyan(`  ✓ Generated ${created} missing hook documentation boilerplates`));
+  }
+}
+
+/**
  * Main build process to transform TSX component and block files into JSON registry manifests.
  */
 async function buildRegistry() {
@@ -305,6 +532,15 @@ async function buildRegistry() {
     await fs.copy(hooksSourceDir, webHooksDir, { overwrite: true });
     console.log(pc.green("  ✓ Synced hooks to apps/web/src/hooks"));
   }
+
+  // 7. Keep the docs MDX component map synchronized with core exports
+  await syncDocsMdxComponents(cwd);
+
+  // 8. Create missing component documentation pages without overwriting authored docs
+  await generateDocsBoilerplates(cwd, indexList);
+
+  // 9. Create separate missing hook documentation pages without overwriting authored docs
+  await generateHookDocsBoilerplates(cwd, indexList);
 
   console.log(pc.cyan("\n✅ Registry build complete!"));
 }

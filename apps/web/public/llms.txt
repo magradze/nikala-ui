@@ -3,7 +3,7 @@
 > Nikala UI is a copy-paste component system and reactive primitives suite for SolidJS built natively for Tailwind CSS v4. Honoring Georgian painter Niko Pirosmani (Nikala).
 
 - Official Website: https://nikala.dev
-- Current Version: v0.11.0
+- Current Version: v0.12.0
 - GitHub Repository: https://github.com/nikala-ui/ui
 - Documentation Portal: https://nikala.dev/docs
 - Desktop & Tauri Suite: https://nikala.dev/docs/desktop
@@ -140,7 +140,7 @@ When generating or editing SolidJS code using Nikala UI components and hooks, AI
 
 ---
 
-## 4. UI & Desktop Components Registry (79 Components)
+## 4. UI & Desktop Components Registry (82 Components)
 
 Below is the complete inventory of available Nikala UI components with exported JSX elements:
 
@@ -212,17 +212,20 @@ Below is the complete inventory of available Nikala UI components with exported 
 66. **Steps**: `Steps`, `Step`, `StepTitle`, `StepDescription`
 67. **Switch**: `Switch`
 68. **Table**: `Table`, `TableHeader`, `TableBody`, `TableFooter`, `TableRow`, `TableHead`, `TableCell`, `TableCaption`
-69. **Tabs**: `Tabs`, `TabsList`, `TabsTrigger`, `TabsContent`
-70. **Textarea**: `Textarea`
-71. **Theme Manager**: `ThemeProvider`, `ThemeScript`, `ThemeToggle`, `useTheme`
-72. **Timeline**: `Timeline`, `TimelineItem`, `TimelineSeparator`, `TimelineIndicator`, `TimelineConnector`, `TimelineContent`, `TimelineHeader`, `TimelineTitle`, `TimelineDescription`, `TimelineTime`
-73. **Titlebar**: `Titlebar`, `TitlebarControls`, `TitlebarTitle`, `TitlebarIcon`, `TitlebarActions`, `useTitlebar`
-74. **TitlebarTabs**: `TitlebarTabs`, `TitlebarTabList`, `TitlebarTab`, `TitlebarTabAddButton`, `useTitlebarTabs`
-75. **Toast**: `Toast`, `ToastTitle`, `ToastDescription`, `ToastCloseButton`, `ToastRegion`, `ToastList`, `showToast`
-76. **Toggle**: `Toggle`
-77. **Toggle Group**: `ToggleGroup`, `ToggleGroupItem`
-78. **Tooltip**: `Tooltip`, `TooltipTrigger`, `TooltipContent`, `TooltipArrow`
-79. **UpdaterModal / UpdaterDialog**: `UpdaterModal`
+69. **Table of Contents**: `TableOfContents`, `Toc`
+70. **Tabs**: `Tabs`, `TabsList`, `TabsTrigger`, `TabsContent`
+71. **Textarea**: `Textarea`
+72. **Theme Manager**: `ThemeProvider`, `ThemeScript`, `ThemeToggle`, `useTheme`
+73. **Timeline**: `Timeline`, `TimelineItem`, `TimelineSeparator`, `TimelineIndicator`, `TimelineConnector`, `TimelineContent`, `TimelineHeader`, `TimelineTitle`, `TimelineDescription`, `TimelineTime`
+74. **Titlebar**: `Titlebar`, `TitlebarControls`, `TitlebarTitle`, `TitlebarIcon`, `TitlebarActions`, `useTitlebar`
+75. **TitlebarTabs**: `TitlebarTabs`, `TitlebarTabList`, `TitlebarTab`, `TitlebarTabAddButton`, `useTitlebarTabs`
+76. **Toast**: `Toast`, `ToastTitle`, `ToastDescription`, `ToastCloseButton`, `ToastRegion`, `ToastList`, `showToast`
+77. **Toggle**: `Toggle`
+78. **Toggle Group**: `ToggleGroup`, `ToggleGroupItem`
+79. **Tooltip**: `Tooltip`, `TooltipTrigger`, `TooltipContent`, `TooltipArrow`
+80. **UpdaterModal / UpdaterDialog**: `UpdaterModal`
+81. **Container**: `Container`
+82. **Pager**: `Pager`, `PagerLink`
 
 ---
 
@@ -382,7 +385,7 @@ createGlobalShortcut({
 - Tauri v2 Setup Guide: https://nikala.dev/docs/desktop/setup
 - Live Interactive Playground: https://nikala.dev/playground
 
-### All Component Pages (79 Components)
+### All Component Pages (80 Components)
 - Accordion: https://nikala.dev/docs/components/accordion
 - Alert: https://nikala.dev/docs/components/alert
 - Api Table: https://nikala.dev/docs/components/api-table
@@ -450,6 +453,7 @@ createGlobalShortcut({
 - Steps: https://nikala.dev/docs/components/steps
 - Switch: https://nikala.dev/docs/components/switch
 - Table: https://nikala.dev/docs/components/table
+- Table of Contents: https://nikala.dev/docs/components/table-of-contents
 - Tabs: https://nikala.dev/docs/components/tabs
 - Textarea: https://nikala.dev/docs/components/textarea
 - Theme Manager: https://nikala.dev/docs/components/theme-manager
@@ -461,6 +465,8 @@ createGlobalShortcut({
 - Toggle: https://nikala.dev/docs/components/toggle
 - Tooltip: https://nikala.dev/docs/components/tooltip
 - UpdaterModal / UpdaterDialog: https://nikala.dev/docs/desktop/updater-dialog
+- Container: https://nikala.dev/docs/components/container
+- Pager: https://nikala.dev/docs/components/pager
 
 ### All Reactive Hooks & Primitives (48 Hooks)
 - createActiveElement: https://nikala.dev/docs/hooks/create-active-element

@@ -232,8 +232,9 @@ export const CodeBlock: ParentComponent<CodeBlockProps> = (props) => {
               <Tabs
                 value={activePm()}
                 onChange={(val) => setActivePm(val as CodeBlockPackageManager)}
+                class="w-auto flex-none"
               >
-                <TabsList class="h-auto bg-background/60 p-0.5 border border-border/50 gap-0.5 rounded-md font-mono">
+                <TabsList class="w-auto inline-flex h-auto bg-background/60 p-0.5 border border-border/50 gap-0.5 rounded-md font-mono">
                   <For each={managersList()}>
                     {(pm) => (
                       <TabsTrigger
@@ -315,7 +316,9 @@ export const CodeBlock: ParentComponent<CodeBlockProps> = (props) => {
             />
           }
         >
-          {local.children}
+          <pre class="shiki nikala-code-block m-0 overflow-x-auto bg-transparent p-0 font-mono text-xs">
+            {local.children}
+          </pre>
         </Show>
       </div>
     </div>

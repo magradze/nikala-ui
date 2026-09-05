@@ -1,0 +1,206 @@
+---
+title: Banner
+description: An announcement banner with sticky positioning, dismissal persistence, auto-hide timer, and variant styles.
+addedAt: 2026-09-05
+---
+
+<ComponentViewer
+  name="banner"
+  title="Banner"
+  command="bunx @nikala-ui/cli add banner"
+  lang="tsx"
+  code={`<Banner
+  variant="warning"
+  dismissible={true}
+  link="https://github.com/nikala-ui/ui"
+  linkText="GitHub"
+>
+  Website is under active construction. Some pages and components are in preview mode.
+</Banner>`}
+>
+  <div class="w-full">
+    <Banner
+      variant="warning"
+      dismissible={true}
+      link="https://github.com/nikala-ui/ui"
+      linkText="GitHub"
+    >
+      Website is under active construction. Some pages and components are in preview mode.
+    </Banner>
+  </div>
+</ComponentViewer>
+
+## Usage
+
+Import the component into your SolidJS application:
+
+```tsx
+import { Banner } from "@/components/ui/banner";
+```
+
+## Examples
+
+### Variants
+
+Supports `default`, `info`, `success`, `warning`, and `destructive` variants.
+
+<ComponentViewer
+  name="banner-variants"
+  title="Banner variants"
+  lang="tsx"
+  code={`<Banner variant="default">Default announcement banner</Banner>
+<Banner variant="info">Informational update banner</Banner>
+<Banner variant="success">Operation completed successfully!</Banner>
+<Banner variant="warning">Warning: Unsaved changes ahead</Banner>
+<Banner variant="destructive">Critical system alert</Banner>
+<Banner variant="pirosmani">Nikala Pirosmani signature Qvevri wine accent</Banner>`}
+>
+  <div class="flex w-full flex-col gap-3">
+    <Banner variant="default" dismissible={false}>Default announcement banner</Banner>
+    <Banner variant="info" dismissible={false}>Informational update banner</Banner>
+    <Banner variant="success" dismissible={false}>Operation completed successfully!</Banner>
+    <Banner variant="warning" dismissible={false}>Warning: Unsaved changes ahead</Banner>
+    <Banner variant="destructive" dismissible={false}>Critical system alert</Banner>
+  </div>
+</ComponentViewer>
+
+### With Action Link
+
+Pass `link` and `linkText` props to attach an anchor link.
+
+<ComponentViewer
+  name="banner-link"
+  title="Banner with action link"
+  lang="tsx"
+  code={`<Banner
+  variant="info"
+  link="https://github.com/nikala-ui/ui"
+  linkText="View on GitHub"
+>
+  Check out the official Nikala UI open-source repository.
+</Banner>`}
+>
+  <div class="w-full">
+    <Banner
+      variant="info"
+      dismissible={false}
+      link="https://github.com/nikala-ui/ui"
+      linkText="View on GitHub"
+    >
+      Check out the official Nikala UI open-source repository.
+    </Banner>
+  </div>
+</ComponentViewer>
+
+### Custom Icon
+
+Pass a Lucide icon component via the `icon` prop.
+
+<ComponentViewer
+  name="banner-custom-icon"
+  title="Banner with custom icon"
+  lang="tsx"
+  code={`<Banner
+  variant="destructive"
+  icon={AlertCircle}
+>
+  High priority security patch required. Please update immediately.
+</Banner>`}
+>
+  <div class="w-full">
+    <Banner
+      variant="destructive"
+      dismissible={false}
+    >
+      High priority security patch required. Please update immediately.
+    </Banner>
+  </div>
+</ComponentViewer>
+
+### Non-Dismissible
+
+Set `dismissible={false}` to hide the close button.
+
+<ComponentViewer
+  name="banner-non-dismissible"
+  title="Non-dismissible banner"
+  lang="tsx"
+  code={`<Banner variant="warning" dismissible={false}>
+  Persistent header message that cannot be closed by user.
+</Banner>`}
+>
+  <div class="w-full">
+    <Banner variant="warning" dismissible={false}>
+      Persistent header message that cannot be closed by user.
+    </Banner>
+  </div>
+</ComponentViewer>
+
+## API Reference
+
+<ApiTable
+  title="Banner"
+  items={[
+    {
+      prop: "variant",
+      type: '"default" | "warning" | "info" | "success" | "destructive"',
+      default: '"default"',
+      description: "Color theme and visual alert state variant.",
+    },
+    {
+      prop: "sticky",
+      type: "boolean",
+      default: "false",
+      description: "Pins the banner sticky to the top of the viewport.",
+    },
+    {
+      prop: "dismissible",
+      type: "boolean",
+      default: "true",
+      description: "Shows or hides the trailing X close button.",
+    },
+    {
+      prop: "storageKey",
+      type: "string",
+      default: "-",
+      description: "LocalStorage key namespace to remember user dismissal across page refreshes.",
+    },
+    {
+      prop: "autoHideDelay",
+      type: "number",
+      default: "-",
+      description: "Time in milliseconds before auto-closing the banner.",
+    },
+    {
+      prop: "showIcon",
+      type: "boolean",
+      default: "true",
+      description: "Toggles rendering of the leading icon.",
+    },
+    {
+      prop: "icon",
+      type: "Component<{ class?: string }>",
+      default: "-",
+      description: "Custom Lucide icon component reference.",
+    },
+    {
+      prop: "link",
+      type: "string",
+      default: "-",
+      description: "Target URL for the optional inline action link.",
+    },
+    {
+      prop: "linkText",
+      type: "string",
+      default: '"Learn more"',
+      description: "Anchor link text label.",
+    },
+    {
+      prop: "onDismiss",
+      type: "() => void",
+      default: "-",
+      description: "Callback triggered when the banner is closed.",
+    },
+  ]}
+/>
+

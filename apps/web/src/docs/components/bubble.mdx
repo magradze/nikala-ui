@@ -1,0 +1,144 @@
+---
+title: Bubble
+description: Chat message bubble container supporting variants, grouped consecutive bubbles, and emoji reactions for SolidJS.
+addedAt: 2026-09-05
+---
+
+<ComponentViewer
+  name="bubble"
+  title="Bubble"
+  command="bunx @nikala-ui/cli add bubble"
+  lang="tsx"
+  code={`<div class="flex flex-col gap-3 w-full max-w-sm">
+  <div class="flex justify-end">
+    <Bubble variant="default">
+      <BubbleContent>Have you benchmarked the new createChatScroll hook?</BubbleContent>
+    </Bubble>
+  </div>
+
+  <div class="flex justify-start">
+    <Bubble variant="muted">
+      <BubbleContent>Yes! Zero hydration overhead and buttery smooth 60fps scrolling.</BubbleContent>
+      <BubbleReactions>
+        <BubbleReaction count={4} active>⚡</BubbleReaction>
+        <BubbleReaction count={2}>🔥</BubbleReaction>
+      </BubbleReactions>
+    </Bubble>
+  </div>
+</div>`}
+>
+  <div class="flex w-full max-w-sm flex-col gap-4">
+    <div class="flex justify-end">
+      <Bubble variant="default">
+        <BubbleContent>Have you benchmarked the new createChatScroll hook?</BubbleContent>
+      </Bubble>
+    </div>
+
+    <div class="flex justify-start">
+      <Bubble variant="muted">
+        <BubbleContent>Yes! Zero hydration overhead and buttery smooth 60fps scrolling.</BubbleContent>
+        <BubbleReactions>
+          <BubbleReaction count={4} active>⚡</BubbleReaction>
+          <BubbleReaction count={2}>🔥</BubbleReaction>
+        </BubbleReactions>
+      </Bubble>
+    </div>
+  </div>
+</ComponentViewer>
+
+## Usage
+
+Import the component into your SolidJS application:
+
+```tsx
+import {
+  Bubble,
+  BubbleGroup,
+  BubbleContent,
+  BubbleReactions,
+  BubbleReaction,
+} from "@/components/ui/bubble";
+```
+
+## Examples
+
+### Visual Variants
+
+Choose from `default`, `muted`, `outline`, and `ghost` styles.
+
+<ComponentViewer
+  name="bubble-variants"
+  title="Bubble variants"
+  lang="tsx"
+  code={`<div class="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full max-w-md">
+  <Bubble variant="default">
+    <BubbleContent>Primary / Sent Message</BubbleContent>
+  </Bubble>
+
+  <Bubble variant="muted">
+    <BubbleContent>Muted / Received Message</BubbleContent>
+  </Bubble>
+
+  <Bubble variant="outline">
+    <BubbleContent>Outline / Card Message</BubbleContent>
+  </Bubble>
+
+  <Bubble variant="ghost">
+    <BubbleContent>Ghost / Minimal Message</BubbleContent>
+  </Bubble>
+</div>`}
+>
+  <div class="grid w-full max-w-md grid-cols-1 gap-4 sm:grid-cols-2">
+    <Bubble variant="default">
+      <BubbleContent>Primary / Sent Message</BubbleContent>
+    </Bubble>
+    <Bubble variant="muted">
+      <BubbleContent>Muted / Received Message</BubbleContent>
+    </Bubble>
+    <Bubble variant="outline">
+      <BubbleContent>Outline / Card Message</BubbleContent>
+    </Bubble>
+    <Bubble variant="ghost">
+      <BubbleContent>Ghost / Minimal Message</BubbleContent>
+    </Bubble>
+  </div>
+</ComponentViewer>
+
+## API Reference
+
+<ApiTable
+  title="Bubble"
+  items={[
+    {
+      prop: "variant",
+      type: '"default" | "muted" | "outline" | "ghost"',
+      default: '"default"',
+      description: "Visual appearance and background token of the bubble.",
+    },
+    {
+      prop: "size",
+      type: '"default" | "sm" | "lg"',
+      default: '"default"',
+      description: "Padding and font-size of the bubble container.",
+    },
+  ]}
+/>
+
+<ApiTable
+  title="BubbleReaction"
+  items={[
+    {
+      prop: "active",
+      type: "boolean",
+      default: "false",
+      description: "Indicates whether the current user has reacted with this emoji.",
+    },
+    {
+      prop: "count",
+      type: "number",
+      default: "undefined",
+      description: "Total number of reactions received for this emoji badge.",
+    },
+  ]}
+/>
+

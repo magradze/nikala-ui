@@ -49,6 +49,7 @@ export interface CalloutProps
   extends JSX.HTMLAttributes<HTMLDivElement>,
     VariantProps<typeof calloutVariants> {
   title?: string;
+  type?: VariantProps<typeof calloutVariants>["variant"];
   icon?: Component<{ class?: string }> | false;
   class?: string;
 }
@@ -56,13 +57,14 @@ export interface CalloutProps
 export const Callout: ParentComponent<CalloutProps> = (props) => {
   const [local, rest] = splitProps(props, [
     "variant",
+    "type",
     "title",
     "icon",
     "class",
     "children",
   ]);
 
-  const variant = () => local.variant || "note";
+  const variant = () => local.variant || local.type || "note";
 
   const IconComponent = () => {
     if (local.icon === false) return null;

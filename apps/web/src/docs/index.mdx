@@ -1,0 +1,77 @@
+---
+title: Introduction
+description: A simple, copy-paste component system for SolidJS built natively for Tailwind CSS v4.
+order: 1
+---
+
+<Callout type="warning" title="Niko Pirosmani (Nikala)">
+  Nikala UI pays tribute to the iconic Georgian painter Niko Pirosmani. Like his art, Nikala UI embraces simplicity, bold structure, and raw elegance.
+</Callout>
+
+## What is Nikala UI?
+
+<p>
+  Tailwind CSS v4 introduced a CSS-first configuration (<code>@theme</code>), which broke compatibility with many existing SolidJS UI wrappers.
+</p>
+
+<p>
+  Instead of adding a heavy third-party UI package to your <code>node_modules</code>, Nikala's CLI writes lightweight, fully reactive SolidJS components directly into your <code>src/components/ui</code> directory. You own 100% of the source code.
+</p>
+
+<p>
+  Nikala UI is architected as a modern monorepo separating the command-line client (<code>@nikala-ui/cli</code>) from the core design system (<code>@nikala-ui/core</code>), allowing background registry updates without requiring CLI package updates.
+</p>
+
+## Core Philosophy
+
+<div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+  <Card class="bg-card/50">
+    <CardHeader>
+      <CardTitle>Native SolidJS Reactivity</CardTitle>
+      <CardDescription>
+        Built strictly with <code>splitProps</code> to preserve fine-grained signal tracking without object destructuring bugs.
+      </CardDescription>
+    </CardHeader>
+  </Card>
+
+  <Card class="bg-card/50">
+    <CardHeader>
+      <CardTitle>Tailwind CSS v4 First</CardTitle>
+      <CardDescription>
+        Designed around modern CSS-first setups with semantic variable design tokens such as <code>--primary</code> and <code>--background</code>.
+      </CardDescription>
+    </CardHeader>
+  </Card>
+
+  <Card class="bg-card/50">
+    <CardHeader>
+      <CardTitle>Full Code Ownership</CardTitle>
+      <CardDescription>
+        Components live inside your codebase. Customize, tweak, or extend them as your application grows.
+      </CardDescription>
+    </CardHeader>
+  </Card>
+
+  <Card class="bg-card/50">
+    <CardHeader>
+      <CardTitle>Monorepo Architecture</CardTitle>
+      <CardDescription>
+        Decoupled CLI (<code>@nikala-ui/cli</code>) and core registry (<code>@nikala-ui/core</code>) for instant background updates.
+      </CardDescription>
+    </CardHeader>
+  </Card>
+</div>
+
+## Quick Start
+
+<p>1. Initialize Nikala UI in your SolidJS project:</p>
+
+```bash
+bunx @nikala-ui/cli init
+```
+
+<p>2. Add components directly to your workspace:</p>
+
+```bash
+bunx @nikala-ui/cli add button card input theme-manager
+```

@@ -1,0 +1,190 @@
+---
+title: CLI Reference
+description: Comprehensive CLI guide for initializing Nikala UI, adding components, listing the catalog, upgrading, removing, validating workspace health, and customizing themes.
+order: 2
+---
+
+## Command Summary
+
+<div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+  <Card class="bg-card/50"><CardHeader class="p-4"><CardTitle class="font-mono text-sm text-primary">bunx @nikala-ui/cli init</CardTitle><CardDescription>Initializes configuration, path aliases, and OKLCH CSS design tokens.</CardDescription></CardHeader></Card>
+  <Card class="bg-card/50"><CardHeader class="p-4"><CardTitle class="font-mono text-sm text-primary">bunx @nikala-ui/cli add</CardTitle><CardDescription>Installs reactive components directly into your codebase.</CardDescription></CardHeader></Card>
+  <Card class="bg-card/50"><CardHeader class="p-4"><CardTitle class="font-mono text-sm text-primary">bunx @nikala-ui/cli upgrade</CardTitle><CardDescription>Syncs and upgrades installed components to the latest registry versions.</CardDescription></CardHeader></Card>
+  <Card class="bg-card/50"><CardHeader class="p-4"><CardTitle class="font-mono text-sm text-primary">bunx @nikala-ui/cli remove</CardTitle><CardDescription>Safely uninstalls or cleans installed components and reactive hooks.</CardDescription></CardHeader></Card>
+  <Card class="bg-card/50"><CardHeader class="p-4"><CardTitle class="font-mono text-sm text-primary">bunx @nikala-ui/cli validate</CardTitle><CardDescription>Runs workspace health diagnostics on dependencies and CSS tokens.</CardDescription></CardHeader></Card>
+  <Card class="bg-card/50"><CardHeader class="p-4"><CardTitle class="font-mono text-sm text-primary">bunx @nikala-ui/cli diff</CardTitle><CardDescription>Compares local component code against upstream registry manifests.</CardDescription></CardHeader></Card>
+</div>
+
+## Initialization & AI Assistant Rules
+
+Run the initialization command in your SolidJS workspace to configure path aliases, CSS design tokens, and utility helpers.
+
+```bash
+bunx @nikala-ui/cli init
+```
+
+Pass the `--ai` flag to automatically generate AI assistant rules (`.cursor/rules/nikala.mdc`, `.cursorrules`, and `AGENTS.md`) enforcing strict SolidJS reactivity rules for Cursor, Claude, and GitHub Copilot:
+
+```bash
+bunx @nikala-ui/cli init --ai
+```
+
+Generate or update AI assistant rules in an existing project at any time:
+
+```bash
+bunx @nikala-ui/cli rules
+```
+
+## Component & Hook Installation
+
+Installs component or primitive hook source code directly into your project directory and resolves dependencies.
+
+### Interactive Autocomplete Multiselect Mode
+
+Running the add command without component names launches an interactive multiselect menu for UI components.
+
+```bash
+bunx @nikala-ui/cli add
+```
+
+### Interactive Hook Primitives Mode
+
+Pass the `--hook` (or `-h`) flag to filter and interactively select reactive primitives.
+
+```bash
+bunx @nikala-ui/cli add --hook
+```
+
+### Direct Component & Hook Installation
+
+```bash
+bunx @nikala-ui/cli add button input dialog
+bunx @nikala-ui/cli add --hook create-audio create-fetch
+```
+
+### Installing All Components
+
+```bash
+bunx @nikala-ui/cli add --all
+```
+
+<Callout type="info" title="Remote Registries">
+  You can also install custom components or hooks directly from arbitrary HTTP(S) JSON manifests across the web.
+</Callout>
+
+### Installing from Remote Registry URLs
+
+```bash
+bunx @nikala-ui/cli add https://example.com/registry/custom-widget.json
+```
+
+### Overwriting Existing Files
+
+```bash
+bunx @nikala-ui/cli add button --overwrite
+```
+
+## Listing & Catalog Inspection
+
+Inspect all available registry components and reactive hooks, with live indicators showing which items are already installed in your project.
+
+### List All Available & Installed Items
+
+Running `nikala list` (or `nikala ls`) displays the complete catalog of UI components and reactive hooks.
+
+```bash
+bunx @nikala-ui/cli list
+```
+
+### Filter by Locally Installed Items
+
+Show only the components and hooks currently present in your project:
+
+```bash
+bunx @nikala-ui/cli list --installed
+```
+
+### Filter by Type
+
+Filter the catalog to display only UI components or only reactive primitives:
+
+```bash
+bunx @nikala-ui/cli list --component
+bunx @nikala-ui/cli list --hook
+```
+
+### JSON Output Format
+
+Output the full catalog and installation status as machine-readable JSON for CI/CD scripts and AI workflows:
+
+```bash
+bunx @nikala-ui/cli list --json
+```
+
+## Upgrade & Update
+
+Upgrade your installed components and hooks to the latest registry versions with automatic dependency resolution.
+
+```bash
+# Interactive upgrade mode
+bunx @nikala-ui/cli upgrade
+
+# Upgrade specific components or hooks
+bunx @nikala-ui/cli update button dialog create-clipboard
+
+# Upgrade all installed items in the project
+bunx @nikala-ui/cli upgrade --all
+```
+
+## Remove & Uninstall
+
+Safely remove or uninstall UI components and reactive hooks from your codebase.
+
+```bash
+# Interactive removal mode for components
+bunx @nikala-ui/cli remove
+
+# Uninstall specific components
+bunx @nikala-ui/cli uninstall button dialog
+
+# Remove reactive hooks
+bunx @nikala-ui/cli remove -h create-clipboard
+```
+
+## Health Diagnostics
+
+Inspects your workspace for configuration issues, missing NPM packages, and corrupted CSS variables.
+
+```bash
+bunx @nikala-ui/cli validate
+```
+
+## Code Inspector
+
+Compares your local component implementations against official manifests on GitHub Raw CDN to inspect upstream style updates or bug fixes.
+
+```bash
+bunx @nikala-ui/cli diff
+
+# Or inspect a specific component
+bunx @nikala-ui/cli diff button
+```
+
+## CLI Theme Customization
+
+Switch base gray palettes and primary brand accent colors directly from the terminal without re-running initialization.
+
+### Interactive Selection Menu
+
+```bash
+bunx @nikala-ui/cli theme
+```
+
+### Direct Command Execution
+
+```bash
+bunx @nikala-ui/cli theme set sky slate
+
+# Set an Amber accent
+bunx @nikala-ui/cli theme set amber zinc
+```

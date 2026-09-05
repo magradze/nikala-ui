@@ -24,7 +24,7 @@ export const DocNextSteps: Component<DocNextStepsProps> = (props) => {
         >
           <span class="text-xs text-muted-foreground">Next →</span>
           <span>{props.next!.title}</span>
-          div        </a>
+        </a>
       </Show>
     </div>
   );

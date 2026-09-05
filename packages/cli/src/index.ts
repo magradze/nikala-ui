@@ -12,7 +12,7 @@ import { listCommand } from "./commands/list.js";
 
 import { setupAiRules } from "./utils/init/setup-ai-rules.js";
 
-console.log(`\n🎨 ${pc.bold(pc.red("Nikala UI"))} ${pc.dim("v0.11.0")} — SolidJS + Tailwind v4 components`);
+console.log(`\n🎨 ${pc.bold(pc.red("Nikala UI"))} ${pc.dim("v0.12.0")} — SolidJS + Tailwind v4 components`);
 console.log(`   ${pc.italic(pc.dim("Honoring Niko Pirosmani (Nikala)"))}\n`);
 console.log(`   ${pc.dim("Docs:")} ${pc.underline(pc.cyan("https://nikala.dev"))}\n`);
 
@@ -21,12 +21,13 @@ const program = new Command();
 program
   .name("nikala")
   .description("Nikala UI — SolidJS + Tailwind v4 components")
-  .version("0.11.0");
+  .version("0.12.0");
 
 program
   .command("init")
   .description("Initialize Nikala UI in your project")
   .option("-d, --defaults", "Skip prompts and use defaults")
+  .option("--skip-dependencies", "Skip dependency installation (used by higher-level tooling)")
   .option("--ai", "Generate AI assistant rules (.cursor/rules/nikala.mdc, .cursorrules, AGENTS.md)")
   .action(init);
 
