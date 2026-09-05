@@ -19,7 +19,8 @@ import {
   CollapsibleContent,
   cn,
 } from "@nikala-ui/core";
-import { BookOpen, ChevronRight, FileText, Folder } from "lucide-solid";
+import { Logo } from "@nikala-ui/core/ui/logo";
+import { ChevronRight, FileText, Folder } from "lucide-solid";
 import type { DocsSidebarProps } from "../types.js";
 import type { SidebarItem } from "../../types.js";
 
@@ -161,17 +162,21 @@ export const DocsSidebar: Component<DocsSidebarProps> = (props) => {
     >
       <Show when={local.showHeader !== false}>
         <SidebarHeader class="p-3">
-          <SidebarMenuButton size="lg" class="w-full justify-between">
+          <a
+            href={local.logo?.href || "/"}
+            data-sidebar="menu-button"
+            class={cn(sidebarMenuButtonVariants({ variant: "default", size: "lg" }), "w-full justify-between")}
+          >
             <div class="flex items-center gap-2.5 overflow-hidden">
-              <div class="flex size-7 shrink-0 items-center justify-center rounded-md bg-primary text-primary-foreground shadow-2xs">
-                <BookOpen class="size-4" />
-              </div>
+              <Show when={local.logo?.image} fallback={<Logo class="size-7" />}>
+                {(image) => <img src={image()} alt={brandText()} class="size-7 shrink-0 rounded-md object-contain" />}
+              </Show>
               <div class="flex min-w-0 flex-col gap-0.5 leading-none group-data-[collapsible=icon]:hidden">
                 <span class="truncate text-xs font-bold">{brandText()}</span>
                 <span class="truncate text-[10px] text-muted-foreground">{local.headerSubtitle}</span>
               </div>
             </div>
-          </SidebarMenuButton>
+          </a>
         </SidebarHeader>
       </Show>
 

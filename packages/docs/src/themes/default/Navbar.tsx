@@ -13,11 +13,12 @@ import {
   SidebarTrigger,
   ThemeToggle,
 } from "@nikala-ui/core";
+import { Logo } from "@nikala-ui/core/ui/logo";
 import { Search } from "lucide-solid";
 import type { DocsNavbarProps } from "../types.js";
 
 export const DocsNavbar: Component<DocsNavbarProps> = (props) => {
-  const [local, rest] = splitProps(props, ["config", "onOpenSearch", "class"]);
+  const [local, rest] = splitProps(props, ["config", "onOpenSearch", "showBrand", "class"]);
 
   const title = () => local.config.title || "Nikala Docs";
   const logoText = () => local.config.logo?.text || title();
@@ -35,12 +36,14 @@ export const DocsNavbar: Component<DocsNavbarProps> = (props) => {
       <NavbarContainer class="h-14 px-4 sm:px-6" >
         <NavbarContent justify="start" class="gap-3">
           <SidebarTrigger aria-label="Toggle documentation sidebar" />
-          <NavbarBrand href={logoHref()} class="text-base font-bold tracking-tight">
-            <Show when={local.config.logo?.image}>
-              {(img) => <img src={img()} alt={logoText()} class="size-6 object-contain" />}
-            </Show>
-            <span>{logoText()}</span>
-          </NavbarBrand>
+          <Show when={local.showBrand !== false}>
+            <NavbarBrand href={logoHref()} class="text-base font-bold tracking-tight">
+              <Show when={local.config.logo?.image} fallback={<Logo class="size-6" />}>
+                {(img) => <img src={img()} alt={logoText()} class="size-6 object-contain" />}
+              </Show>
+              <span>{logoText()}</span>
+            </NavbarBrand>
+          </Show>
         </NavbarContent>
 
         <NavbarContent justify="end" class="gap-2">

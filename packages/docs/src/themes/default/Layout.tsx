@@ -84,13 +84,13 @@ export const DocsLayout: ParentComponent<DocsLayoutProps> = (props) => {
     <SidebarProvider defaultOpen={true} class="min-h-screen w-full items-stretch">
       <Show when={sidebarLayout()} fallback={
         <div class="flex min-h-screen min-w-0 flex-1 flex-col">
-          <DocsNavbar config={local.config} onOpenSearch={() => setSearchOpen(true)} />
+          <DocsNavbar config={local.config} showBrand={true} onOpenSearch={() => setSearchOpen(true)} />
           <div class="flex min-h-0 flex-1 items-start">{sidebar()}{content()}</div>
         </div>
       }>
         {sidebar()}
         <div class="flex min-h-screen min-w-0 flex-1 flex-col">
-          <DocsNavbar config={local.config} onOpenSearch={() => setSearchOpen(true)} />
+          <DocsNavbar config={local.config} showBrand={false} onOpenSearch={() => setSearchOpen(true)} />
           {content()}
         </div>
       </Show>

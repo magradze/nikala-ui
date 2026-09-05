@@ -77,6 +77,7 @@ function getSharedConfig(options: DocsServerOptions, isDev = false): InlineConfi
       { find: "@/components/ui", replacement: path.join(coreSrc, "registry/components/ui") },
       { find: "@/lib", replacement: path.join(coreSrc, "lib") },
       { find: "@/providers", replacement: path.join(coreSrc, "registry/providers") },
+      { find: /^@nikala-ui\/core\/ui\/(.*)$/, replacement: path.join(coreSrc, "registry/components/ui/$1") },
       { find: "@nikala-ui/core", replacement: path.join(coreSrc, "index.ts") }
     );
   }

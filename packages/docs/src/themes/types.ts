@@ -6,6 +6,7 @@ export type BreadcrumbItemData = { title: string; href?: string };
 export interface DocsNavbarProps {
   config: DocsConfig;
   onOpenSearch?: () => void;
+  showBrand?: boolean;
   class?: string;
 }
 
