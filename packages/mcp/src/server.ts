@@ -11,7 +11,7 @@ import { handleGetPrompt } from "./prompts/index.js";
 export function createNikalaMcpServer() {
   const server = new McpServer({
     name: "nikala-ui-mcp",
-    version: "0.12.0",
+    version: "0.12.1",
   });
 
   /* --- Register Tools via high-level API --- */

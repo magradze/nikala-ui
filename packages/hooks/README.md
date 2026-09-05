@@ -1,116 +1,161 @@
 # @nikala-ui/hooks
 
-Reactive SolidJS state primitives and custom hooks for **Nikala UI**.
+Reactive SolidJS primitives for browser state, events, media APIs, storage, forms, and application behavior.
 
-Honoring the iconic Georgian painter **Niko Pirosmani (Nikala)**.
+Nikala UI follows a pure copy-paste ownership model. This package is the source distribution used by the registry and documentation tooling. Application developers add hooks with `@nikala-ui/cli`, which copies the source into their own project.
 
-Official Documentation & Interactive Demos: [nikala.dev](https://nikala.dev)
+Documentation and interactive examples: [nikala.dev](https://nikala.dev)
 
----
+## Add a hook to an application
 
-## Overview
-
-This package provides reusable, fine-grained reactive primitives designed natively for SolidJS applications. It simplifies managing complex component state such as controlled and uncontrolled inputs, state synchronization, browser APIs, and reactive event callbacks.
-
----
-
-## Core Features & Available Hooks
-
-- **`createControllableSignal`** — SolidJS reactive primitive for managing state supporting both controlled and uncontrolled modes with a unified setter API.
-- **`createClickOutside`** — SolidJS reactive primitive for detecting user interactions outside specified element(s) or refs.
-- **`createClipboard`** — SolidJS reactive primitive for copying text to clipboard with automatic status reset.
-- **`createKeybindings` / `createEscapeKey`** — SolidJS reactive primitives for listening to keyboard shortcuts, key combinations, and Escape key presses.
-- **`createLockScroll`** — SolidJS reactive primitive for locking body or container scrolling when overlays are active.
-- **`createDisclosure`** — SolidJS reactive primitive for managing boolean open/close state with toggle, open, and close helpers.
-- **`createMediaQuery` / `createBreakpoint`** — SolidJS reactive primitives for tracking CSS media queries and responsive Tailwind breakpoints.
-- **`createDebounce` / `createThrottle`** — SolidJS reactive primitives for debouncing and throttling rate-limited function execution.
-- **`createIntersectionObserver` / `createInView`** — SolidJS reactive primitives for detecting element viewport visibility and scroll animation triggers.
-- **`createTimer` / `createCountdown`** — SolidJS reactive primitives for recurring interval ticks and formatted countdown timers.
-- **`createResizeObserver` / `createElementSize`** — SolidJS reactive primitives for tracking element width and height dimensions dynamically.
-- **`createWindowSize`** — SolidJS reactive primitive for tracking window viewport inner width and height.
-- **`createScrollPosition`** — SolidJS reactive primitive for tracking scroll position, scroll direction, and top/bottom container status.
-- **`createFocusTrap`** — SolidJS reactive primitive for trapping keyboard focus inside target container element for accessibility (WCAG).
-- **`createMousePosition`** — SolidJS reactive primitive for tracking global and element-relative mouse pointer coordinates.
-- **`createLongPress`** — SolidJS reactive primitive for detecting long press / hold touch and pointer interactions.
-- **`createHover`** — SolidJS reactive primitive for tracking element hover state with entrance/exit delays.
-- **`createLocalStorage` / `createSessionStorage`** — SolidJS reactive primitives for Web Storage state synchronization across tabs.
-- **`createPrevious`** — SolidJS reactive primitive for tracking previous value of a signal accessor.
-- **`createNetworkStatus` / `createOnline`** — SolidJS reactive primitives for tracking browser network connectivity and connection quality metrics.
-- **`createColorMode`** — SolidJS reactive primitive for managing dark/light themes and system preferences.
-- **`createForm`** — SolidJS reactive primitive for form state management, field validation, errors, and submission.
-- **`createInputMask`** — SolidJS reactive primitive for input value masking (phone numbers, credit cards, dates).
-- **`createIdle`** — SolidJS reactive primitive for detecting user inactivity with customizable timeout and activity events.
-- **`createActiveElement`** — SolidJS reactive primitive for tracking the currently focused DOM element.
-- **`createInfiniteScroll`** — SolidJS reactive primitive for infinite scrolling data fetching and threshold triggers.
-- **`createFullscreen`** — SolidJS reactive primitive for toggling and observing Fullscreen API state.
-- **`createAudio` / `createVideo`** — SolidJS reactive primitives for media playback, volume, duration, and control tracking.
-- **`createOrientation`** — SolidJS reactive primitive for observing device screen orientation and angle.
-- **`createUndoRedo`** — SolidJS reactive primitive for managing state history, undo/redo stacks, and reset capabilities.
-- **`createFetch`** — SolidJS reactive primitive for reactive HTTP data fetching, loading states, and error handling.
-- **`createGeolocation`** — SolidJS reactive primitive for tracking device GPS coordinates and location errors.
-- **`createPermission`** — SolidJS reactive primitive for querying and observing browser permission status changes.
-- **`createBattery`** — SolidJS reactive primitive for observing device battery charge level and charging status.
-- **`createWebNotification`** — SolidJS reactive primitive for sending browser desktop notifications and managing permissions.
-- **`createWebSocket`** — SolidJS reactive primitive for WebSocket client connections, auto-reconnections, and message passing.
-- **`createDocumentTitle`** — SolidJS reactive primitive for managing document title dynamically with unmount restoration.
-- **`createFavicon`** — SolidJS reactive primitive for dynamically updating browser favicon link element.
-- **`createEventSource`** — SolidJS reactive primitive for subscribing to Server-Sent Events (SSE) streams.
-- **Native SolidJS Reactivity** — Zero-dependency, fine-grained reactivity built directly on SolidJS signals.
-- **TypeScript First** — Fully typed options, getters, and return tuple interfaces.
-
----
-
-## Installation & Usage
-
-Install the hooks package via your preferred package manager:
+Initialize Nikala UI if the project has not been configured yet, then add the required hook:
 
 ```bash
-bun add @nikala-ui/hooks
-# or
-npm install @nikala-ui/hooks
+bunx @nikala-ui/cli init
+bunx @nikala-ui/cli add --hook create-clipboard
 ```
 
-Import hooks directly into your SolidJS components:
+The CLI copies the selected source into `src/hooks/` and rewrites its local imports. The application owns the copied file and does not add `@nikala-ui/hooks` as a runtime dependency.
+
+## Usage
+
+Import the copied source from the project's local hooks directory:
 
 ```tsx
-import { createControllableSignal } from "@nikala-ui/hooks";
+import { createControllableSignal } from "@/hooks/create-controllable-signal";
 
 const [value, setValue] = createControllableSignal({
-  defaultValue: "Uncontrolled Initial State",
+  defaultValue: "initial value",
 });
 ```
 
-### Form validation and submission
+The copied primitive uses SolidJS accessors and setters so updates remain fine-grained and reactive.
 
-`createForm` supports change-, blur-, and submit-time validation, typed checkbox/select event values, stale async validation protection, and submit error state:
+## Available primitives
+
+The package currently exports the following source modules:
+
+### State and interaction
+
+- `createControllableSignal`
+- `createDisclosure`
+- `createPrevious`
+- `createUndoRedo`
+- `createPagination`
+- `createForm`
+- `createInputMask`
+- `createDebounce`
+- `createHover`
+- `createLongPress`
+- `createKeybindings`
+- `createGlobalShortcut`
+- `createClickOutside`
+- `createFocusTrap`
+- `createLockScroll`
+
+### Browser and viewport APIs
+
+- `createActiveElement`
+- `createWindowSize`
+- `createMousePosition`
+- `createMediaQuery`
+- `createResizeObserver`
+- `createIntersectionObserver`
+- `createScrollPosition`
+- `createScrollIntoView`
+- `createInfiniteScroll`
+- `createOrientation`
+- `createFullscreen`
+- `createNetworkStatus`
+- `createPermission`
+- `createGeolocation`
+- `createBattery`
+
+### Storage, media, and communication
+
+- `createStorage`, including local and session storage helpers
+- `createClipboard`
+- `createColorMode`
+- `createDocumentTitle`
+- `createFavicon`
+- `createWebNotification`
+- `createWebSocket`
+- `createEventSource`
+- `createAudioVideo`, which provides audio and video helpers
+- `createTauriWindow`
+- `createAppUpdater`
+- `createChatScroll`
+- `createDocumentTabs`
+- `createTimer`
+- `createIdle`
+- `createFetch`
+- `createDropZone`
+
+### Editor integration
+
+- `createTiptapEditor`
+
+The public exports are defined in [`src/index.ts`](./src/index.ts). The source filenames use kebab-case and can also be copied individually by the CLI.
+
+## Examples
+
+### Controllable and uncontrolled state
 
 ```tsx
-const form = createForm({
-  initialValues: { email: "", marketing: false },
-  validateOn: "blur",
-  validate: (values) => ({
-    ...(!values.email.includes("@") && { email: "Enter a valid email." }),
-  }),
-  onSubmit: async (values) => saveProfile(values),
+import { createControllableSignal } from "@/hooks/create-controllable-signal";
+
+const [value, setValue] = createControllableSignal({
+  defaultValue: 0,
+  onChange: (nextValue) => console.log(nextValue),
 });
 
-<Form onSubmit={form.handleSubmit} loading={form.isSubmitting()}>
-  <Input
-    value={form.values().email}
-    onInput={form.handleChange("email")}
-    onBlur={form.handleBlur("email")}
-  />
-  <FormMessage form={form} name="email" />
-  {form.submitError() && <p>Could not save changes.</p>}
-</Form>
+setValue((previousValue) => (previousValue ?? 0) + 1);
 ```
 
----
+### Clipboard state
 
-## Documentation & Links
+```tsx
+import { createClipboard } from "@/hooks/create-clipboard";
 
-- Repository: [github.com/nikala-ui/ui](https://github.com/nikala-ui/ui)
-- Hooks Documentation: [nikala.dev/docs/hooks](https://nikala.dev/docs/hooks)
+const clipboard = createClipboard();
+
+await clipboard.copy("Copied text");
+```
+
+### Form state
+
+```tsx
+import { createForm } from "@/hooks/create-form";
+
+const form = createForm({
+  initialValues: { email: "" },
+  validateOn: "blur",
+  validate: (values) =>
+    values.email.includes("@") ? {} : { email: "Enter a valid email." },
+  onSubmit: async (values) => saveProfile(values),
+});
+```
+
+`createForm` exposes accessors for values, errors, touched state, submission state, and validity, together with field update and event-handler helpers.
+
+## SSR and browser APIs
+
+Primitives that access `window`, `document`, browser events, or browser-only APIs are designed for SolidJS applications and guard browser operations for server-rendered environments. Browser-dependent behavior should still be used from the appropriate client lifecycle in an SSR application.
+
+## Related packages
+
+- `@nikala-ui/cli` copies selected hook sources into an application.
+- `@nikala-ui/core` contains the internal registry manifests and source metadata.
+- `@nikala-ui/docs` bundles source snapshots so generated documentation projects can own their local hooks.
+
+## Package development
+
+Typecheck the package from the monorepo root or from this directory:
+
+```bash
+cd packages/hooks
+bunx tsc --noEmit
+```
 
 ## License
 

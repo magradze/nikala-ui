@@ -1,6 +1,6 @@
 {
   "name": "@nikala-ui/docs",
-  "version": "0.12.0",
+  "version": "0.12.1",
   "description": "Zero-config, fast, and elegant documentation engine for SolidJS, built on Nikala UI and Tailwind CSS v4",
   "type": "module",
   "main": "./dist/index.js",
@@ -51,7 +51,7 @@
     "dev": "tsc -p tsconfig.build.json --watch"
   },
   "dependencies": {
-    "@nikala-ui/cli": "workspace:*",
+    "@nikala-ui/cli": "0.12.1",
     "@kobalte/core": "^0.13.12",
     "@mdx-js/mdx": "^3.1.0",
     "@mdx-js/rollup": "^3.1.0",
