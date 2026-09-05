@@ -13,7 +13,7 @@ export const DEFAULT_DOCS_CONFIG: Required<Pick<DocsConfig, "title" | "descripti
     layout: "sidebar",
     sidebar: {
       header: true,
-      footer: true,
+      footer: false,
       headerSubtitle: "Documentation",
       footerText: "Documentation",
     },

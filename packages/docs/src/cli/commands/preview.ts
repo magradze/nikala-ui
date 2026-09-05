@@ -9,7 +9,7 @@ export interface PreviewCommandOptions {
 }
 
 export async function runPreviewCommand(dir = "docs", options: PreviewCommandOptions = {}) {
-  const port = options.port ? parseInt(options.port, 10) : 4173;
+  const port = options.port ? parseInt(options.port, 10) : 1862;
   const host = options.host || "localhost";
   const outDir = options.outDir || "dist";
 

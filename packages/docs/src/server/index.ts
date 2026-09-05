@@ -293,6 +293,12 @@ async function createSsrRenderer(options: DocsServerOptions): Promise<SsrRendere
         outDir: ssrOutDir,
         emptyOutDir: true,
       },
+      ssr: {
+        // The generated SSR entry is imported from a temporary directory.
+        // Bundle consumer dependencies so Node does not try to resolve them
+        // relative to /tmp (where the consumer's node_modules are absent).
+        noExternal: true,
+      },
     });
     const generatedEntry = await findFile(ssrOutDir, "ssr-entry.js");
     if (!generatedEntry) throw new Error("SSR entry was not generated");
@@ -380,7 +386,8 @@ export async function createDocsServer(options: DocsServerOptions = {}): Promise
   const server = await createServer({
     ...shared,
     server: {
-      port: options.port ?? 3000,
+      port: options.port ?? 1862,
+      strictPort: false,
       host: options.host ?? "localhost",
       open: options.open ?? false,
       fs: {
@@ -527,12 +534,12 @@ export async function previewDocs(options: DocsServerOptions = {}): Promise<void
   const root = options.root ? path.resolve(process.cwd(), options.root) : process.cwd();
   const outDir = options.outDir ? path.resolve(root, options.outDir) : path.resolve(root, "dist");
   const host = typeof options.host === "string" ? options.host : "localhost";
-  const port = options.port ?? 4173;
+  const requestedPort = options.port ?? 1862;
   const handler = await createDocsRequestHandler({ root, outDir });
   const server = createHttpServer(async (request, response) => {
     try {
       const protocol = request.headers["x-forwarded-proto"] || "http";
-      const hostHeader = request.headers.host || `${host}:${port}`;
+      const hostHeader = request.headers.host || `${host}:${serverPort}`;
       const result = await handler(new Request(`${protocol}://${hostHeader}${request.url || "/"}`, {
         method: request.method,
         headers: request.headers as HeadersInit,
@@ -546,9 +553,28 @@ export async function previewDocs(options: DocsServerOptions = {}): Promise<void
     }
   });
 
-  server.listen(port, host, () => {
-    console.log(`  ➜  Local:   http://${host}:${port}/`);
-  });
+  const serverPort = await listenWithFallback(server, requestedPort, host);
+  console.log(`  ➜  Local:   http://${host}:${serverPort}/`);
+}
+
+async function listenWithFallback(server: ReturnType<typeof createHttpServer>, startPort: number, host: string): Promise<number> {
+  let port = startPort;
+  while (port <= 65_535) {
+    const error = await new Promise<NodeJS.ErrnoException | undefined>((resolve) => {
+      const onListening = () => resolve(undefined);
+      const onError = (err: NodeJS.ErrnoException) => {
+        server.off("listening", onListening);
+        resolve(err);
+      };
+      server.once("listening", onListening);
+      server.once("error", onError);
+      server.listen(port, host);
+    });
+    if (!error) return port;
+    if (error.code !== "EADDRINUSE") throw error;
+    port += 1;
+  }
+  throw new Error(`No available port found from ${startPort}`);
 }
 
 export * from "./plugin.js";

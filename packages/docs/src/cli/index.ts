@@ -16,7 +16,7 @@ program
 program
   .command("dev [dir]")
   .description("Start local development server with live MDX reload")
-  .option("-p, --port <port>", "Port to listen on (default: 3000)")
+  .option("-p, --port <port>", "Port to listen on (default: 1862)")
   .option("--host [host]", "Specify host address")
   .option("--open", "Open browser automatically")
   .action((dir, options) => {
@@ -34,7 +34,7 @@ program
 program
   .command("preview [dir]")
   .description("Locally preview production build")
-  .option("-p, --port <port>", "Port to listen on (default: 4173)")
+  .option("-p, --port <port>", "Port to listen on (default: 1862)")
   .option("--host [host]", "Specify host address")
   .action((dir, options) => {
     runPreviewCommand(dir, options);

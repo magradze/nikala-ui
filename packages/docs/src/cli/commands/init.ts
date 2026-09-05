@@ -196,7 +196,7 @@ async function writeProjectFiles(root: string, registryDependencies: string[]): 
   description: "Documentation built with Nikala Docs and SolidJS",
   contentDir: "src/content",
   theme: { path: "./src/themes/custom" },
-  navigation: { layout: "sidebar", sidebar: { header: true, footer: true, headerSubtitle: "Documentation", footerText: "Documentation" } },
+  navigation: { layout: "sidebar", sidebar: { header: true, footer: false, headerSubtitle: "Documentation", footerText: "Documentation" } },
   search: { enabled: true },
 };
 `, "utf-8");
