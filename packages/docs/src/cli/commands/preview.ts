@@ -14,7 +14,7 @@ export async function runPreviewCommand(dir = "docs", options: PreviewCommandOpt
   const outDir = options.outDir || "dist";
 
   console.log();
-  console.log(pc.bold(pc.cyan("  Nikala Docs Engine ")) + pc.dim("v0.11.0"));
+  console.log(pc.bold(pc.cyan("  Nikala Docs Engine ")) + pc.dim("v0.12.0"));
   console.log(pc.dim(`  Previewing production build from ${pc.bold(outDir)}...`));
   console.log();
 

@@ -73,7 +73,7 @@ async function copyRegistrySource(root: string): Promise<{ componentFiles: strin
     path.resolve(commandDir, "../../components/mdx-components.jsx"),
   ].filter((file) => fs.existsSync(file));
   const projectFiles = [
-    ...(await listSourceFiles(path.join(root, "src/content"))),
+    ...(await listSourceFiles(path.join(root, "docs"))),
     ...(await listSourceFiles(path.join(root, "src/themes/custom"))),
     ...docsComponentSources,
   ];
@@ -194,7 +194,7 @@ async function writeProjectFiles(root: string, registryDependencies: string[]): 
   if (!(await fs.pathExists(docsConfigPath))) await fs.outputFile(docsConfigPath, `export default {
   title: "My Project Docs",
   description: "Documentation built with Nikala Docs and SolidJS",
-  contentDir: "src/content",
+  contentDir: "docs",
   theme: { path: "./src/themes/custom" },
   navigation: { layout: "sidebar", sidebar: { header: true, footer: false, headerSubtitle: "Documentation", footerText: "Documentation" } },
   search: { enabled: true },
@@ -224,7 +224,7 @@ async function writeProjectFiles(root: string, registryDependencies: string[]): 
     name: "nikala-docs-example",
     private: true,
     type: "module",
-    scripts: { dev: "bunx @nikala-ui/docs dev", build: "bunx @nikala-ui/docs build", preview: "bunx @nikala-ui/docs preview" },
+  scripts: { dev: "bunx @nikala-ui/docs dev", build: "bunx @nikala-ui/docs build", preview: "bunx @nikala-ui/docs preview" },
     dependencies: {},
   };
   const existingPackageJson = await fs.pathExists(packagePath) ? await fs.readJson(packagePath) : {};
@@ -261,13 +261,13 @@ async function writeProjectFiles(root: string, registryDependencies: string[]): 
 export async function runInitCommand(targetDir = "."): Promise<void> {
   const root = path.resolve(process.cwd(), targetDir);
   console.log();
-  console.log(pc.bold(pc.cyan("  Nikala Docs Engine ")) + pc.dim("v0.11.0"));
+  console.log(pc.bold(pc.cyan("  Nikala Docs Engine ")) + pc.dim("v0.12.0"));
   console.log(pc.dim(`  Initializing copy-paste documentation project in ${pc.bold(root)}...`));
   console.log();
   await fs.ensureDir(root);
   runNikalaInit(root);
   await writeProjectFiles(root, []);
-  const indexPath = path.join(root, "src/content/index.mdx");
+  const indexPath = path.join(root, "docs/index.mdx");
   if (!(await fs.pathExists(indexPath))) await fs.outputFile(indexPath, `---
 title: Introduction
 description: Welcome to your copy-paste documentation site.
@@ -279,7 +279,7 @@ order: 1
 Your Nikala UI components and reactive hooks are owned locally in **src/components/ui** and **src/hooks**.
 
 <Callout type="tip">
-  Add documentation pages under **src/content**. Folders become collapsible sidebar categories automatically.
+  Add documentation pages under **docs**. Folders become collapsible sidebar categories automatically.
 </Callout>
   `, "utf-8");
   await copyCustomTheme(root);
@@ -288,7 +288,7 @@ Your Nikala UI components and reactive hooks are owned locally in **src/componen
   installProjectDependencies(root);
   console.log(`  ${pc.green("✓")} Copied ${copied.componentFiles.length} UI sources and ${copied.hookFiles.length} hook sources`);
   console.log(`  ${pc.green("✓")} Registered ${copied.dependencies.length} component dependencies`);
-  console.log(`  ${pc.green("✓")} Created ${pc.cyan("src/content")}, ${pc.cyan("src/themes/custom")}, and local Tailwind tokens`);
+  console.log(`  ${pc.green("✓")} Created ${pc.cyan("docs")}, ${pc.cyan("src/themes/custom")}, and local Tailwind tokens`);
   console.log();
   console.log(`  ${pc.bold(pc.green("Success!"))} Run ${pc.cyan("bunx @nikala-ui/docs dev")} to start your docs.`);
   console.log();

@@ -62,7 +62,7 @@ export function nikalaDocsPlugin(options: NikalaDocsPluginOptions = {}): Plugin 
 
     async configResolved(viteConfig) {
       // Keep Vite's internal root separate from the consuming project's root.
-      // Otherwise `contentDir: "src/content"` resolves under packages/docs.
+      // Otherwise a relative contentDir could resolve under packages/docs.
       rootDir = path.resolve(options.configRoot || process.cwd());
       if (!options.docsDir) {
         // The config is authoritative for new projects; keep legacy auto-detection.

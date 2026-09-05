@@ -68,7 +68,7 @@ export function Header() {
                 variant="outline"
                 class="ml-1 text-[10px] px-1.5 py-0 border-primary/30 text-primary hidden md:inline-flex"
               >
-                v0.11.0
+                v0.12.0
               </Badge>
             </NavbarBrand>
           </div>

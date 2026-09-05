@@ -127,6 +127,22 @@ jobs:
           else
             npm publish --access public --provenance
           fi
+
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Publish @nikala-ui/docs Package
+        run: |
+          cd packages/docs
+          VERSION=$(node -p "require('./package.json').version")
+          if npm view "@nikala-ui/docs@${VERSION}" version >/dev/null 2>&1; then
+            echo "@nikala-ui/docs@${VERSION} is already published; skipping."
+          else
+            npm publish --access public --provenance
+          fi
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
       - name: Generate Changelog and Update Documentation
         run: |
           bun run changelog

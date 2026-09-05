@@ -14,7 +14,7 @@ export async function runDevCommand(dir: string | undefined, options: DevCommand
   const open = options.open ?? false;
 
   console.log();
-  console.log(pc.bold(pc.cyan("  Nikala Docs Engine ")) + pc.dim("v0.11.0"));
+  console.log(pc.bold(pc.cyan("  Nikala Docs Engine ")) + pc.dim("v0.12.0"));
   console.log(pc.dim("  Honoring Niko Pirosmani (Nikala) — Elegant docs for SolidJS"));
   console.log();
 

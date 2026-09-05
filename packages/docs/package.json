@@ -1,6 +1,6 @@
 {
   "name": "@nikala-ui/docs",
-  "version": "0.11.0",
+  "version": "0.12.0",
   "description": "Zero-config, fast, and elegant documentation engine for SolidJS, built on Nikala UI and Tailwind CSS v4",
   "type": "module",
   "main": "./dist/index.js",
