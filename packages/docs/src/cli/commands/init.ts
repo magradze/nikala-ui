@@ -271,7 +271,7 @@ async function writeProjectFiles(root: string, registryDependencies: string[]): 
 export async function runInitCommand(targetDir = "."): Promise<void> {
   const root = path.resolve(process.cwd(), targetDir);
   console.log();
-  console.log(pc.bold(pc.cyan("  Nikala Docs Engine ")) + pc.dim("v0.12.0"));
+  console.log(pc.bold(pc.cyan("  Nikala Docs Engine ")) + pc.dim("v0.12.1"));
   console.log(pc.dim(`  Initializing copy-paste documentation project in ${pc.bold(root)}...`));
   console.log();
   await fs.ensureDir(root);

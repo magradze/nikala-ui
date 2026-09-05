@@ -39,12 +39,24 @@ function updateJsonVersion(filePath: string) {
   }
 }
 
+function updateJsonDependency(filePath: string, dependency: string, value: string) {
+  const fullPath = path.join(rootDir, filePath);
+  if (fs.existsSync(fullPath)) {
+    const content = JSON.parse(fs.readFileSync(fullPath, "utf-8"));
+    content.dependencies ??= {};
+    content.dependencies[dependency] = value;
+    fs.writeFileSync(fullPath, JSON.stringify(content, null, 2) + "\n");
+    console.log(`✅ Updated ${filePath} dependency ${dependency} -> ${value}`);
+  }
+}
+
 // 2. Update package.json files
 updateJsonVersion("packages/cli/package.json");
 updateJsonVersion("packages/core/package.json");
 updateJsonVersion("packages/docs/package.json");
 updateJsonVersion("packages/hooks/package.json");
 updateJsonVersion("packages/mcp/package.json");
+updateJsonDependency("packages/docs/package.json", "@nikala-ui/cli", version);
 
 // Helper to replace pattern in text file
 function replaceInFile(filePath: string, searchRegex: RegExp, replacement: string) {
