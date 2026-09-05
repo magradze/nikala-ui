@@ -40,7 +40,7 @@ function runNikalaInit(root: string): void {
     cliEntry = workspaceEntry;
   }
   console.log(`  ${pc.dim("↳ Running Nikala UI init --defaults")}`);
-  execFileSync(process.execPath, [cliEntry, "init", "--defaults"], {
+  execFileSync(process.execPath, [cliEntry, "init", "--defaults", "--skip-dependencies"], {
     cwd: root,
     stdio: "inherit",
   });
@@ -215,22 +215,36 @@ async function writeProjectFiles(root: string, registryDependencies: string[]): 
     }, { spaces: 2 });
   }
   const packagePath = path.join(root, "package.json");
-  const runningFromWorkspace = !fileURLToPath(import.meta.url).includes(`${path.sep}node_modules${path.sep}`);
-  const packageJson = await fs.pathExists(packagePath) ? await fs.readJson(packagePath) : {
+  const commandDir = path.dirname(fileURLToPath(import.meta.url));
+  const docsPackageRoot = path.resolve(commandDir, "../../..");
+  const workspaceRoot = path.resolve(docsPackageRoot, "../..");
+  const isWorkspacePackage = await fs.pathExists(path.join(docsPackageRoot, "src"));
+  const targetIsInWorkspace = root === workspaceRoot || root.startsWith(`${workspaceRoot}${path.sep}`);
+  const defaultPackageJson = {
     name: "nikala-docs-example",
     private: true,
     type: "module",
     scripts: { dev: "bunx @nikala-ui/docs dev", build: "bunx @nikala-ui/docs build", preview: "bunx @nikala-ui/docs preview" },
     dependencies: {},
   };
+  const existingPackageJson = await fs.pathExists(packagePath) ? await fs.readJson(packagePath) : {};
+  const packageJson = {
+    ...defaultPackageJson,
+    ...existingPackageJson,
+    scripts: { ...defaultPackageJson.scripts, ...existingPackageJson.scripts },
+  };
   const localDocsLink = path.join(root, "node_modules/@nikala-ui/docs");
   const hasLocalDocsLink = await fs.pathExists(localDocsLink) && (await fs.lstat(localDocsLink)).isSymbolicLink();
-  if (runningFromWorkspace && packageJson.dependencies?.["@nikala-ui/docs"] === "latest") {
-    delete packageJson.dependencies["@nikala-ui/docs"];
-  }
+  const docsDependency = hasLocalDocsLink
+    ? "link:@nikala-ui/docs"
+    : isWorkspacePackage
+      ? targetIsInWorkspace
+        ? "workspace:*"
+        : "link:@nikala-ui/docs"
+      : packageJson.dependencies?.["@nikala-ui/docs"] || "latest";
   packageJson.dependencies = {
     ...packageJson.dependencies,
-    ...(hasLocalDocsLink ? { "@nikala-ui/docs": "link:@nikala-ui/docs" } : runningFromWorkspace ? { "@nikala-ui/docs": "workspace:*" } : packageJson.dependencies?.["@nikala-ui/docs"] ? {} : { "@nikala-ui/docs": "latest" }),
+    "@nikala-ui/docs": docsDependency,
     ...(packageJson.dependencies?.["solid-js"] ? {} : { "solid-js": "latest" }),
     ...(packageJson.dependencies?.tailwindcss ? {} : { tailwindcss: "latest" }),
     ...Object.fromEntries(registryDependencies

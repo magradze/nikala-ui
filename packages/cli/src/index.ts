@@ -27,6 +27,7 @@ program
   .command("init")
   .description("Initialize Nikala UI in your project")
   .option("-d, --defaults", "Skip prompts and use defaults")
+  .option("--skip-dependencies", "Skip dependency installation (used by higher-level tooling)")
   .option("--ai", "Generate AI assistant rules (.cursor/rules/nikala.mdc, .cursorrules, AGENTS.md)")
   .action(init);
 

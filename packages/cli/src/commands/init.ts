@@ -12,6 +12,7 @@ import { setupAiRules } from "../utils/init/setup-ai-rules.js";
 interface InitOptions {
   defaults?: boolean;
   ai?: boolean;
+  skipDependencies?: boolean;
 }
 
 /**
@@ -110,8 +111,10 @@ export async function init(options: InitOptions) {
     requiredDeps.push("tailwindcss", "@tailwindcss/vite");
   }
 
-  console.log(pc.yellow("\n📦 Installing required runtime & Tailwind CSS dependencies..."));
-  await installDependencies(requiredDeps, cwd);
+  if (!options.skipDependencies) {
+    console.log(pc.yellow("\n📦 Installing required runtime & Tailwind CSS dependencies..."));
+    await installDependencies(requiredDeps, cwd);
+  }
 
   // 2. Configure path aliases
   await configureAliases(cwd);
