@@ -55,8 +55,8 @@ export const DocsLayout: ParentComponent<DocsLayoutProps> = (props) => {
 
   const content = () => (
     <SidebarInset class={local.class} {...rest}>
-      <Container as="main" size="2xl" class="flex-1 flex gap-8 py-8">
-        <Container as="article" size="xl" class="flex-1 min-w-0 px-0 sm:px-4">
+      <Container as="main" size="2xl" class="flex-1 flex gap-4 sm:gap-8 py-6 sm:py-8">
+        <Container as="article" size="xl" class="flex-1 min-w-0 px-0 sm:px-4 w-full">
           <Show when={local.breadcrumbs && local.breadcrumbs.length > 0}>
             <DocsBreadcrumbs items={local.breadcrumbs!} class="mb-6" />
           </Show>

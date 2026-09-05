@@ -18,6 +18,7 @@ import {
   CollapsibleTrigger,
   CollapsibleContent,
   cn,
+  useSidebar,
 } from "@nikala-ui/core";
 import { Logo } from "@nikala-ui/core/ui/logo";
 import { ChevronRight, FileText, Folder } from "lucide-solid";
@@ -27,6 +28,7 @@ import type { SidebarItem } from "../../types.js";
 export const DocsSidebar: Component<DocsSidebarProps> = (props) => {
   const [local, rest] = splitProps(props, ["tree", "currentUrl", "title", "logo", "headerSubtitle", "footerText", "showHeader", "showFooter", "class"]);
   const brandText = () => local.logo?.text || local.title || "Nikala Docs";
+  const sidebar = useSidebar();
 
   const isItemActive = (url?: string) => {
     if (!url || !local.currentUrl) return false;
@@ -53,6 +55,7 @@ export const DocsSidebar: Component<DocsSidebarProps> = (props) => {
         href={item.href || "#"}
         isActive={isItemActive(item.href)}
         class="w-full justify-between"
+        onClick={() => sidebar.setOpenMobile(false)}
       >
         <span class="truncate">{item.title}</span>
         <Show when={isItemNew(item.addedAt)}>
@@ -138,6 +141,7 @@ export const DocsSidebar: Component<DocsSidebarProps> = (props) => {
           <SidebarMenuItem class="w-full">
             <a
               href={item.href || "#"}
+              onClick={() => sidebar.setOpenMobile(false)}
               data-sidebar="menu-button"
               data-active={isItemActive(item.href) ? "true" : "false"}
               class={cn(sidebarMenuButtonVariants({ variant: "default", size: "default" }), "text-sm font-normal")}
@@ -152,14 +156,25 @@ export const DocsSidebar: Component<DocsSidebarProps> = (props) => {
   );
 
   return (
-    <Sidebar
-      collapsible="icon"
-      class={cn(
-        "sticky top-0 z-30 h-screen shrink-0 rounded-none border-y-0 border-l-0 border-r border-border bg-card shadow-sm",
-        local.class
-      )}
-      {...rest}
-    >
+    <>
+      <Show when={sidebar.isMobile() && sidebar.openMobile()}>
+        <button
+          type="button"
+          aria-label="Close documentation sidebar"
+          class="fixed inset-0 z-40 cursor-default bg-black/50 md:hidden"
+          onClick={() => sidebar.setOpenMobile(false)}
+        />
+      </Show>
+      <Show when={!sidebar.isMobile() || sidebar.openMobile()}>
+        <Sidebar
+          collapsible={sidebar.isMobile() ? "none" : "icon"}
+          class={cn(
+            "sticky top-0 z-30 h-screen shrink-0 rounded-none border-y-0 border-l-0 border-r border-border bg-card shadow-sm",
+            "max-md:fixed max-md:inset-y-0 max-md:left-0 max-md:z-50 max-md:w-[min(17rem,calc(100vw-1rem))] max-md:shadow-xl",
+            local.class
+          )}
+          {...rest}
+        >
       <Show when={local.showHeader !== false}>
         <SidebarHeader class="p-3">
           <a
@@ -202,6 +217,8 @@ export const DocsSidebar: Component<DocsSidebarProps> = (props) => {
           </SidebarMenuButton>
         </SidebarFooter>
       </Show>
-    </Sidebar>
+        </Sidebar>
+      </Show>
+    </>
   );
 };

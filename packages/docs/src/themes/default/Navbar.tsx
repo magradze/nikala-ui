@@ -12,6 +12,7 @@ import {
   Kbd,
   SidebarTrigger,
   ThemeToggle,
+  useSidebar,
 } from "@nikala-ui/core";
 import { Logo } from "@nikala-ui/core/ui/logo";
 import { Search } from "lucide-solid";
@@ -24,6 +25,7 @@ export const DocsNavbar: Component<DocsNavbarProps> = (props) => {
   const logoText = () => local.config.logo?.text || title();
   const logoHref = () => local.config.logo?.href || "/";
   const repoUrl = () => local.config.repository?.url;
+  const sidebar = useSidebar();
 
   return (
     <Navbar
@@ -35,7 +37,12 @@ export const DocsNavbar: Component<DocsNavbarProps> = (props) => {
     >
       <NavbarContainer class="h-14 px-4 sm:px-6" >
         <NavbarContent justify="start" class="gap-3">
-          <SidebarTrigger aria-label="Toggle documentation sidebar" />
+          <SidebarTrigger
+            aria-label="Toggle documentation sidebar"
+            onClick={() => {
+              if (sidebar.isMobile()) sidebar.setOpenMobile(!sidebar.openMobile());
+            }}
+          />
           <Show when={local.showBrand !== false}>
             <NavbarBrand href={logoHref()} class="text-base font-bold tracking-tight">
               <Show when={local.config.logo?.image} fallback={<Logo class="size-6" />}>
@@ -82,7 +89,7 @@ export const DocsNavbar: Component<DocsNavbarProps> = (props) => {
                   href={url()}
                   target="_blank"
                   rel="noreferrer"
-                  class={buttonVariants({ variant: "ghost", size: "sm" }) + " h-8 px-2 text-xs"}
+                  class={buttonVariants({ variant: "ghost", size: "sm" }) + " hidden sm:inline-flex h-8 px-2 text-xs"}
                 >
                   GitHub
                 </a>

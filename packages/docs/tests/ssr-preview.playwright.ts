@@ -58,6 +58,21 @@ try {
   await page.reload({ waitUntil: "networkidle" });
   await assertText(page, "CLI Reference");
 
+  const mobilePage = await browser.newPage({ viewport: { width: 390, height: 844 } });
+  mobilePage.on("pageerror", (error: { message: string; stack?: string }) => pageErrors.push(error.stack || error.message));
+  mobilePage.on("console", (message: { type: () => string; text: () => string }) => {
+    if (message.type() === "error") pageErrors.push(message.text());
+  });
+  await mobilePage.goto(`${baseUrl}/`, { waitUntil: "networkidle" });
+  const viewportFits = await mobilePage.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth + 1);
+  assert.equal(viewportFits, true, "Mobile page must not overflow horizontally");
+  await mobilePage.getByRole("button", { name: "Toggle documentation sidebar" }).click();
+  await mobilePage.getByRole("button", { name: "Close documentation sidebar" }).waitFor({ state: "visible" });
+  await mobilePage.getByRole("link", { name: "CLI Reference" }).first().click();
+  await mobilePage.waitForURL(/\/cli\/?$/);
+  await mobilePage.getByRole("button", { name: "Close documentation sidebar" }).waitFor({ state: "detached" });
+  await mobilePage.close();
+
   assert.equal(pageErrors.length, 0, `Browser errors:\n${pageErrors.join("\n")}`);
   console.log("SSR preview smoke test passed: SSR content, client mount, navigation, and refresh.");
 } finally {
