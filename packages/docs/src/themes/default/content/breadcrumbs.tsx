@@ -1,4 +1,4 @@
-// packages/docs/src/themes/default/Breadcrumbs.tsx
+// packages/docs/src/themes/default/content/breadcrumbs.tsx
 import { For, Show, splitProps, type Component } from "solid-js";
 import {
   Breadcrumb,
@@ -8,7 +8,7 @@ import {
   BreadcrumbSeparator,
   BreadcrumbPage,
 } from "@nikala-ui/core";
-import type { DocsBreadcrumbsProps } from "../types.js";
+import type { DocsBreadcrumbsProps } from "../../types.js";
 
 export const DocsBreadcrumbs: Component<DocsBreadcrumbsProps> = (props) => {
   const [local, rest] = splitProps(props, ["items", "class"]);

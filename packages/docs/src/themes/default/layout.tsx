@@ -1,4 +1,4 @@
-// packages/docs/src/themes/default/Layout.tsx
+// packages/docs/src/themes/default/layout.tsx
 import { createSignal, Show, splitProps, type ParentComponent } from "solid-js";
 import {
   SidebarProvider,
@@ -6,12 +6,13 @@ import {
   Container,
   SectionHeading,
 } from "@nikala-ui/core";
-import { DocsNavbar } from "./Navbar.jsx";
-import { DocsSidebar } from "./Sidebar.jsx";
-import { DocsBreadcrumbs } from "./Breadcrumbs.jsx";
-import { DocsPager } from "./Pager.jsx";
-import { DocsTableOfContents } from "./TableOfContents.jsx";
-import { DocsSearchDialog } from "./SearchDialog.jsx";
+import { DocsNavbar } from "./navbar.jsx";
+import { DocsSidebar } from "./sidebar.jsx";
+import { DocsBreadcrumbs } from "./content/breadcrumbs.jsx";
+import { DocsPager } from "./content/pager.jsx";
+import { DocsTableOfContents } from "./content/table-of-contents.jsx";
+import { DocsMobileTableOfContents } from "./navigation/mobile-table-of-contents.jsx";
+import { DocsSearchDialog } from "./overlays/search-dialog.jsx";
 import type { DocsLayoutProps } from "../types.js";
 
 export const DocsLayout: ParentComponent<DocsLayoutProps> = (props) => {
@@ -62,6 +63,9 @@ export const DocsLayout: ParentComponent<DocsLayoutProps> = (props) => {
           </Show>
           <Show when={local.currentPage?.title}>
             <SectionHeading variant="page" title={local.currentPage!.title} description={local.currentPage?.description} class="mb-8" />
+          </Show>
+          <Show when={showToc()}>
+            <DocsMobileTableOfContents items={local.toc!} class="mb-6" />
           </Show>
           <Container as="div" size="full" class="prose prose-zinc dark:prose-invert max-w-none px-0 sm:px-0 lg:px-0">
             {local.children}

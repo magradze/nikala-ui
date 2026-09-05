@@ -1,4 +1,4 @@
-// packages/docs/src/themes/default/SearchDialog.tsx
+// packages/docs/src/themes/default/overlays/search-dialog.tsx
 import { For, Show, type Component } from "solid-js";
 import {
   CommandDialog,
@@ -9,7 +9,7 @@ import {
   CommandItem,
 } from "@nikala-ui/core";
 import { FileText } from "lucide-solid";
-import type { DocsSearchDialogProps } from "../types.js";
+import type { DocsSearchDialogProps } from "../../types.js";
 
 export const DocsSearchDialog: Component<DocsSearchDialogProps> = (props) => {
   const handleSelect = (url: string) => {

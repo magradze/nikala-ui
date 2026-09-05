@@ -1,4 +1,4 @@
-// packages/docs/src/themes/default/Navbar.tsx
+// packages/docs/src/themes/default/navbar.tsx
 import { Show, splitProps, type Component } from "solid-js";
 import {
   Navbar,
