@@ -65,6 +65,15 @@ function getSharedConfig(options: DocsServerOptions, isDev = false, isSSR = fals
   const solidJsDir = getSolidJsDir();
   const coreSrc = getCoreSrcDir();
   const hooksSrc = getHooksSrcDir();
+  const localSrc = path.join(root, "src");
+  const localComponents = path.join(localSrc, "components", "ui");
+  const localHooks = path.join(localSrc, "hooks");
+  const localLib = path.join(localSrc, "lib");
+  const localProviders = path.join(localSrc, "providers");
+  const componentsSrc = fs.existsSync(localComponents) ? localComponents : path.join(coreSrc, "registry/components/ui");
+  const hooksSource = fs.existsSync(localHooks) ? localHooks : hooksSrc;
+  const libSource = fs.existsSync(localLib) ? localLib : path.join(coreSrc, "lib");
+  const providersSource = fs.existsSync(localProviders) ? localProviders : path.join(coreSrc, "registry/providers");
 
   const aliases: any[] = [];
   if (solidJsDir) {
@@ -84,19 +93,19 @@ function getSharedConfig(options: DocsServerOptions, isDev = false, isSSR = fals
     aliases.push(
       {
         find: "@/components/ui",
-        replacement: path.join(coreSrc, "registry/components/ui"),
+        replacement: componentsSrc,
       },
-      { find: "@/lib", replacement: path.join(coreSrc, "lib") },
-      { find: "@/providers", replacement: path.join(coreSrc, "registry/providers") },
-      { find: /^@nikala-ui\/core\/ui\/(.*)$/, replacement: path.join(coreSrc, "registry/components/ui/$1") },
-      { find: "@nikala-ui/core", replacement: path.join(coreSrc, "index.ts") }
+      { find: "@/lib", replacement: libSource },
+      { find: "@/providers", replacement: providersSource },
+      { find: /^@nikala-ui\/core\/ui\/(.*)$/, replacement: path.join(componentsSrc, "$1") },
+      { find: "@nikala-ui/core", replacement: path.join(componentsSrc, "index.ts") }
     );
   }
 
   if (hooksSrc) {
     aliases.push(
-      { find: "@/hooks", replacement: hooksSrc },
-      { find: "@nikala-ui/hooks", replacement: path.join(hooksSrc, "index.ts") }
+      { find: "@/hooks", replacement: hooksSource },
+      { find: "@nikala-ui/hooks", replacement: path.join(hooksSource, "index.ts") }
     );
   }
 
@@ -322,6 +331,7 @@ async function prerenderDocs(options: DocsServerOptions, outDir: string, templat
 
 export async function createDocsServer(options: DocsServerOptions = {}): Promise<ViteDevServer> {
   const root = options.root ? path.resolve(process.cwd(), options.root) : process.cwd();
+  const localSrc = path.join(root, "src");
   const clientDir = getClientDir();
   const coreSrc = getCoreSrcDir();
   const hooksSrc = getHooksSrcDir();
@@ -342,6 +352,7 @@ export async function createDocsServer(options: DocsServerOptions = {}): Promise
           path.resolve(clientDir, "../.."),
           path.resolve(coreSrc, "../.."),
           path.resolve(hooksSrc, "../.."),
+          ...(fs.existsSync(localSrc) ? [localSrc, path.resolve(localSrc, "..") ] : []),
           workspaceRoot,
           path.join(workspaceRoot, "node_modules"),
           ...(solidJsDir ? [solidJsDir, path.resolve(solidJsDir, ".."), path.resolve(solidJsDir, "../..")] : []),

@@ -1,4 +1,4 @@
-import type { Component, JSX } from "solid-js";
+import type { Component, JSX, ParentComponent } from "solid-js";
 import type { DocsConfig, PageData, TocItem, SidebarItem } from "../types.js";
 
 export type BreadcrumbItemData = { title: string; href?: string };
@@ -62,6 +62,7 @@ export interface DocsLayoutProps {
 
 export interface DocsThemeContract {
   name: string;
+  Provider?: ParentComponent<{ defaultTheme?: "light" | "dark" | "system"; storageKey?: string }>;
   Layout: Component<DocsLayoutProps>;
   Navbar?: Component<DocsNavbarProps>;
   Sidebar?: Component<DocsSidebarProps>;

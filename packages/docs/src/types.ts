@@ -50,6 +50,7 @@ export interface DocsThemeConfig {
   accentColor?: string;
   grayColor?: string;
   defaultMode?: "light" | "dark" | "system";
+  path?: string;
 }
 
 export type DocsNavigationLayout = "sidebar" | "top";

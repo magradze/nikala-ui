@@ -14,10 +14,12 @@ import { DocsTableOfContents } from "./content/table-of-contents.jsx";
 import { DocsBreadcrumbs } from "./content/breadcrumbs.jsx";
 import { DocsPager, DocsPagination } from "./content/pager.jsx";
 import { DocsSearchDialog } from "./overlays/search-dialog.jsx";
+import { ThemeProvider } from "@nikala-ui/core";
 import type { DocsThemeContract } from "../types.js";
 
 export const defaultTheme: DocsThemeContract = {
   name: "default",
+  Provider: ThemeProvider,
   Layout: DocsLayout,
   Navbar: DocsNavbar,
   Sidebar: DocsSidebar,

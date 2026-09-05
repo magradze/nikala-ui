@@ -6,12 +6,12 @@ export interface BuildCommandOptions {
   outDir?: string;
 }
 
-export async function runBuildCommand(dir = "docs", options: BuildCommandOptions = {}) {
+export async function runBuildCommand(dir: string | undefined, options: BuildCommandOptions = {}) {
   const outDir = options.outDir || "dist";
 
   console.log();
   console.log(pc.bold(pc.cyan("  Nikala Docs Engine ")) + pc.dim("v0.11.0"));
-  console.log(pc.dim(`  Building documentation bundle from ${pc.bold(dir)} to ${pc.bold(outDir)}...`));
+  console.log(pc.dim(`  Building documentation bundle from ${pc.bold(dir || "configured contentDir")} to ${pc.bold(outDir)}...`));
   console.log();
 
   const startTime = Date.now();

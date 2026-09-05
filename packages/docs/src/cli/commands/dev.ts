@@ -8,7 +8,7 @@ export interface DevCommandOptions {
   open?: boolean;
 }
 
-export async function runDevCommand(dir = "docs", options: DevCommandOptions = {}) {
+export async function runDevCommand(dir: string | undefined, options: DevCommandOptions = {}) {
   const port = options.port ? parseInt(options.port, 10) : 3000;
   const host = options.host || "localhost";
   const open = options.open ?? false;
@@ -29,7 +29,7 @@ export async function runDevCommand(dir = "docs", options: DevCommandOptions = {
     await server.listen();
 
     console.log(`  ${pc.green("➜")}  ${pc.bold("Local:")}   ${pc.cyan(`http://${host}:${port}/`)}`);
-    console.log(`  ${pc.green("➜")}  ${pc.bold("Content:")} ${pc.dim(dir)}`);
+    console.log(`  ${pc.green("➜")}  ${pc.bold("Content:")} ${pc.dim(dir || "configured contentDir")}`);
     console.log(`  ${pc.green("➜")}  ${pc.bold("Press")}   ${pc.yellow("h + enter")} to show help`);
     console.log();
   } catch (err: any) {

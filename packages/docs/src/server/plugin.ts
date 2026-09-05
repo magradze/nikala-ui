@@ -24,11 +24,16 @@ const RESOLVED_TREE_ID = "\0" + VIRTUAL_TREE_ID;
 const VIRTUAL_ROUTES_ID = "virtual:nikala-docs-routes";
 const RESOLVED_ROUTES_ID = "\0" + VIRTUAL_ROUTES_ID;
 
+const VIRTUAL_THEME_ID = "virtual:nikala-docs-theme";
+const RESOLVED_THEME_ID = "\0" + VIRTUAL_THEME_ID;
+
 const VIRTUAL_SHIKI_ID = "virtual:nikala-docs-shiki-stub";
 const RESOLVED_SHIKI_ID = "\0" + VIRTUAL_SHIKI_ID;
 
 export function nikalaDocsPlugin(options: NikalaDocsPluginOptions = {}): Plugin {
-  let rootDir = process.cwd();
+  // Vite's root is the docs engine client directory. It is not the user's
+  // project root, so content/config paths must always resolve from configRoot.
+  let rootDir = path.resolve(options.configRoot || process.cwd());
   let docsDir = options.docsDir ? path.resolve(rootDir, options.docsDir) : path.resolve(rootDir, "docs");
   let resolvedConfig: DocsConfig = options.config || { title: "Nikala Docs" };
   let cachedPages: PageData[] = [];
@@ -38,11 +43,18 @@ export function nikalaDocsPlugin(options: NikalaDocsPluginOptions = {}): Plugin 
     enforce: "pre",
 
     async configResolved(viteConfig) {
-      rootDir = viteConfig.root || process.cwd();
+      // Keep Vite's internal root separate from the consuming project's root.
+      // Otherwise `contentDir: "src/content"` resolves under packages/docs.
+      rootDir = path.resolve(options.configRoot || process.cwd());
       if (!options.docsDir) {
-        // Automatically check 'docs' or 'content' directories
+        // The config is authoritative for new projects; keep legacy auto-detection.
         const fs = await import("fs-extra");
-        if (await fs.pathExists(path.resolve(rootDir, "docs"))) {
+        if (!options.config) {
+          resolvedConfig = await loadConfig(options.configRoot || rootDir);
+        }
+        if (resolvedConfig.contentDir) {
+          docsDir = path.resolve(rootDir, resolvedConfig.contentDir);
+        } else if (await fs.pathExists(path.resolve(rootDir, "docs"))) {
           docsDir = path.resolve(rootDir, "docs");
         } else if (await fs.pathExists(path.resolve(rootDir, "content"))) {
           docsDir = path.resolve(rootDir, "content");
@@ -53,9 +65,6 @@ export function nikalaDocsPlugin(options: NikalaDocsPluginOptions = {}): Plugin 
         docsDir = path.resolve(rootDir, options.docsDir);
       }
 
-      if (!options.config) {
-        resolvedConfig = await loadConfig(options.configRoot || rootDir);
-      }
     },
 
     resolveId(id, importer) {
@@ -68,6 +77,7 @@ export function nikalaDocsPlugin(options: NikalaDocsPluginOptions = {}): Plugin 
       if (id === VIRTUAL_CONFIG_ID) return RESOLVED_CONFIG_ID;
       if (id === VIRTUAL_TREE_ID) return RESOLVED_TREE_ID;
       if (id === VIRTUAL_ROUTES_ID) return RESOLVED_ROUTES_ID;
+      if (id === VIRTUAL_THEME_ID) return RESOLVED_THEME_ID;
       return null;
     },
 
@@ -111,6 +121,26 @@ ${routeEntries.join(",\n")}
 };
 export default routes;
 `;
+      }
+
+      if (id === RESOLVED_THEME_ID) {
+        const configuredPath = resolvedConfig.theme?.path;
+        if (!configuredPath) {
+          const defaultEntry = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../themes/default/index.js");
+          return `import defaultTheme from ${JSON.stringify(defaultEntry)}; export const theme = defaultTheme; export default theme;`;
+        }
+
+        const requestedPath = path.resolve(options.configRoot || rootDir, configuredPath);
+        const candidates = [
+          requestedPath,
+          path.join(requestedPath, "index.ts"),
+          path.join(requestedPath, "index.tsx"),
+          path.join(requestedPath, "index.js"),
+          path.join(requestedPath, "index.jsx"),
+        ];
+        const themeEntry = candidates.find((candidate) => fs.existsSync(candidate));
+        if (!themeEntry) throw new Error(`[nikala-docs] Theme path does not exist: ${requestedPath}`);
+        return `import configuredTheme from ${JSON.stringify(themeEntry)}; export const theme = configuredTheme.default || configuredTheme; export default theme;`;
       }
 
       return null;
