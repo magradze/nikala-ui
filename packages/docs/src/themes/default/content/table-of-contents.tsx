@@ -1,6 +1,6 @@
 // packages/docs/src/themes/default/content/table-of-contents.tsx
 import { createSignal, onMount, Show, splitProps, type Component } from "solid-js";
-import { TableOfContents as CoreTableOfContents } from "@nikala-ui/core";
+import { TableOfContents as CoreTableOfContents } from "@/components/ui/table-of-contents";
 import type { DocsTableOfContentsProps } from "../../types.js";
 
 export const DocsTableOfContents: Component<DocsTableOfContentsProps> = (props) => {

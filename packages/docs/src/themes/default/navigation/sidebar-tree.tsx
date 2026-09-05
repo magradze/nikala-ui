@@ -1,20 +1,18 @@
 import { createEffect, createSignal, For, Show, type Component, type JSX } from "solid-js";
-import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-  SidebarGroup,
-  SidebarGroupContent,
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
-  SidebarMenuSub,
-  SidebarMenuSubButton,
-  SidebarMenuSubItem,
-  cn,
-  sidebarMenuButtonVariants,
-  useSidebar,
-} from "@nikala-ui/core";
+import { Collapsible } from "@/components/ui/collapsible";
+import { CollapsibleContent } from "@/components/ui/collapsible";
+import { CollapsibleTrigger } from "@/components/ui/collapsible";
+import { SidebarGroup } from "@/components/ui/sidebar";
+import { SidebarGroupContent } from "@/components/ui/sidebar";
+import { SidebarMenu } from "@/components/ui/sidebar";
+import { SidebarMenuButton } from "@/components/ui/sidebar";
+import { SidebarMenuItem } from "@/components/ui/sidebar";
+import { SidebarMenuSub } from "@/components/ui/sidebar";
+import { SidebarMenuSubButton } from "@/components/ui/sidebar";
+import { SidebarMenuSubItem } from "@/components/ui/sidebar";
+import { sidebarMenuButtonVariants } from "@/components/ui/sidebar";
+import { useSidebar } from "@/components/ui/sidebar";
+import { cn } from "@/lib/cn";
 import { ChevronRight, FileText, Folder } from "lucide-solid";
 import type { SidebarItem } from "../../../types.js";
 import {

@@ -1,13 +1,11 @@
 // packages/docs/src/themes/default/overlays/search-dialog.tsx
 import { For, Show, type Component } from "solid-js";
-import {
-  CommandDialog,
-  CommandInput,
-  CommandList,
-  CommandEmpty,
-  CommandGroup,
-  CommandItem,
-} from "@nikala-ui/core";
+import { CommandDialog } from "@/components/ui/command";
+import { CommandInput } from "@/components/ui/command";
+import { CommandList } from "@/components/ui/command";
+import { CommandEmpty } from "@/components/ui/command";
+import { CommandGroup } from "@/components/ui/command";
+import { CommandItem } from "@/components/ui/command";
 import { FileText } from "lucide-solid";
 import type { DocsSearchDialogProps } from "../../types.js";
 

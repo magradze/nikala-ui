@@ -1,6 +1,6 @@
 // packages/docs/src/themes/default/content/pager.tsx
 import { splitProps, type Component } from "solid-js";
-import { Pager as CorePager } from "@nikala-ui/core";
+import { Pager as CorePager } from "@/components/ui/pager";
 import type { DocsPagerProps } from "../../types.js";
 
 export const DocsPager: Component<DocsPagerProps> = (props) => {

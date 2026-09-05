@@ -31,14 +31,15 @@ const VIRTUAL_SHIKI_ID = "virtual:nikala-docs-shiki-stub";
 const RESOLVED_SHIKI_ID = "\0" + VIRTUAL_SHIKI_ID;
 
 const CONFIG_FILENAMES = new Set([
-  "nikala.config.ts",
-  "nikala.config.js",
-  "nikala.docs.config.ts",
-  "nikala.docs.config.js",
-  "nikala.docs.config.mjs",
   "docs.config.ts",
   "docs.config.js",
   "docs.config.mjs",
+  "nikala.docs.config.ts",
+  "nikala.docs.config.js",
+  "nikala.docs.config.mjs",
+  // Backward compatibility for older docs projects.
+  "nikala.config.ts",
+  "nikala.config.js",
 ]);
 
 function findConfigFile(rootDir: string): string | undefined {
@@ -244,16 +245,26 @@ export default routes;
       if (configFiles.length) server.watcher.add(configFiles);
       if (docsDir && fs.existsSync(docsDir)) server.watcher.add(docsDir);
 
-      const invalidateVirtualModules = () => {
+      let reloadTimer: ReturnType<typeof setTimeout> | undefined;
+
+      const invalidateVirtualModules = (includeConfig = false) => {
         const modTree = server.moduleGraph.getModuleById(RESOLVED_TREE_ID);
         const modRoutes = server.moduleGraph.getModuleById(RESOLVED_ROUTES_ID);
-        const modConfig = server.moduleGraph.getModuleById(RESOLVED_CONFIG_ID);
-        const modTheme = server.moduleGraph.getModuleById(RESOLVED_THEME_ID);
         if (modTree) server.moduleGraph.invalidateModule(modTree);
         if (modRoutes) server.moduleGraph.invalidateModule(modRoutes);
-        if (modConfig) server.moduleGraph.invalidateModule(modConfig);
-        if (modTheme) server.moduleGraph.invalidateModule(modTheme);
-        server.ws.send({ type: "full-reload" });
+
+        if (includeConfig) {
+          const modConfig = server.moduleGraph.getModuleById(RESOLVED_CONFIG_ID);
+          const modTheme = server.moduleGraph.getModuleById(RESOLVED_THEME_ID);
+          if (modConfig) server.moduleGraph.invalidateModule(modConfig);
+          if (modTheme) server.moduleGraph.invalidateModule(modTheme);
+        }
+
+        if (reloadTimer) clearTimeout(reloadTimer);
+        reloadTimer = setTimeout(() => {
+          reloadTimer = undefined;
+          server.ws.send({ type: "full-reload" });
+        }, 75);
       };
 
       // Watch content directory for file additions or removals
@@ -270,6 +281,10 @@ export default routes;
       });
 
       server.watcher.on("change", async (file) => {
+        if (/\.(md|mdx)$/.test(file)) {
+          invalidateVirtualModules();
+          return;
+        }
         if (CONFIG_FILENAMES.has(path.basename(file))) {
           if (!options.config) {
             resolvedConfig = await loadConfig(rootDir);
@@ -277,7 +292,7 @@ export default routes;
               docsDir = path.resolve(rootDir, resolvedConfig.contentDir);
             }
           }
-          invalidateVirtualModules();
+          invalidateVirtualModules(true);
         }
       });
     },

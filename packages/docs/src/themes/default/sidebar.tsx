@@ -1,17 +1,15 @@
 // packages/docs/src/themes/default/sidebar.tsx
 import { Show, splitProps, type Component } from "solid-js";
-import {
-  Sidebar,
-  SidebarHeader,
-  SidebarContent,
-  SidebarFooter,
-  SidebarMenu,
-  SidebarMenuButton,
-  sidebarMenuButtonVariants,
-  cn,
-  useSidebar,
-} from "@nikala-ui/core";
-import { Logo } from "@nikala-ui/core/ui/logo";
+import { Sidebar } from "@/components/ui/sidebar";
+import { SidebarHeader } from "@/components/ui/sidebar";
+import { SidebarContent } from "@/components/ui/sidebar";
+import { SidebarFooter } from "@/components/ui/sidebar";
+import { SidebarMenu } from "@/components/ui/sidebar";
+import { SidebarMenuButton } from "@/components/ui/sidebar";
+import { sidebarMenuButtonVariants } from "@/components/ui/sidebar";
+import { useSidebar } from "@/components/ui/sidebar";
+import { Logo } from "@/components/ui/logo";
+import { cn } from "@/lib/cn";
 import type { DocsSidebarProps } from "../types.js";
 import { SidebarTree } from "./navigation/sidebar-tree.jsx";
 

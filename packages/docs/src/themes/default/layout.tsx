@@ -1,11 +1,9 @@
 // packages/docs/src/themes/default/layout.tsx
 import { createSignal, Show, splitProps, type ParentComponent } from "solid-js";
-import {
-  SidebarProvider,
-  SidebarInset,
-  Container,
-  SectionHeading,
-} from "@nikala-ui/core";
+import { SidebarProvider } from "@/components/ui/sidebar";
+import { SidebarInset } from "@/components/ui/sidebar";
+import { Container } from "@/components/ui/container";
+import { SectionHeading } from "@/components/ui/section-heading";
 import { DocsNavbar } from "./navbar.jsx";
 import { DocsSidebar } from "./sidebar.jsx";
 import { DocsBreadcrumbs } from "./content/breadcrumbs.jsx";

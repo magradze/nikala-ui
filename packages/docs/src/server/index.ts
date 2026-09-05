@@ -59,6 +59,46 @@ function getHooksSrcDir(): string {
   }
 }
 
+function createLocalBarrelPlugin(
+  componentsSource: string,
+  hooksSource: string,
+  libSource: string,
+  providersSource: string,
+) {
+  const componentModule = "\0nikala-docs-local-components";
+  const hooksModule = "\0nikala-docs-local-hooks";
+
+  const exportsFor = (directory: string, namedOnly?: string): string => {
+    if (!fs.existsSync(directory)) return "";
+    const files = fs.readdirSync(directory)
+      .filter((file) => /\.(?:ts|tsx|js|jsx)$/.test(file) && !/^index\./.test(file))
+      .sort();
+    return files
+      .map((file) => `export * from ${JSON.stringify(path.join(directory, file))};`)
+      .concat(namedOnly && fs.existsSync(namedOnly) ? [`export { cn } from ${JSON.stringify(namedOnly)};`] : [])
+      .join("\n");
+  };
+
+  return {
+    name: "nikala-docs-local-barrels",
+    resolveId(source: string) {
+      if (source === "@/components/ui") return componentModule;
+      if (source === "@/hooks") return hooksModule;
+      return undefined;
+    },
+    load(id: string) {
+      if (id === componentModule) {
+        return [
+          exportsFor(componentsSource, path.join(libSource, "cn.ts")),
+          exportsFor(providersSource),
+        ].filter(Boolean).join("\n");
+      }
+      if (id === hooksModule) return exportsFor(hooksSource);
+      return undefined;
+    },
+  };
+}
+
 function getSharedConfig(options: DocsServerOptions, isDev = false, isSSR = false): InlineConfig {
   const root = options.root ? path.resolve(process.cwd(), options.root) : process.cwd();
   const clientDir = getClientDir();
@@ -91,21 +131,16 @@ function getSharedConfig(options: DocsServerOptions, isDev = false, isSSR = fals
 
   if (coreSrc) {
     aliases.push(
-      {
-        find: "@/components/ui",
-        replacement: componentsSrc,
-      },
       { find: "@/lib", replacement: libSource },
       { find: "@/providers", replacement: providersSource },
-      { find: /^@nikala-ui\/core\/ui\/(.*)$/, replacement: path.join(componentsSrc, "$1") },
-      { find: "@nikala-ui/core", replacement: path.join(componentsSrc, "index.ts") }
+      { find: /^@\/components\/ui\/(.*)$/, replacement: path.join(componentsSrc, "$1") }
     );
   }
 
   if (hooksSrc) {
     aliases.push(
-      { find: "@/hooks", replacement: hooksSource },
-      { find: "@nikala-ui/hooks", replacement: path.join(hooksSource, "index.ts") }
+      { find: /^@\/hooks\/(.*)$/, replacement: path.join(hooksSource, "$1") },
+      { find: "@nikala-ui/hooks", replacement: path.join(hooksSource, "index.ts") },
     );
   }
 
@@ -120,6 +155,7 @@ function getSharedConfig(options: DocsServerOptions, isDev = false, isSSR = fals
       exclude: ["shiki"],
     },
     plugins: [
+      createLocalBarrelPlugin(componentsSrc, hooksSource, libSource, providersSource),
       nikalaDocsPlugin({
         docsDir: options.docsDir ? path.resolve(root, options.docsDir) : undefined,
         configRoot: root,

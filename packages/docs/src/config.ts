@@ -50,14 +50,15 @@ export function defineDocsConfig(config: DocsConfig): DocsConfig {
 }
 
 const CONFIG_FILENAMES = [
-  "nikala.config.ts",
-  "nikala.config.js",
-  "nikala.docs.config.ts",
-  "nikala.docs.config.js",
-  "nikala.docs.config.mjs",
   "docs.config.ts",
   "docs.config.js",
   "docs.config.mjs",
+  "nikala.docs.config.ts",
+  "nikala.docs.config.js",
+  "nikala.docs.config.mjs",
+  // Backward compatibility for projects created before docs.config.ts.
+  "nikala.config.ts",
+  "nikala.config.js",
 ];
 
 export const loadConfig = resolveDocsConfig;
@@ -70,33 +71,33 @@ export async function resolveDocsConfig(cwd: string = process.cwd()): Promise<Do
         // Config is reloaded by the dev watcher without restarting the
         // process. Bust Bun/Node's ESM module cache so changed values apply.
         const mod = await import(`${pathToFileURL(fullPath).href}?t=${Date.now()}`);
-        const userConfig: DocsConfig = mod.default || mod.config || {};
+        const resolvedUserConfig: DocsConfig = mod.default || mod.config || {};
         return {
           ...DEFAULT_DOCS_CONFIG,
-          ...userConfig,
+          ...resolvedUserConfig,
           theme: {
           ...DEFAULT_DOCS_CONFIG.theme,
-          ...userConfig.theme,
+          ...resolvedUserConfig.theme,
         },
           navigation: {
             ...DEFAULT_DOCS_CONFIG.navigation,
-            ...userConfig.navigation,
+            ...resolvedUserConfig.navigation,
             sidebar: {
               ...DEFAULT_DOCS_CONFIG.navigation?.sidebar,
-              ...userConfig.navigation?.sidebar,
+              ...resolvedUserConfig.navigation?.sidebar,
             },
           },
           shiki: {
             ...DEFAULT_DOCS_CONFIG.shiki,
-            ...userConfig.shiki,
+            ...resolvedUserConfig.shiki,
             themes: {
               ...DEFAULT_DOCS_CONFIG.shiki?.themes,
-              ...userConfig.shiki?.themes,
+              ...resolvedUserConfig.shiki?.themes,
             },
           },
           search: {
             ...DEFAULT_DOCS_CONFIG.search,
-            ...userConfig.search,
+            ...resolvedUserConfig.search,
           },
         };
       } catch (error) {

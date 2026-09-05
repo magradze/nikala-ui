@@ -11,6 +11,7 @@
       "@/components/ui/*": ["../core/src/registry/components/ui/*"],
       "@/hooks/*": ["../hooks/src/*"],
       "@/lib/*": ["../core/src/lib/*"],
+      "@/providers/*": ["../core/src/registry/providers/*"],
       "@/*": ["./src/*"]
     },
     "strict": true,

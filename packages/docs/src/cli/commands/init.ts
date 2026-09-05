@@ -1,10 +1,17 @@
 import path from "node:path";
+import { execFileSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
 import fs from "fs-extra";
 import pc from "picocolors";
 
 interface RegistryFile { path: string; content: string; }
-interface RegistryItem { type?: string; files?: RegistryFile[]; dependencies?: string[]; }
+interface RegistryItem {
+  name?: string;
+  type?: string;
+  files?: RegistryFile[];
+  dependencies?: string[];
+  registryDependencies?: string[];
+}
 
 async function listSourceFiles(dir: string): Promise<string[]> {
   const result: string[] = [];
@@ -21,16 +28,106 @@ async function resolveCorePackageRoot(): Promise<string> {
   return path.resolve(path.dirname(entry), "..");
 }
 
+function runNikalaInit(root: string): void {
+  let cliEntry: string;
+  try {
+    cliEntry = fileURLToPath(import.meta.resolve("@nikala-ui/cli"));
+  } catch {
+    const workspaceEntry = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../../../../cli/dist/index.js");
+    if (!fs.existsSync(workspaceEntry)) {
+      throw new Error("@nikala-ui/cli is required to initialize a docs project. Install it before running docs init.");
+    }
+    cliEntry = workspaceEntry;
+  }
+  console.log(`  ${pc.dim("↳ Running Nikala UI init --defaults")}`);
+  execFileSync(process.execPath, [cliEntry, "init", "--defaults"], {
+    cwd: root,
+    stdio: "inherit",
+  });
+}
+
+function installProjectDependencies(root: string): void {
+  const manager = fs.existsSync(path.join(root, "bun.lockb")) || fs.existsSync(path.join(root, "bun.lock"))
+    ? "bun"
+    : fs.existsSync(path.join(root, "pnpm-lock.yaml"))
+      ? "pnpm"
+      : fs.existsSync(path.join(root, "yarn.lock"))
+        ? "yarn"
+        : "bun";
+  console.log(`  ${pc.dim(`↳ Installing docs dependencies with ${manager}`)}`);
+  try {
+    execFileSync(manager, ["install"], { cwd: root, stdio: "inherit" });
+  } catch {
+    throw new Error(`Docs project dependencies could not be installed. Run \`${manager} install\` in ${root}.`);
+  }
+}
+
 async function copyRegistrySource(root: string): Promise<{ componentFiles: string[]; hookFiles: string[]; dependencies: string[] }> {
   const packageRoot = await resolveCorePackageRoot();
   const registryDir = path.join(packageRoot, "registry");
   const componentsDir = path.join(root, "src/components/ui");
   const hooksDir = path.join(root, "src/hooks");
+  const commandDir = path.dirname(fileURLToPath(import.meta.url));
+  const docsComponentSources = [
+    path.resolve(commandDir, "../../../src/components/mdx-components.tsx"),
+    path.resolve(commandDir, "../../components/mdx-components.jsx"),
+  ].filter((file) => fs.existsSync(file));
+  const projectFiles = [
+    ...(await listSourceFiles(path.join(root, "src/content"))),
+    ...(await listSourceFiles(path.join(root, "src/themes/custom"))),
+    ...docsComponentSources,
+  ];
+  const projectSource = (await Promise.all(projectFiles.map((file) => fs.readFile(file, "utf-8")))).join("\n");
+  const manifests = new Map<string, RegistryItem>();
+  const exports = new Map<string, string>();
+
+  for (const filename of (await fs.readdir(registryDir)).filter((name) => name.endsWith(".json") && name !== "index.json")) {
+    const item = await fs.readJson(path.join(registryDir, filename)) as RegistryItem;
+    const name = item.name || filename.replace(/\.json$/, "");
+    manifests.set(name, item);
+    for (const file of item.files || []) {
+      for (const match of file.content.matchAll(/export\s+(?:const|function|class|type|interface)\s+([A-Za-z_$][\w$]*)/g)) {
+        exports.set(match[1], name);
+      }
+    }
+  }
+
+  const selected = new Set<string>();
+  const queue: string[] = [];
+  const addByExport = (name: string) => {
+    const itemName = exports.get(name) || (manifests.has(name) ? name : undefined);
+    if (itemName && !selected.has(itemName)) queue.push(itemName);
+  };
+
+  for (const match of projectSource.matchAll(/@\/components\/ui\/([a-z0-9-]+)/g)) addByExport(match[1]);
+  for (const match of projectSource.matchAll(/@\/hooks\/([a-z0-9-]+)/g)) addByExport(match[1]);
+  for (const match of projectSource.matchAll(/import\s*{([^{}]*?)}\s*from\s*["']@\/components\/ui["']/g)) {
+    for (const name of match[1].split(",")) addByExport(name.trim().split(/\s+as\s+/)[0]);
+  }
+  for (const match of projectSource.matchAll(/<([A-Z][A-Za-z0-9_]*)[\s/>]/g)) addByExport(match[1]);
+  for (const match of projectSource.matchAll(/\bCore\.([A-Z][A-Za-z0-9_]*)/g)) addByExport(match[1]);
+
+  const requiredItems: RegistryItem[] = [];
+  while (queue.length) {
+    const name = queue.shift()!;
+    if (selected.has(name)) continue;
+    const item = manifests.get(name);
+    if (!item) continue;
+    selected.add(name);
+    requiredItems.push(item);
+    for (const dependency of item.registryDependencies || []) addByExport(dependency);
+    const source = (item.files || []).map((file) => file.content).join("\n");
+    for (const match of source.matchAll(/@\/components\/ui\/([a-z0-9-]+)/g)) addByExport(match[1]);
+    for (const match of source.matchAll(/@\/hooks\/([a-z0-9-]+)/g)) addByExport(match[1]);
+    for (const match of source.matchAll(/import\s*{([^{}]*?)}\s*from\s*["']@\/components\/ui["']/g)) {
+      for (const imported of match[1].split(",")) addByExport(imported.trim().split(/\s+as\s+/)[0]);
+    }
+  }
+
   const componentFiles: string[] = [];
   const hookFiles: string[] = [];
   const dependencies = new Set<string>();
-  for (const filename of (await fs.readdir(registryDir)).filter((name) => name.endsWith(".json") && name !== "index.json").sort()) {
-    const item = await fs.readJson(path.join(registryDir, filename)) as RegistryItem;
+  for (const item of requiredItems) {
     for (const dependency of item.dependencies || []) dependencies.add(dependency);
     const targetDir = item.type === "registry:hook" ? hooksDir : item.type === "registry:ui" ? root : undefined;
     if (!targetDir || !item.files) continue;
@@ -49,20 +146,6 @@ async function copyRegistrySource(root: string): Promise<{ componentFiles: strin
   const sourceRoot = path.join(packageRoot, "src");
   if (await fs.pathExists(path.join(sourceRoot, "lib/cn.ts"))) await fs.outputFile(path.join(root, "src/lib/cn.ts"), await fs.readFile(path.join(sourceRoot, "lib/cn.ts"), "utf-8"), "utf-8");
   return { componentFiles, hookFiles, dependencies: [...dependencies].sort() };
-}
-
-async function writeBarrels(root: string, componentFiles: string[], hookFiles: string[]): Promise<void> {
-  const componentExports = componentFiles.sort().map((file) => `export * from "./${file}.js";`).join("\n");
-  await fs.outputFile(path.join(root, "src/components/ui/index.ts"), `${componentExports}
-export { cn } from "../../lib/cn.js";
-export * from "../../providers/theme-provider.jsx";
-export * from "../../providers/theme-transitions.js";
-export * from "../../providers/theme-script.jsx";
-`, "utf-8");
-  await fs.outputFile(path.join(root, "src/hooks/index.ts"), `${hookFiles.sort().map((file) => `export * from "./${file}.js";`).join("\n")}
-`, "utf-8");
-  await fs.outputFile(path.join(root, "src/lib/utils.ts"), `export { cn } from "./cn.js";
-`, "utf-8");
 }
 
 async function copyCustomTheme(root: string): Promise<void> {
@@ -88,9 +171,9 @@ async function copyCustomTheme(root: string): Promise<void> {
       .replace(/from "@nikala-ui\/core"/g, 'from "@/components/ui"')
       .replace(/from "@nikala-ui\/hooks"/g, 'from "@/hooks"')
       .replace(/from "\.\.\/\.\.\/\.\.\/navigation\/sidebar-state\.js"/g, 'from "./sidebar-state.js"')
-      .replace(/from "\.\.?\/\.\.?\/types\.js"/g, 'from "@nikala-ui/docs"')
-      .replace(/from "\.\.\/types\.js"/g, 'from "@nikala-ui/docs"')
-      .replace(/\.jsx"/g, '.tsx"');
+      .replace(/from "(?:\.\.\/)+types\.js"/g, 'from "@nikala-ui/docs"')
+      .replace(/from "(\.\.\/|\.\/)[^"]+\.(?:jsx|tsx|js)"/g, (match) => match.replace(/\.(?:jsx|tsx|js)"$/, '"'))
+      .replace(/export \* from "(\.\.\/|\.\/)[^"]+\.(?:jsx|tsx|js)"/g, (match) => match.replace(/\.(?:jsx|tsx|js)"$/, '"'));
     await fs.outputFile(destination, content, "utf-8");
   }
 
@@ -107,8 +190,8 @@ async function copyCustomTheme(root: string): Promise<void> {
 }
 
 async function writeProjectFiles(root: string, registryDependencies: string[]): Promise<void> {
-  const configPath = path.join(root, "nikala.config.ts");
-  if (!(await fs.pathExists(configPath))) await fs.outputFile(configPath, `export default {
+  const docsConfigPath = path.join(root, "docs.config.ts");
+  if (!(await fs.pathExists(docsConfigPath))) await fs.outputFile(docsConfigPath, `export default {
   title: "My Project Docs",
   description: "Documentation built with Nikala Docs and SolidJS",
   contentDir: "src/content",
@@ -117,9 +200,24 @@ async function writeProjectFiles(root: string, registryDependencies: string[]): 
   search: { enabled: true },
 };
 `, "utf-8");
+  const nikalaConfigPath = path.join(root, "nikala.config.json");
+  if (!(await fs.pathExists(nikalaConfigPath))) {
+    await fs.writeJson(nikalaConfigPath, {
+      $schema: "https://nikala.dev/schema.json",
+      style: "default",
+      baseColor: "neutral",
+      primaryColor: "amber",
+      css: "src/index.css",
+      alias: {
+        components: "src/components/ui",
+        utils: "src/lib",
+      },
+    }, { spaces: 2 });
+  }
   const packagePath = path.join(root, "package.json");
   const runningFromWorkspace = !fileURLToPath(import.meta.url).includes(`${path.sep}node_modules${path.sep}`);
   const packageJson = await fs.pathExists(packagePath) ? await fs.readJson(packagePath) : {
+    name: "nikala-docs-example",
     private: true,
     type: "module",
     scripts: { dev: "bunx @nikala-ui/docs dev", build: "bunx @nikala-ui/docs build", preview: "bunx @nikala-ui/docs preview" },
@@ -132,7 +230,7 @@ async function writeProjectFiles(root: string, registryDependencies: string[]): 
   }
   packageJson.dependencies = {
     ...packageJson.dependencies,
-    ...(hasLocalDocsLink ? { "@nikala-ui/docs": "link:@nikala-ui/docs" } : runningFromWorkspace ? {} : packageJson.dependencies?.["@nikala-ui/docs"] ? {} : { "@nikala-ui/docs": "latest" }),
+    ...(hasLocalDocsLink ? { "@nikala-ui/docs": "link:@nikala-ui/docs" } : runningFromWorkspace ? { "@nikala-ui/docs": "workspace:*" } : packageJson.dependencies?.["@nikala-ui/docs"] ? {} : { "@nikala-ui/docs": "latest" }),
     ...(packageJson.dependencies?.["solid-js"] ? {} : { "solid-js": "latest" }),
     ...(packageJson.dependencies?.tailwindcss ? {} : { tailwindcss: "latest" }),
     ...Object.fromEntries(registryDependencies
@@ -141,11 +239,9 @@ async function writeProjectFiles(root: string, registryDependencies: string[]): 
   };
   await fs.writeJson(packagePath, packageJson, { spaces: 2 });
   await fs.outputFile(path.join(root, "tsconfig.json"), JSON.stringify({
-    compilerOptions: { target: "ES2022", module: "ESNext", moduleResolution: "Bundler", jsx: "preserve", jsxImportSource: "solid-js", strict: true, paths: { "@/*": ["./src/*"], "@/components/ui/*": ["./src/components/ui/*"], "@/hooks/*": ["./src/hooks/*"] } },
-    include: ["src/**/*", "nikala.config.ts"],
+    compilerOptions: { target: "ES2022", module: "ESNext", moduleResolution: "Bundler", jsx: "preserve", jsxImportSource: "solid-js", strict: true, skipLibCheck: true, paths: { "@/*": ["./src/*"], "@/components/ui/*": ["./src/components/ui/*"], "@/hooks/*": ["./src/hooks/*"] } },
+    include: ["src/**/*", "docs.config.ts"],
   }, null, 2) + "\n", "utf-8");
-  const styleSource = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../../client/style.css");
-  if (await fs.pathExists(styleSource)) await fs.copyFile(styleSource, path.join(root, "src/app.css"));
 }
 
 export async function runInitCommand(targetDir = "."): Promise<void> {
@@ -155,10 +251,8 @@ export async function runInitCommand(targetDir = "."): Promise<void> {
   console.log(pc.dim(`  Initializing copy-paste documentation project in ${pc.bold(root)}...`));
   console.log();
   await fs.ensureDir(root);
-  const copied = await copyRegistrySource(root);
-  await writeBarrels(root, copied.componentFiles, copied.hookFiles);
-  await copyCustomTheme(root);
-  await writeProjectFiles(root, copied.dependencies);
+  runNikalaInit(root);
+  await writeProjectFiles(root, []);
   const indexPath = path.join(root, "src/content/index.mdx");
   if (!(await fs.pathExists(indexPath))) await fs.outputFile(indexPath, `---
 title: Introduction
@@ -173,7 +267,11 @@ Your Nikala UI components and reactive hooks are owned locally in **src/componen
 <Callout type="tip">
   Add documentation pages under **src/content**. Folders become collapsible sidebar categories automatically.
 </Callout>
-`, "utf-8");
+  `, "utf-8");
+  await copyCustomTheme(root);
+  const copied = await copyRegistrySource(root);
+  await writeProjectFiles(root, copied.dependencies);
+  installProjectDependencies(root);
   console.log(`  ${pc.green("✓")} Copied ${copied.componentFiles.length} UI sources and ${copied.hookFiles.length} hook sources`);
   console.log(`  ${pc.green("✓")} Registered ${copied.dependencies.length} component dependencies`);
   console.log(`  ${pc.green("✓")} Created ${pc.cyan("src/content")}, ${pc.cyan("src/themes/custom")}, and local Tailwind tokens`);

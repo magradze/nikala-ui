@@ -9,7 +9,6 @@ const distDir = path.resolve(rootDir, "dist");
 const srcClientDir = path.resolve(rootDir, "src/client");
 const distClientDir = path.resolve(distDir, "client");
 const cliDistFile = path.resolve(distDir, "cli/index.js");
-
 console.log(pc.cyan("📦 Building @nikala-ui/docs..."));
 
 // 1. Run TypeScript compiler

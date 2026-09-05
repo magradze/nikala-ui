@@ -1,20 +1,18 @@
 // packages/docs/src/themes/default/navbar.tsx
 import { Show, splitProps, type Component } from "solid-js";
-import {
-  Navbar,
-  NavbarContainer,
-  NavbarBrand,
-  NavbarContent,
-  NavbarItem,
-  Button,
-  buttonVariants,
-  Badge,
-  Kbd,
-  SidebarTrigger,
-  ThemeToggle,
-  useSidebar,
-} from "@nikala-ui/core";
-import { Logo } from "@nikala-ui/core/ui/logo";
+import { Navbar } from "@/components/ui/navbar";
+import { NavbarContainer } from "@/components/ui/navbar";
+import { NavbarBrand } from "@/components/ui/navbar";
+import { NavbarContent } from "@/components/ui/navbar";
+import { NavbarItem } from "@/components/ui/navbar";
+import { Button } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Kbd } from "@/components/ui/kbd";
+import { SidebarTrigger } from "@/components/ui/sidebar";
+import { useSidebar } from "@/components/ui/sidebar";
+import { ThemeToggle } from "@/components/ui/theme-toggle";
+import { Logo } from "@/components/ui/logo";
 import { Search } from "lucide-solid";
 import type { DocsNavbarProps } from "../types.js";
 

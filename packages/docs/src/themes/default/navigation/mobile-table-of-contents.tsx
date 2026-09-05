@@ -1,5 +1,8 @@
 import { createSignal, splitProps, type Component } from "solid-js";
-import { Collapsible, CollapsibleContent, CollapsibleTrigger, cn } from "@nikala-ui/core";
+import { Collapsible } from "@/components/ui/collapsible";
+import { CollapsibleContent } from "@/components/ui/collapsible";
+import { CollapsibleTrigger } from "@/components/ui/collapsible";
+import { cn } from "@/lib/cn";
 import { ChevronDown } from "lucide-solid";
 import { DocsTableOfContents } from "../content/table-of-contents.jsx";
 import type { DocsTableOfContentsProps } from "../../types.js";
