@@ -4,6 +4,7 @@ import { runDevCommand } from "./commands/dev.js";
 import { runBuildCommand } from "./commands/build.js";
 import { runPreviewCommand } from "./commands/preview.js";
 import { runInitCommand } from "./commands/init.js";
+import { runServeCommand } from "./commands/serve.js";
 
 const program = new Command();
 
@@ -37,6 +38,16 @@ program
   .option("--host [host]", "Specify host address")
   .action((dir, options) => {
     runPreviewCommand(dir, options);
+  });
+
+program
+  .command("serve [dir]")
+  .description("Serve the built docs with runtime SSR")
+  .option("-p, --port <port>", "Port to listen on (default: 4173)")
+  .option("--host <host>", "Host to bind to (default: localhost)")
+  .option("-o, --outDir <outDir>", "Build output directory (default: dist)")
+  .action((dir, options) => {
+    runServeCommand(dir, options);
   });
 
 program

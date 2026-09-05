@@ -3,14 +3,11 @@ import {
   createSignal,
   createEffect,
   createMemo,
-  createResource,
   onMount,
   onCleanup,
   Show,
-  Suspense,
   type Component,
 } from "solid-js";
-import { Dynamic } from "solid-js/web";
 import { ThemeProvider } from "@nikala-ui/core";
 import { defaultTheme } from "../themes/default/index.js";
 import type { PageData, SidebarItem, TocItem } from "../types.js";
@@ -36,18 +33,24 @@ import { tree as sidebarTree, pages as allPages } from "virtual:nikala-docs-tree
 // @ts-ignore
 import { routes as pageRoutes } from "virtual:nikala-docs-routes";
 
-export const App: Component = () => {
+export interface AppProps {
+  initialPath?: string;
+  initialPageModule?: any;
+  mdxComponents?: any;
+}
+
+export const App: Component<AppProps> = (props) => {
   const config = rawConfig || { title: "Nikala Docs" };
 
-  createEffect(() => {
-    if (typeof document !== "undefined") {
+  if (typeof document !== "undefined") {
+    createEffect(() => {
       document.title = config.title || "Documentation";
-    }
-  });
+    });
+  }
 
   // Current client-side route pathname
   const [pathname, setPathname] = createSignal(
-    typeof window !== "undefined" ? window.location.pathname : "/"
+    props.initialPath || (typeof window !== "undefined" ? window.location.pathname : "/")
   );
 
   // Intercept client-side anchor clicks for seamless SPA navigation
@@ -190,16 +193,31 @@ export const App: Component = () => {
     return undefined;
   });
 
-  // Lazy load the compiled MDX module for the current URL
-  const [pageModule] = createResource(
-    () => currentPage()?.url,
-    async (url) => {
-      if (!url) return null;
-      const loader = pageRoutes[url] || pageRoutes[url + "/"] || pageRoutes["/"];
-      if (!loader) return null;
-      return await loader();
+  // The initial MDX module is already present in the SSR payload. Keeping it
+  // in a signal avoids creating an async resource during hydration, which
+  // would make Solid serialize a component function and abort hydration.
+  const [loadedPageModule, setLoadedPageModule] = createSignal<any>(props.initialPageModule);
+  createEffect(() => {
+    if (typeof window === "undefined") return;
+    const url = currentPage()?.url;
+    const initialPath = props.initialPath?.replace(/\/$/, "") || "/";
+    const currentPath = pathname().replace(/\/$/, "") || "/";
+    if (props.initialPageModule && initialPath === currentPath) return;
+    if (!url) {
+      setLoadedPageModule(undefined);
+      return;
     }
-  );
+    const loader = pageRoutes[url] || pageRoutes[url + "/"] || pageRoutes["/"];
+    if (!loader) {
+      setLoadedPageModule(undefined);
+      return;
+    }
+    setLoadedPageModule(null);
+    void loader().then(setLoadedPageModule);
+  });
+  const activePageModule = createMemo(() => {
+    return loadedPageModule();
+  });
 
   return (
     <ThemeProvider defaultTheme="system" storageKey="nikala-theme">
@@ -210,13 +228,16 @@ export const App: Component = () => {
         breadcrumbs={breadcrumbs()}
         // Mount the TOC only after the lazy MDX module has rendered its
         // headings; the Nikala scroll-spy observes headings in onMount.
-        toc={pageModule() ? toc() : []}
+        toc={activePageModule() ? toc() : []}
         prev={prevPage()}
         next={nextPage()}
       >
-        <Suspense fallback={<div class="p-8 text-sm text-muted-foreground">Loading documentation...</div>}>
+        <Show
+          when={activePageModule() !== null}
+          fallback={<div class="p-8 text-sm text-muted-foreground">Loading documentation...</div>}
+        >
           <Show
-            when={pageModule()}
+            when={activePageModule()}
             fallback={
               <div class="space-y-4 py-8">
                 <h1 class="text-2xl font-bold">Page Not Found</h1>
@@ -224,11 +245,12 @@ export const App: Component = () => {
               </div>
             }
           >
-            {(mod) => (
-              <Dynamic component={mod().default} components={defaultMdxComponents} />
-            )}
+            {(mod) => {
+              const Page = mod().default;
+              return <Page components={props.mdxComponents || defaultMdxComponents} />;
+            }}
           </Show>
-        </Suspense>
+        </Show>
       </defaultTheme.Layout>
     </ThemeProvider>
   );

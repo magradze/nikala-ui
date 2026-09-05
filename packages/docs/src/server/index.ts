@@ -1,7 +1,9 @@
 // packages/docs/src/server/index.ts
 import path from "node:path";
-import { fileURLToPath } from "node:url";
-import { createServer, build, preview, type ViteDevServer, type InlineConfig } from "vite";
+import os from "node:os";
+import { createServer as createHttpServer } from "node:http";
+import { fileURLToPath, pathToFileURL } from "node:url";
+import { createServer, build, type ViteDevServer, type InlineConfig } from "vite";
 import solidPlugin from "vite-plugin-solid";
 import tailwindcss from "@tailwindcss/vite";
 import fs from "fs-extra";
@@ -57,7 +59,7 @@ function getHooksSrcDir(): string {
   }
 }
 
-function getSharedConfig(options: DocsServerOptions, isDev = false): InlineConfig {
+function getSharedConfig(options: DocsServerOptions, isDev = false, isSSR = false): InlineConfig {
   const root = options.root ? path.resolve(process.cwd(), options.root) : process.cwd();
   const clientDir = getClientDir();
   const solidJsDir = getSolidJsDir();
@@ -66,18 +68,24 @@ function getSharedConfig(options: DocsServerOptions, isDev = false): InlineConfi
 
   const aliases: any[] = [];
   if (solidJsDir) {
+    const webEntry = isSSR ? "web/dist/server.js" : isDev ? "web/dist/dev.js" : "web/dist/web.js";
+    const storeEntry = isSSR ? "store/dist/server.js" : isDev ? "store/dist/dev.js" : "store/dist/store.js";
+    const solidEntry = isSSR ? "dist/server.js" : isDev ? "dist/dev.js" : "dist/solid.js";
     aliases.push(
-      { find: "solid-js/web", replacement: path.join(solidJsDir, isDev ? "web/dist/dev.js" : "web/dist/web.js") },
-      { find: "solid-js/store", replacement: path.join(solidJsDir, isDev ? "store/dist/dev.js" : "store/dist/store.js") },
+      { find: "solid-js/web", replacement: path.join(solidJsDir, webEntry) },
+      { find: "solid-js/store", replacement: path.join(solidJsDir, storeEntry) },
       { find: "solid-js/html", replacement: path.join(solidJsDir, "html/dist/html.js") },
       { find: "solid-js/h", replacement: path.join(solidJsDir, "h/dist/h.js") },
-      { find: "solid-js", replacement: path.join(solidJsDir, isDev ? "dist/dev.js" : "dist/solid.js") }
+      { find: "solid-js", replacement: path.join(solidJsDir, solidEntry) }
     );
   }
 
   if (coreSrc) {
     aliases.push(
-      { find: "@/components/ui", replacement: path.join(coreSrc, "registry/components/ui") },
+      {
+        find: "@/components/ui",
+        replacement: path.join(coreSrc, "registry/components/ui"),
+      },
       { find: "@/lib", replacement: path.join(coreSrc, "lib") },
       { find: "@/providers", replacement: path.join(coreSrc, "registry/providers") },
       { find: /^@nikala-ui\/core\/ui\/(.*)$/, replacement: path.join(coreSrc, "registry/components/ui/$1") },
@@ -97,7 +105,7 @@ function getSharedConfig(options: DocsServerOptions, isDev = false): InlineConfi
     resolve: {
       alias: aliases,
       dedupe: ["solid-js", "solid-js/web", "solid-js/store"],
-      conditions: isDev ? ["development", "browser"] : ["production", "browser"],
+      conditions: isSSR ? ["node"] : isDev ? ["development", "browser"] : ["production", "browser"],
     },
     optimizeDeps: {
       exclude: ["shiki"],
@@ -111,6 +119,7 @@ function getSharedConfig(options: DocsServerOptions, isDev = false): InlineConfi
       tailwindcss(),
       solidPlugin({
         extensions: [".tsx", ".jsx", ".mdx", ".md"],
+        ssr: isSSR,
       }),
     ],
   };
@@ -206,35 +215,108 @@ async function renderStaticPage(filePath: string): Promise<string> {
   return output.join("\n");
 }
 
+async function findFile(dir: string, filename: string): Promise<string | undefined> {
+  for (const entry of await fs.readdir(dir, { withFileTypes: true })) {
+    const fullPath = path.join(dir, entry.name);
+    if (entry.isFile() && entry.name === filename) return fullPath;
+    if (entry.isDirectory()) {
+      const found = await findFile(fullPath, filename);
+      if (found) return found;
+    }
+  }
+  return undefined;
+}
+
+interface SsrRenderer {
+  render(url: string): Promise<string>;
+  hydrationScript: string;
+  close(): Promise<void>;
+}
+
+async function createSsrRenderer(options: DocsServerOptions): Promise<SsrRenderer | undefined> {
+  const ssrEntry = path.join(getClientDir(), "ssr-entry.jsx");
+  if (!fs.existsSync(ssrEntry)) return undefined;
+
+  const ssrOutDir = await fs.mkdtemp(path.join(os.tmpdir(), "nikala-docs-ssr-"));
+  try {
+    await build({
+      ...getSharedConfig(options, false, true),
+      build: {
+        ssr: ssrEntry,
+        outDir: ssrOutDir,
+        emptyOutDir: true,
+      },
+    });
+    const generatedEntry = await findFile(ssrOutDir, "ssr-entry.js");
+    if (!generatedEntry) throw new Error("SSR entry was not generated");
+    const mod = await import(`${pathToFileURL(generatedEntry).href}?t=${Date.now()}`) as {
+      render: (url: string) => Promise<string>;
+      hydrationScript: string;
+    };
+    return {
+      render: mod.render,
+      hydrationScript: mod.hydrationScript,
+      close: () => fs.remove(ssrOutDir),
+    };
+  } catch (error) {
+    console.warn(
+      "[nikala-docs] SSR renderer unavailable; using static prerender:",
+      error instanceof Error ? (error.stack || error.message).split("\n").slice(0, 8).join("\n") : error
+    );
+    await fs.remove(ssrOutDir);
+    return undefined;
+  }
+}
+
+async function renderWithTimeout(renderer: SsrRenderer, url: string): Promise<string> {
+  return Promise.race([
+    renderer.render(url),
+    new Promise<string>((_, reject) => setTimeout(() => reject(new Error("SSR render timed out")), 10_000)),
+  ]);
+}
+
 async function prerenderDocs(options: DocsServerOptions, outDir: string, template: string): Promise<void> {
   const root = options.root ? path.resolve(process.cwd(), options.root) : process.cwd();
   const config = options.config || await loadConfig(root);
   const contentDir = path.resolve(root, options.docsDir || config.contentDir || "docs");
   const pages = await scanContent(contentDir);
   if (!pages.length) return;
+  const renderer = await createSsrRenderer(options);
 
-  for (const page of pages) {
-    const content = `<article><h1>${escapeHtml(page.title)}</h1>${page.description ? `<p>${escapeHtml(page.description)}</p>` : ""}${await renderStaticPage(page.filePath)}</article>`;
+  try {
+    for (const page of pages) {
+      let content = `<article><h1>${escapeHtml(page.title)}</h1>${page.description ? `<p>${escapeHtml(page.description)}</p>` : ""}${await renderStaticPage(page.filePath)}</article>`;
+      if (renderer) {
+        try {
+          const rendered = await renderWithTimeout(renderer, page.url);
+          if (rendered.trim()) content = rendered;
+        } catch (error) {
+          console.warn(`[nikala-docs] SSR fallback for ${page.url}:`, error instanceof Error ? error.message : error);
+        }
+      }
 
-    const title = escapeHtml(page.title === "Overview" ? (config.title || page.title) : `${page.title} | ${config.title || "Documentation"}`);
-    const description = escapeHtml(page.description || config.description || "");
-    const canonical = config.siteUrl
-      ? `<link rel="canonical" href="${escapeHtml(`${config.siteUrl.replace(/\/$/, "")}${page.url === "/" ? "/" : page.url}`)}">`
-      : "";
-    const metadata = `<title>${title}</title>${description ? `<meta name="description" content="${description}">` : ""}${canonical}`;
-    const html = template
-      .replace(/<title>[^<]*<\/title>/i, metadata)
-      .replace('<div id="root"></div>', `<div id="root" data-prerendered>${content}</div>`);
-    const outputPath = page.url === "/" ? path.join(outDir, "index.html") : path.join(outDir, page.url.slice(1), "index.html");
-    await fs.ensureDir(path.dirname(outputPath));
-    await fs.writeFile(outputPath, html);
-  }
+      const title = escapeHtml(page.title === "Overview" ? (config.title || page.title) : `${page.title} | ${config.title || "Documentation"}`);
+      const description = escapeHtml(page.description || config.description || "");
+      const canonical = config.siteUrl
+        ? `<link rel="canonical" href="${escapeHtml(`${config.siteUrl.replace(/\/$/, "")}${page.url === "/" ? "/" : page.url}`)}">`
+        : "";
+      const metadata = `<title>${title}</title>${description ? `<meta name="description" content="${description}">` : ""}${canonical}`;
+      const html = addHydrationScript(template, renderer?.hydrationScript)
+        .replace(/<title>[^<]*<\/title>/i, metadata)
+        .replace('<div id="root"></div>', `<div id="root" data-prerendered>${content}</div>`);
+      const outputPath = page.url === "/" ? path.join(outDir, "index.html") : path.join(outDir, page.url.slice(1), "index.html");
+      await fs.ensureDir(path.dirname(outputPath));
+      await fs.writeFile(outputPath, html);
+    }
 
-  if (config.siteUrl) {
-    const base = config.siteUrl.replace(/\/$/, "");
-    const urls = pages.map((page) => `<url><loc>${escapeHtml(`${base}${page.url === "/" ? "/" : page.url}`)}</loc></url>`).join("");
-    await fs.writeFile(path.join(outDir, "sitemap.xml"), `<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${urls}</urlset>`);
-    await fs.writeFile(path.join(outDir, "robots.txt"), `User-agent: *\nAllow: /\nSitemap: ${base}/sitemap.xml\n`);
+    if (config.siteUrl) {
+      const base = config.siteUrl.replace(/\/$/, "");
+      const urls = pages.map((page) => `<url><loc>${escapeHtml(`${base}${page.url === "/" ? "/" : page.url}`)}</loc></url>`).join("");
+      await fs.writeFile(path.join(outDir, "sitemap.xml"), `<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${urls}</urlset>`);
+      await fs.writeFile(path.join(outDir, "robots.txt"), `User-agent: *\nAllow: /\nSitemap: ${base}/sitemap.xml\n`);
+    }
+  } finally {
+    await renderer?.close();
   }
 }
 
@@ -268,6 +350,52 @@ export async function createDocsServer(options: DocsServerOptions = {}): Promise
     },
   });
 
+  const devRenderer = await createSsrRenderer(options);
+  const devSsrMiddleware = async (req: any, res: any, next: any) => {
+    if (req.method !== "GET" || !String(req.headers.accept || "").includes("text/html")) {
+      next();
+      return;
+    }
+    const requestPath = (req.url || "/").split("?", 1)[0];
+    if (requestPath.startsWith("/@") || requestPath.startsWith("/src/") || path.extname(requestPath)) {
+      next();
+      return;
+    }
+
+    try {
+      if (!devRenderer) {
+        next();
+        return;
+      }
+      const rendered = await renderWithTimeout(devRenderer, requestPath);
+      const template = await fs.readFile(path.join(clientDir, "index.html"), "utf-8");
+      const transformedStyle = await server.transformRequest("/style.css");
+      const styledTemplate = transformedStyle?.code
+        ? template.replace("</head>", `    <style>${transformedStyle.code}</style>\n  </head>`)
+        : template.replace("</head>", '    <link rel="stylesheet" href="/style.css">\n  </head>');
+      const html = await server.transformIndexHtml(
+        requestPath,
+        addHydrationScript(styledTemplate, devRenderer.hydrationScript)
+          .replace('<div id="root"></div>', `<div id="root" data-prerendered>${rendered}</div>`)
+      );
+      res.statusCode = 200;
+      res.setHeader("Content-Type", "text/html; charset=utf-8");
+      res.end(html);
+    } catch (error) {
+      console.warn(`[nikala-docs] Dev SSR fallback for ${requestPath}:`, error instanceof Error ? error.message : error);
+      next();
+    }
+  };
+  const devMiddlewareStack = (server.middlewares as any).stack;
+  if (Array.isArray(devMiddlewareStack)) {
+    devMiddlewareStack.unshift({ route: "", handle: devSsrMiddleware });
+  } else {
+    server.middlewares.use(devSsrMiddleware);
+  }
+  server.httpServer?.once("close", () => {
+    void devRenderer?.close();
+  });
+
   return server;
 }
 
@@ -289,61 +417,106 @@ export async function buildDocs(options: DocsServerOptions = {}): Promise<void> 
   await prerenderDocs(options, outDir, template);
 }
 
+function contentType(filePath: string): string {
+  const extension = path.extname(filePath).toLowerCase();
+  return {
+    ".html": "text/html; charset=utf-8",
+    ".css": "text/css; charset=utf-8",
+    ".js": "application/javascript; charset=utf-8",
+    ".json": "application/json; charset=utf-8",
+    ".svg": "image/svg+xml",
+    ".png": "image/png",
+    ".jpg": "image/jpeg",
+    ".jpeg": "image/jpeg",
+    ".webp": "image/webp",
+    ".ico": "image/x-icon",
+    ".xml": "application/xml; charset=utf-8",
+  }[extension] || "application/octet-stream";
+}
+
+function addHydrationScript(template: string, hydrationScript?: string): string {
+  if (!hydrationScript || template.includes("_$HY")) return template;
+  return template.replace("</head>", `    ${hydrationScript}\n  </head>`);
+}
+
+export async function createDocsRequestHandler(options: DocsServerOptions = {}): Promise<(request: Request) => Promise<Response>> {
+  const root = options.root ? path.resolve(process.cwd(), options.root) : process.cwd();
+  const outDir = options.outDir ? path.resolve(root, options.outDir) : path.resolve(root, "dist");
+  const config = options.config || await loadConfig(root);
+  const contentDir = path.resolve(root, options.docsDir || config.contentDir || "docs");
+  const pages = await scanContent(contentDir);
+  const template = await fs.readFile(path.join(outDir, "index.html"), "utf-8");
+  const renderer = await createSsrRenderer(options);
+
+  return async (request: Request): Promise<Response> => {
+    const url = new URL(request.url);
+    const pathname = decodeURIComponent(url.pathname);
+    const page = pages.find((item) => item.url === pathname || item.url === pathname.replace(/\/$/, ""));
+    const relativeFile = pathname === "/" ? "index.html" : pathname.replace(/^\/+/, "");
+    const assetPath = path.resolve(outDir, relativeFile);
+    const insideOutput = assetPath === outDir || assetPath.startsWith(`${outDir}${path.sep}`);
+
+    if (insideOutput && fs.existsSync(assetPath) && !fs.statSync(assetPath).isDirectory()) {
+      return new Response(await fs.readFile(assetPath), {
+        headers: { "content-type": contentType(assetPath) },
+      });
+    }
+
+    if (!page) return new Response("Not Found", { status: 404 });
+
+    if (renderer) {
+      try {
+        const rendered = await renderWithTimeout(renderer, page.url);
+        const title = escapeHtml(page.title === "Overview" ? (config.title || page.title) : `${page.title} | ${config.title || "Documentation"}`);
+        const description = escapeHtml(page.description || config.description || "");
+        const canonical = config.siteUrl
+          ? `<link rel="canonical" href="${escapeHtml(`${config.siteUrl.replace(/\/$/, "")}${page.url === "/" ? "/" : page.url}`)}">`
+          : "";
+        const html = addHydrationScript(template, renderer.hydrationScript)
+          .replace(/<title>[^<]*<\/title>/i, `<title>${title}</title>${description ? `<meta name="description" content="${description}">` : ""}${canonical}`)
+          .replace('<div id="root"></div>', `<div id="root" data-prerendered>${rendered}</div>`);
+        return new Response(html, { headers: { "content-type": "text/html; charset=utf-8" } });
+      } catch {
+        // Fall through to the already generated static page.
+      }
+    }
+
+    const staticPath = path.join(outDir, page.url === "/" ? "index.html" : page.url.slice(1), "index.html");
+    if (await fs.pathExists(staticPath)) {
+      return new Response(await fs.readFile(staticPath), {
+        headers: { "content-type": "text/html; charset=utf-8" },
+      });
+    }
+    return new Response("Not Found", { status: 404 });
+  };
+}
+
 export async function previewDocs(options: DocsServerOptions = {}): Promise<void> {
   const root = options.root ? path.resolve(process.cwd(), options.root) : process.cwd();
   const outDir = options.outDir ? path.resolve(root, options.outDir) : path.resolve(root, "dist");
-
-  const previewServer = await preview({
-    root,
-    appType: "mpa",
-    build: {
-      outDir,
-    },
-    preview: {
-      port: options.port ?? 4173,
-      host: options.host ?? "localhost",
-      open: options.open ?? false,
-    },
+  const host = typeof options.host === "string" ? options.host : "localhost";
+  const port = options.port ?? 4173;
+  const handler = await createDocsRequestHandler({ root, outDir });
+  const server = createHttpServer(async (request, response) => {
+    try {
+      const protocol = request.headers["x-forwarded-proto"] || "http";
+      const hostHeader = request.headers.host || `${host}:${port}`;
+      const result = await handler(new Request(`${protocol}://${hostHeader}${request.url || "/"}`, {
+        method: request.method,
+        headers: request.headers as HeadersInit,
+      }));
+      response.statusCode = result.status;
+      result.headers.forEach((value, key) => response.setHeader(key, value));
+      response.end(Buffer.from(await result.arrayBuffer()));
+    } catch (error) {
+      response.statusCode = 500;
+      response.end(error instanceof Error ? error.message : "Internal Server Error");
+    }
   });
 
-  // Vite's MPA preview serves nested index.html files, but extensionless
-  // routes need a trailing slash before the directory index can be resolved.
-  const routeRedirectMiddleware = (req: any, res: any, next: any) => {
-    const requestUrl = req.url || "/";
-    const [pathname, query = ""] = requestUrl.split("?", 2);
-    if (pathname === "/" || pathname.endsWith("/") || path.extname(pathname)) {
-      next();
-      return;
-    }
-
-    let decodedPath: string;
-    try {
-      decodedPath = decodeURIComponent(pathname);
-    } catch {
-      next();
-      return;
-    }
-
-    const candidate = path.resolve(outDir, `.${decodedPath}`, "index.html");
-    const insideOutput = candidate === outDir || candidate.startsWith(`${outDir}${path.sep}`);
-    if (insideOutput && fs.existsSync(candidate)) {
-      res.statusCode = 308;
-      res.setHeader("Location", `${pathname}/${query ? `?${query}` : ""}`);
-      res.end();
-      return;
-    }
-
-    next();
-  };
-
-  const middlewareStack = (previewServer.middlewares as any).stack;
-  if (Array.isArray(middlewareStack)) {
-    middlewareStack.unshift({ route: "", handle: routeRedirectMiddleware });
-  } else {
-    previewServer.middlewares.use(routeRedirectMiddleware);
-  }
-
-  previewServer.printUrls();
+  server.listen(port, host, () => {
+    console.log(`  ➜  Local:   http://${host}:${port}/`);
+  });
 }
 
 export * from "./plugin.js";
