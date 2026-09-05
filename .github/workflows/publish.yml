@@ -144,15 +144,22 @@ jobs:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Generate Changelog and Update Documentation
-        run: |
-          bun run changelog
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git add CHANGELOG.md docs/changelogs/
-          if ! git diff --cached --quiet; then
-            git commit -m "docs(changelog): update changelog for ${{ github.ref_name }} [skip ci]"
-            git push origin HEAD:main
-          fi
+        run: bun run changelog
+
+      - name: Open Changelog Pull Request
+        uses: peter-evans/create-pull-request@v7
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          base: main
+          branch: chore/changelog-${{ github.ref_name }}
+          delete-branch: true
+          commit-message: "docs(changelog): update changelog for ${{ github.ref_name }} [skip ci]"
+          title: "docs(changelog): update changelog for ${{ github.ref_name }}"
+          body: |
+            Automated changelog update for `${{ github.ref_name }}`.
+          add-paths: |
+            CHANGELOG.md
+            docs/changelogs/
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v3
