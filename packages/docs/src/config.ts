@@ -1,5 +1,6 @@
 // packages/docs/src/config.ts
 import path from "node:path";
+import { pathToFileURL } from "node:url";
 import fs from "fs-extra";
 import type { DocsConfig } from "./types.js";
 
@@ -66,7 +67,9 @@ export async function resolveDocsConfig(cwd: string = process.cwd()): Promise<Do
     const fullPath = path.join(cwd, filename);
     if (await fs.pathExists(fullPath)) {
       try {
-        const mod = await import(fullPath);
+        // Config is reloaded by the dev watcher without restarting the
+        // process. Bust Bun/Node's ESM module cache so changed values apply.
+        const mod = await import(`${pathToFileURL(fullPath).href}?t=${Date.now()}`);
         const userConfig: DocsConfig = mod.default || mod.config || {};
         return {
           ...DEFAULT_DOCS_CONFIG,

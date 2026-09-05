@@ -30,6 +30,23 @@ const RESOLVED_THEME_ID = "\0" + VIRTUAL_THEME_ID;
 const VIRTUAL_SHIKI_ID = "virtual:nikala-docs-shiki-stub";
 const RESOLVED_SHIKI_ID = "\0" + VIRTUAL_SHIKI_ID;
 
+const CONFIG_FILENAMES = new Set([
+  "nikala.config.ts",
+  "nikala.config.js",
+  "nikala.docs.config.ts",
+  "nikala.docs.config.js",
+  "nikala.docs.config.mjs",
+  "docs.config.ts",
+  "docs.config.js",
+  "docs.config.mjs",
+]);
+
+function findConfigFile(rootDir: string): string | undefined {
+  return [...CONFIG_FILENAMES]
+    .map((filename) => path.join(rootDir, filename))
+    .find((file) => fs.existsSync(file));
+}
+
 export function nikalaDocsPlugin(options: NikalaDocsPluginOptions = {}): Plugin {
   // Vite's root is the docs engine client directory. It is not the user's
   // project root, so content/config paths must always resolve from configRoot.
@@ -92,7 +109,30 @@ export default { createHighlighter, bundledLanguages, bundledThemes };
       }
 
       if (id === RESOLVED_CONFIG_ID) {
-        return `export default ${JSON.stringify(resolvedConfig)};`;
+        const configFile = findConfigFile(rootDir);
+        if (!configFile) return `export default ${JSON.stringify(resolvedConfig)};`;
+
+        return `
+import userConfig from ${JSON.stringify(configFile)};
+const defaults = ${JSON.stringify(resolvedConfig)};
+const config = {
+  ...defaults,
+  ...userConfig,
+  navigation: {
+    ...defaults.navigation,
+    ...userConfig.navigation,
+    sidebar: { ...defaults.navigation?.sidebar, ...userConfig.navigation?.sidebar },
+  },
+  theme: { ...defaults.theme, ...userConfig.theme },
+  shiki: {
+    ...defaults.shiki,
+    ...userConfig.shiki,
+    themes: { ...defaults.shiki?.themes, ...userConfig.shiki?.themes },
+  },
+  search: { ...defaults.search, ...userConfig.search },
+};
+export default config;
+`;
       }
 
       if (id === RESOLVED_TREE_ID) {
@@ -146,7 +186,7 @@ export default routes;
       return null;
     },
 
-    async transform(code, id) {
+    async transform(code, id, transformOptions) {
       // Inject Tailwind v4 @source directives into style.css
       if (id.endsWith("style.css")) {
         const sources: string[] = [];
@@ -179,9 +219,10 @@ export default routes;
 
       // Compile Markdown / MDX files to SolidJS JSX
       if (/\.(md|mdx)$/.test(id)) {
+        const isSsr = Boolean(transformOptions?.ssr);
         const result = await compileMdx(code, {
           filePath: id,
-          development: process.env.NODE_ENV !== "production",
+          development: !isSsr && process.env.NODE_ENV !== "production",
           shiki: resolvedConfig.shiki,
         });
 
@@ -194,11 +235,24 @@ export default routes;
     },
 
     configureServer(server: ViteDevServer) {
+      // Vite's root is the packaged client directory, so the consuming
+      // project's config/content files are outside its default watch scope.
+      // Register them explicitly for dev reloads.
+      const configFiles = [...CONFIG_FILENAMES]
+        .map((filename) => path.join(rootDir, filename))
+        .filter((file) => fs.existsSync(file));
+      if (configFiles.length) server.watcher.add(configFiles);
+      if (docsDir && fs.existsSync(docsDir)) server.watcher.add(docsDir);
+
       const invalidateVirtualModules = () => {
         const modTree = server.moduleGraph.getModuleById(RESOLVED_TREE_ID);
         const modRoutes = server.moduleGraph.getModuleById(RESOLVED_ROUTES_ID);
+        const modConfig = server.moduleGraph.getModuleById(RESOLVED_CONFIG_ID);
+        const modTheme = server.moduleGraph.getModuleById(RESOLVED_THEME_ID);
         if (modTree) server.moduleGraph.invalidateModule(modTree);
         if (modRoutes) server.moduleGraph.invalidateModule(modRoutes);
+        if (modConfig) server.moduleGraph.invalidateModule(modConfig);
+        if (modTheme) server.moduleGraph.invalidateModule(modTheme);
         server.ws.send({ type: "full-reload" });
       };
 
@@ -211,6 +265,18 @@ export default routes;
 
       server.watcher.on("unlink", (file) => {
         if (/\.(md|mdx)$/.test(file)) {
+          invalidateVirtualModules();
+        }
+      });
+
+      server.watcher.on("change", async (file) => {
+        if (CONFIG_FILENAMES.has(path.basename(file))) {
+          if (!options.config) {
+            resolvedConfig = await loadConfig(rootDir);
+            if (resolvedConfig.contentDir) {
+              docsDir = path.resolve(rootDir, resolvedConfig.contentDir);
+            }
+          }
           invalidateVirtualModules();
         }
       });

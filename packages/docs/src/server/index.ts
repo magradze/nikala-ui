@@ -129,6 +129,8 @@ function getSharedConfig(options: DocsServerOptions, isDev = false, isSSR = fals
       solidPlugin({
         extensions: [".tsx", ".jsx", ".mdx", ".md"],
         ssr: isSSR,
+        dev: isDev && !isSSR,
+        hot: isDev && !isSSR,
       }),
     ],
   };
@@ -361,8 +363,7 @@ export async function createDocsServer(options: DocsServerOptions = {}): Promise
     },
   });
 
-  const devRenderer = await createSsrRenderer(options);
-  const devSsrMiddleware = async (req: any, res: any, next: any) => {
+  const devHtmlMiddleware = async (req: any, res: any, next: any) => {
     if (req.method !== "GET" || !String(req.headers.accept || "").includes("text/html")) {
       next();
       return;
@@ -374,38 +375,22 @@ export async function createDocsServer(options: DocsServerOptions = {}): Promise
     }
 
     try {
-      if (!devRenderer) {
-        next();
-        return;
-      }
-      const rendered = await renderWithTimeout(devRenderer, requestPath);
       const template = await fs.readFile(path.join(clientDir, "index.html"), "utf-8");
-      const transformedStyle = await server.transformRequest("/style.css");
-      const styledTemplate = transformedStyle?.code
-        ? template.replace("</head>", `    <style>${transformedStyle.code}</style>\n  </head>`)
-        : template.replace("</head>", '    <link rel="stylesheet" href="/style.css">\n  </head>');
-      const html = await server.transformIndexHtml(
-        requestPath,
-        addHydrationScript(styledTemplate, devRenderer.hydrationScript)
-          .replace('<div id="root"></div>', `<div id="root" data-prerendered>${rendered}</div>`)
-      );
+      const html = await server.transformIndexHtml(requestPath, template);
       res.statusCode = 200;
       res.setHeader("Content-Type", "text/html; charset=utf-8");
       res.end(html);
     } catch (error) {
-      console.warn(`[nikala-docs] Dev SSR fallback for ${requestPath}:`, error instanceof Error ? error.message : error);
+      console.warn(`[nikala-docs] Dev HTML fallback for ${requestPath}:`, error instanceof Error ? error.message : error);
       next();
     }
   };
   const devMiddlewareStack = (server.middlewares as any).stack;
   if (Array.isArray(devMiddlewareStack)) {
-    devMiddlewareStack.unshift({ route: "", handle: devSsrMiddleware });
+    devMiddlewareStack.unshift({ route: "", handle: devHtmlMiddleware });
   } else {
-    server.middlewares.use(devSsrMiddleware);
+    server.middlewares.use(devHtmlMiddleware);
   }
-  server.httpServer?.once("close", () => {
-    void devRenderer?.close();
-  });
 
   return server;
 }
