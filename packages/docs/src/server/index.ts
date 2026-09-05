@@ -41,8 +41,14 @@ function getSolidJsDir(): string {
   }
 }
 
+function getDocsPackageRoot(): string {
+  return path.resolve(__dirname, "../..");
+}
+
 function getCoreSrcDir(): string {
   try {
+    const bundled = path.resolve(__dirname, "../vendor/core-src");
+    if (fs.existsSync(bundled)) return bundled;
     const entry = fileURLToPath(import.meta.resolve("@nikala-ui/core"));
     return path.dirname(entry);
   } catch {
@@ -52,6 +58,8 @@ function getCoreSrcDir(): string {
 
 function getHooksSrcDir(): string {
   try {
+    const bundled = path.resolve(__dirname, "../vendor/hooks-src");
+    if (fs.existsSync(bundled)) return bundled;
     const entry = fileURLToPath(import.meta.resolve("@nikala-ui/hooks"));
     return path.dirname(entry);
   } catch {
@@ -380,7 +388,7 @@ export async function createDocsServer(options: DocsServerOptions = {}): Promise
   const coreSrc = getCoreSrcDir();
   const hooksSrc = getHooksSrcDir();
   const solidJsDir = getSolidJsDir();
-  const workspaceRoot = path.resolve(coreSrc, "../../..");
+  const workspaceRoot = path.resolve(getDocsPackageRoot(), "../..");
   const shared = getSharedConfig(options, true);
 
   const server = await createServer({

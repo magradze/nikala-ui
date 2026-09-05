@@ -9,6 +9,9 @@ const distDir = path.resolve(rootDir, "dist");
 const srcClientDir = path.resolve(rootDir, "src/client");
 const distClientDir = path.resolve(distDir, "client");
 const cliDistFile = path.resolve(distDir, "cli/index.js");
+const workspaceRoot = path.resolve(rootDir, "../..");
+const coreRoot = path.join(workspaceRoot, "packages/core");
+const hooksRoot = path.join(workspaceRoot, "packages/hooks");
 console.log(pc.cyan("📦 Building @nikala-ui/docs..."));
 
 // 1. Run TypeScript compiler
@@ -44,7 +47,27 @@ try {
   process.exit(1);
 }
 
-// 3. Make CLI binary executable
+// Bundle registry and source snapshots so published docs projects do not
+// require @nikala-ui/core or @nikala-ui/hooks at runtime.
+try {
+  const registrySource = path.join(coreRoot, "registry");
+  const coreSource = path.join(coreRoot, "src");
+  const hooksSource = path.join(hooksRoot, "src");
+  if (!fs.existsSync(registrySource) || !fs.existsSync(coreSource) || !fs.existsSync(hooksSource)) {
+    throw new Error("Nikala UI registry sources are missing from the workspace");
+  }
+  await fs.remove(path.join(distDir, "registry"));
+  await fs.remove(path.join(distDir, "vendor"));
+  await fs.copy(registrySource, path.join(distDir, "registry"));
+  await fs.copy(coreSource, path.join(distDir, "vendor/core-src"));
+  await fs.copy(hooksSource, path.join(distDir, "vendor/hooks-src"));
+  console.log(`  ${pc.green("✓")} Bundled registry and local source snapshots`);
+} catch (err: any) {
+  console.error(pc.red(`✗ Failed to bundle registry sources: ${err.message}`));
+  process.exit(1);
+}
+
+// 4. Make CLI binary executable
 try {
   if (fs.existsSync(cliDistFile)) {
     fs.chmodSync(cliDistFile, 0o755);

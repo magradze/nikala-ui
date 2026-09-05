@@ -23,9 +23,17 @@ async function listSourceFiles(dir: string): Promise<string[]> {
   return result;
 }
 
-async function resolveCorePackageRoot(): Promise<string> {
-  const entry = fileURLToPath(import.meta.resolve("@nikala-ui/core"));
-  return path.resolve(path.dirname(entry), "..");
+async function resolveRegistryDir(): Promise<string> {
+  const commandDir = path.dirname(fileURLToPath(import.meta.url));
+  const bundledRegistry = path.resolve(commandDir, "../../registry");
+  if (await fs.pathExists(bundledRegistry)) return bundledRegistry;
+
+  try {
+    const entry = fileURLToPath(import.meta.resolve("@nikala-ui/core"));
+    return path.join(path.resolve(path.dirname(entry), ".."), "registry");
+  } catch {
+    throw new Error("Nikala UI registry is unavailable. Rebuild @nikala-ui/docs or install @nikala-ui/core for workspace development.");
+  }
 }
 
 function runNikalaInit(root: string): void {
@@ -63,8 +71,7 @@ function installProjectDependencies(root: string): void {
 }
 
 async function copyRegistrySource(root: string): Promise<{ componentFiles: string[]; hookFiles: string[]; dependencies: string[] }> {
-  const packageRoot = await resolveCorePackageRoot();
-  const registryDir = path.join(packageRoot, "registry");
+  const registryDir = await resolveRegistryDir();
   const componentsDir = path.join(root, "src/components/ui");
   const hooksDir = path.join(root, "src/hooks");
   const commandDir = path.dirname(fileURLToPath(import.meta.url));
@@ -143,7 +150,10 @@ async function copyRegistrySource(root: string): Promise<{ componentFiles: strin
       else if (file.path.startsWith("ui/")) componentFiles.push(relative.replace(/\.(tsx?|jsx?)$/, ""));
     }
   }
-  const sourceRoot = path.join(packageRoot, "src");
+  const bundledSourceRoot = path.resolve(commandDir, "../../vendor/core-src");
+  const sourceRoot = await fs.pathExists(bundledSourceRoot)
+    ? bundledSourceRoot
+    : path.resolve(commandDir, "../../../../core/src");
   if (await fs.pathExists(path.join(sourceRoot, "lib/cn.ts"))) await fs.outputFile(path.join(root, "src/lib/cn.ts"), await fs.readFile(path.join(sourceRoot, "lib/cn.ts"), "utf-8"), "utf-8");
   return { componentFiles, hookFiles, dependencies: [...dependencies].sort() };
 }

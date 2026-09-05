@@ -191,12 +191,9 @@ export default routes;
       // Inject Tailwind v4 @source directives into style.css
       if (id.endsWith("style.css")) {
         const sources: string[] = [];
-        try {
-          const coreEntry = fileURLToPath(import.meta.resolve("@nikala-ui/core"));
-          sources.push(path.dirname(coreEntry));
-        } catch {
-          sources.push(path.resolve(rootDir, "../core/src"));
-        }
+        const bundledCoreSource = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../vendor/core-src");
+        if (fs.existsSync(bundledCoreSource)) sources.push(bundledCoreSource);
+        sources.push(path.resolve(rootDir, "src"));
 
         const themesDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../themes");
         if (fs.existsSync(themesDir)) {
