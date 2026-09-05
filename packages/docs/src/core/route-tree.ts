@@ -9,9 +9,14 @@ export function formatGroupName(segment: string): string {
     .join(" ");
 }
 
-export function buildSidebarTree(pages: PageData[]): SidebarItem[] {
+export function buildSidebarTree(pages: PageData[], directories: string[] = []): SidebarItem[] {
   const rootPages: PageData[] = [];
   const categoryMap = new Map<string, PageData[]>();
+
+  for (const directory of directories) {
+    const category = directory.split("/")[0];
+    if (category && !categoryMap.has(category)) categoryMap.set(category, []);
+  }
 
   for (const page of pages) {
     if (page.url === "/") {
@@ -105,7 +110,6 @@ export function buildSidebarTree(pages: PageData[]): SidebarItem[] {
           subGroup = {
             title: formatGroupName(subCategory),
             items: [],
-            collapsed: false,
           };
           group.items?.push(subGroup);
         }

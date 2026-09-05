@@ -156,3 +156,20 @@ export async function scanContent(contentDir: string): Promise<PageData[]> {
     return a.url.localeCompare(b.url);
   });
 }
+
+export async function scanContentDirectories(contentDir: string): Promise<string[]> {
+  if (!(await fs.pathExists(contentDir))) return [];
+
+  const directories = new Set<string>();
+  async function walk(dir: string) {
+    for (const entry of await fs.readdir(dir, { withFileTypes: true })) {
+      if (!entry.isDirectory()) continue;
+      const fullPath = path.join(dir, entry.name);
+      directories.add(path.relative(contentDir, fullPath).replace(/\\/g, "/"));
+      await walk(fullPath);
+    }
+  }
+
+  await walk(contentDir);
+  return [...directories].sort();
+}

@@ -1,12 +1,11 @@
 // packages/docs/src/themes/default/Sidebar.tsx
-import { createEffect, createSignal, For, Show, splitProps, type Component } from "solid-js";
+import { createEffect, createSignal, For, Show, splitProps, type Component, type JSX } from "solid-js";
 import {
   Sidebar,
   SidebarHeader,
   SidebarContent,
   SidebarFooter,
   SidebarGroup,
-  SidebarGroupLabel,
   SidebarGroupContent,
   SidebarMenu,
   SidebarMenuItem,
@@ -15,8 +14,6 @@ import {
   SidebarMenuSub,
   SidebarMenuSubItem,
   SidebarMenuSubButton,
-  SidebarSeparator,
-  Badge,
   Collapsible,
   CollapsibleTrigger,
   CollapsibleContent,
@@ -46,6 +43,113 @@ export const DocsSidebar: Component<DocsSidebarProps> = (props) => {
   const containsActive = (item: SidebarItem): boolean =>
     isItemActive(item.href) || Boolean(item.items?.some(containsActive));
 
+  const hasNewItem = (item: SidebarItem): boolean =>
+    isItemNew(item.addedAt) || Boolean(item.items?.some(hasNewItem));
+
+  const renderPage = (item: SidebarItem): JSX.Element => (
+    <SidebarMenuSubItem>
+      <SidebarMenuSubButton
+        href={item.href || "#"}
+        isActive={isItemActive(item.href)}
+        class="w-full justify-between"
+      >
+        <span class="truncate">{item.title}</span>
+        <Show when={isItemNew(item.addedAt)}>
+          <span class="size-1.5 shrink-0 rounded-lg bg-primary" />
+        </Show>
+      </SidebarMenuSubButton>
+    </SidebarMenuSubItem>
+  );
+
+  const renderNested = (item: SidebarItem): JSX.Element => {
+    const hasChildren = () => Boolean(item.items?.length);
+    const [open, setOpen] = createSignal(item.collapsed === false);
+    createEffect(() => {
+      if (containsActive(item)) setOpen(true);
+    });
+
+    return (
+      <Show when={hasChildren()} fallback={renderPage(item)}>
+        <Collapsible open={open()} onOpenChange={setOpen} class="group/collapsible">
+          <SidebarMenuSubItem>
+            <CollapsibleTrigger as="div" class="w-full text-left">
+              <SidebarMenuSubButton class="w-full justify-between">
+                <Folder class="size-3.5 shrink-0" />
+                <span class="flex-1 truncate">{item.title}</span>
+                <ChevronRight class={cn("size-3.5 shrink-0 transition-transform", open() && "rotate-90")} />
+              </SidebarMenuSubButton>
+            </CollapsibleTrigger>
+            <CollapsibleContent>
+              <SidebarMenuSub class="w-full">
+                <For each={item.items}>{(child) => renderNested(child)}</For>
+              </SidebarMenuSub>
+            </CollapsibleContent>
+          </SidebarMenuSubItem>
+        </Collapsible>
+      </Show>
+    );
+  };
+
+  const renderCategory = (group: SidebarItem): JSX.Element => {
+    const [open, setOpen] = createSignal(group.collapsed === false || containsActive(group));
+
+    createEffect(() => {
+      if (containsActive(group)) setOpen(true);
+    });
+
+    return (
+      <SidebarGroup class="w-full">
+        <SidebarGroupContent class="w-full">
+          <SidebarMenu>
+            <SidebarMenuItem class="w-full flex-col items-stretch">
+              <SidebarMenuButton
+                type="button"
+                class="w-full justify-between font-normal"
+                tooltip={group.title}
+                aria-expanded={open()}
+                onClick={() => setOpen((value) => !value)}
+              >
+                <Folder class="size-4 shrink-0" />
+                <span class="flex-1 truncate group-data-[collapsible=icon]:hidden">{group.title}</span>
+                <Show when={hasNewItem(group)}>
+                  <span class="size-1.5 shrink-0 rounded-lg bg-primary" />
+                </Show>
+                <ChevronRight class={cn("ml-auto size-3.5 shrink-0 transition-transform group-data-[collapsible=icon]:hidden", open() && "rotate-90")} />
+              </SidebarMenuButton>
+              <Show when={open()}>
+                <div class="w-full group-data-[collapsible=icon]:hidden">
+                  <SidebarMenuSub class="w-full">
+                    <For each={group.items}>{(item) => renderNested(item)}</For>
+                  </SidebarMenuSub>
+                </div>
+              </Show>
+            </SidebarMenuItem>
+          </SidebarMenu>
+        </SidebarGroupContent>
+      </SidebarGroup>
+    );
+  };
+
+  const renderRootPage = (item: SidebarItem): JSX.Element => (
+    <SidebarGroup class="w-full">
+      <SidebarGroupContent class="w-full">
+        <SidebarMenu>
+          <SidebarMenuItem class="w-full">
+            <a
+              href={item.href || "#"}
+              data-sidebar="menu-button"
+              data-active={isItemActive(item.href) ? "true" : "false"}
+              class={cn(sidebarMenuButtonVariants({ variant: "default", size: "default" }), "text-sm font-normal")}
+            >
+              <FileText class="size-4 shrink-0" />
+              <span class="truncate">{item.title}</span>
+            </a>
+          </SidebarMenuItem>
+        </SidebarMenu>
+      </SidebarGroupContent>
+    </SidebarGroup>
+  );
+
   return (
     <Sidebar
       collapsible="icon"
@@ -72,107 +176,11 @@ export const DocsSidebar: Component<DocsSidebarProps> = (props) => {
       </Show>
 
       <SidebarContent class="h-full overflow-y-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-        <For each={local.tree}>
-          {(group, groupIndex) => {
-            const [isOpen, setIsOpen] = createSignal(group.collapsed !== true);
-            const hasNewItem = () => Boolean(group.items?.some((item) => isItemNew(item.addedAt) || item.items?.some((child) => isItemNew(child.addedAt))));
-            createEffect(() => {
-              if (containsActive(group)) setIsOpen(true);
-            });
-
-            return (
-              <>
-                <Show when={groupIndex() > 0}>
-                  <SidebarSeparator />
-                </Show>
-                <SidebarGroup>
-                <Show when={group.title && group.items && group.items.length > 0}>
-                    <SidebarGroupLabel>{group.title}</SidebarGroupLabel>
-                </Show>
-
-                <SidebarGroupContent>
-                  <SidebarMenu>
-                    <For each={group.items || [group]}>
-                      {(item: SidebarItem) => {
-                        const hasChildren = () => item.items && item.items.length > 0;
-
-                        return (
-                          <Show
-                            when={hasChildren()}
-                            fallback={
-                              <SidebarMenuItem>
-                                <a
-                                  href={item.href || "#"}
-                                  data-sidebar="menu-button"
-                                  data-active={isItemActive(item.href) ? "true" : "false"}
-                                  class={cn(
-                                    sidebarMenuButtonVariants({ variant: "default", size: "default" }),
-                                    "text-sm font-normal"
-                                  )}
-                                >
-                                  <FileText class="size-4 shrink-0" />
-                                  <span class="truncate">{item.title}</span>
-                                  <Show when={isItemNew(item.addedAt)}>
-                                    <span class="size-1.5 rounded-lg bg-primary shrink-0" />
-                                  </Show>
-                                  <Show when={item.badge}>
-                                    <Badge variant="outline" class="ml-auto text-[10px] py-0 px-1.5 font-normal uppercase">
-                                      {item.badge}
-                                    </Badge>
-                                  </Show>
-                                </a>
-                              </SidebarMenuItem>
-                            }
-                          >
-                            <Collapsible open={isOpen()} onOpenChange={setIsOpen} class="group/collapsible">
-                              <SidebarMenuItem>
-                                <CollapsibleTrigger as="div" class="w-full text-left">
-                                  <SidebarMenuButton class="w-full justify-between font-normal" tooltip={item.title}>
-                                    <Folder class="size-4 shrink-0" />
-                                    <span class="flex-1 truncate group-data-[collapsible=icon]:hidden">{item.title}</span>
-                                    <Show when={!isOpen() && hasNewItem()}>
-                                      <span class="size-1.5 rounded-lg bg-primary shrink-0" />
-                                    </Show>
-                                    <ChevronRight class="ml-auto size-3.5 shrink-0 text-muted-foreground transition-transform duration-200 group-data-[expanded]/collapsible:rotate-90 group-data-[collapsible=icon]:hidden" />
-                                  </SidebarMenuButton>
-                                </CollapsibleTrigger>
-                                <CollapsibleContent>
-                                  <SidebarMenuSub>
-                                    <For each={item.items}>
-                                      {(subItem) => (
-                                        <SidebarMenuSubItem>
-                                          <SidebarMenuSubButton
-                                            href={subItem.href || "#"}
-                                            isActive={isItemActive(subItem.href)}
-                                            class="justify-between"
-                                          >
-                                            <span class="truncate">{subItem.title}</span>
-                                            <Show when={isItemNew(subItem.addedAt)}>
-                                              <span class="size-1.5 rounded-lg bg-primary shrink-0" />
-                                            </Show>
-                                            <Show when={subItem.badge}>
-                                              <Badge variant="outline" class="ml-auto text-[9px] py-0 px-1 font-normal uppercase">
-                                                {subItem.badge}
-                                              </Badge>
-                                            </Show>
-                                          </SidebarMenuSubButton>
-                                        </SidebarMenuSubItem>
-                                      )}
-                                    </For>
-                                  </SidebarMenuSub>
-                                </CollapsibleContent>
-                              </SidebarMenuItem>
-                            </Collapsible>
-                          </Show>
-                        );
-                      }}
-                    </For>
-                  </SidebarMenu>
-                </SidebarGroupContent>
-              </SidebarGroup>
-              </>
-            );
-          }}
+        <For each={local.tree.filter((item) => !item.items)}>
+          {(item) => renderRootPage(item)}
+        </For>
+        <For each={local.tree.filter((item) => Boolean(item.items))}>
+          {(group) => renderCategory(group)}
         </For>
       </SidebarContent>
 

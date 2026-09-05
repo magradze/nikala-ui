@@ -2,7 +2,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import fs from "fs-extra";
 import type { Plugin, ViteDevServer } from "vite";
-import { scanContent } from "../core/content-scanner.js";
+import { scanContent, scanContentDirectories } from "../core/content-scanner.js";
 import { buildSidebarTree } from "../core/route-tree.js";
 import { compileMdx } from "../mdx/compiler.js";
 import { loadConfig } from "../config.js";
@@ -87,7 +87,8 @@ export default { createHighlighter, bundledLanguages, bundledThemes };
 
       if (id === RESOLVED_TREE_ID) {
         cachedPages = await scanContent(docsDir);
-        const tree = buildSidebarTree(cachedPages);
+        const directories = await scanContentDirectories(docsDir);
+        const tree = buildSidebarTree(cachedPages, directories);
         return `
 export const pages = ${JSON.stringify(cachedPages)};
 export const tree = ${JSON.stringify(tree)};

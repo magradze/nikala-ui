@@ -118,6 +118,7 @@ export async function createDocsServer(options: DocsServerOptions = {}): Promise
   const coreSrc = getCoreSrcDir();
   const hooksSrc = getHooksSrcDir();
   const solidJsDir = getSolidJsDir();
+  const workspaceRoot = path.resolve(coreSrc, "../../..");
   const shared = getSharedConfig(options, true);
 
   const server = await createServer({
@@ -133,6 +134,8 @@ export async function createDocsServer(options: DocsServerOptions = {}): Promise
           path.resolve(clientDir, "../.."),
           path.resolve(coreSrc, "../.."),
           path.resolve(hooksSrc, "../.."),
+          workspaceRoot,
+          path.join(workspaceRoot, "node_modules"),
           ...(solidJsDir ? [solidJsDir, path.resolve(solidJsDir, ".."), path.resolve(solidJsDir, "../..")] : []),
         ],
       },
