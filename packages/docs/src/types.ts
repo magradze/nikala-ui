@@ -76,6 +76,7 @@ export interface ShikiConfig {
 export interface DocsConfig {
   title?: string;
   description?: string;
+  siteUrl?: string;
   contentDir?: string;
   logo?: {
     text?: string;

@@ -180,7 +180,7 @@ export const DocsSidebar: Component<DocsSidebarProps> = (props) => {
         </SidebarHeader>
       </Show>
 
-      <SidebarContent class="h-full overflow-y-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+      <SidebarContent class="h-full overflow-y-auto scrollbar-none [&::-webkit-scrollbar]:hidden">
         <For each={local.tree.filter((item) => !item.items)}>
           {(item) => renderRootPage(item)}
         </For>
