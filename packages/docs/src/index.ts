@@ -1,5 +1,6 @@
 // packages/docs/src/index.ts
 export * from "./types.js";
+export * from "./navigation/index.js";
 export * from "./config.js";
 export * from "./core/content-scanner.js";
 export * from "./core/route-tree.js";

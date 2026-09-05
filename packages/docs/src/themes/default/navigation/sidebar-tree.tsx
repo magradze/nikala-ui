@@ -17,30 +17,16 @@ import {
 } from "@nikala-ui/core";
 import { ChevronRight, FileText, Folder } from "lucide-solid";
 import type { SidebarItem } from "../../../types.js";
+import {
+  containsActiveSidebarItem,
+  containsNewSidebarItem,
+  isSidebarItemActive,
+  isSidebarItemNew,
+} from "../../../navigation/sidebar-state.js";
 
 export interface SidebarTreeProps {
   tree: SidebarItem[];
   currentUrl?: string;
-}
-
-function isActive(item: SidebarItem, currentUrl?: string): boolean {
-  return Boolean(item.href && currentUrl && item.href === currentUrl);
-}
-
-function containsActive(item: SidebarItem, currentUrl?: string): boolean {
-  return isActive(item, currentUrl) || Boolean(item.items?.some((child) => containsActive(child, currentUrl)));
-}
-
-function isNew(item: SidebarItem): boolean {
-  if (!item.addedAt) return false;
-  const timestamp = new Date(item.addedAt).getTime();
-  if (!Number.isFinite(timestamp)) return false;
-  const ageInDays = (Date.now() - timestamp) / (1000 * 60 * 60 * 24);
-  return ageInDays >= 0 && ageInDays <= 14;
-}
-
-function containsNew(item: SidebarItem): boolean {
-  return isNew(item) || Boolean(item.items?.some(containsNew));
 }
 
 export const SidebarTree: Component<SidebarTreeProps> = (props) => {
@@ -50,12 +36,13 @@ export const SidebarTree: Component<SidebarTreeProps> = (props) => {
     <SidebarMenuSubItem>
       <SidebarMenuSubButton
         href={item.href || "#"}
-        isActive={isActive(item, props.currentUrl)}
+        isActive={isSidebarItemActive(item, props.currentUrl)}
+        aria-current={isSidebarItemActive(item, props.currentUrl) ? "page" : undefined}
         class="w-full justify-between"
         onClick={() => sidebar.setOpenMobile(false)}
       >
         <span class="truncate">{item.title}</span>
-        <Show when={isNew(item)}>
+        <Show when={isSidebarItemNew(item)}>
           <span class="size-1.5 shrink-0 rounded-lg bg-primary" />
         </Show>
       </SidebarMenuSubButton>
@@ -65,7 +52,7 @@ export const SidebarTree: Component<SidebarTreeProps> = (props) => {
   const renderNested = (item: SidebarItem): JSX.Element => {
     const [open, setOpen] = createSignal(item.collapsed === false);
     createEffect(() => {
-      if (containsActive(item, props.currentUrl)) setOpen(true);
+      if (containsActiveSidebarItem(item, props.currentUrl)) setOpen(true);
     });
 
     return (
@@ -91,9 +78,9 @@ export const SidebarTree: Component<SidebarTreeProps> = (props) => {
   };
 
   const renderCategory = (group: SidebarItem): JSX.Element => {
-    const [open, setOpen] = createSignal(group.collapsed === false || containsActive(group, props.currentUrl));
+    const [open, setOpen] = createSignal(group.collapsed === false || containsActiveSidebarItem(group, props.currentUrl));
     createEffect(() => {
-      if (containsActive(group, props.currentUrl)) setOpen(true);
+      if (containsActiveSidebarItem(group, props.currentUrl)) setOpen(true);
     });
 
     return (
@@ -110,7 +97,7 @@ export const SidebarTree: Component<SidebarTreeProps> = (props) => {
               >
                 <Folder class="size-4 shrink-0" />
                 <span class="flex-1 truncate group-data-[collapsible=icon]:hidden">{group.title}</span>
-                <Show when={containsNew(group)}>
+                <Show when={containsNewSidebarItem(group)}>
                   <span class="size-1.5 shrink-0 rounded-lg bg-primary" />
                 </Show>
                 <ChevronRight class={cn("ml-auto size-3.5 shrink-0 transition-transform group-data-[collapsible=icon]:hidden", open() && "rotate-90")} />
@@ -138,7 +125,8 @@ export const SidebarTree: Component<SidebarTreeProps> = (props) => {
               href={item.href || "#"}
               onClick={() => sidebar.setOpenMobile(false)}
               data-sidebar="menu-button"
-              data-active={isActive(item, props.currentUrl) ? "true" : "false"}
+              data-active={isSidebarItemActive(item, props.currentUrl) ? "true" : "false"}
+              aria-current={isSidebarItemActive(item, props.currentUrl) ? "page" : undefined}
               class={cn(sidebarMenuButtonVariants({ variant: "default", size: "default" }), "text-sm font-normal")}
             >
               <FileText class="size-4 shrink-0" />

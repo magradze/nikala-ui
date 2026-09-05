@@ -1,6 +1,9 @@
 // packages/docs/src/core/route-tree.ts
 import type { PageData, SidebarItem } from "../types.js";
 import { formatTitleFromFilename } from "./content-scanner.js";
+import { flattenSidebarItems } from "../navigation/sidebar-tree.js";
+
+export { flattenSidebarItems } from "../navigation/sidebar-tree.js";
 
 export function formatGroupName(segment: string): string {
   return segment
@@ -128,21 +131,6 @@ export function buildSidebarTree(pages: PageData[], directories: string[] = []):
   }
 
   return rootItems;
-}
-
-export function flattenSidebarItems(items: SidebarItem[]): Array<{ title: string; href: string }> {
-  const flattened: Array<{ title: string; href: string }> = [];
-
-  for (const item of items) {
-    if (item.href) {
-      flattened.push({ title: item.title, href: item.href });
-    }
-    if (item.items) {
-      flattened.push(...flattenSidebarItems(item.items));
-    }
-  }
-
-  return flattened;
 }
 
 export function buildPagination(
