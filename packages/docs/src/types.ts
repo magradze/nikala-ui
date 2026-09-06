@@ -89,6 +89,8 @@ export interface DocsConfig {
   description?: string;
   siteUrl?: string;
   contentDir?: string;
+  /** CSS entrypoint owned by the consuming documentation project. */
+  css?: string;
   home?: DocsHomeConfig;
   logo?: {
     text?: string;

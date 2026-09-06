@@ -122,6 +122,7 @@ export default {
   description: "Documentation for my SolidJS project",
   siteUrl: "https://example.com",
   contentDir: "docs",
+  css: "src/index.css",
   navigation: {
     layout: "sidebar",
     sidebar: {
@@ -146,6 +147,7 @@ Available configuration areas include:
 
 - `title`, `description`, and `siteUrl` for document metadata.
 - `contentDir` for the MDX content root.
+- `css` for the local Tailwind CSS entrypoint and semantic design tokens.
 - `logo` for text, image, and logo link configuration.
 - `repository` for source repository links.
 - `nav` for top-level navigation items.

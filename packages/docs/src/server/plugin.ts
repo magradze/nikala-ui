@@ -27,6 +27,9 @@ const RESOLVED_ROUTES_ID = "\0" + VIRTUAL_ROUTES_ID;
 const VIRTUAL_THEME_ID = "virtual:nikala-docs-theme";
 const RESOLVED_THEME_ID = "\0" + VIRTUAL_THEME_ID;
 
+const VIRTUAL_STYLE_ID = "virtual:nikala-docs-style";
+const RESOLVED_STYLE_ID = "\0" + VIRTUAL_STYLE_ID;
+
 const VIRTUAL_SHIKI_ID = "virtual:nikala-docs-shiki-stub";
 const RESOLVED_SHIKI_ID = "\0" + VIRTUAL_SHIKI_ID;
 
@@ -96,6 +99,7 @@ export function nikalaDocsPlugin(options: NikalaDocsPluginOptions = {}): Plugin 
       if (id === VIRTUAL_TREE_ID) return RESOLVED_TREE_ID;
       if (id === VIRTUAL_ROUTES_ID) return RESOLVED_ROUTES_ID;
       if (id === VIRTUAL_THEME_ID) return RESOLVED_THEME_ID;
+      if (id === VIRTUAL_STYLE_ID) return RESOLVED_STYLE_ID;
       return null;
     },
 
@@ -184,12 +188,27 @@ export default routes;
         return `import configuredTheme from ${JSON.stringify(themeEntry)}; export const theme = configuredTheme.default || configuredTheme; export default theme;`;
       }
 
+      if (id === RESOLVED_STYLE_ID) {
+        const configuredPath = resolvedConfig.css;
+        const styleEntry = configuredPath
+          ? path.resolve(rootDir, configuredPath)
+          : path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../client/style.css");
+        if (!fs.existsSync(styleEntry)) {
+          throw new Error(`[nikala-docs] CSS entrypoint does not exist: ${styleEntry}`);
+        }
+        return `import ${JSON.stringify(styleEntry)};`;
+      }
+
       return null;
     },
 
     async transform(code, id, transformOptions) {
-      // Inject Tailwind v4 @source directives into style.css
-      if (id.endsWith("style.css")) {
+      // Inject Tailwind v4 @source directives into the configured CSS entrypoint.
+      const cssId = id.split("?", 1)[0];
+      const configuredCss = resolvedConfig.css
+        ? path.resolve(rootDir, resolvedConfig.css)
+        : path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../client/style.css");
+      if (cssId === configuredCss || cssId.endsWith("/client/style.css")) {
         const sources: string[] = [];
         const bundledCoreSource = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../vendor/core-src");
         if (fs.existsSync(bundledCoreSource)) sources.push(bundledCoreSource);

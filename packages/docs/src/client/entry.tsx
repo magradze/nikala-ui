@@ -2,7 +2,7 @@
 import { render } from "solid-js/web";
 import { App } from "./App";
 import { defaultMdxComponents } from "../components/mdx-components.jsx";
-import "./style.css";
+import "virtual:nikala-docs-style";
 
 // @ts-ignore
 import { routes as pageRoutes } from "virtual:nikala-docs-routes";
