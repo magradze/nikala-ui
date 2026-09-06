@@ -81,7 +81,7 @@ async function copyRegistrySource(root: string): Promise<{ componentFiles: strin
   ].filter((file) => fs.existsSync(file));
   const projectFiles = [
     ...(await listSourceFiles(path.join(root, "docs"))),
-    ...(await listSourceFiles(path.join(root, "src/themes/custom"))),
+    ...(await listSourceFiles(path.join(root, "src/themes/default"))),
     ...docsComponentSources,
   ];
   const projectSource = (await Promise.all(projectFiles.map((file) => fs.readFile(file, "utf-8")))).join("\n");
@@ -162,7 +162,7 @@ async function copyCustomTheme(root: string): Promise<void> {
   const commandDir = path.dirname(fileURLToPath(import.meta.url));
   const sourceCandidates = [path.resolve(commandDir, "../../../src/themes/default"), path.resolve(commandDir, "../../themes/default")];
   const source = sourceCandidates.find((candidate) => fs.existsSync(candidate));
-  const target = path.join(root, "src/themes/custom");
+  const target = path.join(root, "src/themes/default");
   if (!source) {
     await fs.outputFile(path.join(target, "index.ts"), `export { defaultTheme as default } from "@nikala-ui/docs";
 `, "utf-8");
@@ -206,7 +206,7 @@ async function writeProjectFiles(root: string, registryDependencies: string[]): 
   description: "Documentation built with Nikala Docs and SolidJS",
   contentDir: "docs",
   home: { layout: "landing", showSidebar: false, showNavbar: true, showBreadcrumbs: false, showToc: false, showPager: false },
-  theme: { path: "./src/themes/custom" },
+  theme: { path: "./src/themes/default" },
   navigation: { layout: "sidebar", sidebar: { header: true, footer: false, headerSubtitle: "Documentation", footerText: "Documentation" } },
   search: { enabled: true },
 };
@@ -299,7 +299,7 @@ Your Nikala UI components and reactive hooks are owned locally in **src/componen
   installProjectDependencies(root);
   console.log(`  ${pc.green("✓")} Copied ${copied.componentFiles.length} UI sources and ${copied.hookFiles.length} hook sources`);
   console.log(`  ${pc.green("✓")} Registered ${copied.dependencies.length} component dependencies`);
-  console.log(`  ${pc.green("✓")} Created ${pc.cyan("docs")}, ${pc.cyan("src/themes/custom")}, and local Tailwind tokens`);
+  console.log(`  ${pc.green("✓")} Created ${pc.cyan("docs")}, ${pc.cyan("src/themes/default")}, and local Tailwind tokens`);
   console.log();
   console.log(`  ${pc.bold(pc.green("Success!"))} Run ${pc.cyan("bunx @nikala-ui/docs dev")} to start your docs.`);
   console.log();
