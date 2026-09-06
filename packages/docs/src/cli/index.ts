@@ -11,7 +11,7 @@ const program = new Command();
 program
   .name("@nikala-ui/docs")
   .description("Zero-config, fast, and elegant documentation engine for SolidJS")
-  .version("0.12.1");
+  .version("0.12.2");
 
 program
   .command("dev [dir]")

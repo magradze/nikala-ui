@@ -12,7 +12,7 @@ import { listCommand } from "./commands/list.js";
 
 import { setupAiRules } from "./utils/init/setup-ai-rules.js";
 
-console.log(`\n🎨 ${pc.bold(pc.red("Nikala UI"))} ${pc.dim("v0.12.1")} — SolidJS + Tailwind v4 components`);
+console.log(`\n🎨 ${pc.bold(pc.red("Nikala UI"))} ${pc.dim("v0.12.2")} — SolidJS + Tailwind v4 components`);
 console.log(`   ${pc.italic(pc.dim("Honoring Niko Pirosmani (Nikala)"))}\n`);
 console.log(`   ${pc.dim("Docs:")} ${pc.underline(pc.cyan("https://nikala.dev"))}\n`);
 
@@ -21,7 +21,7 @@ const program = new Command();
 program
   .name("nikala")
   .description("Nikala UI — SolidJS + Tailwind v4 components")
-  .version("0.12.1");
+  .version("0.12.2");
 
 program
   .command("init")

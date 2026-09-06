@@ -10,7 +10,7 @@ export async function runBuildCommand(dir: string | undefined, options: BuildCom
   const outDir = options.outDir || "dist";
 
   console.log();
-  console.log(pc.bold(pc.cyan("  Nikala Docs Engine ")) + pc.dim("v0.12.1"));
+  console.log(pc.bold(pc.cyan("  Nikala Docs Engine ")) + pc.dim("v0.12.2"));
   console.log(pc.dim(`  Building documentation bundle from ${pc.bold(dir || "configured contentDir")} to ${pc.bold(outDir)}...`));
   console.log();
 

@@ -33,7 +33,7 @@ export async function runServeCommand(dir = ".", options: ServeCommandOptions = 
 
   server.listen(port, host, () => {
     console.log();
-    console.log(pc.bold(pc.cyan("  Nikala Docs Engine ")) + pc.dim("v0.12.1"));
+    console.log(pc.bold(pc.cyan("  Nikala Docs Engine ")) + pc.dim("v0.12.2"));
     console.log(pc.dim(`  SSR server: ${pc.bold(`http://${host}:${port}/`)}`));
     console.log();
   });

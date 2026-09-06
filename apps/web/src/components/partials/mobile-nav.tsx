@@ -180,7 +180,7 @@ export function MobileNav() {
             </span>
             <span class="font-bold text-base tracking-tight">Nikala UI</span>
             <Badge variant="outline" class="text-[10px] px-1.5 py-0 border-primary/30 text-primary ml-auto font-mono">
-              v0.12.1
+              v0.12.2
             </Badge>
           </SheetTitle>
         </SheetHeader>
