@@ -153,7 +153,7 @@ jobs:
           base: main
           branch: chore/changelog-${{ github.ref_name }}
           delete-branch: true
-          commit-message: "docs(changelog): update changelog for ${{ github.ref_name }} [skip ci]"
+          commit-message: "docs(changelog): update changelog for ${{ github.ref_name }}"
           title: "docs(changelog): update changelog for ${{ github.ref_name }}"
           body: |
             Automated changelog update for `${{ github.ref_name }}`.
