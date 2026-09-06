@@ -29,11 +29,16 @@ export const DocsLayout: ParentComponent<DocsLayoutProps> = (props) => {
   const [searchOpen, setSearchOpen] = createSignal(false);
 
   const currentUrl = () => local.currentPage?.url;
+  const landingPage = () =>
+    local.currentPage?.url === "/" && local.config.home?.layout === "landing";
+  const showLandingSidebar = () => local.config.home?.showSidebar === true;
+  const showNavbar = () => local.config.home?.showNavbar !== false;
   const showToc = () =>
     Boolean(
       local.toc &&
       local.toc.length > 0 &&
-      local.currentPage?.frontmatter?.toc !== false
+      local.currentPage?.frontmatter?.toc !== false &&
+      (!landingPage() || local.config.home?.showToc === true)
     );
   const sidebarLayout = () => local.config.navigation?.layout !== "top";
   const sidebarHeader = () => local.config.navigation?.sidebar?.header !== false;
@@ -82,9 +87,30 @@ export const DocsLayout: ParentComponent<DocsLayoutProps> = (props) => {
     </SidebarInset>
   );
 
+  const landingContent = () => (
+    <SidebarInset class={local.class} {...rest}>
+      <Container as="main" size="2xl" class="flex-1 py-8 sm:py-12 lg:py-16">
+        <Container as="article" size="xl" class="mx-auto min-w-0 px-0 sm:px-4">
+          <Show when={local.config.home?.showBreadcrumbs === true}>
+            <Show when={local.breadcrumbs && local.breadcrumbs.length > 0}>
+              <DocsBreadcrumbs items={local.breadcrumbs!} class="mb-6" />
+            </Show>
+          </Show>
+          <Container as="div" size="full" class="prose prose-zinc dark:prose-invert max-w-none px-0">
+            {local.children}
+          </Container>
+          <Show when={local.config.home?.showPager === true && (local.prev || local.next)}>
+            <DocsPager prev={local.prev} next={local.next} />
+          </Show>
+        </Container>
+      </Container>
+      <DocsSearchDialog open={searchOpen()} onOpenChange={setSearchOpen} />
+    </SidebarInset>
+  );
+
   return (
     <SidebarProvider defaultOpen={true} class="min-h-screen w-full items-stretch">
-      <Show when={sidebarLayout()} fallback={
+      <Show when={landingPage()} fallback={<Show when={sidebarLayout()} fallback={
         <div class="flex min-h-screen min-w-0 flex-1 flex-col">
           <DocsNavbar config={local.config} showBrand={true} onOpenSearch={() => setSearchOpen(true)} />
           <div class="flex min-h-0 flex-1 items-start">{sidebar()}{content()}</div>
@@ -94,6 +120,20 @@ export const DocsLayout: ParentComponent<DocsLayoutProps> = (props) => {
         <div class="flex min-h-screen min-w-0 flex-1 flex-col">
           <DocsNavbar config={local.config} showBrand={false} onOpenSearch={() => setSearchOpen(true)} />
           {content()}
+        </div>
+      </Show>}>
+        <div class="flex min-h-screen min-w-0 flex-1 flex-col">
+          <Show when={showNavbar()}>
+            <DocsNavbar
+              config={local.config}
+              showBrand={true}
+              showSidebarTrigger={showLandingSidebar()}
+              onOpenSearch={() => setSearchOpen(true)}
+            />
+          </Show>
+          <Show when={showLandingSidebar()} fallback={landingContent()}>
+            <div class="flex min-h-0 flex-1 items-start">{sidebar()}{landingContent()}</div>
+          </Show>
         </div>
       </Show>
     </SidebarProvider>

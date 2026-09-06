@@ -66,6 +66,16 @@ export interface DocsNavigationConfig {
   };
 }
 
+export interface DocsHomeConfig {
+  /** Render the root content page as a standalone landing page. */
+  layout?: "docs" | "landing";
+  showSidebar?: boolean;
+  showNavbar?: boolean;
+  showBreadcrumbs?: boolean;
+  showToc?: boolean;
+  showPager?: boolean;
+}
+
 export interface ShikiConfig {
   themes?: {
     light?: string;
@@ -79,6 +89,7 @@ export interface DocsConfig {
   description?: string;
   siteUrl?: string;
   contentDir?: string;
+  home?: DocsHomeConfig;
   logo?: {
     text?: string;
     image?: string;
