@@ -10,6 +10,7 @@ Documentation & Live Site: [nikala.dev](https://nikala.dev)
 
 | Version | Release Date | Release Notes | Commits | Compare |
 | :--- | :--- | :--- | :---: | :--- |
+| [**`v0.12.1`**](./docs/changelogs/v0.12.1.md) | `2026-09-06` | [1 fix](./docs/changelogs/v0.12.1.md) | 2 | [`v0.12.0...v0.12.1`](https://github.com/nikala-ui/ui/compare/v0.12.0...v0.12.1) |
 | [**`v0.12.0`**](./docs/changelogs/v0.12.0.md) | `2026-09-05` | [50 features, 38 fixes](./docs/changelogs/v0.12.0.md) | 116 | [`v0.11.0...v0.12.0`](https://github.com/nikala-ui/ui/compare/v0.11.0...v0.12.0) |
 | [**`v0.11.0`**](./docs/changelogs/v0.11.0.md) | `2026-08-30` | [30 features, 12 fixes](./docs/changelogs/v0.11.0.md) | 50 | [`v0.10.1...v0.11.0`](https://github.com/nikala-ui/ui/compare/v0.10.1...v0.11.0) |
 | [**`v0.10.1`**](./docs/changelogs/v0.10.1.md) | `2026-08-10` | [Maintenance](./docs/changelogs/v0.10.1.md) | 1 | [`v0.10.0...v0.10.1`](https://github.com/nikala-ui/ui/compare/v0.10.0...v0.10.1) |
