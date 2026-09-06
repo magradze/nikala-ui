@@ -146,20 +146,48 @@ jobs:
       - name: Generate Changelog and Update Documentation
         run: bun run changelog
 
+      - name: Commit Changelog on Dedicated Branch
+        id: changelog-branch
+        env:
+          CHANGELOG_BRANCH: chore/changelog-${{ github.ref_name }}
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          if git ls-remote --exit-code --heads origin "$CHANGELOG_BRANCH" >/dev/null 2>&1; then
+            git fetch origin "$CHANGELOG_BRANCH"
+            git switch --create "$CHANGELOG_BRANCH" --track "origin/$CHANGELOG_BRANCH"
+          else
+            git switch --create "$CHANGELOG_BRANCH"
+          fi
+
+          git add CHANGELOG.md docs/changelogs/
+          if git diff --cached --quiet; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            echo "Changelog is already up-to-date."
+          else
+            git commit -m "docs(changelog): update changelog for ${{ github.ref_name }}"
+            git push --set-upstream origin "$CHANGELOG_BRANCH"
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
       - name: Open Changelog Pull Request
-        uses: peter-evans/create-pull-request@v7
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          base: main
-          branch: chore/changelog-${{ github.ref_name }}
-          delete-branch: true
-          commit-message: "docs(changelog): update changelog for ${{ github.ref_name }}"
-          title: "docs(changelog): update changelog for ${{ github.ref_name }}"
-          body: |
-            Automated changelog update for `${{ github.ref_name }}`.
-          add-paths: |
-            CHANGELOG.md
-            docs/changelogs/
+        if: steps.changelog-branch.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          CHANGELOG_BRANCH: chore/changelog-${{ github.ref_name }}
+        run: |
+          set -euo pipefail
+          if gh pr list --base main --head "$CHANGELOG_BRANCH" --state open --json number --jq 'length' | grep -q '^0$'; then
+            gh pr create \
+              --base main \
+              --head "$CHANGELOG_BRANCH" \
+              --title "docs(changelog): update changelog for ${{ github.ref_name }}" \
+              --body "Automated changelog update for \`${{ github.ref_name }}\`."
+          else
+            echo "An open changelog pull request already exists for $CHANGELOG_BRANCH."
+          fi
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v3
