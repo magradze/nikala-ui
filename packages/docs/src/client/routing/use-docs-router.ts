@@ -65,7 +65,7 @@ export function createDocsRouter(options: DocsRouterOptions): DocsRouter {
 
   const currentPage = createMemo<PageData | undefined>(() => {
     const current = normalizePath(pathname());
-    return options.pages.find((page) => page.url === current || page.url === pathname()) || options.pages[0];
+    return options.pages.find((page) => page.url === current || page.url === pathname());
   });
 
   const [loadedPageModule, setLoadedPageModule] = createSignal<PageModule | null | undefined>(options.initialPageModule);
@@ -78,7 +78,7 @@ export function createDocsRouter(options: DocsRouterOptions): DocsRouter {
       setLoadedPageModule(undefined);
       return;
     }
-    const loader = options.loaders[url] || options.loaders[`${url}/`] || options.loaders["/"];
+    const loader = options.loaders[url] || options.loaders[`${url}/`];
     if (!loader) {
       setLoadedPageModule(undefined);
       return;

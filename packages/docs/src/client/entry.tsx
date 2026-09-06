@@ -11,19 +11,23 @@ if (typeof document !== "undefined") {
   const root = document.getElementById("root");
   if (root) {
     const initialPath = window.location.pathname;
-    const loader = pageRoutes[initialPath] || pageRoutes[initialPath.replace(/\/$/, "")] || pageRoutes["/"];
+    const normalizedPath = initialPath.replace(/\/$/, "") || "/";
+    const loader = pageRoutes[initialPath] || pageRoutes[normalizedPath];
     const wasPrerendered = root.hasAttribute("data-prerendered");
 
-    void (async () => {
-      const initialPageModule = loader ? await loader() : undefined;
-      root.removeAttribute("data-prerendered");
-      // The server-rendered HTML remains available to crawlers. Solid's
-      // hydration registry cannot reconcile the Dynamic elements emitted by
-      // the copy-paste core components, so mount a fresh client tree after
-      // the route module is ready instead of leaving a broken half-hydrated
-      // application behind.
-      if (wasPrerendered) root.replaceChildren();
-      render(() => <App initialPath={initialPath} initialPageModule={initialPageModule} mdxComponents={defaultMdxComponents} />, root);
-    })();
+    // Dev serves an empty root. Mount immediately so a delayed route-module
+    // request cannot leave the entire page blank. The router loads the active
+    // page module after mount. For prerendered HTML, keep the SSR output until
+    // the initial module is ready, then replace it with the client tree.
+    if (!wasPrerendered) {
+      render(() => <App initialPath={initialPath} mdxComponents={defaultMdxComponents} />, root);
+    } else {
+      void (async () => {
+        const initialPageModule = loader ? await loader() : undefined;
+        root.removeAttribute("data-prerendered");
+        root.replaceChildren();
+        render(() => <App initialPath={initialPath} initialPageModule={initialPageModule} mdxComponents={defaultMdxComponents} />, root);
+      })();
+    }
   }
 }
