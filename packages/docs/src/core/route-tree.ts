@@ -21,6 +21,15 @@ export function buildSidebarTree(pages: PageData[], directories: string[] = []):
     if (category && !categoryMap.has(category)) categoryMap.set(category, []);
   }
 
+  // Derive categories from pages as well. Tests and programmatic consumers
+  // may provide pages without a separately scanned directory list.
+  for (const page of pages) {
+    const segments = page.url.slice(1).split("/");
+    if (segments.length > 1 && !categoryMap.has(segments[0])) {
+      categoryMap.set(segments[0], []);
+    }
+  }
+
   for (const page of pages) {
     if (page.url === "/") {
       rootPages.push(page);
@@ -28,6 +37,17 @@ export function buildSidebarTree(pages: PageData[], directories: string[] = []):
     }
 
     const segments = page.url.slice(1).split("/");
+    const isCategoryIndex = segments.length === 1 && categoryMap.has(segments[0]);
+
+    // A directory index is the overview page for its category. Keep it in
+    // the category instead of rendering it as a second root-level item.
+    if (isCategoryIndex) {
+      const cat = segments[0];
+      if (!categoryMap.has(cat)) categoryMap.set(cat, []);
+      categoryMap.get(cat)!.push(page);
+      continue;
+    }
+
     if (segments.length === 1) {
       rootPages.push(page);
     } else {
@@ -80,12 +100,15 @@ export function buildSidebarTree(pages: PageData[], directories: string[] = []):
   });
 
   for (const { cat, catPages } of categories) {
+    const categoryIndex = catPages.find((page) => page.url === `/${cat}`);
     const group: SidebarItem = {
       title: formatGroupName(cat),
+      href: categoryIndex?.url,
       items: [],
     };
 
-    // Sort pages in this category by order, then title
+    // Sort pages in this category by order, then title. The category index
+    // owns the category URL but is not rendered as a duplicate sidebar item.
     catPages.sort((a, b) => {
       const orderA = a.frontmatter.order ?? 9999;
       const orderB = b.frontmatter.order ?? 9999;
@@ -95,7 +118,11 @@ export function buildSidebarTree(pages: PageData[], directories: string[] = []):
 
     for (const page of catPages) {
       const segments = page.url.slice(1).split("/");
-      if (segments.length === 2) {
+      const isCategoryIndex = segments.length === 1;
+
+      if (isCategoryIndex) {
+        continue;
+      } else if (segments.length === 2) {
         group.items?.push({
           title: page.title,
           href: page.url,

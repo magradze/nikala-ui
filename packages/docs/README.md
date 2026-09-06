@@ -38,7 +38,7 @@ The initializer creates the following project files and directories:
     ├── index.css
     ├── lib/
     ├── providers/
-    └── themes/custom/
+    └── themes/default/
 ```
 
 The initializer also runs the Nikala UI project setup and installs the dependencies required by the generated local sources.
@@ -122,6 +122,7 @@ export default {
   description: "Documentation for my SolidJS project",
   siteUrl: "https://example.com",
   contentDir: "docs",
+  css: "src/index.css",
   navigation: {
     layout: "sidebar",
     sidebar: {
@@ -136,7 +137,7 @@ export default {
     provider: "local",
   },
   theme: {
-    path: "./src/themes/custom",
+    path: "./src/themes/default",
     defaultMode: "system",
   },
 };
@@ -146,18 +147,19 @@ Available configuration areas include:
 
 - `title`, `description`, and `siteUrl` for document metadata.
 - `contentDir` for the MDX content root.
+- `css` for the local Tailwind CSS entrypoint and semantic design tokens.
 - `logo` for text, image, and logo link configuration.
 - `repository` for source repository links.
 - `nav` for top-level navigation items.
 - `sidebar` for explicit sidebar entries or automatic directory discovery.
 - `navigation` for sidebar or top navigation layout settings.
-- `theme` for the custom theme path and color mode.
+- `theme` for the selected local theme path and color mode.
 - `shiki` for code themes and supported languages.
 - `search` for search enablement and provider selection.
 
 ## Custom themes
 
-The generated project includes a local theme under `src/themes/custom`. Modify its SolidJS components to customize the navbar, sidebar, content layout, navigation, overlays, and mobile table of contents.
+The generated project includes the starter theme under `src/themes/default`. Modify it directly or rename the directory to any name you prefer, then update `theme.path` in `docs.config.ts`.
 
 The generated `src/index.css` contains the Tailwind CSS v4 imports and semantic design tokens. Update those tokens to customize the light and dark color schemes without replacing the documentation engine.
 

@@ -7,6 +7,7 @@ export interface DocsNavbarProps {
   config: DocsConfig;
   onOpenSearch?: () => void;
   showBrand?: boolean;
+  showSidebarTrigger?: boolean;
   class?: string;
 }
 

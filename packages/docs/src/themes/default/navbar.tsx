@@ -1,10 +1,13 @@
 // packages/docs/src/themes/default/navbar.tsx
-import { Show, splitProps, type Component } from "solid-js";
+import { For, Show, splitProps, type Component } from "solid-js";
 import { Navbar } from "@/components/ui/navbar";
 import { NavbarContainer } from "@/components/ui/navbar";
 import { NavbarBrand } from "@/components/ui/navbar";
 import { NavbarContent } from "@/components/ui/navbar";
 import { NavbarItem } from "@/components/ui/navbar";
+import { NavbarMobileMenu } from "@/components/ui/navbar";
+import { NavbarMobileLink } from "@/components/ui/navbar";
+import { NavbarMobileToggle } from "@/components/ui/navbar";
 import { Button } from "@/components/ui/button";
 import { buttonVariants } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -17,7 +20,7 @@ import { Search } from "lucide-solid";
 import type { DocsNavbarProps } from "../types.js";
 
 export const DocsNavbar: Component<DocsNavbarProps> = (props) => {
-  const [local, rest] = splitProps(props, ["config", "onOpenSearch", "showBrand", "class"]);
+  const [local, rest] = splitProps(props, ["config", "onOpenSearch", "showBrand", "showSidebarTrigger", "class"]);
 
   const title = () => local.config.title || "Nikala Docs";
   const logoText = () => local.config.logo?.text || title();
@@ -35,12 +38,14 @@ export const DocsNavbar: Component<DocsNavbarProps> = (props) => {
     >
       <NavbarContainer class="h-14 px-4 sm:px-6" >
         <NavbarContent justify="start" class="gap-3">
-          <SidebarTrigger
-            aria-label="Toggle documentation sidebar"
-            onClick={() => {
-              if (sidebar.isMobile()) sidebar.setOpenMobile(!sidebar.openMobile());
-            }}
-          />
+          <Show when={local.showSidebarTrigger !== false}>
+            <SidebarTrigger
+              aria-label="Toggle documentation sidebar"
+              onClick={() => {
+                if (sidebar.isMobile()) sidebar.setOpenMobile(!sidebar.openMobile());
+              }}
+            />
+          </Show>
           <Show when={local.showBrand !== false}>
             <NavbarBrand href={logoHref()} class="text-base font-bold tracking-tight">
               <Show when={local.config.logo?.image} fallback={<Logo class="size-6" />}>
@@ -49,9 +54,31 @@ export const DocsNavbar: Component<DocsNavbarProps> = (props) => {
               <span>{logoText()}</span>
             </NavbarBrand>
           </Show>
+          <Show when={local.config.nav?.length}>
+            <NavbarContent justify="start" class="hidden min-w-0 flex-1 gap-1 px-1 md:flex">
+              <For each={local.config.nav}>
+                {(item) => (
+                  <NavbarItem>
+                    <a
+                      href={item.href}
+                      target={item.external ? "_blank" : undefined}
+                      rel={item.external ? "noreferrer" : undefined}
+                      class={buttonVariants({ variant: "ghost", size: "sm" }) + " whitespace-nowrap text-xs"}
+                    >
+                      {item.title}
+                    </a>
+                  </NavbarItem>
+                )}
+              </For>
+            </NavbarContent>
+          </Show>
         </NavbarContent>
 
         <NavbarContent justify="end" class="gap-2">
+          <Show when={local.config.nav?.length}>
+            <NavbarMobileToggle />
+          </Show>
+
           {/* Search Trigger Button */}
           <Show when={local.config.search?.enabled !== false && local.onOpenSearch}>
             <NavbarItem>
@@ -101,6 +128,22 @@ export const DocsNavbar: Component<DocsNavbarProps> = (props) => {
           </NavbarItem>
         </NavbarContent>
       </NavbarContainer>
+
+      <Show when={local.config.nav?.length}>
+        <NavbarMobileMenu>
+          <For each={local.config.nav}>
+            {(item) => (
+              <NavbarMobileLink
+                href={item.href}
+                target={item.external ? "_blank" : undefined}
+                rel={item.external ? "noreferrer" : undefined}
+              >
+                {item.title}
+              </NavbarMobileLink>
+            )}
+          </For>
+        </NavbarMobileMenu>
+      </Show>
     </Navbar>
   );
 };

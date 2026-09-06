@@ -65,7 +65,7 @@
     },
     "packages/cli": {
       "name": "@nikala-ui/cli",
-      "version": "0.12.0",
+      "version": "0.12.1",
       "bin": {
         "nikala": "./dist/index.js",
       },
@@ -86,7 +86,7 @@
     },
     "packages/core": {
       "name": "@nikala-ui/core",
-      "version": "0.12.0",
+      "version": "0.12.1",
       "dependencies": {
         "@nikala-ui/hooks": "workspace:*",
         "@tiptap/core": "^3.31.0",
@@ -125,7 +125,7 @@
     },
     "packages/docs": {
       "name": "@nikala-ui/docs",
-      "version": "0.12.0",
+      "version": "0.12.1",
       "bin": {
         "@nikala-ui/docs": "./dist/cli/index.js",
         "nikala-docs": "./dist/cli/index.js",
@@ -134,7 +134,7 @@
         "@kobalte/core": "^0.13.12",
         "@mdx-js/mdx": "^3.1.0",
         "@mdx-js/rollup": "^3.1.0",
-        "@nikala-ui/cli": "workspace:*",
+        "@nikala-ui/cli": "0.12.1",
         "@tailwindcss/vite": "^4.0.7",
         "chokidar": "^4.0.3",
         "class-variance-authority": "^0.7.1",
@@ -167,7 +167,7 @@
     },
     "packages/hooks": {
       "name": "@nikala-ui/hooks",
-      "version": "0.12.0",
+      "version": "0.12.1",
       "dependencies": {
         "@tiptap/core": "^3.31.0",
         "@tiptap/extension-character-count": "^3.31.0",
@@ -199,7 +199,7 @@
     },
     "packages/mcp": {
       "name": "@nikala-ui/mcp",
-      "version": "0.12.0",
+      "version": "0.12.1",
       "bin": {
         "nikala-mcp": "./dist/index.js",
       },

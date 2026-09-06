@@ -35,6 +35,14 @@ const mockPages: PageData[] = [
     frontmatter: { order: 2, categoryOrder: 1 },
   },
   {
+    slug: "components",
+    url: "/components",
+    filePath: "content/components/index.mdx",
+    title: "Components",
+    toc: [],
+    frontmatter: { order: 1, categoryOrder: 2 },
+  },
+  {
     slug: "components-button",
     url: "/components/button",
     filePath: "content/components/button.mdx",
@@ -73,6 +81,7 @@ describe("route-tree", () => {
       expect(tree[1].items?.[1].title).toBe("Configuration");
 
       expect(tree[2].title).toBe("Components");
+      expect(tree[2].href).toBe("/components");
       expect(tree[2].items).toHaveLength(2);
       expect(tree[2].items?.[0].title).toBe("Button");
       expect(tree[2].items?.[1].title).toBe("Dialog");
@@ -84,11 +93,12 @@ describe("route-tree", () => {
       const tree = buildSidebarTree(mockPages);
       const flat = flattenSidebarItems(tree);
 
-      expect(flat).toHaveLength(5);
+      expect(flat).toHaveLength(6);
       expect(flat.map((i) => i.href)).toEqual([
         "/",
         "/getting-started/installation",
         "/getting-started/configuration",
+        "/components",
         "/components/button",
         "/components/dialog",
       ]);

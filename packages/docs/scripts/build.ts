@@ -25,7 +25,7 @@ try {
   process.exit(1);
 }
 
-// 2. Copy client template assets (index.html, style.css)
+// 2. Copy client template assets (index.html, style.css, base.css)
 try {
   fs.ensureDirSync(distClientDir);
 
@@ -41,6 +41,13 @@ try {
   if (fs.existsSync(styleCssSrc)) {
     fs.copyFileSync(styleCssSrc, styleCssDist);
     console.log(`  ${pc.green("✓")} Synced ${pc.dim("dist/client/style.css")}`);
+  }
+
+  const baseCssSrc = path.join(srcClientDir, "base.css");
+  const baseCssDist = path.join(distClientDir, "base.css");
+  if (fs.existsSync(baseCssSrc)) {
+    fs.copyFileSync(baseCssSrc, baseCssDist);
+    console.log("  " + pc.green("✓") + " Synced " + pc.dim("dist/client/base.css"));
   }
 } catch (err: any) {
   console.error(pc.red(`✗ Failed to sync client assets: ${err.message}`));
