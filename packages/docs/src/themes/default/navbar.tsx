@@ -5,6 +5,9 @@ import { NavbarContainer } from "@/components/ui/navbar";
 import { NavbarBrand } from "@/components/ui/navbar";
 import { NavbarContent } from "@/components/ui/navbar";
 import { NavbarItem } from "@/components/ui/navbar";
+import { NavbarMobileMenu } from "@/components/ui/navbar";
+import { NavbarMobileLink } from "@/components/ui/navbar";
+import { NavbarMobileToggle } from "@/components/ui/navbar";
 import { Button } from "@/components/ui/button";
 import { buttonVariants } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -52,26 +55,30 @@ export const DocsNavbar: Component<DocsNavbarProps> = (props) => {
             </NavbarBrand>
           </Show>
           <Show when={local.config.nav?.length}>
-            <NavbarContent justify="start" class="min-w-0 flex-1 gap-1 overflow-x-auto px-1">
-            <For each={local.config.nav}>
-              {(item) => (
-                <NavbarItem>
-                  <a
-                    href={item.href}
-                    target={item.external ? "_blank" : undefined}
-                    rel={item.external ? "noreferrer" : undefined}
-                    class={buttonVariants({ variant: "ghost", size: "sm" }) + " whitespace-nowrap text-xs"}
-                  >
-                    {item.title}
-                  </a>
-                </NavbarItem>
-              )}
-            </For>
+            <NavbarContent justify="start" class="hidden min-w-0 flex-1 gap-1 px-1 md:flex">
+              <For each={local.config.nav}>
+                {(item) => (
+                  <NavbarItem>
+                    <a
+                      href={item.href}
+                      target={item.external ? "_blank" : undefined}
+                      rel={item.external ? "noreferrer" : undefined}
+                      class={buttonVariants({ variant: "ghost", size: "sm" }) + " whitespace-nowrap text-xs"}
+                    >
+                      {item.title}
+                    </a>
+                  </NavbarItem>
+                )}
+              </For>
             </NavbarContent>
           </Show>
         </NavbarContent>
 
         <NavbarContent justify="end" class="gap-2">
+          <Show when={local.config.nav?.length}>
+            <NavbarMobileToggle />
+          </Show>
+
           {/* Search Trigger Button */}
           <Show when={local.config.search?.enabled !== false && local.onOpenSearch}>
             <NavbarItem>
@@ -121,6 +128,22 @@ export const DocsNavbar: Component<DocsNavbarProps> = (props) => {
           </NavbarItem>
         </NavbarContent>
       </NavbarContainer>
+
+      <Show when={local.config.nav?.length}>
+        <NavbarMobileMenu>
+          <For each={local.config.nav}>
+            {(item) => (
+              <NavbarMobileLink
+                href={item.href}
+                target={item.external ? "_blank" : undefined}
+                rel={item.external ? "noreferrer" : undefined}
+              >
+                {item.title}
+              </NavbarMobileLink>
+            )}
+          </For>
+        </NavbarMobileMenu>
+      </Show>
     </Navbar>
   );
 };

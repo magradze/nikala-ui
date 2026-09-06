@@ -84,7 +84,12 @@ export function createDocsRouter(options: DocsRouterOptions): DocsRouter {
       return;
     }
     setLoadedPageModule(null);
-    void loader().then(setLoadedPageModule);
+    void loader()
+      .then(setLoadedPageModule)
+      .catch((error) => {
+        console.error(`[nikala-docs] Failed to load page: ${url}`, error);
+        setLoadedPageModule(undefined);
+      });
   });
 
   return { pathname, currentPage, activePageModule: loadedPageModule };

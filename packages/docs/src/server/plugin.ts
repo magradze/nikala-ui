@@ -27,9 +27,6 @@ const RESOLVED_ROUTES_ID = "\0" + VIRTUAL_ROUTES_ID;
 const VIRTUAL_THEME_ID = "virtual:nikala-docs-theme";
 const RESOLVED_THEME_ID = "\0" + VIRTUAL_THEME_ID;
 
-const VIRTUAL_STYLE_ID = "virtual:nikala-docs-style";
-const RESOLVED_STYLE_ID = "\0" + VIRTUAL_STYLE_ID;
-
 const VIRTUAL_SHIKI_ID = "virtual:nikala-docs-shiki-stub";
 const RESOLVED_SHIKI_ID = "\0" + VIRTUAL_SHIKI_ID;
 
@@ -49,6 +46,21 @@ function findConfigFile(rootDir: string): string | undefined {
   return [...CONFIG_FILENAMES]
     .map((filename) => path.join(rootDir, filename))
     .find((file) => fs.existsSync(file));
+}
+
+function getTailwindSourceDirectives(rootDir: string, docsDir: string): string {
+  const sources: string[] = [];
+  const bundledCoreSource = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../vendor/core-src");
+  if (fs.existsSync(bundledCoreSource)) sources.push(bundledCoreSource);
+  sources.push(path.resolve(rootDir, "src"));
+
+  const themesDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../themes");
+  if (fs.existsSync(themesDir)) sources.push(themesDir);
+  if (docsDir && fs.existsSync(docsDir)) sources.push(docsDir);
+
+  return sources
+    .map((src) => `@source "${src}";`)
+    .join("\n");
 }
 
 export function nikalaDocsPlugin(options: NikalaDocsPluginOptions = {}): Plugin {
@@ -99,7 +111,6 @@ export function nikalaDocsPlugin(options: NikalaDocsPluginOptions = {}): Plugin 
       if (id === VIRTUAL_TREE_ID) return RESOLVED_TREE_ID;
       if (id === VIRTUAL_ROUTES_ID) return RESOLVED_ROUTES_ID;
       if (id === VIRTUAL_THEME_ID) return RESOLVED_THEME_ID;
-      if (id === VIRTUAL_STYLE_ID) return RESOLVED_STYLE_ID;
       return null;
     },
 
@@ -188,45 +199,26 @@ export default routes;
         return `import configuredTheme from ${JSON.stringify(themeEntry)}; export const theme = configuredTheme.default || configuredTheme; export default theme;`;
       }
 
-      if (id === RESOLVED_STYLE_ID) {
-        const configuredPath = resolvedConfig.css;
-        const styleEntry = configuredPath
-          ? path.resolve(rootDir, configuredPath)
-          : path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../client/style.css");
-        if (!fs.existsSync(styleEntry)) {
-          throw new Error(`[nikala-docs] CSS entrypoint does not exist: ${styleEntry}`);
-        }
-        return `import ${JSON.stringify(styleEntry)};`;
-      }
-
       return null;
     },
 
     async transform(code, id, transformOptions) {
-      // Inject Tailwind v4 @source directives into the configured CSS entrypoint.
       const cssId = id.split("?", 1)[0];
+      const packagedCss = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../client/style.css");
+      const baseCss = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../client/base.css");
       const configuredCss = resolvedConfig.css
         ? path.resolve(rootDir, resolvedConfig.css)
-        : path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../client/style.css");
-      if (cssId === configuredCss || cssId.endsWith("/client/style.css")) {
-        const sources: string[] = [];
-        const bundledCoreSource = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../vendor/core-src");
-        if (fs.existsSync(bundledCoreSource)) sources.push(bundledCoreSource);
-        sources.push(path.resolve(rootDir, "src"));
-
-        const themesDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../themes");
-        if (fs.existsSync(themesDir)) {
-          sources.push(themesDir);
+        : packagedCss;
+      if (cssId === packagedCss || cssId === configuredCss) {
+        if (cssId === packagedCss && configuredCss !== packagedCss) {
+          const sourceDirectives = getTailwindSourceDirectives(rootDir, docsDir);
+          return {
+            code: sourceDirectives + "\n@import " + JSON.stringify(configuredCss.replace(/\\/g, "/")) + ";\n@import " + JSON.stringify(baseCss.replace(/\\/g, "/")) + ";",
+            map: null,
+          };
         }
 
-        if (docsDir && fs.existsSync(docsDir)) {
-          sources.push(docsDir);
-        }
-
-        const sourceDirectives = sources
-          .filter(Boolean)
-          .map((src) => `@source "${src}";`)
-          .join("\n");
+        const sourceDirectives = getTailwindSourceDirectives(rootDir, docsDir);
 
         return {
           code: `@import "tailwindcss";\n${sourceDirectives}\n${code.replace('@import "tailwindcss";', "")}`,
@@ -260,6 +252,10 @@ export default routes;
         .filter((file) => fs.existsSync(file));
       if (configFiles.length) server.watcher.add(configFiles);
       if (docsDir && fs.existsSync(docsDir)) server.watcher.add(docsDir);
+      const configuredCss = resolvedConfig.css
+        ? path.resolve(rootDir, resolvedConfig.css)
+        : undefined;
+      if (configuredCss && fs.existsSync(configuredCss)) server.watcher.add(configuredCss);
 
       let reloadTimer: ReturnType<typeof setTimeout> | undefined;
 
@@ -309,8 +305,29 @@ export default routes;
             }
           }
           invalidateVirtualModules(true);
+          return;
+        }
+        if (configuredCss && path.resolve(file) === configuredCss) {
+          const cssModule = server.moduleGraph.getModuleById(configuredCss);
+          if (cssModule) server.moduleGraph.invalidateModule(cssModule);
+          invalidateVirtualModules();
         }
       });
+    },
+
+    handleHotUpdate({ file, server }) {
+      const configuredCss = resolvedConfig.css
+        ? path.resolve(rootDir, resolvedConfig.css)
+        : undefined;
+      if (configuredCss && path.resolve(file) === configuredCss) {
+        const cssModules = server.moduleGraph.getModulesByFile(configuredCss);
+        for (const module of cssModules || []) {
+          server.moduleGraph.invalidateModule(module);
+        }
+        server.ws.send({ type: "full-reload" });
+        return [];
+      }
+      return undefined;
     },
   };
 }

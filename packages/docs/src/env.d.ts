@@ -1,7 +1,6 @@
 /// <reference types="vite/client" />
 
 declare module "*.css";
-declare module "virtual:nikala-docs-style";
 
 declare module "virtual:nikala-docs-config" {
   const config: any;
